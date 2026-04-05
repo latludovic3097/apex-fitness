@@ -8,10 +8,9 @@
 <meta name="theme-color" content="#E63946">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="APEX">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--cd:#14141f;--cd2:#1a1a2a;--bd:#2a2a3a;--tx:#e8e8f0;--t2:#9898a8;--mt:#5a5a6a;--ac:#E63946;--ok:#2A9D8F;--wa:#F4A261;--ac10:rgba(230,57,70,.12);--ok10:rgba(42,157,143,.12)}
+:root{--bg:#0a0a0f;--cd:#14141f;--cd2:#1a1a2a;--bd:#2a2a3a;--tx:#e8e8f0;--t2:#9898a8;--mt:#5a5a6a;--ac:#E63946;--ok:#2A9D8F;--wa:#F4A261;--ac10:rgba(230,57,70,.12);--ok10:rgba(42,157,143,.12);--wa10:rgba(244,162,97,.12)}
 body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:75px;-webkit-tap-highlight-color:transparent}
 .hdr{padding:18px 16px 10px;display:flex;justify-content:space-between;align-items:center}
 .logo{font-size:26px;font-weight:900;letter-spacing:5px;color:var(--ac)}
@@ -26,7 +25,6 @@ body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:
 .sess-meta{font-size:11px;color:var(--mt);margin-top:4px}
 .sess-muscles{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
 .muscle-tag{font-size:9px;padding:3px 8px;border-radius:10px;font-weight:600}
-.reminder{background:var(--ok10);border-color:var(--ok)}
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--cd);border-top:1px solid var(--bd);display:flex;justify-content:space-around;padding:8px 0 12px;z-index:100}
 .nav-btn{background:none;border:none;color:var(--mt);font-size:9px;font-weight:500;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:3px 14px;font-family:inherit}
 .nav-btn.active{color:var(--ac);font-weight:700}.nav-btn svg{width:20px;height:20px}
@@ -38,18 +36,17 @@ body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:
 .pills{display:flex;gap:5px;padding:10px 14px;overflow-x:auto}
 .pill{padding:5px 12px;border-radius:16px;border:1px solid var(--bd);background:none;color:var(--t2);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit}.pill.active{color:#fff;border-color:transparent}
 .ex-imgs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding:4px 0}
-.ex-img-wrap{flex-shrink:0;width:140px;height:140px;border-radius:12px;overflow:hidden;border:1px solid var(--bd);background:var(--cd2);position:relative}
+.ex-img-wrap{flex-shrink:0;width:130px;height:130px;border-radius:12px;overflow:hidden;border:1px solid var(--bd);background:var(--cd2);position:relative}
 .ex-img-wrap img{width:100%;height:100%;object-fit:cover}
-.ex-img-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);color:#fff;font-size:9px;text-align:center;padding:3px;font-weight:600}
+.ex-img-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);color:#fff;font-size:8px;text-align:center;padding:2px;font-weight:600}
 .link-row{display:flex;gap:8px;margin-bottom:14px}
-.ex-link{flex:1;display:flex;align-items:center;gap:8px;background:var(--cd2);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;text-decoration:none;color:var(--tx);font-size:11px;font-weight:600}
-.ex-link:active{border-color:var(--ac)}.ex-link svg{width:22px;height:22px;flex-shrink:0}
+.ex-link{flex:1;display:flex;align-items:center;gap:6px;background:var(--cd2);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;text-decoration:none;color:var(--tx);font-size:10px;font-weight:600}
+.ex-link svg{width:20px;height:20px;flex-shrink:0}
 .ex-name{font-size:17px;font-weight:800}.ex-sets-info{font-size:12px;color:var(--mt);margin-top:4px}
-.ex-muscle-badge{display:inline-block;font-size:9px;padding:2px 8px;border-radius:8px;font-weight:600;margin-top:6px;text-transform:uppercase;letter-spacing:.5px}
+.ex-muscle-badge{display:inline-block;font-size:9px;padding:2px 8px;border-radius:8px;font-weight:600;margin-top:6px;text-transform:uppercase}
 .ex-notes{background:var(--ac10);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--t2);margin-bottom:14px;line-height:1.6;border-left:3px solid var(--ac)}.ex-notes b{color:var(--tx)}
-.coaching-item{display:flex;gap:8px;align-items:flex-start;padding:4px 0;font-size:11px;color:var(--t2)}
 .sets-header{display:grid;grid-template-columns:34px 1fr 1fr 34px;gap:5px;margin-bottom:6px}
-.sets-header span{font-size:9px;color:var(--mt);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.sets-header span{font-size:9px;color:var(--mt);text-transform:uppercase;font-weight:600}
 .set-row{display:grid;grid-template-columns:34px 1fr 1fr 34px;gap:5px;align-items:center;margin-bottom:5px}
 .set-num{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
 .set-done{background:var(--ok10);color:var(--ok)}.set-empty{background:var(--bg);color:var(--mt)}
@@ -60,401 +57,329 @@ body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:
 .tbtn{border:none;border-radius:8px;padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
 .tbtn-go{background:var(--ok);color:#fff}.tbtn-pause{background:var(--ac);color:#fff}.tbtn-reset{background:none;color:var(--t2);border:1px solid var(--bd)}
 .pr-line{margin-top:10px;font-size:11px;color:var(--mt);text-align:center;padding:8px;background:var(--cd2);border-radius:8px}
+.suggest-line{margin-top:8px;font-size:11px;text-align:center;padding:8px;background:rgba(69,123,157,.12);border-radius:8px;color:#457B9D;font-weight:600}
 .ex-nav{display:flex;gap:8px;margin-top:16px}.ex-nav>*{flex:1}
 .wu-card{border-bottom:1px solid var(--bd);padding:12px 0}.wu-card:last-child{border-bottom:none}
 .wu-top{display:flex;gap:12px;align-items:flex-start}
-.wu-img{width:70px;height:70px;border-radius:10px;overflow:hidden;flex-shrink:0;border:1px solid var(--bd);background:var(--cd2)}
+.wu-img{width:65px;height:65px;border-radius:10px;overflow:hidden;flex-shrink:0;border:1px solid var(--bd);background:var(--cd2)}
 .wu-img img{width:100%;height:100%;object-fit:cover}
 .wu-links{display:flex;gap:6px;margin-top:6px}
 .wu-links a{font-size:9px;text-decoration:none;padding:3px 8px;border-radius:6px;font-weight:600}
-.wod-move{padding:8px 0;font-size:13px;display:flex;align-items:center;gap:8px}.wod-move+.wod-move{border-top:1px solid var(--bd)}
-.wod-bullet{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.wod-move{padding:8px 0;font-size:13px;display:flex;align-items:center;gap:10px}.wod-move+.wod-move{border-top:1px solid var(--bd)}
+.wod-img{width:40px;height:40px;border-radius:8px;overflow:hidden;border:1px solid var(--bd);background:var(--cd2);flex-shrink:0}
+.wod-img img{width:100%;height:100%;object-fit:cover}
 .hist-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .hist-exos{display:flex;flex-wrap:wrap;gap:4px}
 .hist-exo{background:var(--bg);border-radius:8px;padding:4px 8px;font-size:10px;color:var(--t2)}.hist-exo b{color:var(--tx)}
 .hist-detail{margin-top:8px;font-size:10px;color:var(--mt);display:none}.hist-detail.open{display:block}
 .hist-toggle{font-size:10px;color:var(--ac);cursor:pointer;margin-top:4px;background:none;border:none;font-family:inherit;text-decoration:underline}
-.phase-badge{display:inline-block;font-size:8px;padding:2px 6px;border-radius:6px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-left:8px}
-.chart-wrap{background:var(--cd);border-radius:14px;border:1px solid var(--bd);padding:16px;margin:0 14px 10px}
-.chart-title{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:10px}
+.phase-badge{display:inline-block;font-size:8px;padding:2px 6px;border-radius:6px;font-weight:700;text-transform:uppercase;margin-left:8px}
+.fatigue-bar{height:8px;border-radius:4px;margin-top:6px;transition:width .3s}
+.score-card{display:flex;gap:8px;margin-bottom:14px;padding:0 14px}
+.score-item{flex:1;background:var(--cd);border-radius:12px;padding:12px 8px;text-align:center;border:1px solid var(--bd)}
+.score-val{font-size:18px;font-weight:900}.score-lbl{font-size:8px;text-transform:uppercase;letter-spacing:.5px;color:var(--mt);margin-top:2px}
+.l5-alert{background:rgba(244,162,97,.12);border:1px solid var(--wa);border-radius:10px;padding:8px 12px;font-size:11px;color:var(--wa);margin-bottom:12px;display:flex;align-items:center;gap:8px}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
-// ═══ CONFIG ═══
-const IMG="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/";
+// ═══ IMAGE BASE ═══
+const I="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/";
 const MN={chest:"Pectoraux",shoulders:"Épaules",triceps:"Triceps",back:"Dos",biceps:"Biceps",quads:"Quadriceps",hamstrings:"Ischio-jambiers",calves:"Mollets",core:"Core"};
 const MC={chest:"#E63946",shoulders:"#457B9D",triceps:"#F4A261",back:"#457B9D",biceps:"#E76F51",quads:"#2A9D8F",hamstrings:"#264653",calves:"#E9C46A",core:"#2A9D8F"};
 const PHASES=[
-  {id:"force",name:"Force",weeks:"Sem 1-4",color:"#E63946",numSets:5,reps:"4-6",rest:180,desc:"Charges lourdes, repos longs"},
-  {id:"hyper",name:"Hypertrophie",weeks:"Sem 5-8",color:"#457B9D",numSets:4,reps:"8-12",rest:90,desc:"Volume modéré, tempo contrôlé"},
-  {id:"endurance",name:"Endurance / Deload",weeks:"Sem 9-10",color:"#2A9D8F",numSets:3,reps:"15-20",rest:60,desc:"Charges légères, récupération"}
+  {id:"force",name:"Force",color:"#E63946",numSets:5,reps:"4-6",rest:180,desc:"Charges lourdes"},
+  {id:"hyper",name:"Hypertrophie",color:"#457B9D",numSets:4,reps:"8-12",rest:90,desc:"Volume modéré"},
+  {id:"deload",name:"Deload",color:"#2A9D8F",numSets:3,reps:"15-20",rest:60,desc:"Récupération"}
 ];
 
 // ═══ SOUND ═══
-let audioCtx=null;
-function playBeep(){
-  try{
-    if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-    // Play 3 beeps
-    [0,0.2,0.4].forEach(delay=>{
-      const osc=audioCtx.createOscillator();
-      const gain=audioCtx.createGain();
-      osc.connect(gain);gain.connect(audioCtx.destination);
-      osc.frequency.value=880;osc.type="sine";
-      gain.gain.value=0.3;
-      osc.start(audioCtx.currentTime+delay);
-      osc.stop(audioCtx.currentTime+delay+0.15);
-    });
-  }catch(e){console.log("Audio err",e);}
-}
+let audioCtx;
+function beep(){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();[0,.2,.4].forEach(d=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=880;g.gain.value=.3;o.start(audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d+.15);});}catch{}}
 
-// ═══ TIMER (timestamp-based, survives tab switch) ═══
-let timerState={running:false,startedAt:0,totalSecs:0,dir:"down",pausedRemaining:0,done:false};
-let timerRAF=null;
+// ═══ TIMER (Date.now based) ═══
+let T={on:false,at:0,total:0,dir:"down",rem:0,done:false},tRAF;
+function tGet(){if(!T.on)return T.rem;const e=Math.floor((Date.now()-T.at)/1000);return T.dir==="down"?Math.max(0,T.rem-e):Math.min(T.total,e+T.rem);}
+function tTick(){const r=tGet(),p=T.dir==="down"?(T.total-r)/T.total:r/T.total;const d=document.getElementById("tdisp"),rng=document.getElementById("tring"),bx=document.getElementById("timerbox");if(d)d.textContent=`${Math.floor(r/60)}:${String(r%60).padStart(2,"0")}`;if(rng){rng.style.strokeDashoffset=2*Math.PI*22*(1-p);rng.style.transition="stroke-dashoffset .3s";}if((T.dir==="down"&&r<=0)||(T.dir!=="down"&&r>=T.total)){T.on=false;T.done=true;if(rng)rng.setAttribute("stroke","var(--ok)");if(bx)bx.classList.add("done");const b=document.getElementById("tbtn");if(b){b.textContent="✓";b.className="tbtn tbtn-go";}beep();cancelAnimationFrame(tRAF);return;}tRAF=requestAnimationFrame(tTick);}
+function tToggle(tot,dir){if(T.done)return;S._timerExIdx=S.ei;T.dir=dir||"down";T.total=tot;if(T.on){T.on=false;T.rem=tGet();cancelAnimationFrame(tRAF);const b=document.getElementById("tbtn");if(b){b.textContent="Start";b.className="tbtn tbtn-go";}}else{if(!T.at&&T.rem===0)T.rem=T.dir==="down"?tot:0;T.at=Date.now();T.on=true;const b=document.getElementById("tbtn");if(b){b.textContent="Pause";b.className="tbtn tbtn-pause";}tTick();}}
+function tReset(tot,dir){cancelAnimationFrame(tRAF);T={on:false,at:0,total:tot,dir:dir||"down",rem:dir==="up"?0:tot,done:false};const d=document.getElementById("tdisp"),rng=document.getElementById("tring"),bx=document.getElementById("timerbox"),b=document.getElementById("tbtn");if(d)d.textContent=`${Math.floor(T.rem/60)}:${String(T.rem%60).padStart(2,"0")}`;if(rng){rng.style.strokeDashoffset=2*Math.PI*22;}if(bx)bx.classList.remove("done");if(b){b.textContent="Start";b.className="tbtn tbtn-go";}}
+function tStop(){cancelAnimationFrame(tRAF);T={on:false,at:0,total:0,dir:"down",rem:0,done:false};}
 
-function timerGetRemaining(){
-  if(!timerState.running)return timerState.pausedRemaining;
-  const elapsed=Math.floor((Date.now()-timerState.startedAt)/1000);
-  if(timerState.dir==="down")return Math.max(0,timerState.pausedRemaining-elapsed);
-  else return Math.min(timerState.totalSecs,elapsed+timerState.pausedRemaining);
-}
-function timerTick(){
-  const rem=timerGetRemaining();
-  const display=timerState.dir==="down"?rem:rem;
-  const pct=timerState.dir==="down"?(timerState.totalSecs-rem)/timerState.totalSecs:rem/timerState.totalSecs;
-  // Update UI without re-rendering
-  const d=document.getElementById("tdisp"),r=document.getElementById("tring"),bx=document.getElementById("timerbox");
-  if(d)d.textContent=`${Math.floor(display/60)}:${String(display%60).padStart(2,"0")}`;
-  if(r){r.style.strokeDashoffset=2*Math.PI*22*(1-pct);r.style.transition="stroke-dashoffset .3s";}
-  if((timerState.dir==="down"&&rem<=0)||(timerState.dir!=="down"&&rem>=timerState.totalSecs)){
-    timerState.running=false;timerState.done=true;
-    if(r)r.setAttribute("stroke","var(--ok)");
-    if(bx)bx.classList.add("done");
-    const b=document.getElementById("tbtn");if(b){b.textContent="✓ Fini";b.className="tbtn tbtn-go";}
-    playBeep();
-    cancelAnimationFrame(timerRAF);return;
-  }
-  timerRAF=requestAnimationFrame(timerTick);
-}
-function tToggle(total,dir){
-  if(timerState.done)return;
-  timerState.dir=dir||"down";timerState.totalSecs=total;
-  if(timerState.running){
-    timerState.running=false;
-    timerState.pausedRemaining=timerGetRemaining();
-    cancelAnimationFrame(timerRAF);
-    const b=document.getElementById("tbtn");if(b){b.textContent="Start";b.className="tbtn tbtn-go";}
-  }else{
-    if(timerState.pausedRemaining===0&&!timerState.startedAt)timerState.pausedRemaining=timerState.dir==="down"?total:0;
-    timerState.startedAt=Date.now();timerState.running=true;
-    const b=document.getElementById("tbtn");if(b){b.textContent="Pause";b.className="tbtn tbtn-pause";}
-    timerTick();
-  }
-}
-function tReset(total,dir){
-  cancelAnimationFrame(timerRAF);
-  timerState={running:false,startedAt:0,totalSecs:total,dir:dir||"down",pausedRemaining:dir==="up"?0:total,done:false};
-  const d=document.getElementById("tdisp"),r=document.getElementById("tring"),bx=document.getElementById("timerbox"),b=document.getElementById("tbtn");
-  const secs=timerState.pausedRemaining;
-  if(d)d.textContent=`${Math.floor(secs/60)}:${String(secs%60).padStart(2,"0")}`;
-  if(r){r.style.strokeDashoffset=2*Math.PI*22;r.setAttribute("stroke",MC[S.sess?.exercises?.[S.ei]?.muscle]||"var(--ac)");}
-  if(bx)bx.classList.remove("done");
-  if(b){b.textContent="Start";b.className="tbtn tbtn-go";}
-}
-function tStop(){cancelAnimationFrame(timerRAF);timerState={running:false,startedAt:0,totalSecs:0,dir:"down",pausedRemaining:0,done:false};}
-
-// ═══ WARMUPS ═══
-const WARMUPS={
+// ═══ WOD POOLS (with images for each movement) ═══
+const WODS={
 push:[
-{name:"McGill Curl-up",reps:"3×10 (hold 10s)",img:IMG+"Crunch/0.jpg",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up+proper+form",mw:"https://musclewiki.com/exercise/bodyweight-crunch",notes:"Mains sous le bas du dos. Un genou fléchi. Soulève 2-3cm. PAS de crunch."},
-{name:"Side Plank",reps:"2×30s/côté",img:IMG+"Side_Bridge/0.jpg",yt:"https://www.youtube.com/results?search_query=side+plank+mcgill+form",mw:"https://musclewiki.com/exercise/bodyweight-side-plank",notes:"Coude sous l'épaule. Corps en ligne. Hanche haute."},
-{name:"Bird Dog",reps:"2×8/côté",img:IMG+"Bird_Dog/0.jpg",yt:"https://www.youtube.com/results?search_query=bird+dog+exercise+core",mw:"https://musclewiki.com/exercise/bodyweight-bird-dog",notes:"4 pattes, dos neutre. Bras+jambe opposés. Hold 5s."},
-{name:"Dead Bug",reps:"2×10",img:IMG+"Dead_Bug/0.jpg",yt:"https://www.youtube.com/results?search_query=dead+bug+exercise+back",mw:"https://musclewiki.com/exercise/bodyweight-dead-bug",notes:"Dos plaqué au sol. Bras+jambe opposés."},
-{name:"Band Pull-Aparts",reps:"2×15",img:IMG+"Band_Pull_Apart/0.jpg",yt:"https://www.youtube.com/results?search_query=band+pull+apart+form",mw:"https://musclewiki.com/exercise/band-pull-apart",notes:"Écarte la bande. Squeeze omoplates."},
-{name:"Shoulder CARs",reps:"2×5/bras",img:"",yt:"https://www.youtube.com/results?search_query=shoulder+CARs+mobility",mw:"",notes:"Cercles complets contrôlés. Amplitude max."}
+{type:"AMRAP",duration:8,name:"Push Storm",movements:[
+  {name:"10 Push-ups",img:I+"Push-Ups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=push+up+proper+form"},
+  {name:"10 DB Thrusters",img:I+"Dumbbell_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-thruster",yt:"https://www.youtube.com/results?search_query=dumbbell+thruster+form"},
+  {name:"10 Sit-ups McGill",img:I+"Crunch/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-crunch",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up+form"}]},
+{type:"For Time",duration:null,name:"21-15-9",movements:[
+  {name:"21-15-9 DB Push Press",img:I+"Dumbbell_Shoulder_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-push-press",yt:"https://www.youtube.com/results?search_query=dumbbell+push+press+form"},
+  {name:"21-15-9 Step-back Burpees",img:I+"Burpee/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-burpee",yt:"https://www.youtube.com/results?search_query=step+back+burpee+form"}]},
+{type:"EMOM",duration:10,name:"Push EMOM",movements:[
+  {name:"Pair: 12 KB Swings",img:I+"Kettlebell_Sumo_Deadlift_-_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
+  {name:"Impair: 8 Diamond Push-ups",img:I+"Push-Ups_-_Close_Triceps_Position/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-diamond-push-up",yt:"https://www.youtube.com/results?search_query=diamond+push+up+form"}]},
+{type:"Tabata",duration:4,name:"Push Tabata",movements:[
+  {name:"Push-ups 20s on / 10s off ×8",img:I+"Push-Ups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=tabata+push+ups"}]},
+{type:"AMRAP",duration:10,name:"Ground to OH",movements:[
+  {name:"5 Devil's Press (DB)",img:I+"Dumbbell_Bench_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=devil+press+dumbbell+form"},
+  {name:"10 Plate Ground-to-OH",img:I+"Clean_and_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=plate+ground+to+overhead+form"},
+  {name:"15 Flutter Kicks",img:I+"Flutter_Kicks/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-flutter-kicks",yt:"https://www.youtube.com/results?search_query=flutter+kicks+form"}]}
 ],
 pull:[
-{name:"McGill Curl-up",reps:"3×10",img:IMG+"Crunch/0.jpg",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up",mw:"https://musclewiki.com/exercise/bodyweight-crunch",notes:"Soulève 2-3cm seulement."},
-{name:"Side Plank",reps:"2×30s/côté",img:IMG+"Side_Bridge/0.jpg",yt:"https://www.youtube.com/results?search_query=side+plank+form",mw:"https://musclewiki.com/exercise/bodyweight-side-plank",notes:"Hanche haute."},
-{name:"Bird Dog",reps:"2×8/côté",img:IMG+"Bird_Dog/0.jpg",yt:"https://www.youtube.com/results?search_query=bird+dog+form",mw:"https://musclewiki.com/exercise/bodyweight-bird-dog",notes:"Hold 5s."},
-{name:"Dead Bug",reps:"2×10",img:IMG+"Dead_Bug/0.jpg",yt:"https://www.youtube.com/results?search_query=dead+bug+exercise",mw:"https://musclewiki.com/exercise/bodyweight-dead-bug",notes:"Dos plaqué."},
-{name:"Band Pull-Aparts",reps:"2×15",img:IMG+"Band_Pull_Apart/0.jpg",yt:"https://www.youtube.com/results?search_query=band+pull+apart",mw:"https://musclewiki.com/exercise/band-pull-apart",notes:"Squeeze omoplates."},
-{name:"Scapular Pull-ups",reps:"2×8",img:IMG+"Scapular_Pull-Up/0.jpg",yt:"https://www.youtube.com/results?search_query=scapular+pull+up+activation",mw:"",notes:"Rétracte les omoplates sans plier les coudes."}
+{type:"EMOM",duration:10,name:"Pull EMOM",movements:[
+  {name:"Pair: 12 Ring/Band Rows",img:I+"Inverted_Row/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-inverted-row",yt:"https://www.youtube.com/results?search_query=inverted+row+ring+row+form"},
+  {name:"Impair: 8 DB Rows/bras",img:I+"One-Arm_Dumbbell_Row/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=one+arm+dumbbell+row+form"}]},
+{type:"For Time",duration:null,name:"Pull Chipper",movements:[
+  {name:"5 rounds: 5 Pull-ups",img:I+"Pullups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form"},
+  {name:"10 KB Swings",img:I+"Kettlebell_Sumo_Deadlift_-_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
+  {name:"15 Sit-ups",img:I+"Crunch/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-crunch",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up"}]},
+{type:"AMRAP",duration:8,name:"Row Storm",movements:[
+  {name:"8 Renegade Rows",img:I+"Dumbbell_Bench_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=renegade+row+form"},
+  {name:"12 Band Pull-Aparts",img:I+"Band_Pull_Apart/0.jpg",mw:"https://musclewiki.com/exercise/band-pull-apart",yt:"https://www.youtube.com/results?search_query=band+pull+apart+form"},
+  {name:"16 Dead Bugs",img:I+"Dead_Bug/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-dead-bug",yt:"https://www.youtube.com/results?search_query=dead+bug+exercise"}]},
+{type:"Tabata",duration:4,name:"Pull Tabata",movements:[
+  {name:"Body Rows 20s/10s ×8",img:I+"Inverted_Row/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-inverted-row",yt:"https://www.youtube.com/results?search_query=inverted+row+form"}]},
+{type:"AMRAP",duration:12,name:"Endurance Pull",movements:[
+  {name:"6 DB Rows/bras",img:I+"One-Arm_Dumbbell_Row/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=dumbbell+row+form"},
+  {name:"8 Hammer Curls légers",img:I+"Hammer_Curls/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-hammer-curl",yt:"https://www.youtube.com/results?search_query=hammer+curl+form"},
+  {name:"200m Run",img:"",mw:"",yt:""}]}
 ],
 legs:[
-{name:"McGill Curl-up",reps:"3×10",img:IMG+"Crunch/0.jpg",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up",mw:"https://musclewiki.com/exercise/bodyweight-crunch",notes:"PAS de crunch classique."},
-{name:"Side Plank",reps:"2×30s/côté",img:IMG+"Side_Bridge/0.jpg",yt:"https://www.youtube.com/results?search_query=side+plank",mw:"https://musclewiki.com/exercise/bodyweight-side-plank",notes:"Corps en ligne."},
-{name:"Bird Dog",reps:"2×8/côté",img:IMG+"Bird_Dog/0.jpg",yt:"https://www.youtube.com/results?search_query=bird+dog",mw:"https://musclewiki.com/exercise/bodyweight-bird-dog",notes:"Bras+jambe opposés."},
-{name:"Dead Bug",reps:"2×10",img:IMG+"Dead_Bug/0.jpg",yt:"https://www.youtube.com/results?search_query=dead+bug",mw:"https://musclewiki.com/exercise/bodyweight-dead-bug",notes:"Dos plaqué."},
-{name:"Goblet Squat",reps:"2×8",img:IMG+"Goblet_Squat/0.jpg",yt:"https://www.youtube.com/results?search_query=goblet+squat+warmup",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",notes:"Haltère contre poitrine. Profond. Genoux dehors."},
-{name:"Glute Bridges",reps:"2×12",img:IMG+"Butt_Lift_(Bridge)/0.jpg",yt:"https://www.youtube.com/results?search_query=glute+bridge+activation",mw:"https://musclewiki.com/exercise/bodyweight-glute-bridge",notes:"Hanches vers le plafond. Squeeze fessiers 2s."}
+{type:"Chipper",duration:null,name:"Leg Chipper",movements:[
+  {name:"20 Step-back Burpees",img:I+"Burpee/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-burpee",yt:"https://www.youtube.com/results?search_query=step+back+burpee+form"},
+  {name:"30 KB Swings",img:I+"Kettlebell_Sumo_Deadlift_-_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
+  {name:"40 Air Squats",img:I+"Bodyweight_Squat/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-squat",yt:"https://www.youtube.com/results?search_query=air+squat+form"},
+  {name:"30 KB Swings",img:I+"Kettlebell_Sumo_Deadlift_-_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
+  {name:"20 Step-back Burpees",img:I+"Burpee/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-burpee",yt:"https://www.youtube.com/results?search_query=step+back+burpee+form"}]},
+{type:"For Time",duration:null,name:"Leg Builder",movements:[
+  {name:"5×12 Goblet Squats",img:I+"Goblet_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",yt:"https://www.youtube.com/results?search_query=goblet+squat+form"},
+  {name:"5×12 KB Deadlifts",img:I+"Stiff-Legged_Barbell_Deadlift/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-deadlift",yt:"https://www.youtube.com/results?search_query=kettlebell+deadlift+form"},
+  {name:"5×12 Box Step-ups",img:I+"Barbell_Step_Ups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-step-up",yt:"https://www.youtube.com/results?search_query=box+step+up+form"}]},
+{type:"EMOM",duration:12,name:"Legs EMOM",movements:[
+  {name:"Min 1: 10 Air Squats",img:I+"Bodyweight_Squat/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-squat",yt:"https://www.youtube.com/results?search_query=air+squat+form"},
+  {name:"Min 2: 8 Lunges",img:I+"Bodyweight_Walking_Lunge/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-lunge",yt:"https://www.youtube.com/results?search_query=walking+lunge+form"},
+  {name:"Min 3: 6 Glute Bridges lestés",img:I+"Butt_Lift_(Bridge)/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-glute-bridge",yt:"https://www.youtube.com/results?search_query=weighted+glute+bridge+form"}]},
+{type:"AMRAP",duration:10,name:"Quad Blaster",movements:[
+  {name:"15 Wall Balls",img:I+"Goblet_Squat/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=wall+ball+crossfit+form"},
+  {name:"10 Step-back Lunges",img:I+"Bodyweight_Walking_Lunge/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-lunge",yt:"https://www.youtube.com/results?search_query=reverse+lunge+form"},
+  {name:"5 Broad Jumps",img:I+"Frog_Hops/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=broad+jump+form+technique"}]},
+{type:"Tabata",duration:4,name:"Squat Tabata",movements:[
+  {name:"Goblet Squat / Glute Bridge alternés",img:I+"Goblet_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",yt:"https://www.youtube.com/results?search_query=goblet+squat+glute+bridge+tabata"}]}
+]};
+
+// ═══ WARMUPS ═══
+const WU={
+push:[
+{name:"McGill Curl-up",reps:"3×10 (10s hold)",img:I+"Crunch/0.jpg",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up+form",mw:"https://musclewiki.com/exercise/bodyweight-crunch",notes:"Mains sous le dos. Soulève 2-3cm. PAS de crunch."},
+{name:"Side Plank",reps:"2×30s/côté",img:I+"Side_Bridge/0.jpg",yt:"https://www.youtube.com/results?search_query=side+plank+mcgill",mw:"https://musclewiki.com/exercise/bodyweight-side-plank",notes:"Coude sous épaule. Corps en ligne."},
+{name:"Bird Dog",reps:"2×8/côté",img:I+"Bird_Dog/0.jpg",yt:"https://www.youtube.com/results?search_query=bird+dog+core",mw:"https://musclewiki.com/exercise/bodyweight-bird-dog",notes:"Bras+jambe opposés. Hold 5s."},
+{name:"Dead Bug",reps:"2×10",img:I+"Dead_Bug/0.jpg",yt:"https://www.youtube.com/results?search_query=dead+bug+exercise",mw:"https://musclewiki.com/exercise/bodyweight-dead-bug",notes:"Dos plaqué au sol."},
+{name:"Band Pull-Aparts",reps:"2×15",img:I+"Band_Pull_Apart/0.jpg",yt:"https://www.youtube.com/results?search_query=band+pull+apart",mw:"https://musclewiki.com/exercise/band-pull-apart",notes:"Squeeze omoplates."},
+{name:"Shoulder CARs",reps:"2×5/bras",img:"",yt:"https://www.youtube.com/results?search_query=shoulder+CARs+mobility",mw:"",notes:"Cercles complets contrôlés."}
+],
+pull:[
+{name:"McGill Curl-up",reps:"3×10",img:I+"Crunch/0.jpg",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up",mw:"https://musclewiki.com/exercise/bodyweight-crunch",notes:"Soulève 2-3cm."},
+{name:"Side Plank",reps:"2×30s/côté",img:I+"Side_Bridge/0.jpg",yt:"https://www.youtube.com/results?search_query=side+plank",mw:"https://musclewiki.com/exercise/bodyweight-side-plank",notes:"Hanche haute."},
+{name:"Bird Dog",reps:"2×8/côté",img:I+"Bird_Dog/0.jpg",yt:"https://www.youtube.com/results?search_query=bird+dog",mw:"https://musclewiki.com/exercise/bodyweight-bird-dog",notes:"Hold 5s."},
+{name:"Dead Bug",reps:"2×10",img:I+"Dead_Bug/0.jpg",yt:"https://www.youtube.com/results?search_query=dead+bug",mw:"https://musclewiki.com/exercise/bodyweight-dead-bug",notes:"Dos plaqué."},
+{name:"Band Pull-Aparts",reps:"2×15",img:I+"Band_Pull_Apart/0.jpg",yt:"https://www.youtube.com/results?search_query=band+pull+apart",mw:"https://musclewiki.com/exercise/band-pull-apart",notes:"Omoplates."},
+{name:"Scapular Pull-ups",reps:"2×8",img:I+"Scapular_Pull-Up/0.jpg",yt:"https://www.youtube.com/results?search_query=scapular+pull+up",mw:"",notes:"Rétracte sans plier les coudes."}
+],
+legs:[
+{name:"McGill Curl-up",reps:"3×10",img:I+"Crunch/0.jpg",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up",mw:"https://musclewiki.com/exercise/bodyweight-crunch",notes:"PAS de crunch."},
+{name:"Side Plank",reps:"2×30s/côté",img:I+"Side_Bridge/0.jpg",yt:"https://www.youtube.com/results?search_query=side+plank",mw:"https://musclewiki.com/exercise/bodyweight-side-plank",notes:"Corps en ligne."},
+{name:"Bird Dog",reps:"2×8/côté",img:I+"Bird_Dog/0.jpg",yt:"https://www.youtube.com/results?search_query=bird+dog",mw:"https://musclewiki.com/exercise/bodyweight-bird-dog",notes:"Hold 5s."},
+{name:"Dead Bug",reps:"2×10",img:I+"Dead_Bug/0.jpg",yt:"https://www.youtube.com/results?search_query=dead+bug",mw:"https://musclewiki.com/exercise/bodyweight-dead-bug",notes:"Dos plaqué."},
+{name:"Goblet Squat",reps:"2×8",img:I+"Goblet_Squat/0.jpg",yt:"https://www.youtube.com/results?search_query=goblet+squat+warmup",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",notes:"Profond. Genoux dehors."},
+{name:"Glute Bridges",reps:"2×12",img:I+"Butt_Lift_(Bridge)/0.jpg",yt:"https://www.youtube.com/results?search_query=glute+bridge+activation",mw:"https://musclewiki.com/exercise/bodyweight-glute-bridge",notes:"Squeeze fessiers 2s."}
 ]};
 
 // ═══ EXERCISES ═══
 const PROG={sessions:[
 {id:"push",name:"PUSH",color:"#E63946",muscles:["chest","shoulders","triceps"],exercises:[
-{id:"p1",name:"Bench Press",sets:4,reps:"6-8",rest:120,muscle:"chest",imgs:["Barbell_Bench_Press_-_Medium_Grip/0.jpg","Barbell_Bench_Press_-_Medium_Grip/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-bench-press",yt:"https://www.youtube.com/results?search_query=barbell+bench+press+proper+form",notes:"<b>Omoplates rétractées</b>. Descente 2-3s. Coudes 45°.",coaching:["Inspire en bas, expire en poussant","Barre en U pour activer les lats","Pas de rebond"]},
-{id:"p2",name:"OHP Debout",sets:3,reps:"8-10",rest:90,muscle:"shoulders",imgs:["Standing_Military_Press/0.jpg","Standing_Military_Press/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-overhead-press",yt:"https://www.youtube.com/results?search_query=overhead+press+form",notes:"<b>Gainage strict</b>. Lock-out complet.",coaching:["Serre les fessiers","Rentre la tête","Full ROM"]},
-{id:"p3",name:"Incline DB Press",sets:3,reps:"10-12",rest:90,muscle:"chest",imgs:["Dumbbell_Bench_Press/0.jpg","Dumbbell_Bench_Press/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-incline-bench-press",yt:"https://www.youtube.com/results?search_query=incline+dumbbell+press+30",notes:"Banc <b>30°</b>. Excentrique 3s.",coaching:["Haltères se touchent en haut","Descends jusqu'au stretch"]},
-{id:"p4",name:"Lateral Raises",sets:3,reps:"12-15",rest:60,muscle:"shoulders",imgs:["Side_Lateral_Raise/0.jpg","Side_Lateral_Raise/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-lateral-raise",yt:"https://www.youtube.com/results?search_query=lateral+raise+form",notes:"<b>Pas d'élan</b>. Contrôle total.",coaching:["Initie par coudes","Pause 1s en haut"]},
-{id:"p5",name:"Triceps Pushdown",sets:3,reps:"12-15",rest:60,muscle:"triceps",imgs:["Triceps_Pushdown/0.jpg","Triceps_Pushdown/1.jpg"],mw:"https://musclewiki.com/exercise/cable-pushdown",yt:"https://www.youtube.com/results?search_query=tricep+pushdown+form",notes:"<b>Coudes collés</b>. Extension complète.",coaching:["Avant-bras seuls bougent","Squeeze 1s en bas"]},
-{id:"p6",name:"OH Triceps Ext.",sets:3,reps:"10-12",rest:60,muscle:"triceps",imgs:["Standing_Dumbbell_Triceps_Extension/0.jpg","Standing_Dumbbell_Triceps_Extension/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-overhead-triceps-extension",yt:"https://www.youtube.com/results?search_query=overhead+tricep+extension",notes:"<b>Étirement complet</b> en bas.",coaching:["Long chef du triceps","Coudes stables"]}
-],wod:{type:"AMRAP",duration:8,movements:["10 Push-ups","10 DB Thrusters","10 Sit-ups McGill"]}},
+{id:"p1",name:"Bench Press",sets:4,reps:"6-8",rest:120,muscle:"chest",imgs:["Barbell_Bench_Press_-_Medium_Grip/0.jpg","Barbell_Bench_Press_-_Medium_Grip/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-bench-press",yt:"https://www.youtube.com/results?search_query=bench+press+form",notes:"<b>Omoplates rétractées</b>. Coudes 45°.",coaching:["Barre en U pour lats","Pas de rebond"],l5safe:true},
+{id:"p2",name:"OHP Debout",sets:3,reps:"8-10",rest:90,muscle:"shoulders",imgs:["Standing_Military_Press/0.jpg","Standing_Military_Press/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-overhead-press",yt:"https://www.youtube.com/results?search_query=overhead+press+form",notes:"<b>Gainage strict</b>. Lock-out.",coaching:["Fessiers serrés","Full ROM"],l5safe:true,l5warn:"Attention à ne pas cambrer — serre les abdos et fessiers"},
+{id:"p3",name:"Incline DB Press",sets:3,reps:"10-12",rest:90,muscle:"chest",imgs:["Dumbbell_Bench_Press/0.jpg","Dumbbell_Bench_Press/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-incline-bench-press",yt:"https://www.youtube.com/results?search_query=incline+dumbbell+press",notes:"Banc <b>30°</b>. Excentrique 3s.",coaching:["Haltères se touchent en haut"],l5safe:true},
+{id:"p4",name:"Lateral Raises",sets:3,reps:"12-15",rest:60,muscle:"shoulders",imgs:["Side_Lateral_Raise/0.jpg","Side_Lateral_Raise/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-lateral-raise",yt:"https://www.youtube.com/results?search_query=lateral+raise+form",notes:"<b>Pas d'élan</b>.",coaching:["Pause 1s en haut"],l5safe:true},
+{id:"p5",name:"Triceps Pushdown",sets:3,reps:"12-15",rest:60,muscle:"triceps",imgs:["Triceps_Pushdown/0.jpg","Triceps_Pushdown/1.jpg"],mw:"https://musclewiki.com/exercise/cable-pushdown",yt:"https://www.youtube.com/results?search_query=tricep+pushdown",notes:"<b>Coudes collés</b>.",coaching:["Squeeze 1s"],l5safe:true},
+{id:"p6",name:"OH Triceps Ext.",sets:3,reps:"10-12",rest:60,muscle:"triceps",imgs:["Standing_Dumbbell_Triceps_Extension/0.jpg","Standing_Dumbbell_Triceps_Extension/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-overhead-triceps-extension",yt:"https://www.youtube.com/results?search_query=overhead+tricep+extension",notes:"<b>Étirement complet</b>.",coaching:["Coudes stables"],l5safe:true}
+]},
 {id:"pull",name:"PULL",color:"#457B9D",muscles:["back","biceps","shoulders"],exercises:[
-{id:"l1",name:"Pull-ups",sets:4,reps:"6-10",rest:120,muscle:"back",imgs:["Pullups/0.jpg","Pullups/1.jpg"],mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form",notes:"<b>Full ROM</b>. Rétraction scapulaire.",coaching:["Coudes vers hanches","Descente 3s","<5 reps → Pulldown"]},
-{id:"l2",name:"Bench DB Row",sets:4,reps:"8-10",rest:90,muscle:"back",imgs:["One-Arm_Dumbbell_Row/0.jpg","One-Arm_Dumbbell_Row/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=one+arm+dumbbell+row+bench",notes:"<b>Unilatéral</b> — protège L5-S1.",coaching:["⚡ Jamais de row penché libre","Coude au plafond","Squeeze 1s"]},
-{id:"l3",name:"Face Pulls",sets:3,reps:"15-20",rest:60,muscle:"shoulders",imgs:["Face_Pull/0.jpg","Face_Pull/1.jpg"],mw:"https://musclewiki.com/exercise/cable-face-pull",yt:"https://www.youtube.com/results?search_query=face+pull+form",notes:"<b>Rotation externe</b> en fin.",coaching:["Poulie haute","Écarte les mains","Montre tes biceps"]},
-{id:"l4",name:"Hammer Curls",sets:3,reps:"10-12",rest:60,muscle:"biceps",imgs:["Hammer_Curls/0.jpg","Hammer_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-hammer-curl",yt:"https://www.youtube.com/results?search_query=hammer+curl+form",notes:"Prise neutre. <b>Pas de swing</b>.",coaching:["Coudes fixes","Swing = trop lourd"]},
-{id:"l5",name:"Barbell Curls",sets:3,reps:"10-12",rest:60,muscle:"biceps",imgs:["Barbell_Curl/0.jpg","Barbell_Curl/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-curl",yt:"https://www.youtube.com/results?search_query=barbell+curl+EZ+form",notes:"Barre EZ si gêne. <b>Excentrique 3s</b>.",coaching:["Abdos serrés","Extension complète"]},
-{id:"l6",name:"Reverse Flyes",sets:3,reps:"12-15",rest:60,muscle:"shoulders",imgs:["Seated_Bent-Over_Rear_Delt_Raise/0.jpg","Seated_Bent-Over_Rear_Delt_Raise/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-reverse-fly",yt:"https://www.youtube.com/results?search_query=reverse+fly+rear+delt",notes:"<b>Banc incliné</b>. Deltoïde post.",coaching:["Pouces en haut","Léger","Squeeze 1s"]}
-],wod:{type:"EMOM",duration:10,movements:["Min impaire: 8 DB Rows/bras","Min paire: 12 Ring Rows"]}},
+{id:"l1",name:"Pull-ups",sets:4,reps:"6-10",rest:120,muscle:"back",imgs:["Pullups/0.jpg","Pullups/1.jpg"],mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form",notes:"<b>Full ROM</b>.",coaching:["Descente 3s"],l5safe:true},
+{id:"l2",name:"Bench DB Row",sets:4,reps:"8-10",rest:90,muscle:"back",imgs:["One-Arm_Dumbbell_Row/0.jpg","One-Arm_Dumbbell_Row/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=dumbbell+row+bench",notes:"<b>Unilatéral sur banc</b>.",coaching:["⚡ Remplace le bent-over row (L5-S1)"],l5safe:true,l5warn:"Toujours sur banc — jamais de row penché libre"},
+{id:"l3",name:"Face Pulls",sets:3,reps:"15-20",rest:60,muscle:"shoulders",imgs:["Face_Pull/0.jpg","Face_Pull/1.jpg"],mw:"https://musclewiki.com/exercise/cable-face-pull",yt:"https://www.youtube.com/results?search_query=face+pull",notes:"<b>Rotation externe</b>.",coaching:["Écarte les mains"],l5safe:true},
+{id:"l4",name:"Hammer Curls",sets:3,reps:"10-12",rest:60,muscle:"biceps",imgs:["Hammer_Curls/0.jpg","Hammer_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-hammer-curl",yt:"https://www.youtube.com/results?search_query=hammer+curl",notes:"<b>Pas de swing</b>.",coaching:["Coudes fixes"],l5safe:true},
+{id:"l5",name:"Barbell Curls",sets:3,reps:"10-12",rest:60,muscle:"biceps",imgs:["Barbell_Curl/0.jpg","Barbell_Curl/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-curl",yt:"https://www.youtube.com/results?search_query=barbell+curl",notes:"Barre EZ. <b>Excentrique 3s</b>.",coaching:["Abdos serrés"],l5safe:true},
+{id:"l6",name:"Reverse Flyes",sets:3,reps:"12-15",rest:60,muscle:"shoulders",imgs:["Seated_Bent-Over_Rear_Delt_Raise/0.jpg","Seated_Bent-Over_Rear_Delt_Raise/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-reverse-fly",yt:"https://www.youtube.com/results?search_query=reverse+fly",notes:"<b>Banc incliné</b>.",coaching:["Léger, squeeze 1s"],l5safe:true}
+]},
 {id:"legs",name:"LEGS",color:"#2A9D8F",muscles:["quads","hamstrings","calves","core"],exercises:[
-{id:"g1",name:"Back Squat",sets:4,reps:"6-8",rest:150,muscle:"quads",imgs:["Barbell_Squat/0.jpg","Barbell_Squat/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-squat",yt:"https://www.youtube.com/results?search_query=back+squat+form",notes:"<b>Ceinture recommandée</b>. Parallèle min.",coaching:["Valsalva","Pousse le sol","Genoux dehors"]},
-{id:"g2",name:"Romanian Deadlift",sets:3,reps:"8-10",rest:120,muscle:"hamstrings",imgs:["Romanian_Deadlift/0.jpg","Romanian_Deadlift/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-romanian-deadlift",yt:"https://www.youtube.com/results?search_query=romanian+deadlift+form",notes:"<b>Charnière hanche</b>. Dos neutre.",coaching:["⚡ L5-S1 : dos neutre!","Fesses en arrière"]},
-{id:"g3",name:"Bulgarian Split Squat",sets:3,reps:"10/côté",rest:90,muscle:"quads",imgs:["Single_Leg_Squat/0.jpg","Single_Leg_Squat/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-bulgarian-split-squat",yt:"https://www.youtube.com/results?search_query=bulgarian+split+squat+form",notes:"<b>Torse droit</b>. Pied arrière sur banc.",coaching:["Pied avant assez loin","80% sur jambe avant"]},
-{id:"g4",name:"Leg Curl",sets:3,reps:"12-15",rest:60,muscle:"hamstrings",imgs:["Lying_Leg_Curls/0.jpg","Lying_Leg_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/machine-leg-curl",yt:"https://www.youtube.com/results?search_query=leg+curl+form",notes:"<b>Contraction 1s</b> en haut.",coaching:["Pas de claquement","Orteils vers toi"]},
-{id:"g5",name:"Calf Raises",sets:4,reps:"15-20",rest:45,muscle:"calves",imgs:["Standing_Calf_Raises/0.jpg","Standing_Calf_Raises/1.jpg"],mw:"https://musclewiki.com/exercise/machine-calf-raise",yt:"https://www.youtube.com/results?search_query=calf+raise+full+ROM",notes:"<b>Pause 2s en bas</b>. Full ROM.",coaching:["Pas de rebond","Varie positions pieds"]},
-{id:"g6",name:"Farmer's Walk",sets:3,reps:"30m",rest:60,muscle:"core",imgs:["Farmers_Walk/0.jpg","Farmers_Walk/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-farmers-walk",yt:"https://www.youtube.com/results?search_query=farmer+walk+form",notes:"<b>Gainage total</b>. Épaules basses.",coaching:["50%+ poids/main","Pas courts"]}
-],wod:{type:"Chipper",duration:null,movements:["20 Step-back Burpees (L5-S1)","30 KB Swings","40 Air Squats","30 KB Swings","20 Step-back Burpees"]}}
+{id:"g1",name:"Back Squat",sets:4,reps:"6-8",rest:150,muscle:"quads",imgs:["Barbell_Squat/0.jpg","Barbell_Squat/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-squat",yt:"https://www.youtube.com/results?search_query=back+squat+form",notes:"<b>Ceinture recommandée</b>.",coaching:["Valsalva","Genoux dehors"],l5safe:true,l5warn:"Ceinture obligatoire. Stop si douleur lombaire."},
+{id:"g2",name:"Romanian Deadlift",sets:3,reps:"8-10",rest:120,muscle:"hamstrings",imgs:["Romanian_Deadlift/0.jpg","Romanian_Deadlift/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-romanian-deadlift",yt:"https://www.youtube.com/results?search_query=romanian+deadlift",notes:"<b>Charnière hanche</b>.",coaching:["⚡ DOS NEUTRE OBLIGATOIRE"],l5safe:false,l5warn:"ATTENTION L5-S1 : dos strictement neutre. Arrête immédiatement si douleur. Pas de deadlift conventionnel."},
+{id:"g3",name:"Bulgarian Split Squat",sets:3,reps:"10/côté",rest:90,muscle:"quads",imgs:["Single_Leg_Squat/0.jpg","Single_Leg_Squat/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-bulgarian-split-squat",yt:"https://www.youtube.com/results?search_query=bulgarian+split+squat",notes:"<b>Torse droit</b>.",coaching:["80% sur jambe avant"],l5safe:true},
+{id:"g4",name:"Leg Curl",sets:3,reps:"12-15",rest:60,muscle:"hamstrings",imgs:["Lying_Leg_Curls/0.jpg","Lying_Leg_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/machine-leg-curl",yt:"https://www.youtube.com/results?search_query=leg+curl",notes:"<b>Contraction 1s</b>.",coaching:["Pas de claquement"],l5safe:true},
+{id:"g5",name:"Calf Raises",sets:4,reps:"15-20",rest:45,muscle:"calves",imgs:["Standing_Calf_Raises/0.jpg","Standing_Calf_Raises/1.jpg"],mw:"https://musclewiki.com/exercise/machine-calf-raise",yt:"https://www.youtube.com/results?search_query=calf+raise",notes:"<b>Pause 2s en bas</b>.",coaching:["Full ROM"],l5safe:true},
+{id:"g6",name:"Farmer's Walk",sets:3,reps:"30m",rest:60,muscle:"core",imgs:["Farmers_Walk/0.jpg","Farmers_Walk/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-farmers-walk",yt:"https://www.youtube.com/results?search_query=farmer+walk",notes:"<b>Gainage total</b>.",coaching:["Épaules basses"],l5safe:true}
+]}
 ]};
-const WOD_MOVE_IMG={
-  "Push-ups":{img:IMG+"Push-Ups_-_Close_Triceps_Position/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=push+up+form"},
-  "DB Thrusters":{img:IMG+"Dumbbell_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-thruster",yt:"https://www.youtube.com/results?search_query=dumbbell+thruster+form"},
-  "Sit-ups McGill":{img:IMG+"Crunch/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-crunch",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up"},
-  "DB Push Press":{img:IMG+"Dumbbell_Shoulder_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-shoulder-press",yt:"https://www.youtube.com/results?search_query=dumbbell+push+press"},
-  "Step-back Burpees":{img:IMG+"Burpee/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=step+back+burpee+low+impact"},
-  "Push-ups diamant":{img:IMG+"Push-Ups_-_Close_Triceps_Position/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-diamond-push-up",yt:"https://www.youtube.com/results?search_query=diamond+push+up+form"},
-  "KB Swings":{img:IMG+"Kettlebell_Sumo_Deadlift_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
-  "Plate Ground-to-OH":{img:IMG+"Clean_and_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=plate+ground+to+overhead"},
-  "Flutter Kicks":{img:IMG+"Flutter_Kicks/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=flutter+kicks+form"},
-  "Devil's Press":{img:IMG+"Dumbbell_Bench_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=devils+press+dumbbell"},
-  "Ring Rows":{img:IMG+"Inverted_Row/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=ring+row+form"},
-  "DB Rows":{img:IMG+"One-Arm_Dumbbell_Row/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=dumbbell+row+form"},
-  "Renegade Rows":{img:IMG+"Alternating_Renegade_Row/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=renegade+row+form"},
-  "Band Pull-Aparts":{img:IMG+"Band_Pull_Apart/0.jpg",mw:"https://musclewiki.com/exercise/band-pull-apart",yt:"https://www.youtube.com/results?search_query=band+pull+apart"},
-  "Dead Bugs":{img:IMG+"Dead_Bug/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-dead-bug",yt:"https://www.youtube.com/results?search_query=dead+bug"},
-  "Pull-ups":{img:IMG+"Pullups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form"},
-  "Hammer Curls légers":{img:IMG+"Hammer_Curls/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-hammer-curl",yt:"https://www.youtube.com/results?search_query=hammer+curl"},
-  "Body Rows":{img:IMG+"Inverted_Row/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=body+row+inverted+row"},
-  "Air Squats":{img:IMG+"Bodyweight_Squat/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-squat",yt:"https://www.youtube.com/results?search_query=air+squat+form"},
-  "Goblet Squats":{img:IMG+"Goblet_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",yt:"https://www.youtube.com/results?search_query=goblet+squat"},
-  "KB Deadlifts":{img:IMG+"Kettlebell_Deadlift/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=kettlebell+deadlift+form"},
-  "Box Step-ups":{img:IMG+"Barbell_Step_Ups/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=box+step+up+form"},
-  "Step-back Lunges":{img:IMG+"Dumbbell_Lunges/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-lunge",yt:"https://www.youtube.com/results?search_query=reverse+lunge+form"},
-  "Broad Jumps":{img:IMG+"Frog_Jumps/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=broad+jump+form"},
-  "Glute Bridges lestés":{img:IMG+"Butt_Lift_(Bridge)/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-glute-bridge",yt:"https://www.youtube.com/results?search_query=weighted+glute+bridge"},
-  "Wall Balls":{img:IMG+"Thrusters/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=wall+ball+crossfit+form"},
-};
-
-const WOD_POOLS={
-  push:[
-    {type:"AMRAP",duration:8,moves:["10 Push-ups", "10 DB Thrusters", "10 Sit-ups McGill"]},
-    {type:"For Time",duration:null,moves:["21-15-9 :", "DB Push Press", "Step-back Burpees"]},
-    {type:"EMOM",duration:10,moves:["Min paire: 12 KB Swings", "Min impaire: 8 Push-ups diamant"]},
-    {type:"Tabata",duration:4,moves:["Push-ups (20s on / 10s off × 8)"]},
-    {type:"AMRAP",duration:10,moves:["5 Devil's Press", "10 Plate Ground-to-OH", "15 Flutter Kicks"]},
-  ],
-  pull:[
-    {type:"EMOM",duration:10,moves:["Min impaire: 8 DB Rows/bras", "Min paire: 12 Ring Rows"]},
-    {type:"For Time",duration:null,moves:["5 rounds:", "5 Pull-ups", "10 KB Swings", "15 Sit-ups McGill"]},
-    {type:"AMRAP",duration:8,moves:["8 Renegade Rows", "12 Band Pull-Aparts", "16 Dead Bugs"]},
-    {type:"Tabata",duration:4,moves:["Ring Rows (20s on / 10s off × 8)"]},
-    {type:"AMRAP",duration:12,moves:["6 DB Rows/bras", "8 Hammer Curls légers", "200m Run"]},
-  ],
-  legs:[
-    {type:"Chipper",duration:null,moves:["20 Step-back Burpees", "30 KB Swings", "40 Air Squats", "30 KB Swings", "20 Step-back Burpees"]},
-    {type:"For Time",duration:null,moves:["5 rounds:", "12 Goblet Squats", "12 KB Deadlifts", "12 Box Step-ups"]},
-    {type:"EMOM",duration:12,moves:["Min 1: 10 Air Squats", "Min 2: 8 Step-back Lunges", "Min 3: 6 Glute Bridges lestés"]},
-    {type:"AMRAP",duration:10,moves:["15 Wall Balls", "10 Step-back Lunges", "5 Broad Jumps"]},
-    {type:"Tabata",duration:4,moves:["Alt: Goblet Squats / Glute Bridges (20s/10s × 8)"]},
-  ],
-};
-
-// ═══ DISRUPTIVE FEATURES ═══
-
-// ── 1. WOD ROTATION — picks the one you haven't done the longest ──
-function pickWod(sessId){
-  const pool=WOD_POOLS[sessId];if(!pool||!pool.length)return pool?pool[0]:null;
-  // Find which WOD index was used last for this session
-  const lastWods=S.hist.filter(h=>h.sessionId===sessId&&h.wodIndex!==undefined);
-  if(!lastWods.length)return {...pool[0],_idx:0};
-  const lastIdx=lastWods[0].wodIndex;
-  const nextIdx=(lastIdx+1)%pool.length;
-  return {...pool[nextIdx],_idx:nextIdx};
-}
-
-// ── 2. AUTO-PROGRESSION — suggests weight for next session ──
-function suggestWeight(exName){
-  const prev=S.hist.filter(h=>h.exercises.some(e=>e.name===exName)).slice(0,3);
-  if(prev.length<1)return null;
-  const lastSets=prev[0].exercises.find(e=>e.name===exName);
-  const logged=Object.values(lastSets?.logged||{});
-  if(!logged.length)return null;
-  const maxW=Math.max(...logged.map(s=>s.weight||0));
-  const avgReps=logged.reduce((a,s)=>a+(s.reps||0),0)/logged.length;
-  const targetMet=logged.every(s=>(s.reps||0)>=parseInt(PHASES[S.phase].reps));
-  // If all sets hit target reps → suggest +2.5kg (compounds) or +1kg (isolation)
-  const isCompound=["Bench Press","OHP Debout","Back Squat","Romanian Deadlift","Pull-ups"].includes(exName);
-  if(targetMet&&maxW>0)return{weight:maxW+(isCompound?2.5:1),reason:"Toutes les séries au target → progression"};
-  // If failed on most sets → suggest -10%
-  const failRate=logged.filter(s=>(s.reps||0)<parseInt(PHASES[S.phase].reps)*0.7).length/logged.length;
-  if(failRate>0.5&&maxW>0)return{weight:Math.round(maxW*0.9/2.5)*2.5,reason:"Trop d'échecs → deload -10%"};
-  return{weight:maxW,reason:"Maintiens la charge"};
-}
-
-// ── 3. 1RM ESTIMÉ (Epley formula) ──
-function estimate1RM(weight,reps){
-  if(reps<=0||weight<=0)return 0;
-  if(reps===1)return weight;
-  return Math.round(weight*(1+reps/30));
-}
-function get1RMHistory(exName){
-  return S.hist.filter(h=>h.exercises.some(e=>e.name===exName)).reverse().map(h=>{
-    const ex=h.exercises.find(e=>e.name===exName);
-    const sets=Object.values(ex?.logged||{});
-    let best1rm=0;
-    sets.forEach(s=>{const e=estimate1RM(s.weight||0,s.reps||0);if(e>best1rm)best1rm=e;});
-    return{date:new Date(h.date).toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"}),rm:best1rm};
-  }).filter(d=>d.rm>0).slice(-12);
-}
-
-// ── 4. FATIGUE SCORE ──
-function getFatigueScore(){
-  const now=Date.now();
-  const week7=S.hist.filter(h=>(now-new Date(h.date))<7*864e5);
-  const week14=S.hist.filter(h=>{const d=now-new Date(h.date);return d>=7*864e5&&d<14*864e5;});
-  const vol7=week7.reduce((a,h)=>{h.exercises.forEach(x=>Object.values(x.logged||{}).forEach(s=>{a+=(s.weight||0)*(s.reps||0);}));return a;},0);
-  const vol14=week14.reduce((a,h)=>{h.exercises.forEach(x=>Object.values(x.logged||{}).forEach(s=>{a+=(s.weight||0)*(s.reps||0);}));return a;},0);
-  if(vol14===0)return{score:50,label:"Pas assez de données",color:"var(--mt)",emoji:"📊"};
-  const ratio=vol7/vol14*100;
-  if(ratio>130)return{score:ratio,label:"⚠️ Surcharge — risque blessure",color:"var(--ac)",emoji:"🔴"};
-  if(ratio>110)return{score:ratio,label:"Volume élevé — surveille la récup",color:"var(--wa)",emoji:"🟡"};
-  if(ratio>70)return{score:ratio,label:"Volume optimal",color:"var(--ok)",emoji:"🟢"};
-  return{score:ratio,label:"Volume bas — tu peux pousser",color:"var(--mt)",emoji:"⚪"};
-}
-
-// ── 5. REST DAY INTELLIGENCE ──
-function suggestSession(){
-  const sessions=["push","pull","legs"];
-  const lastDates={};
-  sessions.forEach(sid=>{
-    const last=S.hist.find(h=>h.sessionId===sid);
-    lastDates[sid]=last?new Date(last.date):new Date(0);
-  });
-  // Sort by oldest first
-  const sorted=sessions.sort((a,b)=>lastDates[a]-lastDates[b]);
-  const oldest=sorted[0];
-  const hoursSince=Math.round((Date.now()-lastDates[oldest])/36e5);
-  return{sessId:oldest,hoursSince,name:PROG.sessions.find(s=>s.id===oldest)?.name||oldest};
-}
-
-// ── 6. BACK PAIN SAFE MODE — alerts ──
-const BACK_PAIN_ALERTS={
-  "Romanian Deadlift":"⚡ L5-S1 : Dos NEUTRE obligatoire. Si douleur → arrête immédiatement.",
-  "Back Squat":"⚡ L5-S1 : Ceinture recommandée. Ne force pas la profondeur si douleur.",
-  "Bench DB Row":"⚡ L5-S1 : Ce mouvement REMPLACE le bent-over row. Main+genou sur banc.",
-  "Farmer's Walk":"⚡ L5-S1 : Gainage maximal. Arrête si douleur irradiante."
-};
-function getBackPainAlert(exName){return BACK_PAIN_ALERTS[exName]||null;}
-
-// ═══ STATE — persisted in realtime ═══
-const SK="apex-fit-v7";
+// ═══ STATE ═══
+const SK="apex-fit-v8";
 let S={view:"home",hist:[],sess:null,ei:-1,log:{},notes:"",t0:null,phase:0};
-
-function loadS(){
-  try{
-    const raw=localStorage.getItem(SK);
-    if(raw){const d=JSON.parse(raw);if(d.history)S.hist=d.history;if(d.phase!==undefined)S.phase=d.phase;}
-    // Restore active session if any
-    const active=localStorage.getItem(SK+"_active");
-    if(active){const a=JSON.parse(active);S.sess=PROG.sessions.find(s=>s.id===a.sessId)||null;S.ei=a.ei;S.log=a.log||{};S.notes=a.notes||"";S.t0=a.t0;if(S.sess)S.view="session";}
-  }catch(e){console.log("load err",e);}
-}
+function loadS(){try{const d=JSON.parse(localStorage.getItem(SK));if(d){S.hist=d.history||[];S.phase=d.phase||0;}const a=localStorage.getItem(SK+"_a");if(a){const x=JSON.parse(a);S.sess=PROG.sessions.find(s=>s.id===x.sid)||null;S.ei=x.ei;S.log=x.log||{};S.notes=x.notes||"";S.t0=x.t0;if(S.sess)S.view="session";}}catch{}}
 function saveS(){try{localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase}));}catch{}}
-function saveActive(){
-  try{
-    if(S.sess)localStorage.setItem(SK+"_active",JSON.stringify({sessId:S.sess.id,ei:S.ei,log:S.log,notes:S.notes,t0:S.t0}));
-    else localStorage.removeItem(SK+"_active");
-  }catch{}
+function saveA(){try{if(S.sess)localStorage.setItem(SK+"_a",JSON.stringify({sid:S.sess.id,ei:S.ei,log:S.log,notes:S.notes,t0:S.t0}));else localStorage.removeItem(SK+"_a");}catch{}}
+
+// ═══ SMART FEATURES ═══
+// 1RM: Average of Epley + Brzycki for ≤10 reps (DiStasio 2014: ±2.7kg accuracy)
+// Mayhew for >10 reps (better at high rep ranges per research)
+function calc1RM(w, r) {
+  if (!w || !r || r <= 0) return 0;
+  if (r === 1) return w;
+  if (r <= 10) {
+    const epley = w * (1 + r / 30);
+    const brzycki = w / (1.0278 - 0.0278 * r);
+    return Math.round((epley + brzycki) / 2);
+  }
+  // Mayhew formula for >10 reps
+  return Math.round(w / (0.522 + 0.419 * Math.exp(-0.055 * r)));
+}
+
+// ═══ APRE-BASED AUTO-PROGRESSION (scientifically validated) ═══
+// APRE adjustment table (Mann et al.) adapted for app use
+// Based on: Huang et al. 2025 meta-analysis — APRE ranked #1 (SUCRA 93%)
+function getAPREAdjustment(repsPerformed, targetRM) {
+  // APRE 6 table (base strength - most common)
+  if (targetRM <= 6) {
+    if (repsPerformed <= 2) return { setAdj: -5, nextAdj: -5, status: "trop lourd" };
+    if (repsPerformed <= 4) return { setAdj: -2.5, nextAdj: 0, status: "lourd" };
+    if (repsPerformed <= 7) return { setAdj: 0, nextAdj: 0, status: "optimal" };
+    if (repsPerformed <= 12) return { setAdj: 2.5, nextAdj: 2.5, status: "progression" };
+    return { setAdj: 5, nextAdj: 5, status: "trop léger" };
+  }
+  // APRE 10 table (hypertrophy)
+  if (targetRM <= 12) {
+    if (repsPerformed <= 6) return { setAdj: -5, nextAdj: -5, status: "trop lourd" };
+    if (repsPerformed <= 8) return { setAdj: -2.5, nextAdj: 0, status: "lourd" };
+    if (repsPerformed <= 12) return { setAdj: 0, nextAdj: 0, status: "optimal" };
+    if (repsPerformed <= 16) return { setAdj: 2.5, nextAdj: 2.5, status: "progression" };
+    return { setAdj: 5, nextAdj: 5, status: "trop léger" };
+  }
+  // APRE 3 / deload (high rep)
+  if (repsPerformed <= 12) return { setAdj: -2.5, nextAdj: 0, status: "lourd" };
+  if (repsPerformed <= 20) return { setAdj: 0, nextAdj: 0, status: "optimal" };
+  return { setAdj: 2.5, nextAdj: 2.5, status: "trop léger" };
+}
+
+function getSuggestion(exName) {
+  const entries = S.hist.filter(h => h.exercises.some(e => e.name === exName)).slice(0, 3);
+  if (!entries.length) return null;
+  const lastEntry = entries[0];
+  const lastEx = lastEntry.exercises.find(e => e.name === exName);
+  const sets = Object.values(lastEx.logged || {});
+  if (!sets.length) return null;
+
+  // Get last working weight and max reps at that weight
+  const maxWeight = Math.max(...sets.map(s => s.weight || 0));
+  const repsAtMax = sets.filter(s => s.weight === maxWeight).map(s => s.reps || 0);
+  const bestReps = Math.max(...repsAtMax);
+  const ph = PHASES[S.phase];
+  const targetRM = parseInt(ph.reps.split("-")[1]) || 8;
+  const adj = getAPREAdjustment(bestReps, targetRM);
+  const sugWeight = Math.round((maxWeight + adj.nextAdj) / 2.5) * 2.5;
+
+  // RIR from last session if available
+  const lastRIR = lastEx.rir;
+  let rirNote = "";
+  if (lastRIR !== undefined && lastRIR !== null) {
+    if (lastRIR <= 1) rirNote = " | RIR≤1: proche du max";
+    else if (lastRIR >= 3) rirNote = " | RIR≥3: marge dispo";
+  }
+
+  const icons = { "trop lourd": "🔴", "lourd": "🟠", "optimal": "🟢", "progression": "🔵", "trop léger": "⚪" };
+  return {
+    weight: sugWeight,
+    reason: `${icons[adj.status]} APRE: ${maxWeight}kg × ${bestReps}r → ${adj.status} → ${sugWeight}kg${rirNote}`,
+    status: adj.status
+  };
+}
+
+// Best 1RM for an exercise
+function get1RM(exName){
+  let best=0;
+  S.hist.forEach(h=>{h.exercises.filter(e=>e.name===exName).forEach(ex=>{Object.values(ex.logged||{}).forEach(s=>{if(s.weight&&s.reps){const rm=calc1RM(s.weight,s.reps);if(rm>best)best=rm;}});});});
+  return best;
+}
+
+// Fatigue score: volume last 7 days vs average
+function getFatigue(){
+  if(S.hist.length<4)return{score:50,label:"Données insuffisantes",color:"var(--mt)"};
+  const now=Date.now();
+  let vol7=0,volAll=0,weeks=0;
+  const weekMap={};
+  S.hist.forEach(h=>{
+    const d=new Date(h.date),diff=now-d.getTime();
+    let v=0;h.exercises.forEach(x=>Object.values(x.logged||{}).forEach(s=>{v+=(s.weight||0)*(s.reps||0);}));
+    if(diff<6048e5)vol7+=v;
+    const wk=Math.floor(diff/6048e5);if(!weekMap[wk])weekMap[wk]=0;weekMap[wk]+=v;
+  });
+  const wkVals=Object.values(weekMap);
+  const avg=wkVals.length?wkVals.reduce((a,b)=>a+b,0)/wkVals.length:1;
+  const ratio=avg>0?vol7/avg:1;
+  const score=Math.min(100,Math.round(ratio*50));
+  if(score>75)return{score,label:"⚠️ Surcharge — envisage un deload",color:"var(--ac)"};
+  if(score>55)return{score,label:"Bon rythme — continue !",color:"var(--ok)"};
+  return{score,label:"Volume faible — tu peux pousser",color:"#457B9D"};
+}
+
+// Rest day intelligence: which session to do today
+function getRecommendation(){
+  const sessIds=["push","pull","legs"];
+  const last={};
+  sessIds.forEach(id=>{const h=S.hist.find(x=>x.sessionId===id);last[id]=h?new Date(h.date).getTime():0;});
+  // Sort by least recently done
+  const sorted=sessIds.sort((a,b)=>last[a]-last[b]);
+  const rec=sorted[0];
+  const daysSince=last[rec]?Math.floor((Date.now()-last[rec])/864e5):99;
+  return{id:rec,days:daysSince};
+}
+
+// Pick WOD (least recently used)
+function pickWOD(sessId){
+  const pool=WODS[sessId];if(!pool||!pool.length)return pool?pool[0]:null;
+  // Find which WOD names were used recently
+  const used={};
+  S.hist.filter(h=>h.sessionId===sessId).forEach(h=>{if(h.wodName&&!used[h.wodName])used[h.wodName]=h.date;});
+  // Sort pool by least recently used
+  const sorted=[...pool].sort((a,b)=>{
+    const da=used[a.name]?new Date(used[a.name]).getTime():0;
+    const db=used[b.name]?new Date(used[b.name]).getTime():0;
+    return da-db;
+  });
+  return sorted[0];
 }
 
 // ═══ CSV EXPORT ═══
 function exportCSV(){
-  let csv="Date;Session;Phase;Durée (min);Exercice;Muscle;Set;Kg;Reps;Volume;Notes\n";
-  S.hist.forEach(h=>{
-    h.exercises.forEach(ex=>{
-      const sets=Object.entries(ex.logged||{});
-      if(sets.length===0)csv+=`${new Date(h.date).toLocaleDateString("fr-FR")};${h.sessionName};${h.phase||""};${h.duration};${ex.name};${ex.muscle};;;;;\n`;
-      else sets.forEach(([si,s])=>{csv+=`${new Date(h.date).toLocaleDateString("fr-FR")};${h.sessionName};${h.phase||""};${h.duration};${ex.name};${ex.muscle};${parseInt(si)+1};${s.weight};${s.reps};${(s.weight||0)*(s.reps||0)};${(h.notes||"").replace(/;/g,",")}\n`;});
-    });
-  });
-  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`apex-${new Date().toISOString().slice(0,10)}.csv`;a.click();
+  let csv="Date;Session;Phase;Durée;Exercice;Muscle;Set;Kg;Reps;Volume;1RM est.;RIR;Notes\n";
+  S.hist.forEach(h=>{h.exercises.forEach(ex=>{const sets=Object.entries(ex.logged||{});if(!sets.length)csv+=`${new Date(h.date).toLocaleDateString("fr-FR")};${h.sessionName};${h.phase||""};${h.duration};${ex.name};${ex.muscle};;;;;;;\n`;else sets.forEach(([si,s])=>{const rm=s.weight&&s.reps?calc1RM(s.weight,s.reps):0;csv+=`${new Date(h.date).toLocaleDateString("fr-FR")};${h.sessionName};${h.phase||""};${h.duration};${ex.name};${ex.muscle};${parseInt(si)+1};${s.weight};${s.reps};${(s.weight||0)*(s.reps||0)};${rm};${(h.notes||"").replace(/;/g,",")}\n`;});});});
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"}));a.download=`apex-${new Date().toISOString().slice(0,10)}.csv`;a.click();
 }
 
-// ═══ CHARTS (pure SVG) ═══
-function renderChart(data,labelKey,valueKey,color,w,h){
-  if(!data.length)return'<div style="text-align:center;color:var(--mt);padding:20px;font-size:11px">Pas encore de données</div>';
-  const vals=data.map(d=>d[valueKey]);
-  const max=Math.max(...vals)||1;
-  const min=Math.min(...vals);
-  const barW=Math.min(30,Math.floor((w-40)/data.length)-4);
-  const chartH=h-30;
-  let bars="";
-  data.forEach((d,i)=>{
-    const bh=Math.max(2,(d[valueKey]/max)*chartH);
-    const x=30+i*(barW+4);
-    const y=chartH-bh;
-    bars+=`<rect x="${x}" y="${y}" width="${barW}" height="${bh}" rx="3" fill="${color}" opacity=".8"><title>${d[labelKey]}: ${d[valueKey]}</title></rect>`;
-    if(data.length<=12)bars+=`<text x="${x+barW/2}" y="${chartH+12}" text-anchor="middle" font-size="8" fill="var(--mt)">${d[labelKey]}</text>`;
-  });
-  // Y axis labels
-  bars+=`<text x="25" y="10" text-anchor="end" font-size="8" fill="var(--mt)">${max}</text>`;
-  bars+=`<text x="25" y="${chartH}" text-anchor="end" font-size="8" fill="var(--mt)">0</text>`;
-  bars+=`<line x1="28" y1="0" x2="28" y2="${chartH}" stroke="var(--bd)" stroke-width="1"/>`;
-  bars+=`<line x1="28" y1="${chartH}" x2="${w}" y2="${chartH}" stroke="var(--bd)" stroke-width="1"/>`;
-  return`<svg width="100%" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">${bars}</svg>`;
+// ═══ CHARTS (SVG) ═══
+function svgBar(data,lk,vk,col,w,h){
+  if(!data.length)return'<div style="text-align:center;color:var(--mt);padding:16px;font-size:11px">—</div>';
+  const mx=Math.max(...data.map(d=>d[vk]))||1;const bW=Math.min(28,Math.floor((w-40)/data.length)-3);const cH=h-25;
+  let s=`<svg width="100%" viewBox="0 0 ${w} ${h}"><line x1="28" y1="0" x2="28" y2="${cH}" stroke="var(--bd)"/><line x1="28" y1="${cH}" x2="${w}" y2="${cH}" stroke="var(--bd)"/><text x="25" y="10" text-anchor="end" font-size="7" fill="var(--mt)">${mx}</text>`;
+  data.forEach((d,i)=>{const bh=Math.max(2,(d[vk]/mx)*cH);const x=30+i*(bW+3);s+=`<rect x="${x}" y="${cH-bh}" width="${bW}" height="${bh}" rx="2" fill="${col}" opacity=".8"><title>${d[lk]}: ${d[vk]}</title></rect>`;if(data.length<=10)s+=`<text x="${x+bW/2}" y="${cH+11}" text-anchor="middle" font-size="7" fill="var(--mt)">${d[lk]}</text>`;});
+  return s+"</svg>";
 }
-function renderLineChart(data,labelKey,valueKey,color,w,h){
-  if(data.length<2)return renderChart(data,labelKey,valueKey,color,w,h);
-  const vals=data.map(d=>d[valueKey]);
-  const max=Math.max(...vals)||1;
-  const chartH=h-30;const chartW=w-40;
-  const stepX=chartW/(data.length-1);
-  let pts="",dots="",labels="";
-  data.forEach((d,i)=>{
-    const x=30+i*stepX;const y=chartH-(d[valueKey]/max)*chartH;
-    pts+=(i===0?"M":" L")+`${x},${y}`;
-    dots+=`<circle cx="${x}" cy="${y}" r="4" fill="${color}"><title>${d[labelKey]}: ${d[valueKey]} kg</title></circle>`;
-    if(data.length<=12)labels+=`<text x="${x}" y="${chartH+14}" text-anchor="middle" font-size="8" fill="var(--mt)">${d[labelKey]}</text>`;
-  });
-  let svg=`<line x1="28" y1="0" x2="28" y2="${chartH}" stroke="var(--bd)"/><line x1="28" y1="${chartH}" x2="${w}" y2="${chartH}" stroke="var(--bd)"/>`;
-  svg+=`<text x="25" y="10" text-anchor="end" font-size="8" fill="var(--mt)">${max}</text>`;
-  svg+=`<text x="25" y="${chartH}" text-anchor="end" font-size="8" fill="var(--mt)">0</text>`;
-  svg+=`<path d="${pts}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
-  svg+=dots+labels;
-  return`<svg width="100%" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">${svg}</svg>`;
+function svgLine(data,lk,vk,col,w,h){
+  if(data.length<2)return svgBar(data,lk,vk,col,w,h);
+  const mx=Math.max(...data.map(d=>d[vk]))||1;const cH=h-25;const cW=w-40;const step=cW/(data.length-1);
+  let pts="",dots="",lbls="",s=`<svg width="100%" viewBox="0 0 ${w} ${h}"><line x1="28" y1="0" x2="28" y2="${cH}" stroke="var(--bd)"/><line x1="28" y1="${cH}" x2="${w}" y2="${cH}" stroke="var(--bd)"/><text x="25" y="10" text-anchor="end" font-size="7" fill="var(--mt)">${mx}</text>`;
+  data.forEach((d,i)=>{const x=30+i*step,y=cH-(d[vk]/mx)*cH;pts+=(i?` L`:`M`)+`${x},${y}`;dots+=`<circle cx="${x}" cy="${y}" r="3.5" fill="${col}"><title>${d[lk]}: ${d[vk]}kg</title></circle>`;if(data.length<=10)lbls+=`<text x="${x}" y="${cH+12}" text-anchor="middle" font-size="7" fill="var(--mt)">${d[lk]}</text>`;});
+  return s+`<path d="${pts}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round"/>`+dots+lbls+"</svg>";
 }
-
-function getWeeklyVolume(){
-  const w={};
-  S.hist.forEach(h=>{
-    const d=new Date(h.date),ws=new Date(d);ws.setDate(d.getDate()-d.getDay()+1);
-    const k=ws.toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"});
-    if(!w[k])w[k]={sem:k,vol:0};
-    h.exercises.forEach(x=>Object.values(x.logged||{}).forEach(s=>{w[k].vol+=((s.weight||0)*(s.reps||0));}));
-  });
-  return Object.values(w).slice(-12);
-}
-function getExerciseProgress(name){
-  return S.hist.filter(h=>h.exercises.some(e=>e.name===name)).reverse().map(h=>{
-    const x=h.exercises.find(e=>e.name===name);const sets=Object.values(x.logged||{});
-    return{date:new Date(h.date).toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"}),kg:sets.length?Math.max(...sets.map(s=>s.weight||0)):0};
-  }).slice(-12);
-}
-function getAllExNames(){const n=new Set();S.hist.forEach(h=>h.exercises.forEach(e=>{if(Object.keys(e.logged||{}).length)n.add(e.name);}));return[...n];}
 
 // ═══ RENDER ═══
 function R(){
@@ -462,37 +387,35 @@ function R(){
   if(S.view==="home")h=rHome();else if(S.view==="session")h=rSession();else if(S.view==="history")h=rHist();else if(S.view==="settings")h=rSett();
   if(S.view!=="session")h+=`<div class="nav">${[{id:"home",l:"Accueil",i:'<path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/>'},{id:"history",l:"Historique",i:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'},{id:"settings",l:"Réglages",i:'<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>'}].map(x=>`<button class="nav-btn ${S.view===x.id?'active':''}" onclick="nav('${x.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${x.i}</svg>${x.l}</button>`).join("")}</div>`;
   a.innerHTML=h;
+  // Update floating timer display
+  if(T.on){const ft=document.getElementById("floatTimer");if(ft){const r=tGet();ft.textContent=`${Math.floor(r/60)}:${String(r%60).padStart(2,"0")}`;}}
 }
 
 function rHome(){
   const today=new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
-  const p=PHASES[S.phase];
+  const ph=PHASES[S.phase],fat=getFatigue(),rec=getRecommendation();
+  const recSess=PROG.sessions.find(s=>s.id===rec.id);
+  // 1RM cards for compound lifts
+  const compounds=["Bench Press","Back Squat","Romanian Deadlift","OHP Debout","Pull-ups"];
+  const rmCards=compounds.map(n=>{const rm=get1RM(n);return rm?`<div style="text-align:center;min-width:70px"><div style="font-size:16px;font-weight:900">${rm}<span style="font-size:10px;color:var(--mt)">kg</span></div><div style="font-size:8px;color:var(--mt);margin-top:1px">${n.length>12?n.slice(0,12)+'…':n}</div></div>`:null;}).filter(Boolean);
+
   return`<div class="hdr"><div class="logo">APEX</div><div style="font-size:11px;color:var(--mt)">${today}</div></div>
-  <div class="stats-row"><div class="stat-box"><div class="stat-val">${S.hist.length}</div><div class="stat-lbl">Séances</div></div><div class="stat-box"><div class="stat-val">${S.hist.filter(h=>(Date.now()-new Date(h.date))<6048e5).length}</div><div class="stat-lbl">7 jours</div></div></div>
-  <div class="card" style="border-left:4px solid ${p.color}"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">Phase actuelle</div><div style="font-size:16px;font-weight:900;color:${p.color};margin-top:2px">${p.name}</div><div style="font-size:11px;color:var(--t2);margin-top:2px">${p.desc}</div></div><div style="display:flex;gap:4px">${PHASES.map((ph,i)=>`<button onclick="setPhase(${i})" style="width:24px;height:24px;border-radius:50%;border:2px solid ${ph.color};background:${S.phase===i?ph.color:'none'};cursor:pointer;color:${S.phase===i?'#fff':ph.color};font-size:9px;font-weight:700">${i+1}</button>`).join("")}</div></div></div>
-  ${(()=>{const f=getFatigueScore();const sg=suggestSession();return`
-  <div class="card" style="display:flex;gap:14px;align-items:center">
-    <div style="font-size:28px">${f.emoji}</div>
-    <div style="flex:1">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">Fatigue Score</div>
-      <div style="font-size:13px;color:${f.color};font-weight:700;margin-top:2px">${f.label}</div>
-      <div style="background:var(--bd);border-radius:4px;height:6px;margin-top:6px"><div style="height:6px;border-radius:4px;background:${f.color};width:${Math.min(100,f.score)}%;transition:width .3s"></div></div>
-    </div>
+  ${S.hist.length>=4?`<div class="score-card">
+    <div class="score-item"><div class="score-val" style="color:${fat.color}">${fat.score}</div><div class="score-lbl">Fatigue</div></div>
+    <div class="score-item"><div class="score-val">${S.hist.length}</div><div class="score-lbl">Séances</div></div>
+    <div class="score-item"><div class="score-val">${S.hist.filter(h=>(Date.now()-new Date(h.date))<6048e5).length}</div><div class="score-lbl">7 jours</div></div>
   </div>
-  <div class="card" style="border-left:4px solid var(--wa)">
-    <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">Prochaine séance suggérée</div>
-    <div style="font-size:16px;font-weight:900;color:var(--wa);margin-top:2px">${sg.name}</div>
-    <div style="font-size:11px;color:var(--t2);margin-top:2px">${sg.hoursSince>48?'Il y a '+Math.round(sg.hoursSince/24)+' jours — il est temps !':'Dernière il y a '+sg.hoursSince+'h'}</div>
-  </div>`;})()}
+  <div class="card" style="padding:12px 16px"><div style="font-size:11px;color:${fat.color};font-weight:600">${fat.label}</div><div style="background:var(--bd);border-radius:4px;height:8px;margin-top:6px;overflow:hidden"><div class="fatigue-bar" style="width:${fat.score}%;background:${fat.color}"></div></div></div>`
+  :`<div class="stats-row"><div class="stat-box"><div class="stat-val">${S.hist.length}</div><div class="stat-lbl">Séances</div></div><div class="stat-box"><div class="stat-val">${S.hist.filter(h=>(Date.now()-new Date(h.date))<6048e5).length}</div><div class="stat-lbl">7 jours</div></div></div>`}
+  ${rmCards.length?`<div class="card"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:8px">1RM Estimés (Epley)</div><div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:8px">${rmCards.join("")}</div></div>`:""}
+  <div class="card" style="border-left:4px solid ${ph.color}"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">Phase</div><div style="font-size:16px;font-weight:900;color:${ph.color};margin-top:2px">${ph.name}</div><div style="font-size:11px;color:var(--t2);margin-top:2px">${ph.desc} — ${ph.numSets}×${ph.reps}</div></div><div style="display:flex;gap:4px">${PHASES.map((p,i)=>`<button onclick="setPhase(${i})" style="width:24px;height:24px;border-radius:50%;border:2px solid ${p.color};background:${S.phase===i?p.color:'none'};cursor:pointer;color:${S.phase===i?'#fff':p.color};font-size:9px;font-weight:700">${i+1}</button>`).join("")}</div></div></div>
+  ${recSess?`<div class="card" style="border-left:4px solid ${recSess.color};cursor:pointer" onclick="goSess('${rec.id}')"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--ok);font-weight:600">💡 Recommandé aujourd'hui</div><div style="font-size:16px;font-weight:900;color:${recSess.color};margin-top:4px">${recSess.name}</div><div style="font-size:11px;color:var(--mt);margin-top:2px">${rec.days>0?`Dernier il y a ${rec.days}j`:'Jamais fait'} — WOD: ${pickWOD(rec.id)?.name||'—'}</div></div>`:``}
   <div class="sec-title">Programme PPL</div>
-  ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.exercises.length} exos + WOD ${wod.type}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
-  <div class="card reminder"><div style="font-size:12px;font-weight:700;color:var(--ok);margin-bottom:4px">⚡ Protocole L5-S1</div><div style="font-size:11px;color:var(--t2);line-height:1.6"><b>Obligatoire</b> : McGill Big 3 + Dead Bug<br><b>Interdit</b> : Bent-over rows<br><b>Modifié</b> : Burpees step-back</div></div>`;
+  ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const wod=pickWOD(s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.exercises.length} exos + WOD ${wod?.type||""}: ${wod?.name||""}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
+  <div class="card" style="background:var(--ok10);border-color:var(--ok)"><div style="font-size:12px;font-weight:700;color:var(--ok);margin-bottom:4px">⚡ Mode Back Pain Safe — L5-S1</div><div style="font-size:11px;color:var(--t2);line-height:1.6"><b>Obligatoire</b> : McGill Big 3 + Dead Bug<br><b>Interdit</b> : Bent-over rows, deadlift conventionnel<br><b>Modifié</b> : Burpees step-back, ceinture au squat<br><b>Alertes</b> : en temps réel sur chaque exercice sensible</div></div>`;
 }
 
-function rWarmup(id){
-  const wu=WARMUPS[id]||[];
-  return wu.map(w=>`<div class="wu-card"><div class="wu-top">${w.img?`<div class="wu-img"><img src="${w.img}" onerror="this.parentElement.style.display='none'"></div>`:''}<div style="flex:1"><div style="font-size:14px;font-weight:700">${w.name}</div><div style="font-size:11px;color:var(--ok);font-weight:600;margin-top:2px">${w.reps}</div>${w.notes?`<div style="font-size:11px;color:var(--t2);margin-top:4px;line-height:1.4">${w.notes}</div>`:''}<div class="wu-links">${w.mw?`<a href="${w.mw}" target="_blank" style="color:#4ecdc4;background:rgba(78,205,196,.1)">MuscleWiki</a>`:''}${w.yt?`<a href="${w.yt}" target="_blank" style="color:#ff0000;background:rgba(255,0,0,.08)">▶ YouTube</a>`:''}</div></div></div></div>`).join("");
-}
+function rWU(id){return(WU[id]||[]).map(w=>`<div class="wu-card"><div class="wu-top">${w.img?`<div class="wu-img"><img src="${w.img}" onerror="this.parentElement.style.display='none'"></div>`:''}<div style="flex:1"><div style="font-size:14px;font-weight:700">${w.name}</div><div style="font-size:11px;color:var(--ok);font-weight:600;margin-top:2px">${w.reps}</div>${w.notes?`<div style="font-size:11px;color:var(--t2);margin-top:3px">${w.notes}</div>`:''}<div class="wu-links">${w.mw?`<a href="${w.mw}" target="_blank" style="color:#4ecdc4;background:rgba(78,205,196,.1)">MuscleWiki</a>`:''}${w.yt?`<a href="${w.yt}" target="_blank" style="color:#ff0000;background:rgba(255,0,0,.08)">▶ YouTube</a>`:''}</div></div></div></div>`).join("");}
 
 function rSession(){
   const s=S.sess;if(!s)return"";
@@ -501,125 +424,112 @@ function rSession(){
   const pct=((ei+2)/(s.exercises.length+2)*100).toFixed(0);
   const elapsed=S.t0?Math.round((Date.now()-S.t0)/6e4):0;
   const ph=PHASES[S.phase];
-  let pills=`<button class="pill ${isW?'active':''}" style="${isW?'background:var(--ok);color:#fff':''}" onclick="setEi(-1)">Warm-up</button>`;
+  const wod=pickWOD(s.id);
+  let pills=`<button class="pill ${isW?'active':''}" style="${isW?'background:var(--ok);color:#fff':''}" onclick="setEi(-1)">WU</button>`;
   s.exercises.forEach((_,i)=>{pills+=`<button class="pill ${ei===i?'active':''}" style="${ei===i?`background:${s.color};color:#fff`:''}" onclick="setEi(${i})">${i+1}</button>`;});
   pills+=`<button class="pill ${isWod?'active':''}" style="${isWod?'background:var(--wa);color:#fff':''}" onclick="setEi(${s.exercises.length})">WOD</button>`;
 
   let content="";
   if(isW){
-    content=`<div class="card"><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--ok);margin-bottom:14px">ÉCHAUFFEMENT</div>${rWarmup(s.id)}<button class="btn" style="margin-top:16px" onclick="setEi(0)">Commencer →</button></div>`;
+    content=`<div class="card"><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--ok);margin-bottom:14px">ÉCHAUFFEMENT</div>${rWU(s.id)}<button class="btn" style="margin-top:16px" onclick="setEi(0)">Commencer →</button></div>`;
   } else if(ex){
-    const mc=MC[ex.muscle]||s.color;
-    const rest=ph.rest||ex.rest;
-    const numSets=ph.numSets||ex.sets;
-    const imgsHtml=ex.imgs?`<div class="ex-imgs">${ex.imgs.map((p,i)=>`<div class="ex-img-wrap"><img src="${IMG}${p}" onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;font-size:10px;color:var(--mt)>—</div>'"><div class="ex-img-label">${i===0?'Départ':'Fin'}</div></div>`).join("")}</div>`:"";
-    const linksHtml=`<div class="link-row"><a class="ex-link" href="${ex.mw}" target="_blank"><svg style="color:#4ecdc4" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg><span>MuscleWiki</span></a><a class="ex-link" href="${ex.yt}" target="_blank"><svg style="color:#ff0000" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2s-.2-1.6-.9-2.3c-.9-.9-1.8-.9-2.3-1C17 2.6 12 2.6 12 2.6s-5 0-8.3.3c-.5.1-1.5.1-2.3 1-.7.7-.9 2.3-.9 2.3S.2 8.1.2 10v1.8c0 1.9.3 3.8.3 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.6.2 8.1.2s5 0 8.3-.3c.5-.1 1.5-.1 2.3-1 .7-.7.9-2.3.9-2.3s.3-1.9.3-3.8V10c0-1.9-.3-3.8-.3-3.8z"/><path d="M9.6 15.6V8.4l6.4 3.6z" fill="#fff"/></svg><span>YouTube</span></a></div>`;
-    const coachHtml=ex.coaching?`<div style="margin-bottom:14px">${ex.coaching.map(c=>`<div class="coaching-item"><span style="color:var(--ok);font-weight:700">✦</span>${c}</div>`).join("")}</div>`:"";
-    let setsH=`<div class="sets-header"><span>Set</span><span>Kg</span><span>Reps</span><span></span></div>`;
-    for(let si=0;si<numSets;si++){const l=S.log[ex.id]?.[si];setsH+=`<div class="set-row"><div class="set-num ${l?'set-done':'set-empty'}">${si+1}</div><input class="inp" type="number" inputmode="decimal" placeholder="0" value="${l?.weight||''}" data-eid="${ex.id}" data-si="${si}" data-f="w" onchange="onInput(this)"><input class="inp" type="number" inputmode="numeric" placeholder="0" value="${l?.reps||''}" data-eid="${ex.id}" data-si="${si}" data-f="r" onchange="onInput(this)"><div style="text-align:center;font-size:15px;color:${l?'var(--ok)':'var(--mt)'}">${l?'✓':'○'}</div></div>`;}
-    // Auto-progression suggestion
-    const suggestion=suggestWeight(ex.name);
-    const suggHtml=suggestion?`<div style="background:rgba(69,123,157,.1);border:1px solid rgba(69,123,157,.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px"><span style="color:#457B9D;font-weight:700">💡 Suggestion :</span> <b>${suggestion.weight} kg</b> — ${suggestion.reason}</div>`:"";
-    // Back pain alert
-    const bpAlert=getBackPainAlert(ex.name);
-    const bpHtml=bpAlert?`<div style="background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--ac);font-weight:600">${bpAlert}</div>`:"";
+    const mc=MC[ex.muscle]||s.color;const rest=ph.rest||ex.rest;const nSets=ph.numSets||ex.sets;
+    const imgs=ex.imgs?`<div class="ex-imgs">${ex.imgs.map((p,i)=>`<div class="ex-img-wrap"><img src="${I}${p}" onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;font-size:10px;color:var(--mt)>—</div>'"><div class="ex-img-label">${i?'Fin':'Départ'}</div></div>`).join("")}</div>`:"";
+    const links=`<div class="link-row"><a class="ex-link" href="${ex.mw}" target="_blank"><svg style="color:#4ecdc4" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg>MuscleWiki</a><a class="ex-link" href="${ex.yt}" target="_blank"><svg style="color:#ff0000" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2s-.2-1.6-.9-2.3c-.9-.9-1.8-.9-2.3-1C17 2.6 12 2.6 12 2.6s-5 0-8.3.3c-.5.1-1.5.1-2.3 1-.7.7-.9 2.3-.9 2.3S.2 8.1.2 10v1.8c0 1.9.3 3.8.3 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.6.2 8.1.2s5 0 8.3-.3c.5-.1 1.5-.1 2.3-1 .7-.7.9-2.3.9-2.3s.3-1.9.3-3.8V10c0-1.9-.3-3.8-.3-3.8z"/><path d="M9.6 15.6V8.4l6.4 3.6z" fill="#fff"/></svg>YouTube</a></div>`;
+    const coach=ex.coaching?`<div style="margin-bottom:12px">${ex.coaching.map(c=>`<div style="display:flex;gap:6px;padding:3px 0;font-size:11px;color:var(--t2)"><span style="color:var(--ok);font-weight:700">✦</span>${c}</div>`).join("")}</div>`:"";
+    // L5-S1 alert
+    const l5alert=ex.l5warn?`<div class="l5-alert">⚡ ${ex.l5warn}</div>`:"";
+    // Auto-suggestion
+    const sug=getSuggestion(ex.name);
+    const sugHtml=sug?`<div class="suggest-line">🎯 ${sug.reason}</div>`:"";
+    // Deload check
+    const sessCount=S.hist.filter(h=>(Date.now()-new Date(h.date))<36288e5).length;
+    const deloadHtml=sessCount>=15&&S.phase!==2?`<div class="l5-alert" style="border-color:var(--ac);background:var(--ac10)">⚠️ ${sessCount} séances en 6 sem. sans deload — <b style="cursor:pointer;text-decoration:underline" onclick="setPhase(2)">Passer en Deload ?</b></div>`:"";
     // 1RM
-    const rm1=get1RMHistory(ex.name);
-    const rm1Html=rm1.length>1?`<div style="margin-top:8px;font-size:10px;color:var(--mt);text-align:center">1RM estimé : <b style="color:var(--tx)">${rm1[rm1.length-1].rm} kg</b></div>`:"";
-    let prLine="";const prev=S.hist.find(h=>h.exercises.some(e=>e.name===ex.name));
-    if(prev){const pe=prev.exercises.find(e=>e.name===ex.name);const b=Math.max(0,...Object.values(pe.logged||{}).map(s=>s.weight||0));if(b>0)prLine=`<div class="pr-line">📊 Record : <b>${b} kg</b> — ${new Date(prev.date).toLocaleDateString("fr-FR")}</div>`;}
+    const rm=get1RM(ex.name);
+    const rmHtml=rm?`<div style="font-size:10px;color:var(--mt);text-align:center;margin-top:4px">1RM estimé: <b style="color:var(--tx)">${rm}kg</b></div>`:"";
+    // Sets
+    let sH=`<div class="sets-header"><span>Set</span><span>Kg</span><span>Reps</span><span></span></div>`;
+    for(let si=0;si<nSets;si++){const l=S.log[ex.id]?.[si];sH+=`<div class="set-row"><div class="set-num ${l?'set-done':'set-empty'}">${si+1}</div><input class="inp" type="number" inputmode="decimal" placeholder="${sug?sug.weight:0}" value="${l?.weight||''}" data-e="${ex.id}" data-s="${si}" data-f="w" onchange="onInp(this)"><input class="inp" type="number" inputmode="numeric" placeholder="0" value="${l?.reps||''}" data-e="${ex.id}" data-s="${si}" data-f="r" onchange="onInp(this)"><div style="text-align:center;font-size:15px;color:${l?'var(--ok)':'var(--mt)'}">${l?'✓':'○'}</div></div>`;}
+    // PR
+    let pr="";const prev=S.hist.find(h=>h.exercises.some(e=>e.name===ex.name));if(prev){const pe=prev.exercises.find(e=>e.name===ex.name);const b=Math.max(0,...Object.values(pe.logged||{}).map(s=>s.weight||0));if(b>0)pr=`<div class="pr-line">📊 Record: <b>${b}kg</b> — ${new Date(prev.date).toLocaleDateString("fr-FR")}</div>`;}
     content=`<div class="card" style="padding:20px">
-      <div style="margin-bottom:14px"><div class="ex-name">${ex.name}<span class="phase-badge" style="background:${ph.color}22;color:${ph.color}">${ph.name} ${ph.reps}</span></div><div class="ex-sets-info">${numSets} séries × ${ph.reps} — Repos ${rest}s</div><div class="ex-muscle-badge" style="background:${mc}22;color:${mc}">${MN[ex.muscle]}</div></div>
-      ${imgsHtml}${linksHtml}${bpHtml}${suggHtml}<div class="ex-notes">💡 ${ex.notes}</div>${coachHtml}${setsH}
-      <div class="timer" id="timerbox"><div class="timer-circle"><svg viewBox="0 0 52 52" style="transform:rotate(-90deg)"><circle cx="26" cy="26" r="22" fill="none" stroke="var(--bd)" stroke-width="3"/><circle id="tring" cx="26" cy="26" r="22" fill="none" stroke="${mc}" stroke-width="3" stroke-dasharray="${2*Math.PI*22}" stroke-dashoffset="${2*Math.PI*22}" stroke-linecap="round"/></svg><div class="timer-time" id="tdisp">${Math.floor(rest/60)}:${String(rest%60).padStart(2,"0")}</div></div><div style="flex:1"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:5px;font-weight:600">⏱ Repos ${rest}s</div><div style="display:flex;gap:6px"><button class="tbtn tbtn-go" id="tbtn" onclick="tToggle(${rest})">Start</button><button class="tbtn tbtn-reset" onclick="tReset(${rest})">Reset</button></div></div></div>
-      ${prLine}${rm1Html}
+      <div style="margin-bottom:14px"><div class="ex-name">${ex.name}<span class="phase-badge" style="background:${ph.color}22;color:${ph.color}">${ph.name} ${ph.reps}</span></div><div class="ex-sets-info">${nSets}×${ph.reps} — Repos ${rest}s</div><div class="ex-muscle-badge" style="background:${mc}22;color:${mc}">${MN[ex.muscle]}</div></div>
+      ${l5alert}${deloadHtml}${imgs}${links}<div class="ex-notes">💡 ${ex.notes}</div>${coach}${sugHtml}${sH}
+      <div style="margin-top:8px;margin-bottom:4px"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--mt);margin-bottom:4px;font-weight:600">RIR — Reps en Réserve (optionnel)</div><div style="display:flex;gap:4px">${[0,1,2,3,4].map(r=>{const active=S.log[ex.id]?.rir===r;return`<button onclick="setRIR('${ex.id}',${r})" style="flex:1;padding:6px;border-radius:8px;border:1px solid ${active?'var(--ok)':'var(--bd)'};background:${active?'var(--ok10)':'none'};color:${active?'var(--ok)':'var(--mt)'};font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">${r}</button>`;}).join("")}</div><div style="font-size:9px;color:var(--mt);margin-top:3px;text-align:center">0 = failure · 1 = pouvais en faire 1 de + · 4 = facile</div></div>
+      <div class="timer" id="timerbox"><div class="timer-circle"><svg viewBox="0 0 52 52" style="transform:rotate(-90deg)"><circle cx="26" cy="26" r="22" fill="none" stroke="var(--bd)" stroke-width="3"/><circle id="tring" cx="26" cy="26" r="22" fill="none" stroke="${mc}" stroke-width="3" stroke-dasharray="${2*Math.PI*22}" stroke-dashoffset="${2*Math.PI*22}" stroke-linecap="round"/></svg><div class="timer-time" id="tdisp">${Math.floor(rest/60)}:${String(rest%60).padStart(2,"0")}</div></div><div style="flex:1"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:5px;font-weight:600">⏱ ${rest}s</div><div style="display:flex;gap:6px"><button class="tbtn tbtn-go" id="tbtn" onclick="tToggle(${rest})">Start</button><button class="tbtn tbtn-reset" onclick="tReset(${rest})">Reset</button></div></div></div>
+      ${pr}${rmHtml}
       <div class="ex-nav">${ei>0?`<button class="btn2" onclick="setEi(${ei-1})">←</button>`:''}<button class="btn" onclick="setEi(${ei+1})">${ei<s.exercises.length-1?'Suivant →':'WOD →'}</button></div>
     </div>`;
-  } else if(isWod){
-    // Dynamic WOD from pool
-    const dynWod=pickWod(s.id);
-    const wod=dynWod||s.wod;
+  } else if(isWod&&wod){
     const wt=wod.duration?`<div class="timer" id="timerbox"><div class="timer-circle"><svg viewBox="0 0 52 52" style="transform:rotate(-90deg)"><circle cx="26" cy="26" r="22" fill="none" stroke="var(--bd)" stroke-width="3"/><circle id="tring" cx="26" cy="26" r="22" fill="none" stroke="var(--wa)" stroke-width="3" stroke-dasharray="${2*Math.PI*22}" stroke-dashoffset="${2*Math.PI*22}" stroke-linecap="round"/></svg><div class="timer-time" id="tdisp">0:00</div></div><div style="flex:1"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:5px;font-weight:600">⏱ ${wod.type} ${wod.duration}min</div><div style="display:flex;gap:6px"><button class="tbtn tbtn-go" id="tbtn" onclick="tToggle(${wod.duration*60},'up')">Start</button><button class="tbtn tbtn-reset" onclick="tReset(${wod.duration*60},'up')">Reset</button></div></div></div>`:"";
-    content=`<div class="card"><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--wa);margin-bottom:10px">WOD — ${wod.type}</div>${wt}<div style="margin-top:14px">${wod.moves||s.wod.movements).map(m=>{
-      const clean=m.replace(/^\d+[\-\s]*/,"").replace(/^\d+\s*/,"");
-      const mv=Object.keys(WOD_MOVE_IMG).find(k=>clean.includes(k));
-      const info=mv?WOD_MOVE_IMG[mv]:null;
-      return`<div class="wod-move" style="padding:10px 0">
-        <div style="display:flex;gap:10px;align-items:center;width:100%">
-          ${info?.img?`<div style="width:50px;height:50px;border-radius:8px;overflow:hidden;flex-shrink:0;border:1px solid var(--bd);background:var(--cd2)"><img src="${info.img}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display=\'none\'"></div>`:`<div class="wod-bullet" style="background:var(--wa)"></div>`}
-          <div style="flex:1"><div style="font-size:13px">${m}</div>
-            ${info?`<div style="display:flex;gap:4px;margin-top:4px">${info.mw?`<a href="${info.mw}" target="_blank" style="font-size:8px;color:#4ecdc4;text-decoration:none;background:rgba(78,205,196,.1);padding:2px 6px;border-radius:4px">MW</a>`:""}<a href="${info.yt}" target="_blank" style="font-size:8px;color:#ff0000;text-decoration:none;background:rgba(255,0,0,.08);padding:2px 6px;border-radius:4px">▶ YT</a></div>`:""}</div>
-        </div></div>`;}).join("")}</div><div style="margin-top:16px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:6px;font-weight:600">Notes</div><textarea class="inp" id="sessNotes" placeholder="Ressenti, PR..." oninput="S.notes=this.value;saveActive()">${S.notes}</textarea></div><button class="btn btn-ok" style="margin-top:14px" onclick="finish()">✓ Terminer</button></div>`;
+    content=`<div class="card"><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--wa);margin-bottom:4px">WOD — ${wod.type}</div><div style="font-size:13px;font-weight:700;color:var(--t2);margin-bottom:10px">${wod.name}</div>${wt}<div style="margin-top:14px">${wod.movements.map(m=>`<div class="wod-move">${m.img?`<div class="wod-img"><img src="${m.img}" onerror="this.parentElement.style.display='none'"></div>`:''}<div style="flex:1"><div style="font-size:13px">${m.name}</div>${m.mw||m.yt?`<div style="display:flex;gap:4px;margin-top:3px">${m.mw?`<a href="${m.mw}" target="_blank" style="font-size:8px;color:#4ecdc4;text-decoration:none;background:rgba(78,205,196,.1);padding:2px 6px;border-radius:4px;font-weight:600">Wiki</a>`:``}${m.yt?`<a href="${m.yt}" target="_blank" style="font-size:8px;color:#ff0000;text-decoration:none;background:rgba(255,0,0,.08);padding:2px 6px;border-radius:4px;font-weight:600">▶ Vidéo</a>`:``}</div>`:``}</div></div>`).join("")}</div><div style="margin-top:16px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:6px;font-weight:600">Notes</div><textarea class="inp" id="sN" placeholder="Ressenti, PR..." oninput="S.notes=this.value;saveA()">${S.notes}</textarea></div><button class="btn btn-ok" style="margin-top:14px" onclick="finish()">✓ Terminer</button></div>`;
   }
-  return`<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="if(confirm('Quitter ?')){S.sess=null;saveActive();nav('home')}">←</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:${s.color}">${s.name}</div><div style="font-size:11px;color:var(--mt)">${elapsed}min</div></div><div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${s.color}"></div></div></div><div class="pills">${pills}</div>${content}`;
+  return`<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="if(confirm('Quitter ?')){S.sess=null;saveA();nav('home')}">←</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:${s.color}">${s.name}</div><div style="font-size:11px;color:var(--mt)">${elapsed}min</div></div><div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${s.color}"></div></div></div><div class="pills">${pills}</div>
+    ${(T.on||T.done)&&ex&&!document.getElementById("timerbox")?`<div onclick="setEi(S._timerExIdx)" style="position:fixed;top:0;left:50%;transform:translateX(-50%);max-width:480px;width:100%;background:var(--cd2);border-bottom:2px solid ${T.done?'var(--ok)':'var(--ac)'};padding:8px 16px;display:flex;align-items:center;justify-content:space-between;z-index:99;cursor:pointer"><div style="font-size:11px;color:${T.done?'var(--ok)':'var(--ac)'};font-weight:700">${T.done?'✓ Timer fini !':'⏱ Timer en cours...'}</div><div style="font-size:13px;font-weight:700;font-family:monospace" id="floatTimer"></div></div>`:``}
+    ${content}`;
 }
 
 function rHist(){
-  const names=getAllExNames();
+  const names=[];S.hist.forEach(h=>h.exercises.forEach(e=>{if(Object.keys(e.logged||{}).length&&!names.includes(e.name))names.push(e.name);}));
+  // Weekly volume data
+  const wv={};S.hist.forEach(h=>{const d=new Date(h.date),ws=new Date(d);ws.setDate(d.getDate()-d.getDay()+1);const k=ws.toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"});if(!wv[k])wv[k]={s:k,v:0};h.exercises.forEach(x=>Object.values(x.logged||{}).forEach(s=>{wv[k].v+=((s.weight||0)*(s.reps||0));}));});
+  const wvData=Object.values(wv).slice(-10);
+  // Exercise progress data
+  const getExProg=(n)=>S.hist.filter(h=>h.exercises.some(e=>e.name===n)).reverse().map(h=>{const x=h.exercises.find(e=>e.name===n);const sets=Object.values(x.logged||{});return{d:new Date(h.date).toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"}),kg:sets.length?Math.max(...sets.map(s=>s.weight||0)):0};}).slice(-10);
+
   let charts="";
-  // Weekly volume chart
-  const wv=getWeeklyVolume();
-  if(wv.length>1)charts+=`<div class="chart-wrap"><div class="chart-title">Volume hebdo (kg × reps)</div>${renderChart(wv,"sem","vol","#E63946",320,140)}</div>`;
-  // Exercise selector + line chart
-  if(names.length){
-    const sel=names[0];
-    charts+=`<div class="chart-wrap"><div class="chart-title">Évolution poids max par exercice</div><select class="inp" style="margin-bottom:10px" onchange="updateExChart(this.value)">${names.map(n=>`<option value="${n}">${n}</option>`).join("")}</select><div id="exChart">${renderLineChart(getExerciseProgress(sel),"date","kg","#457B9D",320,140)}</div></div>`;
-  }
+  if(wvData.length>1)charts+=`<div class="card"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:8px">Volume hebdo (kg×reps)</div>${svgBar(wvData,"s","v","#E63946",300,120)}</div>`;
+  if(names.length)charts+=`<div class="card"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:8px">Poids max par exercice</div><select class="inp" style="margin-bottom:8px" onchange="document.getElementById('exC').innerHTML=getExChartHTML(this.value)">${names.map(n=>`<option>${n}</option>`).join("")}</select><div id="exC">${svgLine(getExProg(names[0]),"d","kg","#457B9D",300,120)}</div></div>`;
+
   if(!S.hist.length)return`<div class="hdr"><div class="logo">HISTORIQUE</div></div>${charts}<div class="card" style="text-align:center;color:var(--mt);padding:30px">Aucune séance 💪</div>`;
-  return`<div class="hdr"><div class="logo">HISTORIQUE</div></div>
-  <div style="padding:0 14px 8px"><button class="btn2" style="width:100%" onclick="exportCSV()">📊 Exporter CSV (Excel)</button></div>${charts}`+
-  S.hist.map((h,hi)=>{const col=PROG.sessions.find(s=>s.id===h.sessionId)?.color||"var(--ac)";
-    const detId="d"+hi;
-    const details=h.exercises.map(x=>{const sets=Object.entries(x.logged||{});return sets.length?sets.map(([si,s])=>`<div style="display:grid;grid-template-columns:1fr 40px 40px 50px;gap:4px;font-size:10px;padding:2px 0"><span>${x.name}</span><span>${s.weight}kg</span><span>${s.reps}r</span><span style="color:var(--mt)">${(s.weight||0)*(s.reps||0)}</span></div>`).join(""):`<div style="font-size:10px;color:var(--mt)">${x.name}: —</div>`;}).join("");
-    return`<div class="card"><div class="hist-top"><div style="font-size:14px;font-weight:900;letter-spacing:2px;color:${col}">${h.sessionName}${h.phase?`<span class="phase-badge" style="background:var(--cd2);color:var(--t2)">${h.phase}</span>`:''}</div><div style="font-size:10px;color:var(--mt)">${new Date(h.date).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})} • ${h.duration}min</div></div><div class="hist-exos">${h.exercises.map(x=>{const b=Math.max(0,...Object.values(x.logged||{}).map(s=>s.weight||0));return`<div class="hist-exo">${x.name}: <b>${b}kg</b></div>`;}).join("")}</div>${h.notes?`<div style="font-size:11px;color:var(--mt);margin-top:6px;font-style:italic">"${h.notes}"</div>`:''}<button class="hist-toggle" onclick="const d=document.getElementById('${detId}');d.classList.toggle('open');this.textContent=d.classList.contains('open')?'Masquer':'Détails'">Détails</button><div class="hist-detail" id="${detId}"><div style="display:grid;grid-template-columns:1fr 40px 40px 50px;gap:4px;font-size:9px;color:var(--mt);padding:4px 0;border-bottom:1px solid var(--bd);font-weight:600"><span>Exercice</span><span>Kg</span><span>Reps</span><span>Vol.</span></div>${details}</div></div>`;}).join("");
+  return`<div class="hdr"><div class="logo">HISTORIQUE</div></div><div style="padding:0 14px 8px"><button class="btn2" style="width:100%" onclick="exportCSV()">📊 CSV (Excel)</button></div>${charts}`+
+  S.hist.map((h,hi)=>{const col=PROG.sessions.find(s=>s.id===h.sessionId)?.color||"var(--ac)";const di="d"+hi;
+    const det=h.exercises.map(x=>{const sets=Object.entries(x.logged||{});return sets.length?sets.map(([si,s])=>`<div style="display:grid;grid-template-columns:1fr 38px 38px 45px;gap:3px;font-size:10px;padding:2px 0"><span>${x.name}</span><span>${s.weight}kg</span><span>${s.reps}r</span><span style="color:var(--mt)">${(s.weight||0)*(s.reps||0)}</span></div>`).join(""):`<div style="font-size:10px;color:var(--mt)">${x.name}: —</div>`;}).join("");
+    return`<div class="card"><div class="hist-top"><div style="font-size:14px;font-weight:900;letter-spacing:2px;color:${col}">${h.sessionName}${h.phase?`<span class="phase-badge" style="background:var(--cd2);color:var(--t2)">${h.phase}</span>`:''}</div><div style="font-size:10px;color:var(--mt)">${new Date(h.date).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})} • ${h.duration}min</div></div>${h.wodName?`<div style="font-size:10px;color:var(--wa);margin-bottom:4px">WOD: ${h.wodName}</div>`:''}<div class="hist-exos">${h.exercises.map(x=>{const b=Math.max(0,...Object.values(x.logged||{}).map(s=>s.weight||0));return`<div class="hist-exo">${x.name}: <b>${b}kg</b></div>`;}).join("")}</div>${h.notes?`<div style="font-size:11px;color:var(--mt);margin-top:5px;font-style:italic">"${h.notes}"</div>`:''}<button class="hist-toggle" onclick="const d=document.getElementById('${di}');d.classList.toggle('open');this.textContent=d.classList.contains('open')?'Masquer':'Détails'">Détails</button><div class="hist-detail" id="${di}">${det}</div></div>`;}).join("");
 }
 
 function rSett(){
   return`<div class="hdr"><div class="logo">RÉGLAGES</div></div>
-  <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Périodisation</div>${PHASES.map((p,i)=>`<div onclick="setPhase(${i})" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;cursor:pointer;border:2px solid ${S.phase===i?p.color:'var(--bd)'};background:${S.phase===i?p.color+'15':'none'}"><div style="width:12px;height:12px;border-radius:50%;background:${p.color}"></div><div><div style="font-size:13px;font-weight:700;color:${p.color}">${p.name} <span style="font-weight:400;font-size:11px;color:var(--mt)">${p.weeks}</span></div><div style="font-size:11px;color:var(--t2)">${p.desc} — ${p.numSets}×${p.reps} — repos ${p.rest}s</div></div></div>`).join("")}</div>
-  <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Données</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn2" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" onclick="doExport()">📤 JSON (backup)</button><button class="btn2" onclick="doShowImport()">📥 Importer</button>${S.hist.length?`<button class="btn2" style="color:var(--ac);border-color:var(--ac)" onclick="if(confirm('Supprimer ?')){S.hist=[];saveS();R();}">🗑 Effacer</button>`:""}</div><div id="ioArea"></div></div>
-  <div class="card"><div style="font-size:11px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️ Sauvegarde</b> : tes données sont en localStorage. Exporte régulièrement en CSV ou JSON.<br><br><b style="color:var(--ac)">APEX FITNESS</b> v5.0</div></div>`;
+  <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Périodisation</div>${PHASES.map((p,i)=>`<div onclick="setPhase(${i})" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;cursor:pointer;border:2px solid ${S.phase===i?p.color:'var(--bd)'};background:${S.phase===i?p.color+'15':'none'}"><div style="width:12px;height:12px;border-radius:50%;background:${p.color}"></div><div><div style="font-size:13px;font-weight:700;color:${p.color}">${p.name}</div><div style="font-size:11px;color:var(--t2)">${p.desc} — ${p.numSets}×${p.reps} — repos ${p.rest}s</div></div></div>`).join("")}</div>
+  <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Données</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn2" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" onclick="doExp()">📤 JSON backup</button><button class="btn2" onclick="doImpUI()">📥 Importer</button>${S.hist.length?`<button class="btn2" style="color:var(--ac);border-color:var(--ac)" onclick="if(confirm('Supprimer ?')){S.hist=[];saveS();R();}">🗑 Effacer</button>`:""}</div><div id="io"></div></div>
+  <div class="card"><div style="font-size:11px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage. Exporte régulièrement.<br><br><b style="color:var(--ac)">APEX FITNESS</b> v7.0 — Science-Based<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Export CSV/JSON</div></div>`;
 }
 
 // ═══ ACTIONS ═══
-function nav(v){S.view=v;tStop();R();}
-function goSess(id){S.sess=PROG.sessions.find(s=>s.id===id);S.ei=-1;S.log={};S.notes="";S.t0=Date.now();S.view="session";saveActive();R();}
-function setEi(i){S.ei=i;if(S.sess&&i===S.sess.exercises.length){const w=pickWod(S.sess.id);S._wodIdx=w?w._idx:0;}tStop();timerState={running:false,startedAt:0,totalSecs:0,dir:"down",pausedRemaining:0,done:false};saveActive();R();}
+function nav(v){S.view=v;if(v!=="session")tStop();R();}
+function goSess(id){S.sess=PROG.sessions.find(s=>s.id===id);S.ei=-1;S.log={};S.notes="";S.t0=Date.now();S.view="session";saveA();R();}
+function setEi(i){S.ei=i;saveA();R();}
 function setPhase(i){S.phase=i;saveS();R();}
-
-// Input handler — saves without full re-render
-function onInput(el){
-  const eid=el.dataset.eid,si=parseInt(el.dataset.si),f=el.dataset.f;
-  if(!S.log[eid])S.log[eid]={};
-  const prev=S.log[eid][si]||{weight:0,reps:0};
-  if(f==="w")prev.weight=parseFloat(el.value)||0;
-  else prev.reps=parseInt(el.value)||0;
-  S.log[eid][si]=prev;
-  saveActive();
-  // Update check mark without re-render
-  const row=el.closest('.set-row');
-  if(row){
-    const numEl=row.querySelector('.set-num');
-    const checkEl=row.querySelector('div:last-child');
-    if(numEl){numEl.className='set-num set-done';}
-    if(checkEl){checkEl.style.color='var(--ok)';checkEl.textContent='✓';}
-  }
-}
-
-function finish(){const dynWodIdx=S._wodIdx;
-  const s=S.sess,ph=PHASES[S.phase];
-  const entry={id:""+Date.now(),sessionId:s.id,sessionName:s.name,phase:ph.name,date:new Date().toISOString(),duration:Math.round((Date.now()-S.t0)/6e4),exercises:s.exercises.map(x=>({id:x.id,name:x.name,sets:x.sets,reps:x.reps,muscle:x.muscle,logged:S.log[x.id]||{}})),notes:S.notes,wodIndex:dynWodIdx};
-  S.hist.unshift(entry);
-  S.sess=null;saveS();saveActive();S.view="home";R();
-}
-
-function updateExChart(name){const el=document.getElementById("exChart");if(el)el.innerHTML=renderLineChart(getExerciseProgress(name),"date","kg","#457B9D",320,140);}
-function doExport(){const j=JSON.stringify({history:S.hist,phase:S.phase,exported:new Date().toISOString()},null,2);document.getElementById("ioArea").innerHTML=`<textarea class="inp" style="margin-top:10px;min-height:80px;font-size:9px" onclick="this.select()" readonly>${j}</textarea>`;}
-function doShowImport(){document.getElementById("ioArea").innerHTML=`<textarea class="inp" id="impTxt" style="margin-top:10px;min-height:60px;font-size:9px" placeholder="Colle JSON..."></textarea><button class="btn" style="margin-top:8px" onclick="doImport()">Importer</button>`;}
-function doImport(){try{const d=JSON.parse(document.getElementById("impTxt").value);if(d.history){S.hist=d.history;if(d.phase!==undefined)S.phase=d.phase;saveS();R();}}catch{alert("JSON invalide");}}
+function setRIR(eid,rir){if(!S.log[eid])S.log[eid]={};S.log[eid].rir=rir;saveA();R();}
+function onInp(el){const e=el.dataset.e,si=parseInt(el.dataset.s),f=el.dataset.f;if(!S.log[e])S.log[e]={};const p=S.log[e][si]||{weight:0,reps:0};if(f==="w")p.weight=parseFloat(el.value)||0;else p.reps=parseInt(el.value)||0;S.log[e][si]=p;saveA();const row=el.closest('.set-row');if(row){const n=row.querySelector('.set-num');const c=row.querySelector('div:last-child');if(n)n.className='set-num set-done';if(c){c.style.color='var(--ok)';c.textContent='✓';}}}
+function finish(){const s=S.sess,ph=PHASES[S.phase],wod=pickWOD(s.id);S.hist.unshift({id:""+Date.now(),sessionId:s.id,sessionName:s.name,phase:ph.name,wodName:wod?.name||"",date:new Date().toISOString(),duration:Math.round((Date.now()-S.t0)/6e4),exercises:s.exercises.map(x=>({id:x.id,name:x.name,sets:x.sets,reps:x.reps,muscle:x.muscle,logged:S.log[x.id]||{},rir:S.log[x.id]?.rir})),notes:S.notes});S.sess=null;saveS();saveA();S.view="home";R();}
+// Chart helper exposed to HTML
+window.getExChartHTML=function(n){const d=S.hist.filter(h=>h.exercises.some(e=>e.name===n)).reverse().map(h=>{const x=h.exercises.find(e=>e.name===n);const s=Object.values(x.logged||{});return{d:new Date(h.date).toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"}),kg:s.length?Math.max(...s.map(s=>s.weight||0)):0};}).slice(-10);return svgLine(d,"d","kg","#457B9D",300,120);};
+function doExp(){document.getElementById("io").innerHTML=`<textarea class="inp" style="margin-top:10px;min-height:70px;font-size:9px" onclick="this.select()" readonly>${JSON.stringify({history:S.hist,phase:S.phase},null,2)}</textarea>`;}
+function doImpUI(){document.getElementById("io").innerHTML=`<textarea class="inp" id="impT" style="margin-top:10px;min-height:50px;font-size:9px" placeholder="JSON..."></textarea><button class="btn" style="margin-top:8px" onclick="doImp()">Importer</button>`;}
+function doImp(){try{const d=JSON.parse(document.getElementById("impT").value);if(d.history){S.hist=d.history;S.phase=d.phase||0;saveS();R();}}catch{alert("JSON invalide");}}
 
 // ═══ INIT ═══
-loadS();R();
-</script>
-<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});</script>
-</body></html>
+loadS();
+// Disclaimer médical — première utilisation
+if(!localStorage.getItem("apex_disclaimer")){
+  document.getElementById("app").innerHTML=`<div style="padding:20px;max-width:480px;margin:0 auto">
+    <div style="font-size:26px;font-weight:900;letter-spacing:5px;color:#E63946;margin-bottom:20px">APEX FITNESS</div>
+    <div style="background:#14141f;border-radius:14px;border:1px solid #2a2a3a;padding:20px">
+      <div style="font-size:16px;font-weight:800;margin-bottom:12px;color:#F4A261">⚕️ Avertissement médical</div>
+      <div style="font-size:12px;color:#9898a8;line-height:1.7">
+        Cette application propose un programme d'entraînement adapté aux contraintes lombaires (protocole McGill). Cependant :<br><br>
+        <b style="color:#e8e8f0">• Elle ne remplace en aucun cas un avis médical.</b><br>
+        • Consultez un médecin ou kinésithérapeute avant de commencer tout programme si vous avez une pathologie diagnostiquée (hernie, protrusion, spondylolisthésis, etc.).<br>
+        • Arrêtez immédiatement tout exercice provoquant une douleur aiguë.<br>
+        • Les suggestions de charges sont basées sur le protocole APRE (validé scientifiquement) mais restent des estimations — écoutez votre corps.<br>
+        • Les formules de 1RM (Epley/Brzycki) ont une marge d'erreur de ±3-5kg.<br><br>
+        <b style="color:#e8e8f0">En utilisant cette application, vous reconnaissez assumer la responsabilité de votre entraînement.</b>
+      </div>
+      <button onclick="localStorage.setItem('apex_disclaimer','1');loadS();R();" style="background:#E63946;color:#fff;border:none;border-radius:12px;padding:14px 24px;font-size:14px;font-weight:700;cursor:pointer;width:100%;margin-top:16px;font-family:inherit">J'ai compris — Commencer</button>
+    </div>
+    <div style="font-size:10px;color:#5a5a6a;margin-top:12px;text-align:center">Progression basée sur APRE (Huang et al. 2025, SUCRA 93%)<br>1RM: moyenne Epley + Brzycki (DiStasio 2014, ±2.7kg)</div>
+  </div>`;
+} else { R(); }
+</script><script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});</script></body></html>
