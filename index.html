@@ -219,6 +219,146 @@ const PROG={sessions:[
 {id:"g6",name:"Farmer's Walk",sets:3,reps:"30m",rest:60,muscle:"core",imgs:["Farmers_Walk/0.jpg","Farmers_Walk/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-farmers-walk",yt:"https://www.youtube.com/results?search_query=farmer+walk+form",notes:"<b>Gainage total</b>. Épaules basses.",coaching:["50%+ poids/main","Pas courts"]}
 ],wod:{type:"Chipper",duration:null,movements:["20 Step-back Burpees (L5-S1)","30 KB Swings","40 Air Squats","30 KB Swings","20 Step-back Burpees"]}}
 ]};
+const WOD_MOVE_IMG={
+  "Push-ups":{img:IMG+"Push-Ups_-_Close_Triceps_Position/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=push+up+form"},
+  "DB Thrusters":{img:IMG+"Dumbbell_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-thruster",yt:"https://www.youtube.com/results?search_query=dumbbell+thruster+form"},
+  "Sit-ups McGill":{img:IMG+"Crunch/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-crunch",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up"},
+  "DB Push Press":{img:IMG+"Dumbbell_Shoulder_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-shoulder-press",yt:"https://www.youtube.com/results?search_query=dumbbell+push+press"},
+  "Step-back Burpees":{img:IMG+"Burpee/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=step+back+burpee+low+impact"},
+  "Push-ups diamant":{img:IMG+"Push-Ups_-_Close_Triceps_Position/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-diamond-push-up",yt:"https://www.youtube.com/results?search_query=diamond+push+up+form"},
+  "KB Swings":{img:IMG+"Kettlebell_Sumo_Deadlift_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
+  "Plate Ground-to-OH":{img:IMG+"Clean_and_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=plate+ground+to+overhead"},
+  "Flutter Kicks":{img:IMG+"Flutter_Kicks/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=flutter+kicks+form"},
+  "Devil's Press":{img:IMG+"Dumbbell_Bench_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=devils+press+dumbbell"},
+  "Ring Rows":{img:IMG+"Inverted_Row/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=ring+row+form"},
+  "DB Rows":{img:IMG+"One-Arm_Dumbbell_Row/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=dumbbell+row+form"},
+  "Renegade Rows":{img:IMG+"Alternating_Renegade_Row/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=renegade+row+form"},
+  "Band Pull-Aparts":{img:IMG+"Band_Pull_Apart/0.jpg",mw:"https://musclewiki.com/exercise/band-pull-apart",yt:"https://www.youtube.com/results?search_query=band+pull+apart"},
+  "Dead Bugs":{img:IMG+"Dead_Bug/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-dead-bug",yt:"https://www.youtube.com/results?search_query=dead+bug"},
+  "Pull-ups":{img:IMG+"Pullups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form"},
+  "Hammer Curls légers":{img:IMG+"Hammer_Curls/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-hammer-curl",yt:"https://www.youtube.com/results?search_query=hammer+curl"},
+  "Body Rows":{img:IMG+"Inverted_Row/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=body+row+inverted+row"},
+  "Air Squats":{img:IMG+"Bodyweight_Squat/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-squat",yt:"https://www.youtube.com/results?search_query=air+squat+form"},
+  "Goblet Squats":{img:IMG+"Goblet_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",yt:"https://www.youtube.com/results?search_query=goblet+squat"},
+  "KB Deadlifts":{img:IMG+"Kettlebell_Deadlift/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=kettlebell+deadlift+form"},
+  "Box Step-ups":{img:IMG+"Barbell_Step_Ups/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=box+step+up+form"},
+  "Step-back Lunges":{img:IMG+"Dumbbell_Lunges/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-lunge",yt:"https://www.youtube.com/results?search_query=reverse+lunge+form"},
+  "Broad Jumps":{img:IMG+"Frog_Jumps/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=broad+jump+form"},
+  "Glute Bridges lestés":{img:IMG+"Butt_Lift_(Bridge)/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-glute-bridge",yt:"https://www.youtube.com/results?search_query=weighted+glute+bridge"},
+  "Wall Balls":{img:IMG+"Thrusters/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=wall+ball+crossfit+form"},
+};
+
+const WOD_POOLS={
+  push:[
+    {type:"AMRAP",duration:8,moves:["10 Push-ups", "10 DB Thrusters", "10 Sit-ups McGill"]},
+    {type:"For Time",duration:null,moves:["21-15-9 :", "DB Push Press", "Step-back Burpees"]},
+    {type:"EMOM",duration:10,moves:["Min paire: 12 KB Swings", "Min impaire: 8 Push-ups diamant"]},
+    {type:"Tabata",duration:4,moves:["Push-ups (20s on / 10s off × 8)"]},
+    {type:"AMRAP",duration:10,moves:["5 Devil's Press", "10 Plate Ground-to-OH", "15 Flutter Kicks"]},
+  ],
+  pull:[
+    {type:"EMOM",duration:10,moves:["Min impaire: 8 DB Rows/bras", "Min paire: 12 Ring Rows"]},
+    {type:"For Time",duration:null,moves:["5 rounds:", "5 Pull-ups", "10 KB Swings", "15 Sit-ups McGill"]},
+    {type:"AMRAP",duration:8,moves:["8 Renegade Rows", "12 Band Pull-Aparts", "16 Dead Bugs"]},
+    {type:"Tabata",duration:4,moves:["Ring Rows (20s on / 10s off × 8)"]},
+    {type:"AMRAP",duration:12,moves:["6 DB Rows/bras", "8 Hammer Curls légers", "200m Run"]},
+  ],
+  legs:[
+    {type:"Chipper",duration:null,moves:["20 Step-back Burpees", "30 KB Swings", "40 Air Squats", "30 KB Swings", "20 Step-back Burpees"]},
+    {type:"For Time",duration:null,moves:["5 rounds:", "12 Goblet Squats", "12 KB Deadlifts", "12 Box Step-ups"]},
+    {type:"EMOM",duration:12,moves:["Min 1: 10 Air Squats", "Min 2: 8 Step-back Lunges", "Min 3: 6 Glute Bridges lestés"]},
+    {type:"AMRAP",duration:10,moves:["15 Wall Balls", "10 Step-back Lunges", "5 Broad Jumps"]},
+    {type:"Tabata",duration:4,moves:["Alt: Goblet Squats / Glute Bridges (20s/10s × 8)"]},
+  ],
+};
+
+// ═══ DISRUPTIVE FEATURES ═══
+
+// ── 1. WOD ROTATION — picks the one you haven't done the longest ──
+function pickWod(sessId){
+  const pool=WOD_POOLS[sessId];if(!pool||!pool.length)return pool?pool[0]:null;
+  // Find which WOD index was used last for this session
+  const lastWods=S.hist.filter(h=>h.sessionId===sessId&&h.wodIndex!==undefined);
+  if(!lastWods.length)return {...pool[0],_idx:0};
+  const lastIdx=lastWods[0].wodIndex;
+  const nextIdx=(lastIdx+1)%pool.length;
+  return {...pool[nextIdx],_idx:nextIdx};
+}
+
+// ── 2. AUTO-PROGRESSION — suggests weight for next session ──
+function suggestWeight(exName){
+  const prev=S.hist.filter(h=>h.exercises.some(e=>e.name===exName)).slice(0,3);
+  if(prev.length<1)return null;
+  const lastSets=prev[0].exercises.find(e=>e.name===exName);
+  const logged=Object.values(lastSets?.logged||{});
+  if(!logged.length)return null;
+  const maxW=Math.max(...logged.map(s=>s.weight||0));
+  const avgReps=logged.reduce((a,s)=>a+(s.reps||0),0)/logged.length;
+  const targetMet=logged.every(s=>(s.reps||0)>=parseInt(PHASES[S.phase].reps));
+  // If all sets hit target reps → suggest +2.5kg (compounds) or +1kg (isolation)
+  const isCompound=["Bench Press","OHP Debout","Back Squat","Romanian Deadlift","Pull-ups"].includes(exName);
+  if(targetMet&&maxW>0)return{weight:maxW+(isCompound?2.5:1),reason:"Toutes les séries au target → progression"};
+  // If failed on most sets → suggest -10%
+  const failRate=logged.filter(s=>(s.reps||0)<parseInt(PHASES[S.phase].reps)*0.7).length/logged.length;
+  if(failRate>0.5&&maxW>0)return{weight:Math.round(maxW*0.9/2.5)*2.5,reason:"Trop d'échecs → deload -10%"};
+  return{weight:maxW,reason:"Maintiens la charge"};
+}
+
+// ── 3. 1RM ESTIMÉ (Epley formula) ──
+function estimate1RM(weight,reps){
+  if(reps<=0||weight<=0)return 0;
+  if(reps===1)return weight;
+  return Math.round(weight*(1+reps/30));
+}
+function get1RMHistory(exName){
+  return S.hist.filter(h=>h.exercises.some(e=>e.name===exName)).reverse().map(h=>{
+    const ex=h.exercises.find(e=>e.name===exName);
+    const sets=Object.values(ex?.logged||{});
+    let best1rm=0;
+    sets.forEach(s=>{const e=estimate1RM(s.weight||0,s.reps||0);if(e>best1rm)best1rm=e;});
+    return{date:new Date(h.date).toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"}),rm:best1rm};
+  }).filter(d=>d.rm>0).slice(-12);
+}
+
+// ── 4. FATIGUE SCORE ──
+function getFatigueScore(){
+  const now=Date.now();
+  const week7=S.hist.filter(h=>(now-new Date(h.date))<7*864e5);
+  const week14=S.hist.filter(h=>{const d=now-new Date(h.date);return d>=7*864e5&&d<14*864e5;});
+  const vol7=week7.reduce((a,h)=>{h.exercises.forEach(x=>Object.values(x.logged||{}).forEach(s=>{a+=(s.weight||0)*(s.reps||0);}));return a;},0);
+  const vol14=week14.reduce((a,h)=>{h.exercises.forEach(x=>Object.values(x.logged||{}).forEach(s=>{a+=(s.weight||0)*(s.reps||0);}));return a;},0);
+  if(vol14===0)return{score:50,label:"Pas assez de données",color:"var(--mt)",emoji:"📊"};
+  const ratio=vol7/vol14*100;
+  if(ratio>130)return{score:ratio,label:"⚠️ Surcharge — risque blessure",color:"var(--ac)",emoji:"🔴"};
+  if(ratio>110)return{score:ratio,label:"Volume élevé — surveille la récup",color:"var(--wa)",emoji:"🟡"};
+  if(ratio>70)return{score:ratio,label:"Volume optimal",color:"var(--ok)",emoji:"🟢"};
+  return{score:ratio,label:"Volume bas — tu peux pousser",color:"var(--mt)",emoji:"⚪"};
+}
+
+// ── 5. REST DAY INTELLIGENCE ──
+function suggestSession(){
+  const sessions=["push","pull","legs"];
+  const lastDates={};
+  sessions.forEach(sid=>{
+    const last=S.hist.find(h=>h.sessionId===sid);
+    lastDates[sid]=last?new Date(last.date):new Date(0);
+  });
+  // Sort by oldest first
+  const sorted=sessions.sort((a,b)=>lastDates[a]-lastDates[b]);
+  const oldest=sorted[0];
+  const hoursSince=Math.round((Date.now()-lastDates[oldest])/36e5);
+  return{sessId:oldest,hoursSince,name:PROG.sessions.find(s=>s.id===oldest)?.name||oldest};
+}
+
+// ── 6. BACK PAIN SAFE MODE — alerts ──
+const BACK_PAIN_ALERTS={
+  "Romanian Deadlift":"⚡ L5-S1 : Dos NEUTRE obligatoire. Si douleur → arrête immédiatement.",
+  "Back Squat":"⚡ L5-S1 : Ceinture recommandée. Ne force pas la profondeur si douleur.",
+  "Bench DB Row":"⚡ L5-S1 : Ce mouvement REMPLACE le bent-over row. Main+genou sur banc.",
+  "Farmer's Walk":"⚡ L5-S1 : Gainage maximal. Arrête si douleur irradiante."
+};
+function getBackPainAlert(exName){return BACK_PAIN_ALERTS[exName]||null;}
+
 // ═══ STATE — persisted in realtime ═══
 const SK="apex-fit-v7";
 let S={view:"home",hist:[],sess:null,ei:-1,log:{},notes:"",t0:null,phase:0};
@@ -330,8 +470,22 @@ function rHome(){
   return`<div class="hdr"><div class="logo">APEX</div><div style="font-size:11px;color:var(--mt)">${today}</div></div>
   <div class="stats-row"><div class="stat-box"><div class="stat-val">${S.hist.length}</div><div class="stat-lbl">Séances</div></div><div class="stat-box"><div class="stat-val">${S.hist.filter(h=>(Date.now()-new Date(h.date))<6048e5).length}</div><div class="stat-lbl">7 jours</div></div></div>
   <div class="card" style="border-left:4px solid ${p.color}"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">Phase actuelle</div><div style="font-size:16px;font-weight:900;color:${p.color};margin-top:2px">${p.name}</div><div style="font-size:11px;color:var(--t2);margin-top:2px">${p.desc}</div></div><div style="display:flex;gap:4px">${PHASES.map((ph,i)=>`<button onclick="setPhase(${i})" style="width:24px;height:24px;border-radius:50%;border:2px solid ${ph.color};background:${S.phase===i?ph.color:'none'};cursor:pointer;color:${S.phase===i?'#fff':ph.color};font-size:9px;font-weight:700">${i+1}</button>`).join("")}</div></div></div>
+  ${(()=>{const f=getFatigueScore();const sg=suggestSession();return`
+  <div class="card" style="display:flex;gap:14px;align-items:center">
+    <div style="font-size:28px">${f.emoji}</div>
+    <div style="flex:1">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">Fatigue Score</div>
+      <div style="font-size:13px;color:${f.color};font-weight:700;margin-top:2px">${f.label}</div>
+      <div style="background:var(--bd);border-radius:4px;height:6px;margin-top:6px"><div style="height:6px;border-radius:4px;background:${f.color};width:${Math.min(100,f.score)}%;transition:width .3s"></div></div>
+    </div>
+  </div>
+  <div class="card" style="border-left:4px solid var(--wa)">
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">Prochaine séance suggérée</div>
+    <div style="font-size:16px;font-weight:900;color:var(--wa);margin-top:2px">${sg.name}</div>
+    <div style="font-size:11px;color:var(--t2);margin-top:2px">${sg.hoursSince>48?'Il y a '+Math.round(sg.hoursSince/24)+' jours — il est temps !':'Dernière il y a '+sg.hoursSince+'h'}</div>
+  </div>`;})()}
   <div class="sec-title">Programme PPL</div>
-  ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.exercises.length} exos + WOD ${s.wod.type}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
+  ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.exercises.length} exos + WOD ${wod.type}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
   <div class="card reminder"><div style="font-size:12px;font-weight:700;color:var(--ok);margin-bottom:4px">⚡ Protocole L5-S1</div><div style="font-size:11px;color:var(--t2);line-height:1.6"><b>Obligatoire</b> : McGill Big 3 + Dead Bug<br><b>Interdit</b> : Bent-over rows<br><b>Modifié</b> : Burpees step-back</div></div>`;
 }
 
@@ -363,18 +517,39 @@ function rSession(){
     const coachHtml=ex.coaching?`<div style="margin-bottom:14px">${ex.coaching.map(c=>`<div class="coaching-item"><span style="color:var(--ok);font-weight:700">✦</span>${c}</div>`).join("")}</div>`:"";
     let setsH=`<div class="sets-header"><span>Set</span><span>Kg</span><span>Reps</span><span></span></div>`;
     for(let si=0;si<numSets;si++){const l=S.log[ex.id]?.[si];setsH+=`<div class="set-row"><div class="set-num ${l?'set-done':'set-empty'}">${si+1}</div><input class="inp" type="number" inputmode="decimal" placeholder="0" value="${l?.weight||''}" data-eid="${ex.id}" data-si="${si}" data-f="w" onchange="onInput(this)"><input class="inp" type="number" inputmode="numeric" placeholder="0" value="${l?.reps||''}" data-eid="${ex.id}" data-si="${si}" data-f="r" onchange="onInput(this)"><div style="text-align:center;font-size:15px;color:${l?'var(--ok)':'var(--mt)'}">${l?'✓':'○'}</div></div>`;}
+    // Auto-progression suggestion
+    const suggestion=suggestWeight(ex.name);
+    const suggHtml=suggestion?`<div style="background:rgba(69,123,157,.1);border:1px solid rgba(69,123,157,.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px"><span style="color:#457B9D;font-weight:700">💡 Suggestion :</span> <b>${suggestion.weight} kg</b> — ${suggestion.reason}</div>`:"";
+    // Back pain alert
+    const bpAlert=getBackPainAlert(ex.name);
+    const bpHtml=bpAlert?`<div style="background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--ac);font-weight:600">${bpAlert}</div>`:"";
+    // 1RM
+    const rm1=get1RMHistory(ex.name);
+    const rm1Html=rm1.length>1?`<div style="margin-top:8px;font-size:10px;color:var(--mt);text-align:center">1RM estimé : <b style="color:var(--tx)">${rm1[rm1.length-1].rm} kg</b></div>`:"";
     let prLine="";const prev=S.hist.find(h=>h.exercises.some(e=>e.name===ex.name));
     if(prev){const pe=prev.exercises.find(e=>e.name===ex.name);const b=Math.max(0,...Object.values(pe.logged||{}).map(s=>s.weight||0));if(b>0)prLine=`<div class="pr-line">📊 Record : <b>${b} kg</b> — ${new Date(prev.date).toLocaleDateString("fr-FR")}</div>`;}
     content=`<div class="card" style="padding:20px">
       <div style="margin-bottom:14px"><div class="ex-name">${ex.name}<span class="phase-badge" style="background:${ph.color}22;color:${ph.color}">${ph.name} ${ph.reps}</span></div><div class="ex-sets-info">${numSets} séries × ${ph.reps} — Repos ${rest}s</div><div class="ex-muscle-badge" style="background:${mc}22;color:${mc}">${MN[ex.muscle]}</div></div>
-      ${imgsHtml}${linksHtml}<div class="ex-notes">💡 ${ex.notes}</div>${coachHtml}${setsH}
+      ${imgsHtml}${linksHtml}${bpHtml}${suggHtml}<div class="ex-notes">💡 ${ex.notes}</div>${coachHtml}${setsH}
       <div class="timer" id="timerbox"><div class="timer-circle"><svg viewBox="0 0 52 52" style="transform:rotate(-90deg)"><circle cx="26" cy="26" r="22" fill="none" stroke="var(--bd)" stroke-width="3"/><circle id="tring" cx="26" cy="26" r="22" fill="none" stroke="${mc}" stroke-width="3" stroke-dasharray="${2*Math.PI*22}" stroke-dashoffset="${2*Math.PI*22}" stroke-linecap="round"/></svg><div class="timer-time" id="tdisp">${Math.floor(rest/60)}:${String(rest%60).padStart(2,"0")}</div></div><div style="flex:1"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:5px;font-weight:600">⏱ Repos ${rest}s</div><div style="display:flex;gap:6px"><button class="tbtn tbtn-go" id="tbtn" onclick="tToggle(${rest})">Start</button><button class="tbtn tbtn-reset" onclick="tReset(${rest})">Reset</button></div></div></div>
-      ${prLine}
+      ${prLine}${rm1Html}
       <div class="ex-nav">${ei>0?`<button class="btn2" onclick="setEi(${ei-1})">←</button>`:''}<button class="btn" onclick="setEi(${ei+1})">${ei<s.exercises.length-1?'Suivant →':'WOD →'}</button></div>
     </div>`;
   } else if(isWod){
-    const wt=s.wod.duration?`<div class="timer" id="timerbox"><div class="timer-circle"><svg viewBox="0 0 52 52" style="transform:rotate(-90deg)"><circle cx="26" cy="26" r="22" fill="none" stroke="var(--bd)" stroke-width="3"/><circle id="tring" cx="26" cy="26" r="22" fill="none" stroke="var(--wa)" stroke-width="3" stroke-dasharray="${2*Math.PI*22}" stroke-dashoffset="${2*Math.PI*22}" stroke-linecap="round"/></svg><div class="timer-time" id="tdisp">0:00</div></div><div style="flex:1"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:5px;font-weight:600">⏱ ${s.wod.type} ${s.wod.duration}min</div><div style="display:flex;gap:6px"><button class="tbtn tbtn-go" id="tbtn" onclick="tToggle(${s.wod.duration*60},'up')">Start</button><button class="tbtn tbtn-reset" onclick="tReset(${s.wod.duration*60},'up')">Reset</button></div></div></div>`:"";
-    content=`<div class="card"><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--wa);margin-bottom:10px">WOD — ${s.wod.type}</div>${wt}<div style="margin-top:14px">${s.wod.movements.map(m=>`<div class="wod-move"><div class="wod-bullet" style="background:var(--wa)"></div>${m}</div>`).join("")}</div><div style="margin-top:16px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:6px;font-weight:600">Notes</div><textarea class="inp" id="sessNotes" placeholder="Ressenti, PR..." oninput="S.notes=this.value;saveActive()">${S.notes}</textarea></div><button class="btn btn-ok" style="margin-top:14px" onclick="finish()">✓ Terminer</button></div>`;
+    // Dynamic WOD from pool
+    const dynWod=pickWod(s.id);
+    const wod=dynWod||s.wod;
+    const wt=wod.duration?`<div class="timer" id="timerbox"><div class="timer-circle"><svg viewBox="0 0 52 52" style="transform:rotate(-90deg)"><circle cx="26" cy="26" r="22" fill="none" stroke="var(--bd)" stroke-width="3"/><circle id="tring" cx="26" cy="26" r="22" fill="none" stroke="var(--wa)" stroke-width="3" stroke-dasharray="${2*Math.PI*22}" stroke-dashoffset="${2*Math.PI*22}" stroke-linecap="round"/></svg><div class="timer-time" id="tdisp">0:00</div></div><div style="flex:1"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:5px;font-weight:600">⏱ ${wod.type} ${wod.duration}min</div><div style="display:flex;gap:6px"><button class="tbtn tbtn-go" id="tbtn" onclick="tToggle(${wod.duration*60},'up')">Start</button><button class="tbtn tbtn-reset" onclick="tReset(${wod.duration*60},'up')">Reset</button></div></div></div>`:"";
+    content=`<div class="card"><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--wa);margin-bottom:10px">WOD — ${wod.type}</div>${wt}<div style="margin-top:14px">${wod.moves||s.wod.movements).map(m=>{
+      const clean=m.replace(/^\d+[\-\s]*/,"").replace(/^\d+\s*/,"");
+      const mv=Object.keys(WOD_MOVE_IMG).find(k=>clean.includes(k));
+      const info=mv?WOD_MOVE_IMG[mv]:null;
+      return`<div class="wod-move" style="padding:10px 0">
+        <div style="display:flex;gap:10px;align-items:center;width:100%">
+          ${info?.img?`<div style="width:50px;height:50px;border-radius:8px;overflow:hidden;flex-shrink:0;border:1px solid var(--bd);background:var(--cd2)"><img src="${info.img}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display=\'none\'"></div>`:`<div class="wod-bullet" style="background:var(--wa)"></div>`}
+          <div style="flex:1"><div style="font-size:13px">${m}</div>
+            ${info?`<div style="display:flex;gap:4px;margin-top:4px">${info.mw?`<a href="${info.mw}" target="_blank" style="font-size:8px;color:#4ecdc4;text-decoration:none;background:rgba(78,205,196,.1);padding:2px 6px;border-radius:4px">MW</a>`:""}<a href="${info.yt}" target="_blank" style="font-size:8px;color:#ff0000;text-decoration:none;background:rgba(255,0,0,.08);padding:2px 6px;border-radius:4px">▶ YT</a></div>`:""}</div>
+        </div></div>`;}).join("")}</div><div style="margin-top:16px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:6px;font-weight:600">Notes</div><textarea class="inp" id="sessNotes" placeholder="Ressenti, PR..." oninput="S.notes=this.value;saveActive()">${S.notes}</textarea></div><button class="btn btn-ok" style="margin-top:14px" onclick="finish()">✓ Terminer</button></div>`;
   }
   return`<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="if(confirm('Quitter ?')){S.sess=null;saveActive();nav('home')}">←</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:${s.color}">${s.name}</div><div style="font-size:11px;color:var(--mt)">${elapsed}min</div></div><div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${s.color}"></div></div></div><div class="pills">${pills}</div>${content}`;
 }
@@ -409,7 +584,7 @@ function rSett(){
 // ═══ ACTIONS ═══
 function nav(v){S.view=v;tStop();R();}
 function goSess(id){S.sess=PROG.sessions.find(s=>s.id===id);S.ei=-1;S.log={};S.notes="";S.t0=Date.now();S.view="session";saveActive();R();}
-function setEi(i){S.ei=i;tStop();timerState={running:false,startedAt:0,totalSecs:0,dir:"down",pausedRemaining:0,done:false};saveActive();R();}
+function setEi(i){S.ei=i;if(S.sess&&i===S.sess.exercises.length){const w=pickWod(S.sess.id);S._wodIdx=w?w._idx:0;}tStop();timerState={running:false,startedAt:0,totalSecs:0,dir:"down",pausedRemaining:0,done:false};saveActive();R();}
 function setPhase(i){S.phase=i;saveS();R();}
 
 // Input handler — saves without full re-render
@@ -431,9 +606,9 @@ function onInput(el){
   }
 }
 
-function finish(){
+function finish(){const dynWodIdx=S._wodIdx;
   const s=S.sess,ph=PHASES[S.phase];
-  const entry={id:""+Date.now(),sessionId:s.id,sessionName:s.name,phase:ph.name,date:new Date().toISOString(),duration:Math.round((Date.now()-S.t0)/6e4),exercises:s.exercises.map(x=>({id:x.id,name:x.name,sets:x.sets,reps:x.reps,muscle:x.muscle,logged:S.log[x.id]||{}})),notes:S.notes};
+  const entry={id:""+Date.now(),sessionId:s.id,sessionName:s.name,phase:ph.name,date:new Date().toISOString(),duration:Math.round((Date.now()-S.t0)/6e4),exercises:s.exercises.map(x=>({id:x.id,name:x.name,sets:x.sets,reps:x.reps,muscle:x.muscle,logged:S.log[x.id]||{}})),notes:S.notes,wodIndex:dynWodIdx};
   S.hist.unshift(entry);
   S.sess=null;saveS();saveActive();S.view="home";R();
 }
