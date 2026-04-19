@@ -229,38 +229,101 @@ legs:[
 ]};
 
 // ═══ EXERCISES ═══
+// ─── EXERCISE POOLS (science: composés fixes pour APRE, accessoires en rotation LRU) ───
+// Référence : Helms/RTS 2014-2020 — primaires fixes, accessoires rotatifs 2-4 sessions
+// Colquhoun et al. 2018 JSCR — variation accessoires → hypertrophie supérieure
+// Krieger 2010 meta-analysis — pools variés recrutent portions différentes du muscle
 const PROG={sessions:[
-{id:"push",name:"PUSH",color:"#E63946",muscles:["chest","shoulders","triceps"],exercises:[
-{id:"p1",name:"Bench Press",sets:4,reps:"6-8",rest:120,muscle:"chest",imgs:["Barbell_Bench_Press_-_Medium_Grip/0.jpg","Barbell_Bench_Press_-_Medium_Grip/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-bench-press",yt:"https://www.youtube.com/results?search_query=bench+press+form",notes:"<b>Omoplates rétractées</b>. Coudes 45°.",coaching:["Barre en U pour lats","Pas de rebond"],l5safe:true},
-{id:"p2",name:"OHP Debout",sets:3,reps:"8-10",rest:90,muscle:"shoulders",imgs:["Standing_Military_Press/0.jpg","Standing_Military_Press/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-overhead-press",yt:"https://www.youtube.com/results?search_query=overhead+press+form",notes:"<b>Gainage strict</b>. Lock-out.",coaching:["Fessiers serrés","Full ROM"],l5safe:true,l5warn:"Attention à ne pas cambrer — serre les abdos et fessiers"},
-{id:"p3",name:"Incline DB Press",sets:3,reps:"10-12",rest:90,muscle:"chest",imgs:["Dumbbell_Bench_Press/0.jpg","Dumbbell_Bench_Press/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-incline-bench-press",yt:"https://www.youtube.com/results?search_query=incline+dumbbell+press",notes:"Banc <b>30°</b>. Excentrique 3s.",coaching:["Haltères se touchent en haut"],l5safe:true},
-{id:"p4",name:"Lateral Raises",sets:3,reps:"12-15",rest:60,muscle:"shoulders",imgs:["Side_Lateral_Raise/0.jpg","Side_Lateral_Raise/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-lateral-raise",yt:"https://www.youtube.com/results?search_query=lateral+raise+form",notes:"<b>Pas d'élan</b>.",coaching:["Pause 1s en haut"],l5safe:true},
-{id:"p5",name:"Triceps Pushdown",sets:3,reps:"12-15",rest:60,muscle:"triceps",imgs:["Triceps_Pushdown/0.jpg","Triceps_Pushdown/1.jpg"],mw:"https://musclewiki.com/exercise/cable-pushdown",yt:"https://www.youtube.com/results?search_query=tricep+pushdown",notes:"<b>Coudes collés</b>.",coaching:["Squeeze 1s"],l5safe:true},
-{id:"p6",name:"OH Triceps Ext.",sets:3,reps:"10-12",rest:60,muscle:"triceps",imgs:["Standing_Dumbbell_Triceps_Extension/0.jpg","Standing_Dumbbell_Triceps_Extension/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-overhead-triceps-extension",yt:"https://www.youtube.com/results?search_query=overhead+tricep+extension",notes:"<b>Étirement complet</b>.",coaching:["Coudes stables"],l5safe:true}
-]},
-{id:"pull",name:"PULL",color:"#457B9D",muscles:["back","biceps","shoulders"],exercises:[
-{id:"l1",name:"Pull-ups",sets:4,reps:"6-10",rest:120,muscle:"back",imgs:["Pullups/0.jpg","Pullups/1.jpg"],mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form",notes:"<b>Full ROM</b>.",coaching:["Descente 3s"],l5safe:true},
-{id:"l2",name:"Bench DB Row",sets:4,reps:"8-10",rest:90,muscle:"back",imgs:["One-Arm_Dumbbell_Row/0.jpg","One-Arm_Dumbbell_Row/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=dumbbell+row+bench",notes:"<b>Unilatéral sur banc</b>.",coaching:["⚡ Remplace le bent-over row (L5-S1)"],l5safe:true,l5warn:"Toujours sur banc — jamais de row penché libre"},
-{id:"l3",name:"Face Pulls",sets:3,reps:"15-20",rest:60,muscle:"shoulders",imgs:["Face_Pull/0.jpg","Face_Pull/1.jpg"],mw:"https://musclewiki.com/exercise/cable-face-pull",yt:"https://www.youtube.com/results?search_query=face+pull",notes:"<b>Rotation externe</b>.",coaching:["Écarte les mains"],l5safe:true},
-{id:"l4",name:"Hammer Curls",sets:3,reps:"10-12",rest:60,muscle:"biceps",imgs:["Hammer_Curls/0.jpg","Hammer_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-hammer-curl",yt:"https://www.youtube.com/results?search_query=hammer+curl",notes:"<b>Pas de swing</b>.",coaching:["Coudes fixes"],l5safe:true},
-{id:"l5",name:"Barbell Curls",sets:3,reps:"10-12",rest:60,muscle:"biceps",imgs:["Barbell_Curl/0.jpg","Barbell_Curl/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-curl",yt:"https://www.youtube.com/results?search_query=barbell+curl",notes:"Barre EZ. <b>Excentrique 3s</b>.",coaching:["Abdos serrés"],l5safe:true},
-{id:"l6",name:"Reverse Flyes",sets:3,reps:"12-15",rest:60,muscle:"shoulders",imgs:["Seated_Bent-Over_Rear_Delt_Raise/0.jpg","Seated_Bent-Over_Rear_Delt_Raise/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-reverse-fly",yt:"https://www.youtube.com/results?search_query=reverse+fly",notes:"<b>Banc incliné</b>.",coaching:["Léger, squeeze 1s"],l5safe:true}
-]},
-{id:"legs",name:"LEGS",color:"#2A9D8F",muscles:["quads","hamstrings","calves","core"],exercises:[
-{id:"g1",name:"Back Squat",sets:4,reps:"6-8",rest:150,muscle:"quads",imgs:["Barbell_Squat/0.jpg","Barbell_Squat/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-squat",yt:"https://www.youtube.com/results?search_query=back+squat+form",notes:"<b>Ceinture recommandée</b>.",coaching:["Valsalva","Genoux dehors"],l5safe:true,l5warn:"Ceinture obligatoire. Stop si douleur lombaire."},
-{id:"g2",name:"Romanian Deadlift",sets:3,reps:"8-10",rest:120,muscle:"hamstrings",imgs:["Romanian_Deadlift/0.jpg","Romanian_Deadlift/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-romanian-deadlift",yt:"https://www.youtube.com/results?search_query=romanian+deadlift",notes:"<b>Charnière hanche</b>.",coaching:["⚡ DOS NEUTRE OBLIGATOIRE"],l5safe:false,l5warn:"ATTENTION L5-S1 : dos strictement neutre. Arrête immédiatement si douleur. Pas de deadlift conventionnel."},
-{id:"g3",name:"Bulgarian Split Squat",sets:3,reps:"10/côté",rest:90,muscle:"quads",imgs:["Single_Leg_Squat/0.jpg","Single_Leg_Squat/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-bulgarian-split-squat",yt:"https://www.youtube.com/results?search_query=bulgarian+split+squat",notes:"<b>Torse droit</b>.",coaching:["80% sur jambe avant"],l5safe:true},
-{id:"g4",name:"Leg Curl",sets:3,reps:"12-15",rest:60,muscle:"hamstrings",imgs:["Lying_Leg_Curls/0.jpg","Lying_Leg_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/machine-leg-curl",yt:"https://www.youtube.com/results?search_query=leg+curl",notes:"<b>Contraction 1s</b>.",coaching:["Pas de claquement"],l5safe:true},
-{id:"g5",name:"Calf Raises",sets:4,reps:"15-20",rest:45,muscle:"calves",imgs:["Standing_Calf_Raises/0.jpg","Standing_Calf_Raises/1.jpg"],mw:"https://musclewiki.com/exercise/machine-calf-raise",yt:"https://www.youtube.com/results?search_query=calf+raise",notes:"<b>Pause 2s en bas</b>.",coaching:["Full ROM"],l5safe:true},
-{id:"g6",name:"Farmer's Walk",sets:3,reps:"30m",rest:60,muscle:"core",imgs:["Farmers_Walk/0.jpg","Farmers_Walk/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-farmers-walk",yt:"https://www.youtube.com/results?search_query=farmer+walk",notes:"<b>Gainage total</b>.",coaching:["Épaules basses"],l5safe:true}
-]}
+{id:"push",name:"PUSH",color:"#E63946",muscles:["chest","shoulders","triceps"],
+ compounds:[
+  {id:"p1",name:"Bench Press",sets:4,reps:"6-8",rest:120,muscle:"chest",imgs:["Barbell_Bench_Press_-_Medium_Grip/0.jpg","Barbell_Bench_Press_-_Medium_Grip/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-bench-press",yt:"https://www.youtube.com/results?search_query=bench+press+form",notes:"<b>Omoplates rétractées</b>. Coudes 45°.",coaching:["Barre en U pour lats","Pas de rebond"],l5safe:true},
+  {id:"p2",name:"OHP Debout",sets:3,reps:"8-10",rest:90,muscle:"shoulders",imgs:["Standing_Military_Press/0.jpg","Standing_Military_Press/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-overhead-press",yt:"https://www.youtube.com/results?search_query=overhead+press+form",notes:"<b>Gainage strict</b>. Lock-out.",coaching:["Fessiers serrés","Full ROM"],l5safe:true,l5warn:"Attention à ne pas cambrer — serre les abdos et fessiers"}
+ ],
+ pools:[
+  {label:"Poitrine acc.",exercises:[
+   {id:"pc1",name:"Incline DB Press",sets:3,reps:"10-12",rest:90,muscle:"chest",imgs:["Dumbbell_Bench_Press/0.jpg","Dumbbell_Bench_Press/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-incline-bench-press",yt:"https://www.youtube.com/results?search_query=incline+dumbbell+press",notes:"Banc <b>30°</b>. Excentrique 3s.",coaching:["Haltères se touchent en haut"],l5safe:true},
+   {id:"pc2",name:"Cable Fly",sets:3,reps:"12-15",rest:60,muscle:"chest",imgs:["Cable_Crossover/0.jpg","Cable_Crossover/1.jpg"],mw:"https://musclewiki.com/exercise/cable-fly",yt:"https://www.youtube.com/results?search_query=cable+fly+chest+form",notes:"<b>Étirement complet</b>. Coudes légèrement fléchis.",coaching:["Allonge avant de contracter"],l5safe:true},
+   {id:"pc3",name:"Dips Poitrine",sets:3,reps:"8-12",rest:90,muscle:"chest",imgs:["Dips_-_Triceps_Version/0.jpg","Dips_-_Triceps_Version/1.jpg"],mw:"https://musclewiki.com/exercise/bodyweight-chest-dip",yt:"https://www.youtube.com/results?search_query=chest+dips+form",notes:"<b>Buste penché</b> en avant pour cibler la poitrine.",coaching:["Descente 2-3s","Coudes légèrement en dehors"],l5safe:true}
+  ]},
+  {label:"Épaules acc.",exercises:[
+   {id:"ps1",name:"Lateral Raises",sets:3,reps:"12-15",rest:60,muscle:"shoulders",imgs:["Side_Lateral_Raise/0.jpg","Side_Lateral_Raise/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-lateral-raise",yt:"https://www.youtube.com/results?search_query=lateral+raise+form",notes:"<b>Pas d'élan</b>.",coaching:["Pause 1s en haut"],l5safe:true},
+   {id:"ps2",name:"Arnold Press",sets:3,reps:"10-12",rest:75,muscle:"shoulders",imgs:["Arnold_Dumbbell_Press/0.jpg","Arnold_Dumbbell_Press/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-arnold-press",yt:"https://www.youtube.com/results?search_query=arnold+press+form",notes:"<b>Rotation supination→pronation</b>. Full ROM.",coaching:["Départ paume vers toi","Contrôle total"],l5safe:true},
+   {id:"ps3",name:"Cable Lateral Raise",sets:3,reps:"15-20",rest:45,muscle:"shoulders",imgs:["Cable_Lateral_Raise/0.jpg","Cable_Lateral_Raise/1.jpg"],mw:"https://musclewiki.com/exercise/cable-lateral-raise",yt:"https://www.youtube.com/results?search_query=cable+lateral+raise",notes:"Câble basse poulie. <b>Tension constante</b>.",coaching:["Coude légèrement fléchi","Pause 1s"],l5safe:true}
+  ]},
+  {label:"Triceps A",exercises:[
+   {id:"pt1",name:"Triceps Pushdown",sets:3,reps:"12-15",rest:60,muscle:"triceps",imgs:["Triceps_Pushdown/0.jpg","Triceps_Pushdown/1.jpg"],mw:"https://musclewiki.com/exercise/cable-pushdown",yt:"https://www.youtube.com/results?search_query=tricep+pushdown",notes:"<b>Coudes collés</b>.",coaching:["Squeeze 1s"],l5safe:true},
+   {id:"pt2",name:"Skull Crushers",sets:3,reps:"10-12",rest:75,muscle:"triceps",imgs:["Skull_Crusher/0.jpg","Skull_Crusher/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-skull-crusher",yt:"https://www.youtube.com/results?search_query=skull+crusher+form",notes:"Barre EZ sur front. <b>Coudes verticaux</b>.",coaching:["Excentrique lent 3s","Coudes fixes"],l5safe:true}
+  ]},
+  {label:"Triceps B",exercises:[
+   {id:"pt3",name:"OH Triceps Ext.",sets:3,reps:"10-12",rest:60,muscle:"triceps",imgs:["Standing_Dumbbell_Triceps_Extension/0.jpg","Standing_Dumbbell_Triceps_Extension/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-overhead-triceps-extension",yt:"https://www.youtube.com/results?search_query=overhead+tricep+extension",notes:"<b>Étirement complet</b>.",coaching:["Coudes stables"],l5safe:true},
+   {id:"pt4",name:"Triceps Dips",sets:3,reps:"10-15",rest:75,muscle:"triceps",imgs:["Dips_-_Triceps_Version/0.jpg","Dips_-_Triceps_Version/1.jpg"],mw:"https://musclewiki.com/exercise/bodyweight-triceps-dip",yt:"https://www.youtube.com/results?search_query=tricep+dips+bench+form",notes:"<b>Torse vertical</b>. Coudes vers l'arrière.",coaching:["Descente 2s","Pas de balancement"],l5safe:true},
+   {id:"pt5",name:"Cable Kickback",sets:3,reps:"15-20",rest:45,muscle:"triceps",imgs:["Tricep_Dumbbell_Kickback/0.jpg","Tricep_Dumbbell_Kickback/1.jpg"],mw:"https://musclewiki.com/exercise/cable-triceps-kickback",yt:"https://www.youtube.com/results?search_query=cable+tricep+kickback+form",notes:"<b>Extension complète</b>. Contraction 1s.",coaching:["Bras parallèle au sol"],l5safe:true}
+  ]}
+ ]
+},
+{id:"pull",name:"PULL",color:"#457B9D",muscles:["back","biceps","shoulders"],
+ compounds:[
+  {id:"l1",name:"Pull-ups",sets:4,reps:"6-10",rest:120,muscle:"back",imgs:["Pullups/0.jpg","Pullups/1.jpg"],mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form",notes:"<b>Full ROM</b>.",coaching:["Descente 3s"],l5safe:true},
+  {id:"l2",name:"Bench DB Row",sets:4,reps:"8-10",rest:90,muscle:"back",imgs:["One-Arm_Dumbbell_Row/0.jpg","One-Arm_Dumbbell_Row/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=dumbbell+row+bench",notes:"<b>Unilatéral sur banc</b>.",coaching:["⚡ Remplace le bent-over row (L5-S1)"],l5safe:true,l5warn:"Toujours sur banc — jamais de row penché libre"}
+ ],
+ pools:[
+  {label:"Dos acc.",exercises:[
+   {id:"lb1",name:"Cable Row",sets:3,reps:"10-12",rest:90,muscle:"back",imgs:["Seated_Cable_Rows/0.jpg","Seated_Cable_Rows/1.jpg"],mw:"https://musclewiki.com/exercise/cable-seated-row",yt:"https://www.youtube.com/results?search_query=cable+row+form",notes:"<b>Tirez vers le nombril</b>. Omoplate serrée 1s.",coaching:["Dos neutre","Pas de balancement"],l5safe:true},
+   {id:"lb2",name:"T-Bar Row",sets:3,reps:"8-10",rest:90,muscle:"back",imgs:["T-Bar_Row_with_Handle/0.jpg","T-Bar_Row_with_Handle/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-t-bar-row",yt:"https://www.youtube.com/results?search_query=t+bar+row+form",notes:"<b>Buste à 45°</b>. Squeezing scapulaires.",coaching:["Pas d'arrondi lombaire"],l5safe:true,l5warn:"Buste à 45° strict — gainage si L5-S1"},
+   {id:"lb3",name:"Chest-Supported Row",sets:3,reps:"10-12",rest:75,muscle:"back",imgs:["Bent_Over_Two-Dumbbell_Row_With_Twist/0.jpg","Bent_Over_Two-Dumbbell_Row_With_Twist/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-incline-row",yt:"https://www.youtube.com/results?search_query=chest+supported+row+form",notes:"Banc incliné, <b>poitrine appuyée</b>. Zéro tension lombaire.",coaching:["Elbows back","Squeeze 1s"],l5safe:true}
+  ]},
+  {label:"Deltoïdes post.",exercises:[
+   {id:"lr1",name:"Face Pulls",sets:3,reps:"15-20",rest:60,muscle:"shoulders",imgs:["Face_Pull/0.jpg","Face_Pull/1.jpg"],mw:"https://musclewiki.com/exercise/cable-face-pull",yt:"https://www.youtube.com/results?search_query=face+pull+form",notes:"<b>Rotation externe</b>.",coaching:["Écarte les mains"],l5safe:true},
+   {id:"lr2",name:"Reverse Flyes",sets:3,reps:"12-15",rest:60,muscle:"shoulders",imgs:["Seated_Bent-Over_Rear_Delt_Raise/0.jpg","Seated_Bent-Over_Rear_Delt_Raise/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-reverse-fly",yt:"https://www.youtube.com/results?search_query=reverse+fly",notes:"<b>Banc incliné</b>.",coaching:["Léger, squeeze 1s"],l5safe:true},
+   {id:"lr3",name:"Band Pull-Aparts",sets:3,reps:"20-25",rest:45,muscle:"shoulders",imgs:["Band_Pull_Apart/0.jpg","Band_Pull_Apart/1.jpg"],mw:"https://musclewiki.com/exercise/band-pull-apart",yt:"https://www.youtube.com/results?search_query=band+pull+apart+form",notes:"Élastique à hauteur des épaules. <b>Étirement max.</b>",coaching:["Lent excentrique"],l5safe:true}
+  ]},
+  {label:"Biceps compos.",exercises:[
+   {id:"lb4",name:"Barbell Curls",sets:3,reps:"10-12",rest:60,muscle:"biceps",imgs:["Barbell_Curl/0.jpg","Barbell_Curl/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-curl",yt:"https://www.youtube.com/results?search_query=barbell+curl",notes:"Barre EZ. <b>Excentrique 3s</b>.",coaching:["Abdos serrés"],l5safe:true},
+   {id:"lb5",name:"Preacher Curl",sets:3,reps:"10-12",rest:75,muscle:"biceps",imgs:["Barbell_Curl/0.jpg","Barbell_Curl/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-preacher-curl",yt:"https://www.youtube.com/results?search_query=preacher+curl+form",notes:"<b>Isolation totale</b>. Étirement 1s en bas.",coaching:["Coudes sur le pupitre","Excentrique 3s"],l5safe:true},
+   {id:"lb6",name:"Incline DB Curl",sets:3,reps:"10-12",rest:75,muscle:"biceps",imgs:["Alternate_Incline_Dumbbell_Curl/0.jpg","Alternate_Incline_Dumbbell_Curl/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-incline-curl",yt:"https://www.youtube.com/results?search_query=incline+dumbbell+curl",notes:"Banc à 45°. <b>Étirement maximal biceps</b>.",coaching:["Paume vers le haut","Supination en haut"],l5safe:true}
+  ]},
+  {label:"Biceps iso.",exercises:[
+   {id:"li1",name:"Hammer Curls",sets:3,reps:"10-12",rest:60,muscle:"biceps",imgs:["Hammer_Curls/0.jpg","Hammer_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-hammer-curl",yt:"https://www.youtube.com/results?search_query=hammer+curl",notes:"<b>Pas de swing</b>.",coaching:["Coudes fixes"],l5safe:true},
+   {id:"li2",name:"Concentration Curl",sets:3,reps:"12-15",rest:60,muscle:"biceps",imgs:["Concentration_Curls/0.jpg","Concentration_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-concentration-curl",yt:"https://www.youtube.com/results?search_query=concentration+curl+form",notes:"<b>Coude contre la jambe</b>. Isolation totale.",coaching:["Contraction peak 1s","Excentrique 2s"],l5safe:true},
+   {id:"li3",name:"Cable Curl",sets:3,reps:"12-15",rest:60,muscle:"biceps",imgs:["Barbell_Curl/0.jpg","Barbell_Curl/1.jpg"],mw:"https://musclewiki.com/exercise/cable-curl",yt:"https://www.youtube.com/results?search_query=cable+curl+form",notes:"Câble basse poulie. <b>Tension constante</b>.",coaching:["Coudes fixes","Contraction 1s"],l5safe:true}
+  ]}
+ ]
+},
+{id:"legs",name:"LEGS",color:"#2A9D8F",muscles:["quads","hamstrings","calves","core"],
+ compounds:[
+  {id:"g1",name:"Back Squat",sets:4,reps:"6-8",rest:150,muscle:"quads",imgs:["Barbell_Squat/0.jpg","Barbell_Squat/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-squat",yt:"https://www.youtube.com/results?search_query=back+squat+form",notes:"<b>Ceinture recommandée</b>.",coaching:["Valsalva","Genoux dehors"],l5safe:true,l5warn:"Ceinture obligatoire. Stop si douleur lombaire."},
+  {id:"g2",name:"Romanian DL",sets:3,reps:"8-10",rest:120,muscle:"hamstrings",imgs:["Romanian_Deadlift/0.jpg","Romanian_Deadlift/1.jpg"],mw:"https://musclewiki.com/exercise/barbell-romanian-deadlift",yt:"https://www.youtube.com/results?search_query=romanian+deadlift",notes:"<b>Charnière hanche</b>.",coaching:["⚡ DOS NEUTRE OBLIGATOIRE"],l5safe:false,l5warn:"ATTENTION L5-S1 : dos strictement neutre. Arrête immédiatement si douleur."}
+ ],
+ pools:[
+  {label:"Quad uni.",exercises:[
+   {id:"gu1",name:"Bulgarian Split Squat",sets:3,reps:"10/côté",rest:90,muscle:"quads",imgs:["Single_Leg_Squat/0.jpg","Single_Leg_Squat/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-bulgarian-split-squat",yt:"https://www.youtube.com/results?search_query=bulgarian+split+squat",notes:"<b>Torse droit</b>.",coaching:["80% sur jambe avant"],l5safe:true},
+   {id:"gu2",name:"Lunges",sets:3,reps:"12/côté",rest:75,muscle:"quads",imgs:["Dumbbell_Lunges/0.jpg","Dumbbell_Lunges/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-lunge",yt:"https://www.youtube.com/results?search_query=dumbbell+lunges+form",notes:"<b>Genou avant à 90°</b>.",coaching:["Pas long","Torse vertical"],l5safe:true},
+   {id:"gu3",name:"Step-ups",sets:3,reps:"12/côté",rest:75,muscle:"quads",imgs:["Barbell_Step_Ups/0.jpg","Barbell_Step_Ups/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-step-up",yt:"https://www.youtube.com/results?search_query=dumbbell+step+up+form",notes:"<b>Pied entier sur le banc</b>. Pousse sur le talon.",coaching:["Contrôle la descente"],l5safe:true}
+  ]},
+  {label:"Ischios iso.",exercises:[
+   {id:"gh1",name:"Leg Curl",sets:3,reps:"12-15",rest:60,muscle:"hamstrings",imgs:["Lying_Leg_Curls/0.jpg","Lying_Leg_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/machine-leg-curl",yt:"https://www.youtube.com/results?search_query=leg+curl",notes:"<b>Contraction 1s</b>.",coaching:["Pas de claquement"],l5safe:true},
+   {id:"gh2",name:"Nordic Curl",sets:3,reps:"5-8",rest:120,muscle:"hamstrings",imgs:["Lying_Leg_Curls/0.jpg","Lying_Leg_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/nordic-hamstring-curl",yt:"https://www.youtube.com/results?search_query=nordic+hamstring+curl+form",notes:"<b>Excentrique maximal</b> — freine la descente lentement.",coaching:["Aide avec les bras si besoin"],l5safe:true},
+   {id:"gh3",name:"Seated Leg Curl",sets:3,reps:"12-15",rest:60,muscle:"hamstrings",imgs:["Lying_Leg_Curls/0.jpg","Lying_Leg_Curls/1.jpg"],mw:"https://musclewiki.com/exercise/machine-seated-leg-curl",yt:"https://www.youtube.com/results?search_query=seated+leg+curl+form",notes:"<b>Pied fléchi</b>. Squeeze 1s en bas.",coaching:["Étirement en haut"],l5safe:true}
+  ]},
+  {label:"Mollets.",exercises:[
+   {id:"gc1",name:"Calf Raises",sets:4,reps:"15-20",rest:45,muscle:"calves",imgs:["Standing_Calf_Raises/0.jpg","Standing_Calf_Raises/1.jpg"],mw:"https://musclewiki.com/exercise/machine-calf-raise",yt:"https://www.youtube.com/results?search_query=calf+raise",notes:"<b>Pause 2s en bas</b>.",coaching:["Full ROM"],l5safe:true},
+   {id:"gc2",name:"Seated Calf Raise",sets:4,reps:"15-20",rest:45,muscle:"calves",imgs:["Standing_Calf_Raises/0.jpg","Standing_Calf_Raises/1.jpg"],mw:"https://musclewiki.com/exercise/machine-seated-calf-raise",yt:"https://www.youtube.com/results?search_query=seated+calf+raise+form",notes:"<b>Soléaire ciblé</b>. Pause 2s en bas.",coaching:["Genou fléchi","Full ROM"],l5safe:true},
+   {id:"gc3",name:"Single-Leg Calf Raise",sets:3,reps:"15/côté",rest:45,muscle:"calves",imgs:["Standing_Calf_Raises/0.jpg","Standing_Calf_Raises/1.jpg"],mw:"https://musclewiki.com/exercise/single-leg-calf-raise",yt:"https://www.youtube.com/results?search_query=single+leg+calf+raise",notes:"<b>Unilatéral</b> — révèle les déséquilibres.",coaching:["Descente lente 3s"],l5safe:true}
+  ]},
+  {label:"Fonctionnel.",exercises:[
+   {id:"gf1",name:"Farmer's Walk",sets:3,reps:"30m",rest:60,muscle:"core",imgs:["Farmers_Walk/0.jpg","Farmers_Walk/1.jpg"],mw:"https://musclewiki.com/exercise/dumbbell-farmers-walk",yt:"https://www.youtube.com/results?search_query=farmer+walk",notes:"<b>Gainage total</b>.",coaching:["Épaules basses"],l5safe:true},
+   {id:"gf2",name:"Plank",sets:3,reps:"45-60s",rest:60,muscle:"core",imgs:["Plank/0.jpg","Plank/1.jpg"],mw:"https://musclewiki.com/exercise/plank",yt:"https://www.youtube.com/results?search_query=plank+form",notes:"<b>Corps aligné</b>. Pas de cambre.",coaching:["Hanches ni haut ni bas","Respire"],l5safe:true},
+   {id:"gf3",name:"Ab Wheel",sets:3,reps:"8-12",rest:75,muscle:"core",imgs:["Ab_Roller/0.jpg","Ab_Roller/1.jpg"],mw:"https://musclewiki.com/exercise/ab-roller",yt:"https://www.youtube.com/results?search_query=ab+wheel+rollout+form",notes:"<b>Rollout lent</b>. Ne pas cambrer.",coaching:["Expire en rentrant","Stop avant le sol"],l5safe:true,l5warn:"Rollout partiel uniquement si L5-S1 — stop si douleur."}
+  ]}
+ ]
+}
 ]};
 // ═══ STATE ═══
 const SK="apex-fit-v8";
 let S={view:"home",hist:[],sess:null,ei:-1,log:{},notes:"",t0:null,phase:0};
-function loadS(){try{const d=JSON.parse(localStorage.getItem(SK));if(d){S.hist=d.history||[];S.phase=d.phase||0;}const a=localStorage.getItem(SK+"_a");if(a){const x=JSON.parse(a);S.sess=PROG.sessions.find(s=>s.id===x.sid)||null;S.ei=x.ei;S.log=x.log||{};S.notes=x.notes||"";S.t0=x.t0;if(S.sess)S.view="session";}}catch{}}
+function loadS(){try{const d=JSON.parse(localStorage.getItem(SK));if(d){S.hist=d.history||[];S.phase=d.phase||0;}const a=localStorage.getItem(SK+"_a");if(a){const x=JSON.parse(a);if(x.sid){S.sess=buildSession(x.sid,x.exercises||null);S.ei=x.ei;S.log=x.log||{};S.notes=x.notes||"";S.t0=x.t0;if(S.sess)S.view="session";}}}catch{}}
 function saveS(){try{localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase}));}catch{}}
-function saveA(){try{if(S.sess)localStorage.setItem(SK+"_a",JSON.stringify({sid:S.sess.id,ei:S.ei,log:S.log,notes:S.notes,t0:S.t0}));else localStorage.removeItem(SK+"_a");}catch{}}
+function saveA(){try{if(S.sess)localStorage.setItem(SK+"_a",JSON.stringify({sid:S.sess.id,ei:S.ei,log:S.log,notes:S.notes,t0:S.t0,exercises:S.sess.exercises}));else localStorage.removeItem(SK+"_a");}catch{}}
 
 // ═══ SMART FEATURES ═══
 // 1RM: Average of Epley + Brzycki for ≤10 reps (DiStasio 2014: ±2.7kg accuracy)
@@ -391,6 +454,33 @@ function pickWOD(sessId){
   return sorted[0];
 }
 
+// ─── ACCESSORY ROTATION (LRU, même logique que WODs) ───
+// Helms/RTS : accessories tournent toutes les 2-4 sessions → stimulus neuf = progression
+function pickPoolExercise(pool){
+  if(!pool||!pool.length)return pool?.[0]||null;
+  const used={};
+  S.hist.forEach(h=>{h.exercises.forEach(ex=>{if(pool.some(p=>p.name===ex.name)&&!used[ex.name])used[ex.name]=h.date;});});
+  return [...pool].sort((a,b)=>{
+    const da=used[a.name]?new Date(used[a.name]).getTime():0;
+    const db=used[b.name]?new Date(used[b.name]).getTime():0;
+    return da-db;
+  })[0];
+}
+function buildSession(sessId,savedExercises){
+  const base=PROG.sessions.find(s=>s.id===sessId);if(!base)return null;
+  const sess=Object.assign({},base);
+  if(savedExercises&&savedExercises.length){
+    // Restore session in-progress: récupère les exos sauvegardés dans le state actif
+    const allEx=[...base.compounds,...base.pools.flatMap(p=>p.exercises)];
+    const restored=savedExercises.map(sv=>allEx.find(e=>e.id===sv.id)||sv).filter(Boolean);
+    sess.exercises=restored.length?restored:[...base.compounds,...base.pools.map(p=>pickPoolExercise(p.exercises))].filter(Boolean);
+  }else{
+    // Nouvelle séance : pick LRU dans chaque pool
+    sess.exercises=[...base.compounds,...base.pools.map(p=>pickPoolExercise(p.exercises))].filter(Boolean);
+  }
+  return sess;
+}
+
 // ═══ CSV EXPORT ═══
 function exportCSV(){
   let csv="Date;Session;Phase;Durée;Exercice;Muscle;Set;Kg;Reps;Volume;1RM est.;RIR;Notes\n";
@@ -446,7 +536,7 @@ function rHome(){
   ${recSess?`<div class="card" style="border-left:4px solid ${recSess.color};cursor:pointer" onclick="goSess('${rec.id}')"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--ok);font-weight:600">💡 Recommandé aujourd'hui</div><div style="font-size:16px;font-weight:900;color:${recSess.color};margin-top:4px">${recSess.name}</div><div style="font-size:11px;color:var(--mt);margin-top:2px">${rec.days>0?`Dernier il y a ${rec.days}j`:'Jamais fait'} — WOD: ${pickWOD(rec.id)?.name||'—'}</div></div>`:``}
   <div class="card" style="padding:12px 16px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:10px">⟳ Cycle PPL — Récupération</div><div style="display:flex;align-items:center;gap:5px">${ppls.map((p,i)=>`<div style="flex:1;text-align:center;border-radius:10px;padding:9px 4px;border:1px solid ${p.days===0?p.color:'var(--bd)'};background:${p.days===0?p.color+'22':p.days===null?'var(--cd2)':'none'}"><div style="font-size:12px;font-weight:900;color:${p.color}">${p.name}</div><div style="font-size:11px;font-weight:700;margin-top:3px;color:${p.days===null?'var(--mt)':p.days===0?p.color:p.days<=2?'var(--ok)':p.days<=5?'var(--t2)':'var(--mt)'}">${p.days===null?'—':p.days===0?'Auj.':p.days===1?'Hier':p.days+'j'}</div></div>${i<2?`<div style="color:var(--mt);font-size:13px;flex-shrink:0">→</div>`:''}`).join('')}</div></div>
   <div class="sec-title">Programme PPL</div>
-  ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const wod=pickWOD(s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.exercises.length} exos + WOD ${wod?.type||""}: ${wod?.name||""}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
+  ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const wod=pickWOD(s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.compounds.length+s.pools.length} exos + WOD ${wod?.type||""}: ${wod?.name||""}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
   <div class="card" style="background:var(--ok10);border-color:var(--ok)"><div style="font-size:12px;font-weight:700;color:var(--ok);margin-bottom:4px">⚡ Mode Back Pain Safe — L5-S1</div><div style="font-size:11px;color:var(--t2);line-height:1.6"><b>Obligatoire</b> : McGill Big 3 + Dead Bug<br><b>Interdit</b> : Bent-over rows, deadlift conventionnel<br><b>Modifié</b> : Burpees step-back, ceinture au squat<br><b>Alertes</b> : en temps réel sur chaque exercice sensible</div></div>`;
 }
 
@@ -533,7 +623,7 @@ function rSett(){
 
 // ═══ ACTIONS ═══
 function nav(v){S.view=v;if(v!=="session")tStop();R();}
-function goSess(id){S.sess=PROG.sessions.find(s=>s.id===id);S.ei=-1;S.log={};S.notes="";S.t0=Date.now();S.view="session";saveA();R();}
+function goSess(id){S.sess=buildSession(id);S.ei=-1;S.log={};S.notes="";S.t0=Date.now();S.view="session";saveA();R();}
 function setEi(i){S.ei=i;saveA();R();}
 function setPhase(i){S.phase=i;saveS();R();}
 function setRIR(eid,rir){if(!S.log[eid])S.log[eid]={};S.log[eid].rir=rir;saveA();R();}
