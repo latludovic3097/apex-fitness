@@ -326,16 +326,18 @@ const PROG={sessions:[
 const CORE_PROGRAM={
   exercises:[
     {id:"pallof",name:"Cable Pallof Press",muscle:"obliques",
-     mw:"https://www.google.com/search?q=musclewiki+pallof+press",
-     yt:"https://www.youtube.com/results?search_query=cable+pallof+press+form+mcgill",
+     imgs:["Pallof_Press/0.jpg","Pallof_Press/1.jpg"],
+     mw:"https://www.google.com/search?q=pallof+press+squat+university",
+     yt:"https://www.youtube.com/results?search_query=Squat+University+Pallof+Press+how+to",
      coaching:["Position demi-fente, genou côté poulie au sol","Mains au sternum, poignée à 2 mains","Pousse les bras DEVANT (pas vers la poulie)","Tiens 2-3s à pleine extension, retour 2s","Bassin et épaules figés — rien ne tourne"],
      notes:"Anti-rotation chargée. Le câble veut te tordre, tu résistes.",
      prog:[{w:25,s:4,r:10,h:2},{w:27.5,s:4,r:10,h:2},{w:30,s:4,r:10,h:2},{w:32.5,s:4,r:10,h:2},{w:35,s:4,r:8,h:3},{w:37.5,s:4,r:8,h:3},{w:40,s:4,r:8,h:3},{w:42.5,s:4,r:8,h:3},{w:45,s:4,r:6,h:3},{w:47.5,s:4,r:6,h:3},{w:50,s:4,r:6,h:3},{w:55,s:4,r:6,h:3}]},
     {id:"suitcase",name:"Heavy Suitcase Carry",muscle:"obliques",
-     mw:"https://www.google.com/search?q=musclewiki+suitcase+carry",
-     yt:"https://www.youtube.com/results?search_query=heavy+suitcase+carry+mcgill",
-     coaching:["KB ou haltère lourd dans UNE seule main","Épaules tirées en arrière, posture droite","Tronc figé : ton voisin doit pas voir que tu portes du poids","L'épaule du côté chargé reste haute (= QL travaille)","Marche la distance, puis change de côté"],
-     notes:"McGill : « l'un des meilleurs exercices pour le tronc ». Asymétrie = QL + obliques en stiffness max.",
+     imgs:["Farmers_Walk/0.jpg","Farmers_Walk/1.jpg"],
+     mw:"https://www.google.com/search?q=suitcase+carry+stuart+mcgill",
+     yt:"https://www.youtube.com/results?search_query=Stuart+McGill+suitcase+carry+OR+single+arm+farmer+walk",
+     coaching:["KB ou haltère lourd dans UNE seule main (vs Farmer's Walk = 2 mains)","Épaules tirées en arrière, posture droite","Tronc figé : ton voisin doit pas voir que tu portes du poids","L'épaule du côté chargé reste haute (= QL travaille)","Marche la distance, puis change de côté"],
+     notes:"McGill : « l'un des meilleurs exercices pour le tronc ». Suitcase = 1 main (vs Farmer's Walk en démo). L'asymétrie est le facteur clé.",
      prog:[{w:22,s:3,d:30},{w:24,s:3,d:30},{w:26,s:3,d:30},{w:28,s:3,d:30},{w:30,s:3,d:35},{w:32,s:3,d:35},{w:34,s:3,d:35},{w:36,s:3,d:40},{w:38,s:4,d:40},{w:40,s:4,d:40},{w:42,s:4,d:40},{w:44,s:4,d:40}]}
   ]
 };
@@ -711,6 +713,7 @@ function rCore(){
   <div class="pills">${exs.map((e,i)=>`<button class="pill ${ei===i?'active':''}" style="${ei===i?`background:#a855f7;color:#fff`:''}" onclick="coreSetEi(${i})">${i+1}. ${e.name.split(' ').slice(-1)[0]}</button>`).join('')}</div>
   <div class="card" style="padding:20px"><div class="ex-name">${ex.name}<span class="phase-badge" style="background:rgba(168,85,247,.15);color:#a855f7">Sem ${wk}</span></div>
   <div class="ex-sets-info">${targetLine}</div><div class="ex-muscle-badge" style="background:rgba(168,85,247,.15);color:#a855f7">${ex.muscle}</div>
+  ${ex.imgs?`<div class="ex-imgs">${ex.imgs.map((p,i)=>`<div class="ex-img-wrap"><img src="${I}${p}" onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;font-size:10px;color:var(--mt)>—</div>'"><div class="ex-img-label">${i?'Fin':'Départ'}</div></div>`).join("")}</div>`:""}
   <div class="link-row"><a class="ex-link" href="${ex.mw}" target="_blank">Wiki</a><a class="ex-link" href="${ex.yt}" target="_blank">▶ YouTube</a></div>
   ${ex.coaching.map(c=>`<div style="display:flex;gap:6px;padding:3px 0;font-size:11px;color:var(--t2)"><span style="color:#a855f7;font-weight:700">✦</span>${c}</div>`).join("")}
   <div class="ex-notes" style="margin-top:8px">💡 ${ex.notes}</div>
@@ -728,7 +731,7 @@ function finishCore(){const wk=coreCurrentWeek(),dur=Math.round((Date.now()-(S.c
 // ═══ NUTRITION (Mifflin-St Jeor + macros) ═══
 function nutCalc(){const n=S.nut;const bmr=n.sex==="M"?(10*n.weight+6.25*n.height-5*n.age+5):(10*n.weight+6.25*n.height-5*n.age-161);const tdee=bmr*n.activity;const target=Math.round(tdee+n.goal);const protein=Math.round(n.weight*n.proteinPerKg);const fat=Math.round(n.weight*n.fatPerKg);const carbs=Math.round((target-protein*4-fat*9)/4);return{bmr:Math.round(bmr),tdee:Math.round(tdee),target,protein,fat,carbs:Math.max(0,carbs),deficit:n.goal,weeklyChange:(n.goal*7/7700).toFixed(2)};}
 function nutSet(k,v){S.nut[k]=v;saveS();R();}
-function nutLogWeight(){const w=parseFloat(document.getElementById("nutW").value);if(!w||w<30||w>250)return;S.nut.weightLog.unshift({date:new Date().toISOString(),weight:w});S.nut.weight=w;saveS();R();}
+function nutLogWeight(){const raw=(document.getElementById("nutW").value||"").trim().replace(",",".");const w=parseFloat(raw);if(!w||w<30||w>250){alert("Saisis un poids valide entre 30 et 250 kg (ex: 75.4 ou 75,4)");return;}S.nut.weightLog.unshift({date:new Date().toISOString(),weight:w});S.nut.weight=w;saveS();R();}
 function nutDelWeight(i){if(confirm("Supprimer cette pesée ?")){S.nut.weightLog.splice(i,1);saveS();R();}}
 function rNutrition(){
   const n=S.nut,c=nutCalc();
@@ -753,7 +756,7 @@ function rNutrition(){
   <div style="margin-top:10px"><div style="font-size:10px;text-transform:uppercase;color:var(--mt);font-weight:600;margin-bottom:4px">Objectif</div><select class="inp" onchange="nutSet('goal',parseInt(this.value))">${Object.entries(goalLabels).map(([k,v])=>`<option value="${k}" ${parseInt(k)===n.goal?'selected':''}>${v}</option>`).join("")}</select></div>
   </div>
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:10px">Suivi du poids</div>
-  <div style="display:flex;gap:6px;margin-bottom:10px"><input class="inp" id="nutW" type="number" step="0.1" placeholder="Poids du jour (kg)" style="flex:1"><button class="btn" style="background:#10b981;border-color:#10b981;padding:10px 16px" onclick="nutLogWeight()">+ Ajouter</button></div>
+  <div style="margin-bottom:10px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:6px">Pesée du jour (kg) — virgule ou point acceptés</div><input class="inp" id="nutW" type="text" inputmode="decimal" pattern="[0-9]+([.,][0-9]+)?" placeholder="ex: 75,4" style="width:100%;font-size:18px;text-align:center;padding:14px;letter-spacing:1px" autocomplete="off"><button class="btn" style="background:#10b981;border-color:#10b981;width:100%;margin-top:8px;padding:12px" onclick="nutLogWeight()">+ Enregistrer ma pesée</button></div>
   ${chart?`<div style="margin-bottom:10px">${chart}</div>`:""}
   ${n.weightLog.length?n.weightLog.slice(0,8).map((w,i)=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="color:var(--t2)">${new Date(w.date).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})}</span><span style="font-weight:700">${w.weight} kg</span><button onclick="nutDelWeight(${i})" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:12px">×</button></div>`).join(""):'<div style="text-align:center;color:var(--mt);font-size:11px;padding:20px">Aucune pesée enregistrée</div>'}
   </div>
