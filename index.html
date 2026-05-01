@@ -320,11 +320,34 @@ const PROG={sessions:[
  ]
 }
 ]};
+// ═══ CORE HEAVY PROGRAM (12 weeks - L5-S1 safe, McGill-validated) ═══
+// Pallof Press: anti-rotation, oblique thickness | Suitcase Carry: anti-lateral-flexion, QL+obliques
+// Sources: McGill 2010, Behm 2010, Escamilla 2010 — pas de flexion lombaire chargée
+const CORE_PROGRAM={
+  exercises:[
+    {id:"pallof",name:"Cable Pallof Press",muscle:"obliques",
+     mw:"https://www.google.com/search?q=musclewiki+pallof+press",
+     yt:"https://www.youtube.com/results?search_query=cable+pallof+press+form+mcgill",
+     coaching:["Position demi-fente, genou côté poulie au sol","Mains au sternum, poignée à 2 mains","Pousse les bras DEVANT (pas vers la poulie)","Tiens 2-3s à pleine extension, retour 2s","Bassin et épaules figés — rien ne tourne"],
+     notes:"Anti-rotation chargée. Le câble veut te tordre, tu résistes.",
+     prog:[{w:25,s:4,r:10,h:2},{w:27.5,s:4,r:10,h:2},{w:30,s:4,r:10,h:2},{w:32.5,s:4,r:10,h:2},{w:35,s:4,r:8,h:3},{w:37.5,s:4,r:8,h:3},{w:40,s:4,r:8,h:3},{w:42.5,s:4,r:8,h:3},{w:45,s:4,r:6,h:3},{w:47.5,s:4,r:6,h:3},{w:50,s:4,r:6,h:3},{w:55,s:4,r:6,h:3}]},
+    {id:"suitcase",name:"Heavy Suitcase Carry",muscle:"obliques",
+     mw:"https://www.google.com/search?q=musclewiki+suitcase+carry",
+     yt:"https://www.youtube.com/results?search_query=heavy+suitcase+carry+mcgill",
+     coaching:["KB ou haltère lourd dans UNE seule main","Épaules tirées en arrière, posture droite","Tronc figé : ton voisin doit pas voir que tu portes du poids","L'épaule du côté chargé reste haute (= QL travaille)","Marche la distance, puis change de côté"],
+     notes:"McGill : « l'un des meilleurs exercices pour le tronc ». Asymétrie = QL + obliques en stiffness max.",
+     prog:[{w:22,s:3,d:30},{w:24,s:3,d:30},{w:26,s:3,d:30},{w:28,s:3,d:30},{w:30,s:3,d:35},{w:32,s:3,d:35},{w:34,s:3,d:35},{w:36,s:3,d:40},{w:38,s:4,d:40},{w:40,s:4,d:40},{w:42,s:4,d:40},{w:44,s:4,d:40}]}
+  ]
+};
+
 // ═══ STATE ═══
 const SK="apex-fit-v8";
-let S={view:"home",hist:[],sess:null,ei:-1,log:{},notes:"",t0:null,phase:0,cardio:{mode:"run",duration:30,incline:1,speed:10,distance:1000,resistance:5,notes:""}};
-function loadS(){try{const d=JSON.parse(localStorage.getItem(SK));if(d){S.hist=d.history||[];S.phase=d.phase||0;if(d.cardio)S.cardio={...S.cardio,...d.cardio};}const a=localStorage.getItem(SK+"_a");if(a){const x=JSON.parse(a);if(x.sid){S.sess=buildSession(x.sid,x.exercises||null);S.ei=x.ei;S.log=x.log||{};S.notes=x.notes||"";S.t0=x.t0;if(S.sess)S.view="session";}}}catch{}}
-function saveS(){try{localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio}));}catch{}}
+let S={view:"home",hist:[],sess:null,ei:-1,log:{},notes:"",t0:null,phase:0,
+  cardio:{mode:"run",duration:30,incline:1,speed:10,distance:1000,resistance:5,notes:""},
+  core:{startDate:null,coreLog:{},coreNotes:"",coreT0:null,ei:0},
+  nut:{weight:75,height:178,age:30,sex:"M",activity:1.55,goal:-400,proteinPerKg:2,fatPerKg:0.8,weightLog:[]}};
+function loadS(){try{const d=JSON.parse(localStorage.getItem(SK));if(d){S.hist=d.history||[];S.phase=d.phase||0;if(d.cardio)S.cardio={...S.cardio,...d.cardio};if(d.core)S.core={...S.core,...d.core};if(d.nut)S.nut={...S.nut,...d.nut};}const a=localStorage.getItem(SK+"_a");if(a){const x=JSON.parse(a);if(x.sid){S.sess=buildSession(x.sid,x.exercises||null);S.ei=x.ei;S.log=x.log||{};S.notes=x.notes||"";S.t0=x.t0;if(S.sess)S.view="session";}}}catch{}}
+function saveS(){try{localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut}));}catch{}}
 function saveA(){try{if(S.sess)localStorage.setItem(SK+"_a",JSON.stringify({sid:S.sess.id,ei:S.ei,log:S.log,notes:S.notes,t0:S.t0,exercises:S.sess.exercises}));else localStorage.removeItem(SK+"_a");}catch{}}
 
 // ═══ SMART FEATURES ═══
@@ -509,7 +532,7 @@ function svgLine(data,lk,vk,col,w,h){
 // ═══ RENDER ═══
 function R(){
   const a=document.getElementById("app");let h="";
-  if(S.view==="home")h=rHome();else if(S.view==="session")h=rSession();else if(S.view==="cardio")h=rCardio();else if(S.view==="history")h=rHist();else if(S.view==="settings")h=rSett();
+  if(S.view==="home")h=rHome();else if(S.view==="session")h=rSession();else if(S.view==="cardio")h=rCardio();else if(S.view==="core")h=rCore();else if(S.view==="nutrition")h=rNutrition();else if(S.view==="history")h=rHist();else if(S.view==="settings")h=rSett();
   if(S.view!=="session")h+=`<div class="nav">${[{id:"home",l:"Accueil",i:'<path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/>'},{id:"history",l:"Historique",i:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'},{id:"settings",l:"Réglages",i:'<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>'}].map(x=>`<button class="nav-btn ${S.view===x.id?'active':''}" onclick="nav('${x.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${x.i}</svg>${x.l}</button>`).join("")}</div>`;
   a.innerHTML=h;
   // Update floating timer display
@@ -541,6 +564,10 @@ function rHome(){
   ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const wod=pickWOD(s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.compounds.length+s.pools.length} exos + WOD ${wod?.type||""}: ${wod?.name||""}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
   <div class="sec-title">Cardio</div>
   <div class="card sess-card" style="border-left-color:#06b6d4" onclick="goCardio()"><div class="sess-inner"><div><div class="sess-name" style="color:#06b6d4">CARDIO</div><div class="sess-meta">Course · Nage · Vélo — durée, pente, vitesse, distance, résistance</div>${(()=>{const lastC=S.hist.find(h=>h.sessionId==='cardio');return lastC?`<div class="sess-meta">Dernier : ${new Date(lastC.date).toLocaleDateString("fr-FR")} — ${lastC.cardio?.mode==='run'?'Course':lastC.cardio?.mode==='swim'?'Nage':'Vélo'}</div>`:"";})()}</div><div style="color:#06b6d4;font-size:22px;opacity:.7">→</div></div></div>
+  <div class="sec-title">Core Heavy (L5-S1 safe)</div>
+  <div class="card sess-card" style="border-left-color:#a855f7" onclick="goCore()"><div class="sess-inner"><div><div class="sess-name" style="color:#a855f7">CORE</div><div class="sess-meta">Pallof Press + Suitcase Carry — programme 12 sem · 2×/sem</div>${(()=>{const lastC=S.hist.find(h=>h.sessionId==='core');const wk=S.core.startDate?coreCurrentWeek():null;return lastC?`<div class="sess-meta">Dernier : ${new Date(lastC.date).toLocaleDateString("fr-FR")}${wk?` · Semaine ${wk}/12`:""}</div>`:wk?`<div class="sess-meta">Semaine ${wk}/12</div>`:`<div class="sess-meta" style="color:#a855f7">Pas encore démarré</div>`;})()}</div><div style="color:#a855f7;font-size:22px;opacity:.7">→</div></div></div>
+  <div class="sec-title">Nutrition</div>
+  <div class="card sess-card" style="border-left-color:#10b981" onclick="nav('nutrition')"><div class="sess-inner"><div><div class="sess-name" style="color:#10b981">NUTRITION</div><div class="sess-meta">${(()=>{const c=nutCalc();return`Cible : <b style="color:#10b981">${c.target} kcal/j</b> · ${c.protein}g prot · ${c.fat}g lip · ${c.carbs}g glucides`;})()}</div>${S.nut.weightLog.length?`<div class="sess-meta">Dernière pesée : ${S.nut.weightLog[0].weight}kg le ${new Date(S.nut.weightLog[0].date).toLocaleDateString("fr-FR")}</div>`:`<div class="sess-meta" style="color:#10b981">Configurer mon plan calorique →</div>`}</div><div style="color:#10b981;font-size:22px;opacity:.7">→</div></div></div>
   <div class="card" style="background:var(--ok10);border-color:var(--ok)"><div style="font-size:12px;font-weight:700;color:var(--ok);margin-bottom:4px">⚡ Mode Back Pain Safe — L5-S1</div><div style="font-size:11px;color:var(--t2);line-height:1.6"><b>Obligatoire</b> : McGill Big 3 + Dead Bug<br><b>Interdit</b> : Bent-over rows, deadlift conventionnel<br><b>Modifié</b> : Burpees step-back, ceinture au squat<br><b>Alertes</b> : en temps réel sur chaque exercice sensible</div></div>`;
 }
 
@@ -656,6 +683,81 @@ function rCardio(){
   return`<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="if(confirm('Quitter ?')){nav('home')}">←</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:#06b6d4">CARDIO</div><div style="font-size:11px;color:var(--mt)">${Math.round(el/6e4)}min</div></div></div>
   <div class="card"><div style="display:flex;gap:6px;margin-bottom:14px">${modeTabs}</div>${fields}${derived}<div style="margin-top:10px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:4px">Notes</div><textarea class="inp" placeholder="Ressenti, météo, FC moyenne…" oninput="setCardio('notes',this.value)">${c.notes||""}</textarea></div><button class="btn btn-ok" style="margin-top:14px" onclick="finishCardio()">✓ Enregistrer</button></div>
   <div class="card"><div style="font-size:11px;color:var(--t2);line-height:1.5"><b style="color:#06b6d4">💡 Zones FC (220-âge)</b><br>Z2 endurance (60-70%) · Z3 tempo (70-80%) · Z4 seuil (80-90%) · Z5 VO2max (90-100%)<br><br><b style="color:#06b6d4">Pyramide polarisée</b> : 80% Z2 · 10% Z3 · 10% Z4-5 (Seiler 2010)</div></div>`;
+}
+
+// ═══ CORE PROGRAM (12 weeks) ═══
+function coreCurrentWeek(){if(!S.core.startDate)return 1;const days=Math.floor((Date.now()-new Date(S.core.startDate).getTime())/864e5);return Math.min(12,Math.max(1,Math.floor(days/7)+1));}
+function coreSessionsThisWeek(){const wk=coreCurrentWeek(),now=Date.now();return S.hist.filter(h=>h.sessionId==="core"&&h.coreWeek===wk&&(now-new Date(h.date).getTime())<7*864e5).length;}
+function rCore(){
+  if(!S.core.startDate){
+    return`<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="nav('home')">←</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:#a855f7">CORE HEAVY</div><div></div></div></div>
+    <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:8px;color:#a855f7">Programme 12 semaines — L5-S1 safe</div>
+    <div style="font-size:11px;color:var(--t2);line-height:1.6;margin-bottom:14px">2 exercices, 2 séances/semaine, ~12 min en fin de séance Push/Pull/Legs.<br><br><b>1. Cable Pallof Press</b> — anti-rotation, charge progressive 25→55kg<br><b>2. Heavy Suitcase Carry</b> — anti-flexion latérale, charge 22→44kg/main<br><br>Validés McGill / Behm / Escamilla. Aucun exercice en flexion lombaire chargée (sit-up, crunch, russian twist exclus).</div>
+    <button class="btn" style="background:#a855f7;border-color:#a855f7" onclick="coreStart()">🚀 Démarrer le programme (semaine 1)</button>
+    </div>
+    <div class="card" style="background:rgba(168,85,247,.1);border-color:#a855f7"><div style="font-size:11px;font-weight:700;color:#a855f7;margin-bottom:6px">⚡ Critères pour stopper / réduire</div><div style="font-size:11px;color:var(--t2);line-height:1.6">• Sciatique (irradiation jambe) → STOP, repos 5j<br>• Douleur lombaire >24h → -20% charge la semaine suivante<br>• Perte de neutralité bassin/épaules → trop lourd</div></div>`;
+  }
+  const wk=coreCurrentWeek(),sw=coreSessionsThisWeek(),el=S.core.coreT0?Math.round((Date.now()-S.core.coreT0)/6e4):0;
+  const ei=S.core.ei||0,exs=CORE_PROGRAM.exercises,ex=exs[ei],t=ex.prog[wk-1];
+  const log=S.core.coreLog[ex.id]||{};
+  const isCarry=ex.id==="suitcase";
+  const sH=Array.from({length:t.s}).map((_,si)=>{const l=log[si]||{};
+    const wF=`<input class="inp" type="number" inputmode="decimal" step="0.5" placeholder="${t.w}" value="${l.weight||''}" onchange="coreLog('${ex.id}',${si},'weight',parseFloat(this.value)||0)">`;
+    const rF=isCarry?`<input class="inp" type="number" inputmode="numeric" placeholder="${t.d}m" value="${l.reps||''}" onchange="coreLog('${ex.id}',${si},'reps',parseInt(this.value)||0)">`:`<input class="inp" type="number" inputmode="numeric" placeholder="${t.r}/côté" value="${l.reps||''}" onchange="coreLog('${ex.id}',${si},'reps',parseInt(this.value)||0)">`;
+    return`<div class="set-row"><div class="set-num ${l.weight?'set-done':'set-empty'}">${si+1}</div>${wF}${rF}<div style="text-align:center;font-size:15px;color:${l.weight?'var(--ok)':'var(--mt)'}">${l.weight?'✓':'○'}</div></div>`;
+  }).join("");
+  const targetLine=isCarry?`${t.s}× ${t.d}m × ${t.w}kg / main`:`${t.s}× ${t.r}/côté × ${t.w}kg (tenue ${t.h}s)`;
+  return`<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="if(confirm('Quitter ?')){nav('home')}">←</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:#a855f7">CORE — S${wk}</div><div style="font-size:11px;color:var(--mt)">${el}min · ${sw}/2 cette sem.</div></div><div class="prog-bar"><div class="prog-fill" style="width:${(wk/12)*100}%;background:#a855f7"></div></div></div>
+  <div class="pills">${exs.map((e,i)=>`<button class="pill ${ei===i?'active':''}" style="${ei===i?`background:#a855f7;color:#fff`:''}" onclick="coreSetEi(${i})">${i+1}. ${e.name.split(' ').slice(-1)[0]}</button>`).join('')}</div>
+  <div class="card" style="padding:20px"><div class="ex-name">${ex.name}<span class="phase-badge" style="background:rgba(168,85,247,.15);color:#a855f7">Sem ${wk}</span></div>
+  <div class="ex-sets-info">${targetLine}</div><div class="ex-muscle-badge" style="background:rgba(168,85,247,.15);color:#a855f7">${ex.muscle}</div>
+  <div class="link-row"><a class="ex-link" href="${ex.mw}" target="_blank">Wiki</a><a class="ex-link" href="${ex.yt}" target="_blank">▶ YouTube</a></div>
+  ${ex.coaching.map(c=>`<div style="display:flex;gap:6px;padding:3px 0;font-size:11px;color:var(--t2)"><span style="color:#a855f7;font-weight:700">✦</span>${c}</div>`).join("")}
+  <div class="ex-notes" style="margin-top:8px">💡 ${ex.notes}</div>
+  <div class="sets-header"><span>Set</span><span>Kg</span><span>${isCarry?'Mètres':'Reps'}</span><span></span></div>${sH}
+  <div class="ex-nav">${ei>0?`<button class="btn2" onclick="coreSetEi(${ei-1})">←</button>`:'<div></div>'}${ei<exs.length-1?`<button class="btn" style="background:#a855f7;border-color:#a855f7" onclick="coreSetEi(${ei+1})">Suivant →</button>`:`<button class="btn btn-ok" onclick="finishCore()">✓ Terminer</button>`}</div>
+  </div>
+  <div class="card" style="padding:12px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:6px">Notes séance</div><textarea class="inp" placeholder="Ressenti, douleur lombaire, qualité d'exécution…" oninput="S.core.coreNotes=this.value;saveS()">${S.core.coreNotes||""}</textarea></div>`;
+}
+function coreStart(){S.core.startDate=new Date().toISOString();S.core.coreLog={};S.core.ei=0;S.core.coreT0=Date.now();S.view="core";saveS();R();}
+function goCore(){if(!S.core.startDate){S.view="core";R();return;}S.core.coreT0=Date.now();S.core.coreLog={};S.core.coreNotes="";S.core.ei=0;S.view="core";saveS();R();}
+function coreSetEi(i){S.core.ei=i;saveS();R();}
+function coreLog(eid,si,f,v){if(!S.core.coreLog[eid])S.core.coreLog[eid]={};if(!S.core.coreLog[eid][si])S.core.coreLog[eid][si]={};S.core.coreLog[eid][si][f]=v;saveS();R();}
+function finishCore(){const wk=coreCurrentWeek(),dur=Math.round((Date.now()-(S.core.coreT0||Date.now()))/6e4);S.hist.unshift({id:""+Date.now(),sessionId:"core",sessionName:"CORE Heavy",phase:"S"+wk,wodName:"",date:new Date().toISOString(),duration:dur,exercises:CORE_PROGRAM.exercises.map(e=>({id:e.id,name:e.name,muscle:e.muscle,logged:S.core.coreLog[e.id]||{}})),notes:S.core.coreNotes||"",coreWeek:wk});S.core.coreLog={};S.core.coreNotes="";S.core.coreT0=null;S.core.ei=0;S.view="home";saveS();R();}
+
+// ═══ NUTRITION (Mifflin-St Jeor + macros) ═══
+function nutCalc(){const n=S.nut;const bmr=n.sex==="M"?(10*n.weight+6.25*n.height-5*n.age+5):(10*n.weight+6.25*n.height-5*n.age-161);const tdee=bmr*n.activity;const target=Math.round(tdee+n.goal);const protein=Math.round(n.weight*n.proteinPerKg);const fat=Math.round(n.weight*n.fatPerKg);const carbs=Math.round((target-protein*4-fat*9)/4);return{bmr:Math.round(bmr),tdee:Math.round(tdee),target,protein,fat,carbs:Math.max(0,carbs),deficit:n.goal,weeklyChange:(n.goal*7/7700).toFixed(2)};}
+function nutSet(k,v){S.nut[k]=v;saveS();R();}
+function nutLogWeight(){const w=parseFloat(document.getElementById("nutW").value);if(!w||w<30||w>250)return;S.nut.weightLog.unshift({date:new Date().toISOString(),weight:w});S.nut.weight=w;saveS();R();}
+function nutDelWeight(i){if(confirm("Supprimer cette pesée ?")){S.nut.weightLog.splice(i,1);saveS();R();}}
+function rNutrition(){
+  const n=S.nut,c=nutCalc();
+  const actLabels={1.2:"Sédentaire",1.375:"Léger (1-3×/sem)",1.55:"Modéré (3-5×/sem)",1.725:"Élevé (6-7×/sem)",1.9:"Athlète"};
+  const goalLabels={"-500":"Sèche agressive (-500 kcal)","-400":"Sèche (-400 kcal)","-300":"Sèche soft (-300 kcal)","0":"Maintien","250":"Prise de masse soft (+250)","500":"Prise de masse (+500)"};
+  const wlData=[...n.weightLog].reverse().slice(-15).map(w=>({d:new Date(w.date).toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"}),kg:w.weight}));
+  const chart=wlData.length>1?svgLine(wlData,"d","kg","#10b981",300,120):"";
+  const macroPct=c.target>0?{p:Math.round(c.protein*4/c.target*100),f:Math.round(c.fat*9/c.target*100),cb:Math.round(c.carbs*4/c.target*100)}:{p:0,f:0,cb:0};
+  return`<div class="hdr"><div class="logo">NUTRITION</div><div style="font-size:11px;color:var(--mt)">Mifflin-St Jeor</div></div>
+  <div class="card" style="border-left:4px solid #10b981;padding:18px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">🎯 Cible journalière</div><div style="font-size:32px;font-weight:900;color:#10b981;margin:4px 0">${c.target}<span style="font-size:14px;color:var(--mt)"> kcal</span></div><div style="font-size:11px;color:var(--t2)">BMR ${c.bmr} · TDEE ${c.tdee} · ${c.deficit>=0?'+':''}${c.deficit} kcal/j → ${c.weeklyChange} kg/sem</div></div>
+  <div class="card"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:10px">Macros (${n.proteinPerKg}g prot/kg · ${n.fatPerKg}g lipides/kg)</div>
+  <div style="display:flex;gap:8px;margin-bottom:10px"><div class="stat-box" style="background:rgba(239,68,68,.1)"><div class="stat-val" style="color:#ef4444">${c.protein}g</div><div class="stat-lbl">Protéines · ${macroPct.p}%</div></div><div class="stat-box" style="background:rgba(245,158,11,.1)"><div class="stat-val" style="color:#f59e0b">${c.carbs}g</div><div class="stat-lbl">Glucides · ${macroPct.cb}%</div></div><div class="stat-box" style="background:rgba(168,85,247,.1)"><div class="stat-val" style="color:#a855f7">${c.fat}g</div><div class="stat-lbl">Lipides · ${macroPct.f}%</div></div></div>
+  <div style="font-size:10px;color:var(--mt);line-height:1.5">Protéines = ${n.proteinPerKg}×${n.weight}=${c.protein}g · Lipides = ${n.fatPerKg}×${n.weight}=${c.fat}g · Glucides = reste des kcal</div></div>
+  <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Mes paramètres</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <div><div style="font-size:10px;text-transform:uppercase;color:var(--mt);font-weight:600;margin-bottom:4px">Poids (kg)</div><input class="inp" type="number" step="0.1" min="30" max="250" value="${n.weight}" onchange="nutSet('weight',parseFloat(this.value)||0)"></div>
+  <div><div style="font-size:10px;text-transform:uppercase;color:var(--mt);font-weight:600;margin-bottom:4px">Taille (cm)</div><input class="inp" type="number" step="1" min="120" max="220" value="${n.height}" onchange="nutSet('height',parseInt(this.value)||0)"></div>
+  <div><div style="font-size:10px;text-transform:uppercase;color:var(--mt);font-weight:600;margin-bottom:4px">Âge</div><input class="inp" type="number" step="1" min="14" max="100" value="${n.age}" onchange="nutSet('age',parseInt(this.value)||0)"></div>
+  <div><div style="font-size:10px;text-transform:uppercase;color:var(--mt);font-weight:600;margin-bottom:4px">Sexe</div><div style="display:flex;gap:6px"><button onclick="nutSet('sex','M')" style="flex:1;padding:8px;border-radius:8px;border:1px solid ${n.sex==='M'?'#10b981':'var(--bd)'};background:${n.sex==='M'?'rgba(16,185,129,.15)':'none'};color:${n.sex==='M'?'#10b981':'var(--mt)'};font-weight:700;font-family:inherit;cursor:pointer">Homme</button><button onclick="nutSet('sex','F')" style="flex:1;padding:8px;border-radius:8px;border:1px solid ${n.sex==='F'?'#10b981':'var(--bd)'};background:${n.sex==='F'?'rgba(16,185,129,.15)':'none'};color:${n.sex==='F'?'#10b981':'var(--mt)'};font-weight:700;font-family:inherit;cursor:pointer">Femme</button></div></div>
+  </div>
+  <div style="margin-top:14px"><div style="font-size:10px;text-transform:uppercase;color:var(--mt);font-weight:600;margin-bottom:4px">Activité</div><select class="inp" onchange="nutSet('activity',parseFloat(this.value))">${Object.entries(actLabels).map(([k,v])=>`<option value="${k}" ${parseFloat(k)===n.activity?'selected':''}>${v} (×${k})</option>`).join("")}</select></div>
+  <div style="margin-top:10px"><div style="font-size:10px;text-transform:uppercase;color:var(--mt);font-weight:600;margin-bottom:4px">Objectif</div><select class="inp" onchange="nutSet('goal',parseInt(this.value))">${Object.entries(goalLabels).map(([k,v])=>`<option value="${k}" ${parseInt(k)===n.goal?'selected':''}>${v}</option>`).join("")}</select></div>
+  </div>
+  <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:10px">Suivi du poids</div>
+  <div style="display:flex;gap:6px;margin-bottom:10px"><input class="inp" id="nutW" type="number" step="0.1" placeholder="Poids du jour (kg)" style="flex:1"><button class="btn" style="background:#10b981;border-color:#10b981;padding:10px 16px" onclick="nutLogWeight()">+ Ajouter</button></div>
+  ${chart?`<div style="margin-bottom:10px">${chart}</div>`:""}
+  ${n.weightLog.length?n.weightLog.slice(0,8).map((w,i)=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><span style="color:var(--t2)">${new Date(w.date).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})}</span><span style="font-weight:700">${w.weight} kg</span><button onclick="nutDelWeight(${i})" style="background:none;border:none;color:var(--mt);cursor:pointer;font-size:12px">×</button></div>`).join(""):'<div style="text-align:center;color:var(--mt);font-size:11px;padding:20px">Aucune pesée enregistrée</div>'}
+  </div>
+  <div class="card" style="background:rgba(16,185,129,.08);border-color:#10b981"><div style="font-size:11px;color:var(--t2);line-height:1.6"><b style="color:#10b981">📚 Référence Mifflin-St Jeor (1990)</b><br>BMR (H) = 10×kg + 6.25×cm − 5×âge + 5<br>BMR (F) = 10×kg + 6.25×cm − 5×âge − 161<br>TDEE = BMR × facteur d'activité<br><br><b style="color:#10b981">Recommandations</b><br>• Protéines 2g/kg : préserve le muscle en déficit (Helms 2014)<br>• Lipides ≥0.8g/kg : santé hormonale<br>• Glucides : remplissent le reste<br>• Pesée hebdo à jeun, moyenne sur 7j</div></div>`;
 }
 
 // ═══ ACTIONS ═══
