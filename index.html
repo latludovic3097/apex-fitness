@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
 <title>APEX Fitness</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#E63946">
@@ -86,6 +86,8 @@ body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:
 <script>
 // ═══ IMAGE BASE ═══
 const I="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/";
+// XSS-safe HTML escape — utilisé pour toutes les valeurs user-controllable (notes, noms importés CSV/JSON)
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
 const MN={chest:"Pectoraux",shoulders:"Épaules",triceps:"Triceps",back:"Dos",biceps:"Biceps",quads:"Quadriceps",hamstrings:"Ischio-jambiers",calves:"Mollets",core:"Core"};
 const MC={chest:"#E63946",shoulders:"#457B9D",triceps:"#F4A261",back:"#457B9D",biceps:"#E76F51",quads:"#2A9D8F",hamstrings:"#264653",calves:"#E9C46A",core:"#2A9D8F"};
 const PHASES=[
@@ -95,10 +97,15 @@ const PHASES=[
 ];
 
 // ═══ SOUND ═══
+// iOS Safari refuse de créer un AudioContext hors gesture utilisateur.
+// → on l'initialise au tout premier touch/click et on le réveille avant chaque beep.
 let audioCtx;
+function initAudio(){if(audioCtx)return;try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume();}catch{}}
+document.addEventListener("touchstart",initAudio,{once:true,passive:true});
+document.addEventListener("click",initAudio,{once:true});
 // Build a robust "Wiki" link as a Google search — avoids 404 on MuscleWiki slug mismatches
 function wk(n){return"https://www.google.com/search?q="+encodeURIComponent("musclewiki "+(n||"").replace(/^\d+[-\s]?(\d+[-\s]?)*/,"").replace(/\(.*?\)/g,"").trim());}
-function beep(){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();[0,.2,.4].forEach(d=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=880;g.gain.value=.3;o.start(audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d+.15);});}catch{}}
+function beep(){try{initAudio();if(!audioCtx)return;if(audioCtx.state==="suspended")audioCtx.resume();[0,.2,.4].forEach(d=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=880;g.gain.value=.3;o.start(audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d+.15);});}catch{}}
 
 // ═══ TIMER (Date.now based) ═══
 let T={on:false,at:0,total:0,dir:"down",rem:0,done:false},tRAF;
@@ -626,7 +633,7 @@ function rSession(){
     const wodInit=isForTime?"0:00":`${Math.floor(wodSec/60)}:${String(wodSec%60).padStart(2,"0")}`;
     const wt=`<div class="timer" id="timerbox"><div class="timer-circle"><svg viewBox="0 0 52 52" style="transform:rotate(-90deg)"><circle cx="26" cy="26" r="22" fill="none" stroke="var(--bd)" stroke-width="3"/><circle id="tring" cx="26" cy="26" r="22" fill="none" stroke="var(--wa)" stroke-width="3" stroke-dasharray="${2*Math.PI*22}" stroke-dashoffset="${2*Math.PI*22}" stroke-linecap="round"/></svg><div class="timer-time" id="tdisp">${wodInit}</div></div><div style="flex:1"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:5px;font-weight:600">⏱ ${wodLabel}</div><div style="display:flex;gap:6px"><button class="tbtn tbtn-go" id="tbtn" onclick="tToggle(${wodSec},'${wodDir}')">Start</button><button class="tbtn tbtn-reset" onclick="tReset(${wodSec},'${wodDir}')">Reset</button></div></div></div>`;
     const wodHeaderDur=isForTime?`<span style="background:var(--wa)22;color:var(--wa);padding:2px 8px;border-radius:6px;font-size:11px;margin-left:8px">For Time</span>`:`<span style="background:var(--wa)22;color:var(--wa);padding:2px 8px;border-radius:6px;font-size:11px;margin-left:8px">${wod.duration} min</span>`;
-    content=`<div class="card"><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--wa);margin-bottom:4px">WOD — ${wod.type}${wodHeaderDur}</div><div style="font-size:13px;font-weight:700;color:var(--t2);margin-bottom:10px">${wod.name}</div>${wt}<div style="margin-top:14px">${wod.movements.map(m=>`<div class="wod-move">${m.img?`<div class="wod-img"><img src="${m.img}" onerror="this.parentElement.style.display='none'"></div>`:''}<div style="flex:1"><div style="font-size:13px">${m.name}</div><div style="display:flex;gap:4px;margin-top:3px"><a href="${wk(m.name)}" target="_blank" style="font-size:8px;color:#4ecdc4;text-decoration:none;background:rgba(78,205,196,.1);padding:2px 6px;border-radius:4px;font-weight:600">Wiki</a>${m.yt?`<a href="${m.yt}" target="_blank" style="font-size:8px;color:#ff0000;text-decoration:none;background:rgba(255,0,0,.08);padding:2px 6px;border-radius:4px;font-weight:600">▶ Vidéo</a>`:``}</div></div></div>`).join("")}</div><div style="margin-top:16px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:6px;font-weight:600">Notes</div><textarea class="inp" id="sN" placeholder="Ressenti, PR..." oninput="S.notes=this.value;saveA()">${S.notes}</textarea></div><button class="btn btn-ok" style="margin-top:14px" onclick="finish()">✓ Terminer</button></div>`;
+    content=`<div class="card"><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--wa);margin-bottom:4px">WOD — ${wod.type}${wodHeaderDur}</div><div style="font-size:13px;font-weight:700;color:var(--t2);margin-bottom:10px">${wod.name}</div>${wt}<div style="margin-top:14px">${wod.movements.map(m=>`<div class="wod-move">${m.img?`<div class="wod-img"><img src="${m.img}" onerror="this.parentElement.style.display='none'"></div>`:''}<div style="flex:1"><div style="font-size:13px">${m.name}</div><div style="display:flex;gap:4px;margin-top:3px"><a href="${wk(m.name)}" target="_blank" style="font-size:8px;color:#4ecdc4;text-decoration:none;background:rgba(78,205,196,.1);padding:2px 6px;border-radius:4px;font-weight:600">Wiki</a>${m.yt?`<a href="${m.yt}" target="_blank" style="font-size:8px;color:#ff0000;text-decoration:none;background:rgba(255,0,0,.08);padding:2px 6px;border-radius:4px;font-weight:600">▶ Vidéo</a>`:``}</div></div></div>`).join("")}</div><div style="margin-top:16px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:6px;font-weight:600">Notes</div><textarea class="inp" id="sN" placeholder="Ressenti, PR..." oninput="S.notes=this.value;saveA()">${esc(S.notes)}</textarea></div><button class="btn btn-ok" style="margin-top:14px" onclick="finish()">✓ Terminer</button></div>`;
   }
   return`<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="if(confirm('Quitter ?')){S.sess=null;saveA();nav('home')}">←</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:${s.color}">${s.name}</div><div style="font-size:11px;color:var(--mt)">${elapsed}min</div></div><div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${s.color}"></div></div></div><div class="pills">${pills}</div>
     ${(T.on||T.done)&&ex&&!document.getElementById("timerbox")?`<div onclick="setEi(S._timerExIdx)" style="position:fixed;top:0;left:50%;transform:translateX(-50%);max-width:480px;width:100%;background:var(--cd2);border-bottom:2px solid ${T.done?'var(--ok)':'var(--ac)'};padding:8px 16px;display:flex;align-items:center;justify-content:space-between;z-index:99;cursor:pointer"><div style="font-size:11px;color:${T.done?'var(--ok)':'var(--ac)'};font-weight:700">${T.done?'✓ Timer fini !':'⏱ Timer en cours...'}</div><div style="font-size:13px;font-weight:700;font-family:monospace" id="floatTimer"></div></div>`:``}
@@ -648,15 +655,15 @@ function rHist(){
   if(!S.hist.length)return`<div class="hdr"><div class="logo">HISTORIQUE</div></div>${charts}<div class="card" style="text-align:center;color:var(--mt);padding:30px">Aucune séance 💪</div>`;
   return`<div class="hdr"><div class="logo">HISTORIQUE</div></div><div style="padding:0 14px 8px"><button class="btn2" style="width:100%" onclick="exportCSV()">📊 CSV (Excel)</button></div>${charts}`+
   S.hist.map((h,hi)=>{const col=h.sessionId==='cardio'?'#06b6d4':(PROG.sessions.find(s=>s.id===h.sessionId)?.color||"var(--ac)");const di="d"+hi;
-    if(h.cardio){const c=h.cardio,ic=c.mode==='run'?'🏃':c.mode==='swim'?'🏊':'🚴';const stats=c.mode==='run'?`${c.duration}min · ${c.speed}km/h · ${c.incline}% pente`:c.mode==='swim'?`${c.distance}m · ${c.duration}min`:`${c.duration}min · ${c.incline}% · rés.${c.resistance}`;return`<div class="card"><div class="hist-top"><div style="font-size:14px;font-weight:900;letter-spacing:2px;color:${col}">${ic} ${h.sessionName}</div><div style="font-size:10px;color:var(--mt)">${new Date(h.date).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})} • ${h.duration}min</div></div><div style="font-size:11px;color:var(--t2);margin-top:4px">${stats}</div>${h.notes?`<div style="font-size:11px;color:var(--mt);margin-top:5px;font-style:italic">"${h.notes}"</div>`:''}</div>`;}
-    const det=h.exercises.map(x=>{const sets=Object.entries(x.logged||{});return sets.length?sets.map(([si,s])=>`<div style="display:grid;grid-template-columns:1fr 38px 38px 45px;gap:3px;font-size:10px;padding:2px 0"><span>${x.name}</span><span>${s.weight}kg</span><span>${s.reps}r</span><span style="color:var(--mt)">${(s.weight||0)*(s.reps||0)}</span></div>`).join(""):`<div style="font-size:10px;color:var(--mt)">${x.name}: —</div>`;}).join("");
-    return`<div class="card"><div class="hist-top"><div style="font-size:14px;font-weight:900;letter-spacing:2px;color:${col}">${h.sessionName}${h.phase?`<span class="phase-badge" style="background:var(--cd2);color:var(--t2)">${h.phase}</span>`:''}</div><div style="font-size:10px;color:var(--mt)">${new Date(h.date).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})} • ${h.duration}min</div></div>${h.wodName?`<div style="font-size:10px;color:var(--wa);margin-bottom:4px">WOD: ${h.wodName}</div>`:''}<div class="hist-exos">${h.exercises.map(x=>{const b=Math.max(0,...Object.values(x.logged||{}).map(s=>s.weight||0));return`<div class="hist-exo">${x.name}: <b>${b}kg</b></div>`;}).join("")}</div>${h.notes?`<div style="font-size:11px;color:var(--mt);margin-top:5px;font-style:italic">"${h.notes}"</div>`:''}<button class="hist-toggle" onclick="const d=document.getElementById('${di}');d.classList.toggle('open');this.textContent=d.classList.contains('open')?'Masquer':'Détails'">Détails</button><div class="hist-detail" id="${di}">${det}</div></div>`;}).join("");
+    if(h.cardio){const c=h.cardio,ic=c.mode==='run'?'🏃':c.mode==='swim'?'🏊':'🚴';const stats=c.mode==='run'?`${c.duration}min · ${c.speed}km/h · ${c.incline}% pente`:c.mode==='swim'?`${c.distance}m · ${c.duration}min`:`${c.duration}min · ${c.incline}% · rés.${c.resistance}`;return`<div class="card"><div class="hist-top"><div style="font-size:14px;font-weight:900;letter-spacing:2px;color:${col}">${ic} ${esc(h.sessionName)}</div><div style="font-size:10px;color:var(--mt)">${new Date(h.date).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})} • ${h.duration}min</div></div><div style="font-size:11px;color:var(--t2);margin-top:4px">${stats}</div>${h.notes?`<div style="font-size:11px;color:var(--mt);margin-top:5px;font-style:italic">"${esc(h.notes)}"</div>`:''}</div>`;}
+    const det=h.exercises.map(x=>{const sets=Object.entries(x.logged||{});return sets.length?sets.map(([si,s])=>`<div style="display:grid;grid-template-columns:1fr 38px 38px 45px;gap:3px;font-size:10px;padding:2px 0"><span>${esc(x.name)}</span><span>${s.weight}kg</span><span>${s.reps}r</span><span style="color:var(--mt)">${(s.weight||0)*(s.reps||0)}</span></div>`).join(""):`<div style="font-size:10px;color:var(--mt)">${esc(x.name)}: —</div>`;}).join("");
+    return`<div class="card"><div class="hist-top"><div style="font-size:14px;font-weight:900;letter-spacing:2px;color:${col}">${esc(h.sessionName)}${h.phase?`<span class="phase-badge" style="background:var(--cd2);color:var(--t2)">${esc(h.phase)}</span>`:''}</div><div style="font-size:10px;color:var(--mt)">${new Date(h.date).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})} • ${h.duration}min</div></div>${h.wodName?`<div style="font-size:10px;color:var(--wa);margin-bottom:4px">WOD: ${esc(h.wodName)}</div>`:''}<div class="hist-exos">${h.exercises.map(x=>{const b=Math.max(0,...Object.values(x.logged||{}).map(s=>s.weight||0));return`<div class="hist-exo">${esc(x.name)}: <b>${b}kg</b></div>`;}).join("")}</div>${h.notes?`<div style="font-size:11px;color:var(--mt);margin-top:5px;font-style:italic">"${esc(h.notes)}"</div>`:''}<button class="hist-toggle" onclick="const d=document.getElementById('${di}');d.classList.toggle('open');this.textContent=d.classList.contains('open')?'Masquer':'Détails'">Détails</button><div class="hist-detail" id="${di}">${det}</div></div>`;}).join("");
 }
 
 function rSett(){
   return`<div class="hdr"><div class="logo">RÉGLAGES</div></div>
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Périodisation</div>${PHASES.map((p,i)=>`<div onclick="setPhase(${i})" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;cursor:pointer;border:2px solid ${S.phase===i?p.color:'var(--bd)'};background:${S.phase===i?p.color+'15':'none'}"><div style="width:12px;height:12px;border-radius:50%;background:${p.color}"></div><div><div style="font-size:13px;font-weight:700;color:${p.color}">${p.name}</div><div style="font-size:11px;color:var(--t2)">${p.desc} — ${p.numSets}×${p.reps} — repos ${p.rest}s</div></div></div>`).join("")}</div>
-  <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Données</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn2" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" onclick="doExp()">📤 JSON backup</button><button class="btn2" onclick="doImpUI()">📥 Importer</button>${S.hist.length?`<button class="btn2" style="color:var(--ac);border-color:var(--ac)" onclick="if(confirm('Supprimer ?')){S.hist=[];saveS();R();}">🗑 Effacer</button>`:""}</div><div id="io"></div></div>
+  <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Données</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn2" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" onclick="doExp()">📤 JSON backup</button><button class="btn2" onclick="doImpUI()">📥 Importer</button>${S.hist.length?`<button class="btn2" style="color:var(--ac);border-color:var(--ac)" onclick="safeWipe()">🗑 Effacer (avec backup)</button>`:""}</div><div id="io"></div></div>
   <div class="card"><div style="font-size:11px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage. Exporte régulièrement.<br><br><b style="color:var(--ac)">APEX FITNESS</b> v7.0 — Science-Based<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Export CSV/JSON</div></div>`;
 }
 
@@ -681,7 +688,7 @@ function rCardio(){
   if(c.mode==="run"&&c.duration&&c.speed){const km=(c.speed*c.duration/60).toFixed(2);const pace=c.speed>0?(60/c.speed):0;const pMin=Math.floor(pace),pSec=Math.round((pace-pMin)*60);derived=`<div style="display:flex;gap:8px;margin-top:4px"><div class="stat-box"><div class="stat-val">${km}</div><div class="stat-lbl">km</div></div><div class="stat-box"><div class="stat-val">${pMin}:${String(pSec).padStart(2,"0")}</div><div class="stat-lbl">min/km</div></div></div>`;}
   else if(c.mode==="swim"&&c.duration&&c.distance){const pace=c.duration*60/(c.distance/100);const pM=Math.floor(pace/60),pS=Math.round(pace%60);derived=`<div style="display:flex;gap:8px;margin-top:4px"><div class="stat-box"><div class="stat-val">${pM}:${String(pS).padStart(2,"0")}</div><div class="stat-lbl">/100m</div></div><div class="stat-box"><div class="stat-val">${(c.distance/1000).toFixed(2)}</div><div class="stat-lbl">km</div></div></div>`;}
   return`<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="if(confirm('Quitter ?')){nav('home')}">←</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:#06b6d4">CARDIO</div><div style="font-size:11px;color:var(--mt)">${Math.round(el/6e4)}min</div></div></div>
-  <div class="card"><div style="display:flex;gap:6px;margin-bottom:14px">${modeTabs}</div>${fields}${derived}<div style="margin-top:10px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:4px">Notes</div><textarea class="inp" placeholder="Ressenti, météo, FC moyenne…" oninput="setCardio('notes',this.value)">${c.notes||""}</textarea></div><button class="btn btn-ok" style="margin-top:14px" onclick="finishCardio()">✓ Enregistrer</button></div>
+  <div class="card"><div style="display:flex;gap:6px;margin-bottom:14px">${modeTabs}</div>${fields}${derived}<div style="margin-top:10px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:4px">Notes</div><textarea class="inp" placeholder="Ressenti, météo, FC moyenne…" oninput="setCardio('notes',this.value)">${esc(c.notes||"")}</textarea></div><button class="btn btn-ok" style="margin-top:14px" onclick="finishCardio()">✓ Enregistrer</button></div>
   <div class="card"><div style="font-size:11px;color:var(--t2);line-height:1.5"><b style="color:#06b6d4">💡 Zones FC (220-âge)</b><br>Z2 endurance (60-70%) · Z3 tempo (70-80%) · Z4 seuil (80-90%) · Z5 VO2max (90-100%)<br><br><b style="color:#06b6d4">Pyramide polarisée</b> : 80% Z2 · 10% Z3 · 10% Z4-5 (Seiler 2010)</div></div>`;
 }
 
@@ -718,7 +725,7 @@ function rCore(){
   <div class="sets-header"><span>Set</span><span>Kg</span><span>${isCarry?'Mètres':'Reps'}</span><span></span></div>${sH}
   <div class="ex-nav">${ei>0?`<button class="btn2" onclick="coreSetEi(${ei-1})">←</button>`:'<div></div>'}${ei<exs.length-1?`<button class="btn" style="background:#a855f7;border-color:#a855f7" onclick="coreSetEi(${ei+1})">Suivant →</button>`:`<button class="btn btn-ok" onclick="finishCore()">✓ Terminer</button>`}</div>
   </div>
-  <div class="card" style="padding:12px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:6px">Notes séance</div><textarea class="inp" placeholder="Ressenti, douleur lombaire, qualité d'exécution…" oninput="S.core.coreNotes=this.value;saveS()">${S.core.coreNotes||""}</textarea></div>`;
+  <div class="card" style="padding:12px"><div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:6px">Notes séance</div><textarea class="inp" placeholder="Ressenti, douleur lombaire, qualité d'exécution…" oninput="S.core.coreNotes=this.value;saveS()">${esc(S.core.coreNotes||"")}</textarea></div>`;
 }
 function coreStart(){S.core.startDate=new Date().toISOString();S.core.coreLog={};S.core.ei=0;S.core.coreT0=Date.now();S.view="core";saveS();R();}
 function goCore(){if(!S.core.startDate){S.view="core";R();return;}S.core.coreT0=Date.now();S.core.coreLog={};S.core.coreNotes="";S.core.ei=0;S.view="core";saveS();R();}
@@ -835,7 +842,21 @@ function onInp(el){const e=el.dataset.e,si=parseInt(el.dataset.s),f=el.dataset.f
 function finish(){const s=S.sess,ph=PHASES[S.phase],wod=pickWOD(s.id);S.hist.unshift({id:""+Date.now(),sessionId:s.id,sessionName:s.name,phase:ph.name,wodName:wod?.name||"",date:new Date().toISOString(),duration:Math.round((Date.now()-S.t0)/6e4),exercises:s.exercises.map(x=>({id:x.id,name:x.name,sets:x.sets,reps:x.reps,muscle:x.muscle,logged:S.log[x.id]||{},rir:S.log[x.id]?.rir})),notes:S.notes});S.sess=null;saveS();saveA();S.view="home";R();}
 // Chart helper exposed to HTML
 window.getExChartHTML=function(n){const d=S.hist.filter(h=>h.exercises.some(e=>e.name===n)).reverse().map(h=>{const x=h.exercises.find(e=>e.name===n);const s=Object.values(x.logged||{});return{d:new Date(h.date).toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"}),kg:s.length?Math.max(...s.map(s=>s.weight||0)):0};}).slice(-10);return svgLine(d,"d","kg","#457B9D",300,120);};
-function doExp(){document.getElementById("io").innerHTML=`<textarea class="inp" style="margin-top:10px;min-height:70px;font-size:9px" onclick="this.select()" readonly>${JSON.stringify({history:S.hist,phase:S.phase},null,2)}</textarea>`;}
+function doExp(){document.getElementById("io").innerHTML=`<textarea class="inp" style="margin-top:10px;min-height:70px;font-size:9px" onclick="this.select()" readonly>${esc(JSON.stringify({history:S.hist,phase:S.phase},null,2))}</textarea>`;}
+function safeWipe(){
+  if(!S.hist.length)return;
+  const data=JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut},null,2);
+  const a=document.createElement("a");
+  const url=URL.createObjectURL(new Blob([data],{type:"application/json"}));
+  a.href=url;a.download=`apex-backup-avant-effacement-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
+  setTimeout(()=>{
+    if(confirm(`✅ Backup téléchargé (${S.hist.length} séances).\n\nConfirmer l'effacement DÉFINITIF de l'historique ?\n\nCette action est irréversible — garde le fichier de backup en lieu sûr.`)){
+      S.hist=[];saveS();R();
+    }
+  },300);
+}
 function doImpUI(){document.getElementById("io").innerHTML=`<div style="margin-top:10px;display:flex;flex-direction:column;gap:8px"><div style="font-size:12px;color:var(--t2);font-weight:600">📁 Importer depuis un fichier</div><input type="file" accept=".csv,.json,text/csv,application/json,text/plain" onchange="doImpFile(this)" style="font-size:12px;color:var(--tx);width:100%;padding:12px;border:1px dashed var(--bd);border-radius:10px;background:var(--bg);cursor:pointer;box-sizing:border-box;font-family:inherit"><div style="font-size:10px;color:var(--mt);text-align:center;margin-top:4px">— ou coller du JSON —</div><textarea class="inp" id="impT" style="min-height:50px;font-size:9px" placeholder="{...JSON...}"></textarea><button class="btn" onclick="doImp()">Importer JSON collé</button><div style="font-size:10px;color:var(--mt);line-height:1.5"><b>Formats acceptés</b> : CSV (export d'une ancienne version d'APEX, séparateur <code>;</code> ou <code>,</code>) ou JSON. Les séances sont fusionnées avec l'historique existant (dédup par date + nom de session).</div></div>`;}
 function doImp(){try{const d=JSON.parse(document.getElementById("impT").value);if(d.history){const r=mergeHistory(d.history);if(d.phase!==undefined)S.phase=d.phase;saveS();R();alert(`✓ ${r.added} séance(s) importée(s)${r.skipped?`, ${r.skipped} doublon(s) ignoré(s)`:""}`);}else alert("JSON sans champ 'history'");}catch(e){alert("JSON invalide : "+e.message);}}
 function doImpFile(el){const f=el.files&&el.files[0];if(!f)return;const rd=new FileReader();rd.onload=ev=>{const txt=ev.target.result;try{let hist,phase;const isCSV=f.name.toLowerCase().endsWith(".csv")||(txt.replace(/^﻿/,"").trim()[0]!=="{"&&(txt.includes(";")||txt.toLowerCase().includes("exercice")));if(isCSV){hist=parseCSVtoHistory(txt);if(!hist.length){alert("Aucune séance détectée dans le CSV. Vérifie que les colonnes incluent au moins Date, Session, Exercice.");return;}}else{const d=JSON.parse(txt);hist=d.history||[];phase=d.phase;if(!hist.length){alert("JSON sans historique");return;}}const r=mergeHistory(hist);if(phase!==undefined)S.phase=phase;saveS();R();alert(`✓ ${r.added} séance(s) importée(s)${r.skipped?`, ${r.skipped} doublon(s) ignoré(s)`:""}`);}catch(e){alert("Erreur d'import : "+e.message);}};rd.onerror=()=>alert("Lecture du fichier impossible");rd.readAsText(f,"utf-8");el.value="";}
@@ -864,4 +885,31 @@ if(!localStorage.getItem("apex_disclaimer")){
     <div style="font-size:10px;color:#5a5a6a;margin-top:12px;text-align:center">Progression basée sur APRE (Huang et al. 2025, SUCRA 93%)<br>1RM: moyenne Epley + Brzycki (DiStasio 2014, ±2.7kg)</div>
   </div>`;
 } else { R(); }
-</script><script>if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});</script></body></html>
+</script><script>
+// Service Worker avec détection de mise à jour + toast
+function showUpdateToast(reg){
+  if(document.getElementById("updTst"))return;
+  const t=document.createElement("div");
+  t.id="updTst";
+  t.setAttribute("role","status");
+  t.style.cssText="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);max-width:90%;background:#E63946;color:#fff;padding:12px 18px;border-radius:12px;z-index:9999;font-size:13px;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,.5);cursor:pointer;display:flex;align-items:center;gap:12px;font-family:-apple-system,'Segoe UI',sans-serif";
+  t.innerHTML='✨ Nouvelle version disponible <span style="background:#fff;color:#E63946;padding:4px 10px;border-radius:8px;font-size:11px">Mettre à jour</span>';
+  t.onclick=()=>{if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});};
+  document.body.appendChild(t);
+}
+if("serviceWorker" in navigator){
+  let reloading=false;
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(reloading)return;reloading=true;location.reload();});
+  navigator.serviceWorker.register("sw.js").then(reg=>{
+    if(reg.waiting&&navigator.serviceWorker.controller)showUpdateToast(reg);
+    reg.addEventListener("updatefound",()=>{
+      const sw=reg.installing;if(!sw)return;
+      sw.addEventListener("statechange",()=>{
+        if(sw.state==="installed"&&navigator.serviceWorker.controller)showUpdateToast(reg);
+      });
+    });
+    // Vérifie l'update quand l'app revient au premier plan (PWA mobile)
+    document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")reg.update().catch(()=>{});});
+  }).catch(()=>{});
+}
+</script></body></html>
