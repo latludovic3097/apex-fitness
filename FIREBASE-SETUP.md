@@ -16,11 +16,34 @@ Guide pas-à-pas pour activer la sync de l'historique entre tous tes appareils.
 
 ## 2. Activer Authentication (Google sign-in)
 
+### 2a. Configure l'écran de consentement OAuth (OBLIGATOIRE — sinon erreur "The requested action is invalid")
+
+1. Va sur **https://console.cloud.google.com/apis/credentials/consent?project=TON-PROJECT-ID**
+2. **User Type** : **External** → **Créer**
+3. App information :
+   - **App name** : nom de ton app (ex: APEX Fitness)
+   - **User support email** : ton Gmail
+   - **Application home page** : `https://TON-USERNAME.github.io/TON-REPO/`
+   - **Authorized domains** : ajoute `github.io`
+   - **Developer contact email** : ton Gmail
+   - → **Save and Continue**
+4. **Scopes** : skip → **Save and Continue**
+5. **Test users** : **Add Users** → ajoute ton Gmail (sinon Google bloquera la connexion) → **Save and Continue**
+6. **Summary** → **Back to Dashboard**
+
+> L'app reste en mode "Testing" : tant que tu es dans Test users, ça fonctionne. Pour passer "In production" publique, Google demande une vérification — pas nécessaire pour usage perso ou bêta privée.
+
+### 2b. Active le provider Google dans Firebase
+
 1. Menu de gauche → **Build → Authentication** → **"Démarrer"**
 2. Onglet **"Sign-in method"** → ligne **"Google"** → bouton **"Activer"**
 3. Choisis un email de support → **Enregistrer**
-4. Onglet **"Settings"** → **"Authorized domains"** → **"Ajouter un domaine"** :
-   - Ajoute `latludovic3097.github.io` (ton domaine GitHub Pages)
+4. Vérifie qu'un **"Web client ID"** apparaît dans "Web SDK configuration" (auto-créé)
+
+### 2c. Authorized domains (liste Firebase, distincte des HTTP referrers Cloud)
+
+1. Onglet **"Settings"** → **"Authorized domains"** → **"Ajouter un domaine"** :
+   - Ajoute `TON-USERNAME.github.io` (ton domaine GitHub Pages)
    - Le `localhost` est déjà autorisé pour les tests
 
 ---
@@ -177,9 +200,12 @@ Tu peux supporter plusieurs centaines d'utilisateurs sans payer un centime.
 
 | Erreur | Cause probable | Solution |
 |---|---|---|
-| `auth/unauthorized-domain` | Domaine pas dans Authorized domains | Cf. étape 2.4 |
-| `permission-denied` à l'écriture | Security Rules pas configurées | Cf. étape 3a |
-| `auth/api-key-not-valid` | apiKey mal copiée OU restrictions trop strictes | Recopie depuis Project Settings, vérifie que `latludovic3097.github.io/*` est dans les HTTP referrers |
+| **"The requested action is invalid"** (page Google) | OAuth consent screen pas configuré | Cf. étape 2a |
+| `auth/unauthorized-domain` | Domaine pas dans Authorized domains | Cf. étape 2c |
+| `auth/operation-not-allowed` | Provider Google pas activé | Cf. étape 2b |
+| `permission-denied` à l'écriture Firestore | Security Rules pas configurées | Cf. étape 3a |
+| `auth/api-key-not-valid` | apiKey mal copiée OU restrictions trop strictes | Recopie depuis Project Settings, vérifie HTTP referrers étape 4b |
+| **Cette application n'est pas vérifiée** (Google) | Mode Testing (normal) | Avancé → Accéder à... → choisir compte. Tant que tu es dans Test users, OK |
 | Popup bloqué | Bloqueur de popup | Autoriser pour le domaine, ou utiliser signInWithRedirect (modif code) |
 | Sync ne se déclenche pas | F12 → Console → cherche `[apex-sync]` | Logs détaillés |
 | Alerte "API Key leaked" sur GitHub | Faux positif (Firebase keys sont publiques par design) | Étape 4b ci-dessus + ferme l'alerte avec "Revoked" |
