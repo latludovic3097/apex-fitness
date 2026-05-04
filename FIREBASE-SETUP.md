@@ -24,7 +24,7 @@ Guide pas-à-pas pour activer la sync de l'historique entre tous tes appareils.
    - **App name** : nom de ton app (ex: APEX Fitness)
    - **User support email** : ton Gmail
    - **Application home page** : `https://TON-USERNAME.github.io/TON-REPO/`
-   - **Authorized domains** : ajoute `github.io`
+   - **Authorized domains** : ⚠️ NE PAS mettre `github.io` (rejeté — Public Suffix List). Deux options : (a) laisser **vide** (OK en mode Testing, c'est facultatif), ou (b) ajouter le sous-domaine complet `TON-USERNAME.github.io` (ex: `latludovic3097.github.io`) — Google le traite comme ton domaine personnel
    - **Developer contact email** : ton Gmail
    - → **Save and Continue**
 4. **Scopes** : skip → **Save and Continue**
