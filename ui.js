@@ -17,6 +17,18 @@ function R(){
   if(T.on){const ft=document.getElementById("floatTimer");if(ft){const r=tGet();ft.textContent=`${Math.floor(r/60)}:${String(r%60).padStart(2,"0")}`;}}
 }
 
+// ─── STREAK BANNER ───
+// Toujours affiché en haut du Home : encourageant si on est dans le rythme, alertant si on a décroché.
+function rStreakBanner(){
+  const info = (typeof getStreakInfo === "function") ? getStreakInfo() : null;
+  if(!info) return "";
+  const bg = info.status === "active" || info.status === "ok" ? "var(--ok10)" :
+             info.status === "warn" ? "rgba(244,162,97,.15)" :
+             info.status === "alert" || info.status === "lost" ? "var(--ac10)" : "var(--cd2)";
+  const border = info.color;
+  return `<div class="card" style="background:${bg};border-color:${border};border-left:4px solid ${border};padding:12px 16px;margin-top:10px"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div style="font-size:13px;color:${border};font-weight:700;line-height:1.4">${info.message}</div>${info.status === "warn" || info.status === "alert" || info.status === "lost" ? `<button class="btn" style="background:${border};border-color:${border};width:auto;padding:8px 14px;font-size:12px;flex-shrink:0" onclick="goSess('${getRecommendation().id}')">Lancer</button>` : ""}</div></div>`;
+}
+
 function rHome(){
   const today=new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
   const ph=PHASES[S.phase],fat=getFatigue(),rec=getRecommendation();
@@ -26,6 +38,7 @@ function rHome(){
   const rmCards=compounds.map(n=>{const rm=get1RM(n);return rm?`<div style="text-align:center;min-width:70px"><div style="font-size:16px;font-weight:900">${rm}<span style="font-size:12px;color:var(--mt)">kg</span></div><div style="font-size:10px;color:var(--mt);margin-top:1px">${n.length>12?n.slice(0,12)+'…':n}</div></div>`:null;}).filter(Boolean);
 
   return`<div class="hdr"><div class="logo">APEX</div><div style="font-size:13px;color:var(--mt)">${today}</div></div>
+  ${rStreakBanner()}
   ${S.hist.length>=4?`<div class="score-card">
     <div class="score-item"><div class="score-val" style="color:${fat.color}">${fat.score}</div><div class="score-lbl">Fatigue</div></div>
     <div class="score-item"><div class="score-val">${S.hist.length}</div><div class="score-lbl">Séances</div></div>
@@ -125,6 +138,7 @@ function rSett(){
   return`<div class="hdr"><div class="logo">RÉGLAGES</div></div>
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Périodisation</div>${PHASES.map((p,i)=>`<div onclick="setPhase(${i})" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;cursor:pointer;border:2px solid ${S.phase===i?p.color:'var(--bd)'};background:${S.phase===i?p.color+'15':'none'}"><div style="width:12px;height:12px;border-radius:50%;background:${p.color}"></div><div><div style="font-size:13px;font-weight:700;color:${p.color}">${p.name}</div><div style="font-size:13px;color:var(--t2)">${p.desc} — ${p.numSets}×${p.reps} — repos ${p.rest}s</div></div></div>`).join("")}</div>
   ${rSyncCard()}
+  ${rNotifCard()}
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Données</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn2" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" onclick="doExp()">📤 JSON backup</button><button class="btn2" onclick="doImpUI()">📥 Importer</button>${S.hist.length?`<button class="btn2" style="color:var(--ac);border-color:var(--ac)" onclick="safeWipe()">🗑 Effacer (avec backup)</button>`:""}</div><div id="io"></div></div>
   <div class="card"><div style="font-size:13px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage + sync cloud (Firebase).<br><br><b style="color:var(--ac)">APEX FITNESS</b> v8.4 — Cloud Sync<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Cardio • Core 12 sem • Nutrition</div></div>`;
 }
@@ -167,6 +181,45 @@ function rSyncCard(){
     <div style="font-size:12px;color:var(--mt);margin-bottom:14px;line-height:1.5">Push automatique 2s après chaque modif. Sécurisé par Firestore Security Rules.</div>
     <button class="btn2" onclick="syncSignOut()">Se déconnecter</button>
   </div>`;
+}
+
+// ─── NOTIFICATIONS CARD ───
+function rNotifCard(){
+  const support = typeof notifPermissionState === "function" ? notifPermissionState() : "unsupported";
+  if(support === "unsupported"){
+    return `<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:8px">🔔 Rappels</div>
+      <div style="font-size:13px;color:var(--mt)">Ton navigateur ne supporte pas les notifications.</div></div>`;
+  }
+  const enabled = isNotifEnabled();
+  const perm = support; // "default" | "granted" | "denied"
+  let body = "";
+  if(perm === "denied"){
+    body = `<div style="font-size:13px;color:var(--ac);line-height:1.5;margin-bottom:8px">⚠️ Notifications bloquées dans le navigateur.</div>
+      <div style="font-size:12px;color:var(--mt);line-height:1.5">Pour les ré-activer : icône 🔒 à gauche de l'URL → "Notifications" → "Autoriser" → recharger.</div>`;
+  } else if(perm === "default"){
+    body = `<div style="font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.5">Reçois un rappel discret si tu n'as pas fait de séance depuis quelques jours. Une seule notif maximum par 24h, jamais de spam.</div>
+      <button class="btn" onclick="enableNotif()" style="background:#457B9D;border-color:#457B9D">🔔 Activer les rappels</button>`;
+  } else {
+    // granted
+    body = `<div style="font-size:13px;color:var(--t2);margin-bottom:8px">Permission accordée par le navigateur.</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0">
+        <span style="font-size:13px;color:var(--tx);font-weight:600">Rappels après ≥3 jours sans séance</span>
+        <button onclick="toggleNotif()" style="background:${enabled?'var(--ok)':'var(--cd2)'};border:1px solid ${enabled?'var(--ok)':'var(--bd)'};border-radius:14px;width:48px;height:26px;cursor:pointer;position:relative;padding:0;font-family:inherit"><div style="position:absolute;top:2px;${enabled?'right:2px':'left:2px'};width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s"></div></button>
+      </div>
+      <button class="btn2" onclick="testNotif()" style="margin-top:6px">Tester une notif</button>`;
+  }
+  return `<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:8px">🔔 Rappels</div>${body}</div>`;
+}
+
+async function enableNotif(){
+  const result = await requestNotifPermission();
+  if(result === "granted"){ setNotifEnabled(true); R(); }
+  else if(result === "denied") alert("Permission refusée. Tu peux la ré-activer dans les paramètres du navigateur.");
+}
+function toggleNotif(){ setNotifEnabled(!isNotifEnabled()); R(); }
+function testNotif(){
+  const ok = showLocalNotif("APEX Fitness 💪", "Test : c'est bien toi ! Les rappels fonctionneront comme ça.");
+  if(!ok) alert("Notification non envoyée. Vérifie la permission dans les réglages du navigateur.");
 }
 
 function syncSignIn(){
@@ -349,3 +402,7 @@ if(!localStorage.getItem("apex_disclaimer")){
     <div style="font-size:12px;color:#5a5a6a;margin-top:12px;text-align:center">Progression basée sur APRE (Huang et al. 2025, SUCRA 93%)<br>1RM: moyenne Epley + Brzycki (DiStasio 2014, ±2.7kg)</div>
   </div>`;
 } else { R(); }
+
+// Rappel : déclenche un check après 1.5s pour ne pas bloquer le rendu initial.
+// La notif ne s'envoie que si user a opt-in + permission OK + pas de notif récente (throttle 24h).
+setTimeout(()=>{ if(typeof checkAndShowReminder === "function") checkAndShowReminder(); }, 1500);

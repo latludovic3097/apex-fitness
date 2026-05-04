@@ -99,6 +99,76 @@ async function pullAndMergeFromCloud(){
 }
 function getSyncStatus(){return _syncStatus;}
 
+// ─── STREAK / TIME-SINCE-LAST-SESSION ───
+// Renvoie le nombre de jours depuis la dernière séance (toutes catégories confondues),
+// ou null si aucune séance n'a jamais été faite.
+function getDaysSinceLastSession(){
+  if(!S.hist || !S.hist.length) return null;
+  const lastDate = new Date(S.hist[0].date).getTime();
+  return Math.floor((Date.now() - lastDate) / 864e5);
+}
+
+// Streak en jours = série continue où chaque jour a au moins une séance OU est dans une fenêtre de repos acceptable.
+// Pour notre cas (3 sessions/sem en moyenne), on définit un streak comme "pas plus de 4 jours sans séance".
+// Renvoie {weeks, sessions7, status, color, message} pour un affichage rapide.
+function getStreakInfo(){
+  const days = getDaysSinceLastSession();
+  if(days === null) return { days: null, sessions7: 0, status: "new", color: "var(--mt)", message: "Bienvenue ! Lance ta première séance 💪" };
+  const sessions7 = S.hist.filter(h => (Date.now() - new Date(h.date).getTime()) < 7*864e5).length;
+  if(days === 0) return { days, sessions7, status: "active", color: "var(--ok)", message: `🔥 ${sessions7} séance${sessions7>1?"s":""} cette semaine — continue !` };
+  if(days <= 2) return { days, sessions7, status: "ok", color: "var(--ok)", message: `Dernière séance il y a ${days===1?"hier":days+" jours"} — bon rythme` };
+  if(days <= 4) return { days, sessions7, status: "warn", color: "var(--wa)", message: `⚠️ ${days} jours sans séance — pense à bouger` };
+  if(days <= 7) return { days, sessions7, status: "alert", color: "var(--ac)", message: `🚨 ${days} jours sans séance — relance le rythme !` };
+  return { days, sessions7, status: "lost", color: "var(--ac)", message: `${days} jours sans séance — repars en douceur` };
+}
+
+// ─── NOTIFICATIONS ───
+// Web Notifications API (in-app + Service Worker).
+// Le scheduling "background" pur n'est pas possible sur web sans push server,
+// mais on déclenche un rappel à l'ouverture de l'app si le streak est interrompu.
+const NOTIF_OPT_KEY = "apex_notif_enabled";
+const NOTIF_LAST_KEY = "apex_notif_last_shown";
+
+function isNotifEnabled(){return localStorage.getItem(NOTIF_OPT_KEY) === "1";}
+function setNotifEnabled(v){localStorage.setItem(NOTIF_OPT_KEY, v ? "1" : "0");}
+function notifPermissionState(){
+  if(!("Notification" in window)) return "unsupported";
+  return Notification.permission; // "default" | "granted" | "denied"
+}
+async function requestNotifPermission(){
+  if(!("Notification" in window)) return "unsupported";
+  if(Notification.permission === "granted") return "granted";
+  if(Notification.permission === "denied") return "denied";
+  return await Notification.requestPermission();
+}
+function showLocalNotif(title, body){
+  try{
+    if(!("Notification" in window)) return false;
+    if(Notification.permission !== "granted") return false;
+    const n = new Notification(title, {
+      body: body,
+      icon: "icon-192.png",
+      badge: "icon-192.png",
+      tag: "apex-reminder", // remplace toute notif précédente du même tag
+      requireInteraction: false
+    });
+    n.onclick = () => { window.focus(); n.close(); };
+    return true;
+  }catch(e){console.warn("[apex-notif]", e); return false;}
+}
+
+// Vérifie si on doit envoyer un rappel et le fait. Throttle 24h via localStorage.
+function checkAndShowReminder(){
+  if(!isNotifEnabled()) return;
+  if(notifPermissionState() !== "granted") return;
+  const last = parseInt(localStorage.getItem(NOTIF_LAST_KEY) || "0");
+  if(Date.now() - last < 24*36e5) return; // pas plus d'1 notif par 24h
+  const info = getStreakInfo();
+  if(!info || info.status === "active" || info.status === "ok" || info.status === "new") return;
+  const ok = showLocalNotif("APEX Fitness 💪", info.message.replace(/^[⚠️🚨🔥]\s*/, ""));
+  if(ok) localStorage.setItem(NOTIF_LAST_KEY, String(Date.now()));
+}
+
 // ─── AUDIO (iOS Safari : init au premier gesture, resume avant chaque bip) ───
 let audioCtx;
 function initAudio(){if(audioCtx)return;try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume();}catch{}}
