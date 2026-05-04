@@ -100,21 +100,52 @@ function _renderAnatomyView(sex, view, xOffset, stats){
   </g>`;
 }
 
+// Hotspot positions sur muscles.svg (Wikimedia, viewBox 407×354, 2 silhouettes côte-à-côte).
+// Coordonnées en % du conteneur — calibrées manuellement, ajustables si besoin visuel.
+const BODYMAP_HOTSPOTS = [
+  // ─── FACE (silhouette gauche, x ≈ 0-50%) ───
+  { muscle: "shoulders", left: 4,   top: 13.5, width: 11, height: 7,  side: "front" },
+  { muscle: "shoulders", left: 33,  top: 13.5, width: 11, height: 7,  side: "front" }, // mirror right
+  { muscle: "chest",     left: 14,  top: 19.5, width: 20, height: 7,  side: "front" },
+  { muscle: "biceps",    left: 1,   top: 22,   width: 9,  height: 13, side: "front" },
+  { muscle: "biceps",    left: 38,  top: 22,   width: 9,  height: 13, side: "front" }, // mirror right
+  { muscle: "core",      left: 16,  top: 27,   width: 16, height: 17, side: "front" },
+  { muscle: "quads",     left: 11,  top: 49,   width: 13, height: 23, side: "front" },
+  { muscle: "quads",     left: 24,  top: 49,   width: 13, height: 23, side: "front" }, // mirror right
+  { muscle: "calves",    left: 13,  top: 76,   width: 11, height: 17, side: "front" },
+  { muscle: "calves",    left: 24,  top: 76,   width: 11, height: 17, side: "front" }, // mirror right
+  // ─── DOS (silhouette droite, x ≈ 50-100%) ───
+  { muscle: "shoulders", left: 54,  top: 13.5, width: 11, height: 7,  side: "back" },
+  { muscle: "shoulders", left: 83,  top: 13.5, width: 11, height: 7,  side: "back" },
+  { muscle: "back",      left: 60,  top: 19.5, width: 25, height: 22, side: "back" },
+  { muscle: "triceps",   left: 51,  top: 22,   width: 9,  height: 13, side: "back" },
+  { muscle: "triceps",   left: 88,  top: 22,   width: 9,  height: 13, side: "back" },
+  { muscle: "hamstrings",left: 61,  top: 49,   width: 13, height: 23, side: "back" },
+  { muscle: "hamstrings",left: 74,  top: 49,   width: 13, height: 23, side: "back" },
+  { muscle: "calves",    left: 63,  top: 76,   width: 11, height: 17, side: "back" },
+  { muscle: "calves",    left: 74,  top: 76,   width: 11, height: 17, side: "back" }
+];
+
 function rBodyMap(){
-  const sex = getBodyMapSex();
   const muscles = ["chest","shoulders","biceps","triceps","back","core","quads","hamstrings","calves"];
   const stats = {};
   muscles.forEach(m => stats[m] = getMuscleStats(m));
 
-  const front = _renderAnatomyView(sex, "front", 0, stats);
-  const back  = _renderAnatomyView(sex, "back", 200, stats);
-  const svg = `<svg viewBox="0 0 400 520" width="100%" style="max-width:460px;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">${front}${back}</svg>`;
+  const hotspotsHTML = BODYMAP_HOTSPOTS.map(h => {
+    const color = muscleHeatColor(stats[h.muscle].daysAgo);
+    const isSel = _selectedMuscle === h.muscle;
+    return `<button class="bodymap-hotspot${isSel?' sel':''}"
+      style="left:${h.left}%;top:${h.top}%;width:${h.width}%;height:${h.height}%"
+      onclick="setBodyMapSelected('${h.muscle}')"
+      aria-label="${MN[h.muscle]||h.muscle}"
+      title="${MN[h.muscle]||h.muscle}">
+      <span class="bodymap-dot" style="background:${color}"></span>
+    </button>`;
+  }).join("");
 
-  // Toggle Homme / Femme
-  const isF = sex === "F";
-  const sexToggle = `<div style="display:flex;gap:6px;justify-content:center;margin:8px 0 14px">
-    <button onclick="setBodyMapSex('M')" style="padding:8px 18px;border-radius:10px;border:2px solid ${!isF?'var(--ac)':'var(--bd)'};background:${!isF?'var(--ac10)':'none'};color:${!isF?'var(--ac)':'var(--mt)'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">♂ Homme</button>
-    <button onclick="setBodyMapSex('F')" style="padding:8px 18px;border-radius:10px;border:2px solid ${isF?'#E76F51':'var(--bd)'};background:${isF?'rgba(231,111,81,0.15)':'none'};color:${isF?'#E76F51':'var(--mt)'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">♀ Femme</button>
+  const bodymap = `<div class="bodymap-container">
+    <img src="muscles.svg" alt="Anatomie musculaire face et dos" loading="eager">
+    ${hotspotsHTML}
   </div>`;
 
   // Detail panel
@@ -145,16 +176,20 @@ function rBodyMap(){
       <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#c7c7cc"></span>jamais</span>
     </div></div>`;
 
-  return `<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="nav('home')">← Accueil</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--ac)">CARTE MUSCULAIRE</div><div style="width:60px"></div></div></div>
-    ${sexToggle}
-    <div class="card" style="padding:14px 4px">${svg}</div>
+  const attribution = `<div class="card" style="font-size:11px;color:var(--mt);text-align:center;padding:12px;line-height:1.5;font-weight:500">
+    Illustration : <a href="https://commons.wikimedia.org/wiki/File:Muscles_front_and_back.svg" target="_blank" style="color:#06b6d4">Muscles_front_and_back.svg</a> par Tomáš Kebert &amp; umimeto.org (basé sur OpenStax) ·
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" style="color:#06b6d4">CC BY-SA 4.0</a>
+  </div>`;
+
+  return `<div style="padding:14px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:6px 12px;font-size:12px" onclick="nav('home')">← Accueil</button><div style="font-size:20px;font-weight:900;letter-spacing:2px;color:var(--ac)">CARTE MUSCULAIRE</div><div style="width:80px"></div></div></div>
+    <div style="padding:14px 16px 4px">${bodymap}</div>
     ${detail}
-    ${legend}`;
+    ${legend}
+    ${attribution}`;
 }
 
 function setBodyMapSelected(m){ _selectedMuscle = m; R(); }
-function setBodyMapSex(s){ _bodyMapSex = s; R(); }
-function goBodyMap(){ _selectedMuscle = null; _bodyMapSex = null; nav("bodymap"); }
+function goBodyMap(){ _selectedMuscle = null; nav("bodymap"); }
 
 function rSession(){
   const s=S.sess;if(!s)return"";

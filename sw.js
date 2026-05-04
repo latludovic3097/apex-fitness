@@ -1,5 +1,5 @@
-const C='apex-v8.8';
-const U=['./index.html','./manifest.json','./core.js','./data.js','./anatomy.js','./state.js','./ui.js','./firebase-config.js','./sync.js'];
+const C='apex-v8.9';
+const U=['./index.html','./manifest.json','./core.js','./data.js','./anatomy.js','./state.js','./ui.js','./firebase-config.js','./sync.js','./muscles.svg'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(U))));
 self.addEventListener('message',e=>{if(e.data&&e.data.type==='SKIP_WAITING')self.skipWaiting();});
 self.addEventListener('fetch',e=>{
