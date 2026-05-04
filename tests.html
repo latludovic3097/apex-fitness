@@ -83,10 +83,15 @@ describe("esc() — XSS escape", t => {
     truthy(out.includes("&lt;img"));
     truthy(out.includes("&quot;"));
   });
-  t("neutralise une évasion de textarea", () => {
-    const out = esc("</textarea><script>x</script>");
+  t("neutralise une evasion de textarea", () => {
+    // NB chaine construite par concat pour ne pas fermer le tag courant cote HTML
+    const tagOpen = "<scr" + "ipt>";
+    const tagClose = "</scr" + "ipt>";
+    const payload = "</textarea>" + tagOpen + "x" + tagClose;
+    const out = esc(payload);
     falsy(out.includes("</textarea>"));
-    falsy(out.includes("<script>"));
+    falsy(out.includes(tagOpen));
+    truthy(out.includes("&lt;/textarea&gt;"));
   });
   t("préserve le texte plain", () => {
     eq(esc("hello world"), "hello world");
@@ -124,8 +129,10 @@ describe("calc1RM() — estimation 1 rep max", t => {
   t(">10 reps : formule Mayhew", () => {
     // 60kg × 15 : 60 / (0.522 + 0.419 * exp(-0.825)) ≈ 85
     near(calc1RM(60, 15), 85, 1);
-    // 40kg × 20 : 40 / (0.522 + 0.419 * exp(-1.1)) ≈ 53
-    near(calc1RM(40, 20), 53, 2);
+    // 40kg × 20 : 40 / (0.522 + 0.419 * 0.3329) ≈ 40 / 0.6615 ≈ 60.5 → 60
+    near(calc1RM(40, 20), 60, 1);
+    // 100kg × 12 : 100 / (0.522 + 0.419 * exp(-0.66)) ≈ 100 / 0.7387 ≈ 135
+    near(calc1RM(100, 12), 135, 2);
   });
   t("monotone : plus de reps → 1RM estimé plus haut (à poids fixe)", () => {
     truthy(calc1RM(100, 3) < calc1RM(100, 5));
