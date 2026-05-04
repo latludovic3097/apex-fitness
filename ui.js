@@ -9,6 +9,7 @@ function R(){
   else if(S.view==="cardio")h=rCardio();
   else if(S.view==="core")h=rCore();
   else if(S.view==="nutrition")h=rNutrition();
+  else if(S.view==="bodymap")h=rBodyMap();
   else if(S.view==="history")h=rHist();
   else if(S.view==="settings")h=rSett();
   if(S.view!=="session")h+=`<div class="nav">${[{id:"home",l:"Accueil",i:'<path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/>'},{id:"history",l:"Historique",i:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'},{id:"settings",l:"Réglages",i:'<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>'}].map(x=>`<button class="nav-btn ${S.view===x.id?'active':''}" onclick="nav('${x.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${x.i}</svg>${x.l}</button>`).join("")}</div>`;
@@ -50,6 +51,7 @@ function rHome(){
   <div class="card" style="border-left:4px solid ${ph.color}"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">Phase</div><div style="font-size:16px;font-weight:900;color:${ph.color};margin-top:2px">${ph.name}</div><div style="font-size:13px;color:var(--t2);margin-top:2px">${ph.desc} — ${ph.numSets}×${ph.reps}</div></div><div style="display:flex;gap:4px">${PHASES.map((p,i)=>`<button onclick="setPhase(${i})" style="width:24px;height:24px;border-radius:50%;border:2px solid ${p.color};background:${S.phase===i?p.color:'none'};cursor:pointer;color:${S.phase===i?'#fff':p.color};font-size:11px;font-weight:700">${i+1}</button>`).join("")}</div></div></div>
   ${recSess?`<div class="card" style="border-left:4px solid ${recSess.color};cursor:pointer" onclick="goSess('${rec.id}')"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--ok);font-weight:600">💡 Recommandé aujourd'hui</div><div style="font-size:16px;font-weight:900;color:${recSess.color};margin-top:4px">${recSess.name}</div><div style="font-size:13px;color:var(--mt);margin-top:2px">${rec.days>0?`Dernier il y a ${rec.days}j`:'Jamais fait'} — WOD: ${pickWOD(rec.id)?.name||'—'}</div></div>`:``}
   <div class="card" style="padding:12px 16px"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:10px">⟳ Cycle PPL — Récupération</div><div style="display:flex;align-items:center;gap:5px">${ppls.map((p,i)=>`<div style="flex:1;text-align:center;border-radius:10px;padding:9px 4px;border:1px solid ${p.days===0?p.color:'var(--bd)'};background:${p.days===0?p.color+'22':p.days===null?'var(--cd2)':'none'}"><div style="font-size:14px;font-weight:900;color:${p.color}">${p.name}</div><div style="font-size:13px;font-weight:700;margin-top:3px;color:${p.days===null?'var(--mt)':p.days===0?p.color:p.days<=2?'var(--ok)':p.days<=5?'var(--t2)':'var(--mt)'}">${p.days===null?'—':p.days===0?'Auj.':p.days===1?'Hier':p.days+'j'}</div></div>${i<2?`<div style="color:var(--mt);font-size:13px;flex-shrink:0">→</div>`:''}`).join('')}</div></div>
+  <div class="card sess-card" style="border-left-color:#E76F51" onclick="goBodyMap()"><div class="sess-inner"><div><div class="sess-name" style="color:#E76F51">CARTE MUSCULAIRE</div><div class="sess-meta">Visualise quels muscles sont frais ou négligés (heat-map sur 30 jours)</div></div><div style="color:#E76F51;font-size:22px;opacity:.7">🗺</div></div></div>
   <div class="sec-title">Programme PPL</div>
   ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const wod=pickWOD(s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.compounds.length+s.pools.length} exos + WOD ${wod?.type||""}: ${wod?.name||""}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
   <div class="sec-title">Cardio</div>
@@ -62,6 +64,89 @@ function rHome(){
 }
 
 function rWU(id){return(WU[id]||[]).map(w=>`<div class="wu-card"><div class="wu-top">${w.img?`<div class="wu-img"><img src="${w.img}" onerror="this.parentElement.style.display='none'"></div>`:''}<div style="flex:1"><div style="font-size:14px;font-weight:700">${w.name}</div><div style="font-size:13px;color:var(--ok);font-weight:600;margin-top:2px">${w.reps}</div>${w.notes?`<div style="font-size:13px;color:var(--t2);margin-top:3px">${w.notes}</div>`:''}<div class="wu-links"><a href="${wk(w.name)}" target="_blank" style="color:#4ecdc4;background:rgba(78,205,196,.1)">Wiki</a>${w.yt?`<a href="${w.yt}" target="_blank" style="color:#ff0000;background:rgba(255,0,0,.08)">▶ YouTube</a>`:''}</div></div></div></div>`).join("");}
+
+// ─── BODY MAP ───
+// Vue dédiée : silhouette face+dos avec heat-map par muscle, click → détail.
+let _selectedMuscle = null; // session-only
+
+function rBodyMap(){
+  const muscles = ["chest","shoulders","biceps","triceps","back","core","quads","hamstrings","calves"];
+  const stats = {};
+  muscles.forEach(m => stats[m] = getMuscleStats(m));
+  const fill = m => muscleHeatColor(stats[m].daysAgo);
+  const sel = m => _selectedMuscle === m ? 'stroke="#fff" stroke-width="2.5"' : 'stroke="rgba(255,255,255,0.15)" stroke-width="0.8"';
+  const c = m => `data-muscle="${m}" onclick="setBodyMapSelected('${m}')" style="cursor:pointer"`;
+
+  // Front (x=0..200)
+  const front = `
+    <ellipse cx="100" cy="38" rx="22" ry="28" fill="#3a3a4a"/>
+    <path d="M 88 62 L 76 80 L 124 80 L 112 62 Z" fill="#3a3a4a"/>
+    <ellipse cx="60" cy="92" rx="22" ry="18" fill="${fill('shoulders')}" ${sel('shoulders')} ${c('shoulders')}/>
+    <ellipse cx="140" cy="92" rx="22" ry="18" fill="${fill('shoulders')}" ${sel('shoulders')} ${c('shoulders')}/>
+    <ellipse cx="78" cy="115" rx="20" ry="16" fill="${fill('chest')}" ${sel('chest')} ${c('chest')}/>
+    <ellipse cx="122" cy="115" rx="20" ry="16" fill="${fill('chest')}" ${sel('chest')} ${c('chest')}/>
+    <ellipse cx="32" cy="138" rx="14" ry="35" fill="${fill('biceps')}" ${sel('biceps')} ${c('biceps')}/>
+    <ellipse cx="168" cy="138" rx="14" ry="35" fill="${fill('biceps')}" ${sel('biceps')} ${c('biceps')}/>
+    <rect x="78" y="138" width="44" height="80" rx="10" fill="${fill('core')}" ${sel('core')} ${c('core')}/>
+    <ellipse cx="82" cy="265" rx="22" ry="50" fill="${fill('quads')}" ${sel('quads')} ${c('quads')}/>
+    <ellipse cx="118" cy="265" rx="22" ry="50" fill="${fill('quads')}" ${sel('quads')} ${c('quads')}/>
+    <ellipse cx="82" cy="365" rx="14" ry="32" fill="#3a3a4a" opacity="0.45"/>
+    <ellipse cx="118" cy="365" rx="14" ry="32" fill="#3a3a4a" opacity="0.45"/>
+    <text x="100" y="418" text-anchor="middle" fill="#9898a8" font-size="13" font-weight="800" letter-spacing="2">FACE</text>
+  `;
+  // Back (x=200..400)
+  const back = `
+    <ellipse cx="300" cy="38" rx="22" ry="28" fill="#3a3a4a"/>
+    <path d="M 288 62 L 276 80 L 324 80 L 312 62 Z" fill="#3a3a4a"/>
+    <ellipse cx="260" cy="92" rx="22" ry="18" fill="${fill('shoulders')}" ${sel('shoulders')} ${c('shoulders')}/>
+    <ellipse cx="340" cy="92" rx="22" ry="18" fill="${fill('shoulders')}" ${sel('shoulders')} ${c('shoulders')}/>
+    <path d="M 278 100 L 322 100 L 326 160 Q 326 180 318 200 L 282 200 Q 274 180 274 160 Z" fill="${fill('back')}" ${sel('back')} ${c('back')}/>
+    <ellipse cx="232" cy="138" rx="14" ry="35" fill="${fill('triceps')}" ${sel('triceps')} ${c('triceps')}/>
+    <ellipse cx="368" cy="138" rx="14" ry="35" fill="${fill('triceps')}" ${sel('triceps')} ${c('triceps')}/>
+    <ellipse cx="282" cy="265" rx="22" ry="50" fill="${fill('hamstrings')}" ${sel('hamstrings')} ${c('hamstrings')}/>
+    <ellipse cx="318" cy="265" rx="22" ry="50" fill="${fill('hamstrings')}" ${sel('hamstrings')} ${c('hamstrings')}/>
+    <ellipse cx="282" cy="365" rx="15" ry="32" fill="${fill('calves')}" ${sel('calves')} ${c('calves')}/>
+    <ellipse cx="318" cy="365" rx="15" ry="32" fill="${fill('calves')}" ${sel('calves')} ${c('calves')}/>
+    <text x="300" y="418" text-anchor="middle" fill="#9898a8" font-size="13" font-weight="800" letter-spacing="2">DOS</text>
+  `;
+  const svg = `<svg viewBox="0 0 400 432" width="100%" style="max-width:440px;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">${front}${back}</svg>`;
+
+  // Detail panel
+  let detail = `<div class="card" style="text-align:center;color:var(--mt);font-size:13px;padding:18px 14px;line-height:1.5">👆 Touche un muscle pour voir le détail (volume 30j, séances, dernier entraînement, 1RM)</div>`;
+  if(_selectedMuscle){
+    const s = stats[_selectedMuscle];
+    const lastTxt = s.daysAgo === null ? "Jamais entraîné" : s.daysAgo === 0 ? "Aujourd'hui" : s.daysAgo === 1 ? "Hier" : `Il y a ${s.daysAgo} j`;
+    const heatC = muscleHeatColor(s.daysAgo);
+    const volTxt = s.volume30 >= 1000 ? (s.volume30/1000).toFixed(1) + " t" : s.volume30 ? Math.round(s.volume30) + " kg" : "—";
+    detail = `<div class="card" style="border-left:4px solid ${heatC}">
+      <div style="font-size:20px;font-weight:900;color:${heatC};margin-bottom:6px">${MN[_selectedMuscle]||_selectedMuscle}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+        <div class="stat-box"><div class="stat-val">${volTxt}</div><div class="stat-lbl">Volume 30j</div></div>
+        <div class="stat-box"><div class="stat-val">${s.sessions30}</div><div class="stat-lbl">Séances 30j</div></div>
+        <div class="stat-box"><div class="stat-val" style="font-size:14px">${lastTxt}</div><div class="stat-lbl">Dernier</div></div>
+        <div class="stat-box"><div class="stat-val">${s.max1RM ? s.max1RM + " kg" : "—"}</div><div class="stat-lbl">Best 1RM est.</div></div>
+      </div>
+    </div>`;
+  }
+
+  const legend = `<div class="card"><div style="font-size:12px;color:var(--t2);margin-bottom:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase">Fraîcheur — couleur du muscle</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--t2)">
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#2A9D8F"></span>≤ 2 j</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#7ec5b8"></span>3-5 j</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#F4A261"></span>6-10 j</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#E76F51"></span>11-20 j</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#9b3d33"></span>>20 j</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#3a3a4a"></span>jamais</span>
+    </div></div>`;
+
+  return `<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="nav('home')">← Accueil</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--ac)">CARTE MUSCULAIRE</div><div style="width:60px"></div></div></div>
+    <div class="card" style="padding:14px 4px">${svg}</div>
+    ${detail}
+    ${legend}`;
+}
+
+function setBodyMapSelected(m){ _selectedMuscle = m; R(); }
+function goBodyMap(){ _selectedMuscle = null; nav("bodymap"); }
 
 function rSession(){
   const s=S.sess;if(!s)return"";

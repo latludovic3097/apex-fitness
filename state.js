@@ -158,6 +158,49 @@ function showLocalNotif(title, body){
 }
 
 // Vérifie si on doit envoyer un rappel et le fait. Throttle 24h via localStorage.
+// ─── BODY MAP : stats par muscle ───
+// Parcourt l'historique pour chaque muscle key (chest, shoulders, etc.)
+// Renvoie : volume30j, sessions30j, dernierEntrainement, max1RM, daysAgo (depuis dernière fois)
+function getMuscleStats(muscleKey){
+  const now = Date.now();
+  let volume30 = 0, sessions30 = 0, lastDate = null, max1RM = 0;
+  const seen30 = new Set();
+  S.hist.forEach(h => {
+    const hDate = new Date(h.date).getTime();
+    const ageDays = (now - hDate) / 864e5;
+    let hitMuscle = false;
+    h.exercises.forEach(ex => {
+      if(ex.muscle !== muscleKey) return;
+      hitMuscle = true;
+      Object.values(ex.logged || {}).forEach(s => {
+        const w = s.weight || 0, r = s.reps || 0;
+        if(ageDays <= 30) volume30 += w * r;
+        if(w && r){
+          const rm = calc1RM(w, r);
+          if(rm > max1RM) max1RM = rm;
+        }
+      });
+    });
+    if(hitMuscle){
+      if(!lastDate || hDate > new Date(lastDate).getTime()) lastDate = h.date;
+      if(ageDays <= 30) seen30.add(h.id || h.date);
+    }
+  });
+  sessions30 = seen30.size;
+  const daysAgo = lastDate ? Math.floor((now - new Date(lastDate).getTime()) / 864e5) : null;
+  return { volume30, sessions30, lastDate, daysAgo, max1RM };
+}
+
+// Couleur heat-map en fonction du nb de jours depuis dernière sollicitation du muscle
+function muscleHeatColor(daysAgo){
+  if(daysAgo === null) return "#3a3a4a";        // jamais sollicité (gris foncé)
+  if(daysAgo <= 2) return "#2A9D8F";            // frais (vert vif)
+  if(daysAgo <= 5) return "#7ec5b8";            // récent (vert pâle)
+  if(daysAgo <= 10) return "#F4A261";           // à surveiller (orange)
+  if(daysAgo <= 20) return "#E76F51";           // négligé (rouge pâle)
+  return "#9b3d33";                              // oublié (rouge foncé)
+}
+
 function checkAndShowReminder(){
   if(!isNotifEnabled()) return;
   if(notifPermissionState() !== "granted") return;

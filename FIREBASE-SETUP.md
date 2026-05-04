@@ -84,10 +84,11 @@ La clé API Firebase est **publique par design** (elle identifie le projet, pas 
 2. Sous **"API Keys"** clique sur **"Browser key (auto created by Firebase)"**
 3. Section **"Application restrictions"** :
    - Sélectionne **"Websites"** (HTTP referrers)
-   - **"Add"** → ajoute :
+   - **"Add"** → ajoute uniquement :
      - `https://TON-USERNAME.github.io/*` (ex : `https://latludovic3097.github.io/*`)
-     - `http://localhost:*` (pour les tests locaux)
    - **"Done"**
+
+   > **Note localhost** : Google Cloud refuse `http://localhost:*` (wildcard de port non accepté). Tu n'en as pas besoin de toute façon — Firebase Auth utilise une liste séparée (Authentication → Settings → Authorized domains) où `localhost` est déjà autorisé par défaut. Si tu tiens à autoriser le local sur l'API key, ajoute un port spécifique (ex : `http://localhost:5173/*`).
 4. Section **"API restrictions"** :
    - Sélectionne **"Restrict key"**
    - Coche uniquement :
