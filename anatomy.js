@@ -18,14 +18,14 @@ const ANATOMY = {
     front: {
       // ─── Éléments décoratifs non-cliquables (gris) ───
       bg: `
-        <ellipse cx="100" cy="38" rx="24" ry="30" fill="#3a3a4a"/>
-        <path d="M 88 66 L 86 92 L 114 92 L 112 66 Z" fill="#3a3a4a" opacity="0.7"/>
-        <path d="M 30 285 C 26 300 28 318 35 322 L 50 322 C 56 305 54 288 50 285 Z" fill="#3a3a4a" opacity="0.6"/>
-        <path d="M 170 285 C 174 300 172 318 165 322 L 150 322 C 144 305 146 288 150 285 Z" fill="#3a3a4a" opacity="0.6"/>
-        <ellipse cx="88" cy="408" rx="14" ry="9" fill="#3a3a4a" opacity="0.55"/>
-        <ellipse cx="112" cy="408" rx="14" ry="9" fill="#3a3a4a" opacity="0.55"/>
-        <path d="M 75 478 L 78 495 L 100 495 L 100 478 Z" fill="#3a3a4a" opacity="0.6"/>
-        <path d="M 125 478 L 122 495 L 100 495 L 100 478 Z" fill="#3a3a4a" opacity="0.6"/>
+        <ellipse cx="100" cy="38" rx="24" ry="30" fill="#c7c7cc"/>
+        <path d="M 88 66 L 86 92 L 114 92 L 112 66 Z" fill="#c7c7cc" opacity="0.7"/>
+        <path d="M 30 285 C 26 300 28 318 35 322 L 50 322 C 56 305 54 288 50 285 Z" fill="#c7c7cc" opacity="0.6"/>
+        <path d="M 170 285 C 174 300 172 318 165 322 L 150 322 C 144 305 146 288 150 285 Z" fill="#c7c7cc" opacity="0.6"/>
+        <ellipse cx="88" cy="408" rx="14" ry="9" fill="#c7c7cc" opacity="0.55"/>
+        <ellipse cx="112" cy="408" rx="14" ry="9" fill="#c7c7cc" opacity="0.55"/>
+        <path d="M 75 478 L 78 495 L 100 495 L 100 478 Z" fill="#c7c7cc" opacity="0.6"/>
+        <path d="M 125 478 L 122 495 L 100 495 L 100 478 Z" fill="#c7c7cc" opacity="0.6"/>
       `,
       // ─── Muscles cliquables ───
       muscles: {
@@ -79,14 +79,14 @@ const ANATOMY = {
     },
     back: {
       bg: `
-        <ellipse cx="100" cy="38" rx="24" ry="30" fill="#3a3a4a"/>
-        <path d="M 86 66 L 88 92 L 112 92 L 114 66 Z" fill="#3a3a4a" opacity="0.7"/>
-        <path d="M 30 285 C 26 300 28 318 35 322 L 50 322 C 56 305 54 288 50 285 Z" fill="#3a3a4a" opacity="0.6"/>
-        <path d="M 170 285 C 174 300 172 318 165 322 L 150 322 C 144 305 146 288 150 285 Z" fill="#3a3a4a" opacity="0.6"/>
-        <ellipse cx="88" cy="408" rx="14" ry="9" fill="#3a3a4a" opacity="0.55"/>
-        <ellipse cx="112" cy="408" rx="14" ry="9" fill="#3a3a4a" opacity="0.55"/>
-        <path d="M 75 478 L 78 495 L 100 495 L 100 478 Z" fill="#3a3a4a" opacity="0.6"/>
-        <path d="M 125 478 L 122 495 L 100 495 L 100 478 Z" fill="#3a3a4a" opacity="0.6"/>
+        <ellipse cx="100" cy="38" rx="24" ry="30" fill="#c7c7cc"/>
+        <path d="M 86 66 L 88 92 L 112 92 L 114 66 Z" fill="#c7c7cc" opacity="0.7"/>
+        <path d="M 30 285 C 26 300 28 318 35 322 L 50 322 C 56 305 54 288 50 285 Z" fill="#c7c7cc" opacity="0.6"/>
+        <path d="M 170 285 C 174 300 172 318 165 322 L 150 322 C 144 305 146 288 150 285 Z" fill="#c7c7cc" opacity="0.6"/>
+        <ellipse cx="88" cy="408" rx="14" ry="9" fill="#c7c7cc" opacity="0.55"/>
+        <ellipse cx="112" cy="408" rx="14" ry="9" fill="#c7c7cc" opacity="0.55"/>
+        <path d="M 75 478 L 78 495 L 100 495 L 100 478 Z" fill="#c7c7cc" opacity="0.6"/>
+        <path d="M 125 478 L 122 495 L 100 495 L 100 478 Z" fill="#c7c7cc" opacity="0.6"/>
       `,
       muscles: {
         // Deltoïdes postérieurs
@@ -138,17 +138,17 @@ const ANATOMY = {
   F: {
     front: {
       bg: `
-        <ellipse cx="100" cy="38" rx="22" ry="28" fill="#3a3a4a"/>
-        <path d="M 88 64 L 88 90 L 112 90 L 112 64 Z" fill="#3a3a4a" opacity="0.7"/>
+        <ellipse cx="100" cy="38" rx="22" ry="28" fill="#c7c7cc"/>
+        <path d="M 88 64 L 88 90 L 112 90 L 112 64 Z" fill="#c7c7cc" opacity="0.7"/>
         <!-- Cheveux légers (pour distinguer F de M) -->
-        <path d="M 78 28 Q 78 56 86 70 L 86 60 Q 80 46 80 32 Z" fill="#3a3a4a" opacity="0.45"/>
-        <path d="M 122 28 Q 122 56 114 70 L 114 60 Q 120 46 120 32 Z" fill="#3a3a4a" opacity="0.45"/>
-        <path d="M 32 282 C 28 296 30 314 37 318 L 50 318 C 56 302 54 285 50 282 Z" fill="#3a3a4a" opacity="0.55"/>
-        <path d="M 168 282 C 172 296 170 314 163 318 L 150 318 C 144 302 146 285 150 282 Z" fill="#3a3a4a" opacity="0.55"/>
-        <ellipse cx="88" cy="412" rx="13" ry="8" fill="#3a3a4a" opacity="0.5"/>
-        <ellipse cx="112" cy="412" rx="13" ry="8" fill="#3a3a4a" opacity="0.5"/>
-        <path d="M 75 478 L 78 495 L 100 495 L 100 478 Z" fill="#3a3a4a" opacity="0.6"/>
-        <path d="M 125 478 L 122 495 L 100 495 L 100 478 Z" fill="#3a3a4a" opacity="0.6"/>
+        <path d="M 78 28 Q 78 56 86 70 L 86 60 Q 80 46 80 32 Z" fill="#c7c7cc" opacity="0.45"/>
+        <path d="M 122 28 Q 122 56 114 70 L 114 60 Q 120 46 120 32 Z" fill="#c7c7cc" opacity="0.45"/>
+        <path d="M 32 282 C 28 296 30 314 37 318 L 50 318 C 56 302 54 285 50 282 Z" fill="#c7c7cc" opacity="0.55"/>
+        <path d="M 168 282 C 172 296 170 314 163 318 L 150 318 C 144 302 146 285 150 282 Z" fill="#c7c7cc" opacity="0.55"/>
+        <ellipse cx="88" cy="412" rx="13" ry="8" fill="#c7c7cc" opacity="0.5"/>
+        <ellipse cx="112" cy="412" rx="13" ry="8" fill="#c7c7cc" opacity="0.5"/>
+        <path d="M 75 478 L 78 495 L 100 495 L 100 478 Z" fill="#c7c7cc" opacity="0.6"/>
+        <path d="M 125 478 L 122 495 L 100 495 L 100 478 Z" fill="#c7c7cc" opacity="0.6"/>
       `,
       muscles: {
         // Épaules plus étroites
@@ -192,15 +192,15 @@ const ANATOMY = {
     },
     back: {
       bg: `
-        <ellipse cx="100" cy="38" rx="22" ry="28" fill="#3a3a4a"/>
-        <path d="M 88 64 L 88 90 L 112 90 L 112 64 Z" fill="#3a3a4a" opacity="0.7"/>
-        <path d="M 76 18 Q 70 60 86 80 L 100 80 L 114 80 Q 130 60 124 18 Z" fill="#3a3a4a" opacity="0.4"/>
-        <path d="M 32 282 C 28 296 30 314 37 318 L 50 318 C 56 302 54 285 50 282 Z" fill="#3a3a4a" opacity="0.55"/>
-        <path d="M 168 282 C 172 296 170 314 163 318 L 150 318 C 144 302 146 285 150 282 Z" fill="#3a3a4a" opacity="0.55"/>
-        <ellipse cx="88" cy="412" rx="13" ry="8" fill="#3a3a4a" opacity="0.5"/>
-        <ellipse cx="112" cy="412" rx="13" ry="8" fill="#3a3a4a" opacity="0.5"/>
-        <path d="M 75 478 L 78 495 L 100 495 L 100 478 Z" fill="#3a3a4a" opacity="0.6"/>
-        <path d="M 125 478 L 122 495 L 100 495 L 100 478 Z" fill="#3a3a4a" opacity="0.6"/>
+        <ellipse cx="100" cy="38" rx="22" ry="28" fill="#c7c7cc"/>
+        <path d="M 88 64 L 88 90 L 112 90 L 112 64 Z" fill="#c7c7cc" opacity="0.7"/>
+        <path d="M 76 18 Q 70 60 86 80 L 100 80 L 114 80 Q 130 60 124 18 Z" fill="#c7c7cc" opacity="0.4"/>
+        <path d="M 32 282 C 28 296 30 314 37 318 L 50 318 C 56 302 54 285 50 282 Z" fill="#c7c7cc" opacity="0.55"/>
+        <path d="M 168 282 C 172 296 170 314 163 318 L 150 318 C 144 302 146 285 150 282 Z" fill="#c7c7cc" opacity="0.55"/>
+        <ellipse cx="88" cy="412" rx="13" ry="8" fill="#c7c7cc" opacity="0.5"/>
+        <ellipse cx="112" cy="412" rx="13" ry="8" fill="#c7c7cc" opacity="0.5"/>
+        <path d="M 75 478 L 78 495 L 100 495 L 100 478 Z" fill="#c7c7cc" opacity="0.6"/>
+        <path d="M 125 478 L 122 495 L 100 495 L 100 478 Z" fill="#c7c7cc" opacity="0.6"/>
       `,
       muscles: {
         shoulders: [

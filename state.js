@@ -193,12 +193,12 @@ function getMuscleStats(muscleKey){
 
 // Couleur heat-map en fonction du nb de jours depuis dernière sollicitation du muscle
 function muscleHeatColor(daysAgo){
-  if(daysAgo === null) return "#3a3a4a";        // jamais sollicité (gris foncé)
+  if(daysAgo === null) return "#c7c7cc";        // jamais sollicité (gris clair, light theme)
   if(daysAgo <= 2) return "#2A9D8F";            // frais (vert vif)
-  if(daysAgo <= 5) return "#7ec5b8";            // récent (vert pâle)
+  if(daysAgo <= 5) return "#5DB8A8";            // récent (vert moyen, plus visible sur fond clair)
   if(daysAgo <= 10) return "#F4A261";           // à surveiller (orange)
   if(daysAgo <= 20) return "#E76F51";           // négligé (rouge pâle)
-  return "#9b3d33";                              // oublié (rouge foncé)
+  return "#C0392B";                              // oublié (rouge foncé)
 }
 
 function checkAndShowReminder(){

@@ -138,11 +138,11 @@ function rBodyMap(){
   const legend = `<div class="card"><div style="font-size:12px;color:var(--t2);margin-bottom:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase">Fraîcheur — couleur du muscle</div>
     <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--t2)">
       <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#2A9D8F"></span>≤ 2 j</span>
-      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#7ec5b8"></span>3-5 j</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#5DB8A8"></span>3-5 j</span>
       <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#F4A261"></span>6-10 j</span>
       <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#E76F51"></span>11-20 j</span>
-      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#9b3d33"></span>>20 j</span>
-      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#3a3a4a"></span>jamais</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#C0392B"></span>>20 j</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:14px;border-radius:3px;background:#c7c7cc"></span>jamais</span>
     </div></div>`;
 
   return `<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="nav('home')">← Accueil</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--ac)">CARTE MUSCULAIRE</div><div style="width:60px"></div></div></div>
@@ -477,22 +477,22 @@ function doImpFile(el){const f=el.files&&el.files[0];if(!f)return;const rd=new F
 // ─── INIT ───
 loadS();
 if(!localStorage.getItem("apex_disclaimer")){
-  document.getElementById("app").innerHTML=`<div style="padding:20px;max-width:480px;margin:0 auto">
-    <div style="font-size:26px;font-weight:900;letter-spacing:5px;color:#E63946;margin-bottom:20px">APEX FITNESS</div>
-    <div style="background:#14141f;border-radius:14px;border:1px solid #2a2a3a;padding:20px">
-      <div style="font-size:16px;font-weight:800;margin-bottom:12px;color:#F4A261">⚕️ Avertissement médical</div>
-      <div style="font-size:14px;color:#9898a8;line-height:1.7">
+  document.getElementById("app").innerHTML=`<div style="padding:24px 20px;max-width:480px;margin:0 auto">
+    <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:#E63946;margin-bottom:22px">APEX FITNESS</div>
+    <div style="background:#fff;border-radius:16px;border:1px solid #e5e5ea;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
+      <div style="font-size:18px;font-weight:800;margin-bottom:14px;color:#B97534">⚕️ Avertissement médical</div>
+      <div style="font-size:14px;color:#48484a;line-height:1.7">
         Cette application propose un programme d'entraînement adapté aux contraintes lombaires (protocole McGill). Cependant :<br><br>
-        <b style="color:#e8e8f0">• Elle ne remplace en aucun cas un avis médical.</b><br>
+        <b style="color:#1c1c1e">• Elle ne remplace en aucun cas un avis médical.</b><br>
         • Consultez un médecin ou kinésithérapeute avant de commencer tout programme si vous avez une pathologie diagnostiquée (hernie, protrusion, spondylolisthésis, etc.).<br>
         • Arrêtez immédiatement tout exercice provoquant une douleur aiguë.<br>
         • Les suggestions de charges sont basées sur le protocole APRE (validé scientifiquement) mais restent des estimations — écoutez votre corps.<br>
         • Les formules de 1RM (Epley/Brzycki) ont une marge d'erreur de ±3-5kg.<br><br>
-        <b style="color:#e8e8f0">En utilisant cette application, vous reconnaissez assumer la responsabilité de votre entraînement.</b>
+        <b style="color:#1c1c1e">En utilisant cette application, vous reconnaissez assumer la responsabilité de votre entraînement.</b>
       </div>
-      <button onclick="localStorage.setItem('apex_disclaimer','1');loadS();R();" style="background:#E63946;color:#fff;border:none;border-radius:12px;padding:14px 24px;font-size:14px;font-weight:700;cursor:pointer;width:100%;margin-top:16px;font-family:inherit">J'ai compris — Commencer</button>
+      <button onclick="localStorage.setItem('apex_disclaimer','1');loadS();R();" style="background:#E63946;color:#fff;border:none;border-radius:12px;padding:15px 24px;font-size:15px;font-weight:800;cursor:pointer;width:100%;margin-top:18px;font-family:inherit;letter-spacing:.5px">J'ai compris — Commencer</button>
     </div>
-    <div style="font-size:12px;color:#5a5a6a;margin-top:12px;text-align:center">Progression basée sur APRE (Huang et al. 2025, SUCRA 93%)<br>1RM: moyenne Epley + Brzycki (DiStasio 2014, ±2.7kg)</div>
+    <div style="font-size:12px;color:#8e8e93;margin-top:14px;text-align:center;font-weight:500">Progression basée sur APRE (Huang et al. 2025, SUCRA 93%)<br>1RM: moyenne Epley + Brzycki (DiStasio 2014, ±2.7kg)</div>
   </div>`;
 } else { R(); }
 
