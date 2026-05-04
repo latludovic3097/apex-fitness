@@ -84,12 +84,16 @@ body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:
 <body>
 <div id="app"></div>
 
-<!-- APEX Fitness v8.2 — modulaire (4 modules + index slim).
-     Ordre de chargement strict : core (purs) → data (immutable) → state (S + logic) → ui (rendu + actions + init). -->
+<!-- APEX Fitness v8.4 — modulaire + cloud sync.
+     Ordre de chargement strict : core (purs) → data (immutable) → state (S + logic) → ui (rendu + actions + init).
+     firebase-config.js est chargé AVANT sync.js (qui lit window.APEX_FIREBASE_CONFIG).
+     sync.js est un module ES (defer auto) → s'exécute après les classics, dispatche apex:sync-ready. -->
 <script src="core.js"></script>
 <script src="data.js"></script>
 <script src="state.js"></script>
 <script src="ui.js"></script>
+<script src="firebase-config.js"></script>
+<script type="module" src="sync.js"></script>
 
 <!-- Service Worker : auto-update + toast -->
 <script>

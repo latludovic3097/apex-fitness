@@ -38,8 +38,66 @@ function loadS(){
     }
   }catch{}
 }
-function saveS(){try{localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut}));}catch{}}
+function saveS(){
+  try{localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut}));}catch{}
+  scheduleCloudSync();
+}
 function saveA(){try{if(S.sess)localStorage.setItem(SK+"_a",JSON.stringify({sid:S.sess.id,ei:S.ei,log:S.log,notes:S.notes,t0:S.t0,exercises:S.sess.exercises}));else localStorage.removeItem(SK+"_a");}catch{}}
+
+// ─── CLOUD SYNC (Firebase, optionnel) ───
+// Push debouncé 2s après chaque saveS() si l'utilisateur est connecté.
+// Si window.apexSync n'existe pas (mode local-only), no-op.
+let _syncTimer = null;
+let _syncStatus = "idle"; // "idle" | "syncing" | "synced" | "error" | "offline"
+function scheduleCloudSync(){
+  if(!window.apexSync || !window.apexSync.getUser || !window.apexSync.getUser()) return;
+  clearTimeout(_syncTimer);
+  _syncStatus = "syncing";
+  _syncTimer = setTimeout(async () => {
+    try{
+      await window.apexSync.push({
+        history: S.hist,
+        phase: S.phase,
+        cardio: S.cardio,
+        core: S.core,
+        nut: S.nut
+      });
+      _syncStatus = "synced";
+    }catch(e){
+      console.warn("[apex-sync] push failed:", e);
+      _syncStatus = "error";
+    }
+    // Repaint la carte sync si on est sur Réglages
+    if(S.view === "settings" && typeof R === "function") R();
+  }, 2000);
+}
+
+// Pull au sign-in : merge cloud → local, puis push merged → cloud
+async function pullAndMergeFromCloud(){
+  if(!window.apexSync || !window.apexSync.getUser || !window.apexSync.getUser()) return;
+  try{
+    _syncStatus = "syncing";
+    const cloud = await window.apexSync.pull();
+    if(cloud){
+      // Merge histories avec dédup (plus sûr que last-write-wins pour un array)
+      const merged = mergeHistory(cloud.history || [], S.hist);
+      S.hist = merged.merged;
+      // Pour les scalaires : on prend la valeur cloud si présente (last sync wins)
+      if(cloud.phase !== undefined) S.phase = cloud.phase;
+      if(cloud.cardio) S.cardio = {...S.cardio, ...cloud.cardio};
+      if(cloud.core) S.core = {...S.core, ...cloud.core};
+      if(cloud.nut) S.nut = {...S.nut, ...cloud.nut};
+    }
+    saveS(); // déclenche un push remerge (cloud reçoit la fusion)
+    _syncStatus = "synced";
+    if(typeof R === "function") R();
+  }catch(e){
+    console.warn("[apex-sync] pull failed:", e);
+    _syncStatus = "error";
+    if(typeof R === "function") R();
+  }
+}
+function getSyncStatus(){return _syncStatus;}
 
 // ─── AUDIO (iOS Safari : init au premier gesture, resume avant chaque bip) ───
 let audioCtx;

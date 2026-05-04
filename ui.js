@@ -124,9 +124,75 @@ function rHist(){
 function rSett(){
   return`<div class="hdr"><div class="logo">RÉGLAGES</div></div>
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Périodisation</div>${PHASES.map((p,i)=>`<div onclick="setPhase(${i})" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;cursor:pointer;border:2px solid ${S.phase===i?p.color:'var(--bd)'};background:${S.phase===i?p.color+'15':'none'}"><div style="width:12px;height:12px;border-radius:50%;background:${p.color}"></div><div><div style="font-size:13px;font-weight:700;color:${p.color}">${p.name}</div><div style="font-size:13px;color:var(--t2)">${p.desc} — ${p.numSets}×${p.reps} — repos ${p.rest}s</div></div></div>`).join("")}</div>
+  ${rSyncCard()}
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Données</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn2" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" onclick="doExp()">📤 JSON backup</button><button class="btn2" onclick="doImpUI()">📥 Importer</button>${S.hist.length?`<button class="btn2" style="color:var(--ac);border-color:var(--ac)" onclick="safeWipe()">🗑 Effacer (avec backup)</button>`:""}</div><div id="io"></div></div>
-  <div class="card"><div style="font-size:13px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage. Exporte régulièrement.<br><br><b style="color:var(--ac)">APEX FITNESS</b> v8.2 — Modulaire<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Cardio • Core 12 sem • Nutrition</div></div>`;
+  <div class="card"><div style="font-size:13px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage + sync cloud (Firebase).<br><br><b style="color:var(--ac)">APEX FITNESS</b> v8.4 — Cloud Sync<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Cardio • Core 12 sem • Nutrition</div></div>`;
 }
+
+// ─── CLOUD SYNC CARD ───
+function rSyncCard(){
+  if(!window.apexSync){
+    return `<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:8px">☁️ Cloud Sync</div>
+      <div style="font-size:13px;color:var(--mt)">Chargement du module sync…</div></div>`;
+  }
+  if(!window.apexSync.isConfigured()){
+    return `<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:8px">☁️ Cloud Sync</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.6">
+        Sync cloud non activée. Pour synchroniser ton historique entre tes appareils (gratuit, via Firebase) :
+        <br><br>1. Crée un projet sur <a href="https://console.firebase.google.com" target="_blank" style="color:#4ecdc4">console.firebase.google.com</a>
+        <br>2. Édite <code style="background:var(--cd2);padding:2px 6px;border-radius:4px;font-size:12px">firebase-config.js</code> avec tes credentials
+        <br>3. Cf. <a href="FIREBASE-SETUP.md" target="_blank" style="color:#4ecdc4">FIREBASE-SETUP.md</a> pour le détail
+      </div>
+    </div>`;
+  }
+  const user = window.apexSync.getUser();
+  if(!user){
+    return `<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:8px">☁️ Cloud Sync</div>
+      <div style="font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.6">Connecte-toi pour synchroniser ton historique entre tous tes appareils. Tes données restent privées (toi seul peux y accéder).</div>
+      <button class="btn" onclick="syncSignIn()" style="background:#4285F4;border-color:#4285F4">🔐 Se connecter avec Google</button>
+    </div>`;
+  }
+  const status = (typeof getSyncStatus === "function") ? getSyncStatus() : "idle";
+  const statusLabels = {
+    idle: "Prêt",
+    syncing: "🔄 Synchronisation en cours…",
+    synced: "✅ Synchronisé",
+    error: "⚠️ Erreur de sync (réessai au prochain enregistrement)",
+    offline: "📡 Hors-ligne (les changements seront sync au retour)"
+  };
+  const statusColors = {idle:"var(--mt)", syncing:"#457B9D", synced:"var(--ok)", error:"var(--ac)", offline:"var(--wa)"};
+  return `<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:8px">☁️ Cloud Sync</div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:6px">Connecté en tant que <b style="color:var(--tx)">${esc(user.email||"")}</b></div>
+    <div style="font-size:13px;color:${statusColors[status]||"var(--mt)"};margin-bottom:14px;font-weight:600">${statusLabels[status]||status}</div>
+    <div style="font-size:12px;color:var(--mt);margin-bottom:14px;line-height:1.5">Push automatique 2s après chaque modif. Sécurisé par Firestore Security Rules.</div>
+    <button class="btn2" onclick="syncSignOut()">Se déconnecter</button>
+  </div>`;
+}
+
+function syncSignIn(){
+  if(!window.apexSync) return alert("Module sync pas chargé");
+  window.apexSync.signIn().then(()=>{
+    if(typeof pullAndMergeFromCloud === "function") pullAndMergeFromCloud();
+  }).catch(e=>{
+    if(e.code === "auth/popup-closed-by-user") return;
+    alert("Connexion échouée : "+(e.message||e.code||e));
+  });
+}
+function syncSignOut(){
+  if(!window.apexSync) return;
+  window.apexSync.signOut().then(()=>R());
+}
+
+// Repaint dès qu'un changement d'auth survient
+function _initApexSyncHooks(){
+  if(!window.apexSync) return;
+  window.apexSync.onAuthChange(user=>{
+    if(user && typeof pullAndMergeFromCloud === "function") pullAndMergeFromCloud();
+    R();
+  });
+}
+if(window.apexSync) _initApexSyncHooks();
+else document.addEventListener("apex:sync-ready", _initApexSyncHooks, {once:true});
 
 // ─── CARDIO ───
 function setCardio(k,v){S.cardio[k]=v;saveA();}
