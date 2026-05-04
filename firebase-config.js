@@ -1,4 +1,4 @@
-// APEX Fitness — Configuration Firebase
+﻿// APEX Fitness — Configuration Firebase
 //
 // 1. Va sur https://console.firebase.google.com et crée un projet (gratuit)
 // 2. Active Authentication → Sign-in method → Google (toggle on)
@@ -19,10 +19,11 @@
 // Tant que les valeurs sont les placeholders ci-dessous, la sync cloud reste
 // désactivée et l'app fonctionne en local-only (zéro changement de comportement).
 window.APEX_FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "1:000000000000:web:0000000000000000000000"
+  apiKey: "AIzaSyD7lER2IycwRxO3S886RcgqOXgtwLXJPP4",
+  authDomain: "apexfit-da753.firebaseapp.com",
+  projectId: "apexfit-da753",
+  storageBucket: "apexfit-da753.firebasestorage.app",
+  messagingSenderId: "1096563254641",
+  appId: "1:1096563254641:web:a6ea53deb76539d787c2d0"
 };
+
