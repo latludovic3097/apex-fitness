@@ -19,7 +19,7 @@
 // Tant que les valeurs sont les placeholders ci-dessous, la sync cloud reste
 // désactivée et l'app fonctionne en local-only (zéro changement de comportement).
 window.APEX_FIREBASE_CONFIG = {
-  apiKey: "AIzaSyD7lER2IycwRxO3S886RcgqOXgtwLXJPP4",
+  apiKey: "AIzaSyDCdDvgH5AK_wWqDaNGbTgeF4O-zHHqXYM",
   authDomain: "apexfit-da753.firebaseapp.com",
   projectId: "apexfit-da753",
   storageBucket: "apexfit-da753.firebasestorage.app",
