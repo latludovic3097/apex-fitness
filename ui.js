@@ -100,30 +100,32 @@ function _renderAnatomyView(sex, view, xOffset, stats){
   </g>`;
 }
 
-// Hotspot positions sur muscles.svg (Wikimedia, viewBox 407×354, 2 silhouettes côte-à-côte).
-// Coordonnées en % du conteneur — calibrées manuellement, ajustables si besoin visuel.
+// Hotspot positions sur muscles.svg (Wikimedia, viewBox 407×354).
+// Calibrage mesuré : silhouette FACE occupe 2.5% à 29.1% horizontal,
+// silhouette DOS occupe 76.2% à 97.5% horizontal (gros espace vide au milieu).
+// Toutes valeurs en % du conteneur img.
 const BODYMAP_HOTSPOTS = [
-  // ─── FACE (silhouette gauche, x ≈ 0-50%) ───
-  { muscle: "shoulders", left: 4,   top: 13.5, width: 11, height: 7,  side: "front" },
-  { muscle: "shoulders", left: 33,  top: 13.5, width: 11, height: 7,  side: "front" }, // mirror right
-  { muscle: "chest",     left: 14,  top: 19.5, width: 20, height: 7,  side: "front" },
-  { muscle: "biceps",    left: 1,   top: 22,   width: 9,  height: 13, side: "front" },
-  { muscle: "biceps",    left: 38,  top: 22,   width: 9,  height: 13, side: "front" }, // mirror right
-  { muscle: "core",      left: 16,  top: 27,   width: 16, height: 17, side: "front" },
-  { muscle: "quads",     left: 11,  top: 49,   width: 13, height: 23, side: "front" },
-  { muscle: "quads",     left: 24,  top: 49,   width: 13, height: 23, side: "front" }, // mirror right
-  { muscle: "calves",    left: 13,  top: 76,   width: 11, height: 17, side: "front" },
-  { muscle: "calves",    left: 24,  top: 76,   width: 11, height: 17, side: "front" }, // mirror right
-  // ─── DOS (silhouette droite, x ≈ 50-100%) ───
-  { muscle: "shoulders", left: 54,  top: 13.5, width: 11, height: 7,  side: "back" },
-  { muscle: "shoulders", left: 83,  top: 13.5, width: 11, height: 7,  side: "back" },
-  { muscle: "back",      left: 60,  top: 19.5, width: 25, height: 22, side: "back" },
-  { muscle: "triceps",   left: 51,  top: 22,   width: 9,  height: 13, side: "back" },
-  { muscle: "triceps",   left: 88,  top: 22,   width: 9,  height: 13, side: "back" },
-  { muscle: "hamstrings",left: 61,  top: 49,   width: 13, height: 23, side: "back" },
-  { muscle: "hamstrings",left: 74,  top: 49,   width: 13, height: 23, side: "back" },
-  { muscle: "calves",    left: 63,  top: 76,   width: 11, height: 17, side: "back" },
-  { muscle: "calves",    left: 74,  top: 76,   width: 11, height: 17, side: "back" }
+  // ─── FACE (silhouette gauche, 2.5%..29.1%) ───
+  { muscle: "shoulders", left: 3,    top: 14, width: 9,  height: 6 },
+  { muscle: "shoulders", left: 19,   top: 14, width: 9,  height: 6 },
+  { muscle: "chest",     left: 6,    top: 22, width: 19, height: 7 },
+  { muscle: "biceps",    left: 5.5,  top: 24, width: 5,  height: 11 },
+  { muscle: "biceps",    left: 21,   top: 24, width: 5,  height: 11 },
+  { muscle: "core",      left: 8,    top: 30, width: 15, height: 16 },
+  { muscle: "quads",     left: 5.5,  top: 48, width: 10, height: 22 },
+  { muscle: "quads",     left: 15.5, top: 48, width: 10, height: 22 },
+  { muscle: "calves",    left: 7,    top: 76, width: 8,  height: 15 },
+  { muscle: "calves",    left: 17,   top: 76, width: 8,  height: 15 },
+  // ─── DOS (silhouette droite, 76.2%..97.5%) ───
+  { muscle: "shoulders", left: 75,   top: 14, width: 9,  height: 6 },
+  { muscle: "shoulders", left: 89,   top: 14, width: 9,  height: 6 },
+  { muscle: "back",      left: 78,   top: 21, width: 18, height: 22 },
+  { muscle: "triceps",   left: 76,   top: 24, width: 5,  height: 11 },
+  { muscle: "triceps",   left: 91,   top: 24, width: 5,  height: 11 },
+  { muscle: "hamstrings",left: 77,   top: 48, width: 10, height: 22 },
+  { muscle: "hamstrings",left: 87,   top: 48, width: 10, height: 22 },
+  { muscle: "calves",    left: 78,   top: 76, width: 8,  height: 15 },
+  { muscle: "calves",    left: 88,   top: 76, width: 8,  height: 15 }
 ];
 
 function rBodyMap(){
