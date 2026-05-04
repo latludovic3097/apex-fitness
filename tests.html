@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APEX — Tests unitaires</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'Segoe UI',sans-serif;background:#0a0a0f;color:#e8e8f0;padding:20px;max-width:900px;margin:0 auto;line-height:1.5}
+h1{color:#E63946;font-size:22px;letter-spacing:3px;margin-bottom:6px}
+.subtitle{color:#9898a8;font-size:12px;margin-bottom:18px}
+.subtitle code{background:#14141f;padding:2px 6px;border-radius:4px;font-size:11px}
+.suite{background:#14141f;border:1px solid #2a2a3a;border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.suite h2{font-size:14px;color:#457B9D;margin-bottom:8px;font-weight:700;letter-spacing:1px}
+.suite h2 .count{color:#5a5a6a;font-size:11px;font-weight:400;margin-left:6px}
+.test{padding:4px 0;font-size:12px;font-family:'SF Mono',Consolas,monospace}
+.pass{color:#2A9D8F}
+.fail{color:#E63946;background:rgba(230,57,70,.08);padding:6px 10px;border-radius:6px;margin:4px 0;border-left:3px solid #E63946}
+.fail-detail{margin-top:4px;font-size:11px;color:#F4A261;font-family:'SF Mono',Consolas,monospace;white-space:pre-wrap}
+.summary{font-size:18px;font-weight:900;padding:16px;border-radius:10px;margin-top:14px;text-align:center;letter-spacing:2px}
+.summary.ok{background:rgba(42,157,143,.15);color:#2A9D8F;border:2px solid #2A9D8F}
+.summary.ko{background:rgba(230,57,70,.15);color:#E63946;border:2px solid #E63946}
+.meta{font-size:11px;color:#5a5a6a;margin-top:8px;text-align:center}
+</style>
+</head>
+<body>
+<h1>APEX — TESTS</h1>
+<div class="subtitle">Tests unitaires des fonctions pures dans <code>core.js</code>. Lancement automatique au chargement de la page.</div>
+<div id="results"></div>
+<div id="summary" class="summary"></div>
+<div class="meta" id="meta"></div>
+
+<script src="core.js"></script>
+<script>
+const SUITES = [];
+function describe(name, fn){
+  const suite = { name, tests: [] };
+  SUITES.push(suite);
+  const t = (label, body) => {
+    let ok = true, err = null;
+    try { body(); }
+    catch(e){ ok = false; err = (e && (e.message || String(e))) || "(no error message)"; }
+    suite.tests.push({ label, ok, err });
+  };
+  fn(t);
+}
+function eq(actual, expected, msg){
+  const ja = JSON.stringify(actual), je = JSON.stringify(expected);
+  if(ja !== je) throw new Error(`${msg ? msg+" — " : ""}expected ${je}, got ${ja}`);
+}
+function near(actual, expected, tolerance, msg){
+  if(typeof actual !== "number" || isNaN(actual))
+    throw new Error(`${msg ? msg+" — " : ""}expected number, got ${actual}`);
+  if(Math.abs(actual - expected) > tolerance)
+    throw new Error(`${msg ? msg+" — " : ""}expected ~${expected} (±${tolerance}), got ${actual}`);
+}
+function truthy(actual, msg){
+  if(!actual) throw new Error(`${msg || "expected truthy"} — got ${actual}`);
+}
+function falsy(actual, msg){
+  if(actual) throw new Error(`${msg || "expected falsy"} — got ${actual}`);
+}
+
+// ════════════════════════════════════════════════════════════════
+//  ESC()
+// ════════════════════════════════════════════════════════════════
+describe("esc() — XSS escape", t => {
+  t("retourne chaîne vide pour null/undefined/empty", () => {
+    eq(esc(null), "");
+    eq(esc(undefined), "");
+    eq(esc(""), "");
+  });
+  t("échappe les caractères HTML dangereux", () => {
+    eq(esc("<script>"), "&lt;script&gt;");
+    eq(esc("a & b"), "a &amp; b");
+    eq(esc('"hi"'), "&quot;hi&quot;");
+    eq(esc("it's"), "it&#39;s");
+  });
+  t("neutralise un payload XSS classique", () => {
+    const out = esc('<img src=x onerror="alert(1)">');
+    falsy(out.includes("<img"), "doit échapper <");
+    falsy(out.includes('onerror="'), "doit échapper \"");
+    truthy(out.includes("&lt;img"));
+    truthy(out.includes("&quot;"));
+  });
+  t("neutralise une évasion de textarea", () => {
+    const out = esc("</textarea><script>x</script>");
+    falsy(out.includes("</textarea>"));
+    falsy(out.includes("<script>"));
+  });
+  t("préserve le texte plain", () => {
+    eq(esc("hello world"), "hello world");
+    eq(esc("Bench Press 100kg"), "Bench Press 100kg");
+  });
+  t("coerce les nombres en string", () => {
+    eq(esc(42), "42");
+    eq(esc(0), "0");
+  });
+});
+
+// ════════════════════════════════════════════════════════════════
+//  CALC1RM()
+// ════════════════════════════════════════════════════════════════
+describe("calc1RM() — estimation 1 rep max", t => {
+  t("entrées invalides retournent 0", () => {
+    eq(calc1RM(0, 5), 0);
+    eq(calc1RM(100, 0), 0);
+    eq(calc1RM(100, -1), 0);
+    eq(calc1RM(null, 5), 0);
+    eq(calc1RM(undefined, undefined), 0);
+  });
+  t("1 rep retourne le poids tel quel", () => {
+    eq(calc1RM(100, 1), 100);
+    eq(calc1RM(82.5, 1), 82.5);
+  });
+  t("≤10 reps : moyenne Epley + Brzycki", () => {
+    // 100kg × 5 : Epley=116.67 ; Brzycki=112.51 ; avg≈114.59 → 115
+    near(calc1RM(100, 5), 115, 1);
+    // 80kg × 8 : Epley≈101.33 ; Brzycki≈99.33 ; avg≈100.33 → 100
+    near(calc1RM(80, 8), 100, 1);
+    // 60kg × 10 : Epley=80 ; Brzycki≈80 ; avg=80
+    near(calc1RM(60, 10), 80, 1);
+  });
+  t(">10 reps : formule Mayhew", () => {
+    // 60kg × 15 : 60 / (0.522 + 0.419 * exp(-0.825)) ≈ 85
+    near(calc1RM(60, 15), 85, 1);
+    // 40kg × 20 : 40 / (0.522 + 0.419 * exp(-1.1)) ≈ 53
+    near(calc1RM(40, 20), 53, 2);
+  });
+  t("monotone : plus de reps → 1RM estimé plus haut (à poids fixe)", () => {
+    truthy(calc1RM(100, 3) < calc1RM(100, 5));
+    truthy(calc1RM(100, 5) < calc1RM(100, 8));
+  });
+  t("retourne toujours un entier (round)", () => {
+    const r = calc1RM(82.5, 7);
+    eq(r, Math.round(r));
+  });
+});
+
+// ════════════════════════════════════════════════════════════════
+//  GETAPREADJUSTMENT()
+// ════════════════════════════════════════════════════════════════
+describe("getAPREAdjustment() — auto-progression APRE", t => {
+  // ─── APRE 6 (Force, targetRM ≤ 6) ───
+  t("APRE6 : 0-2 reps → trop lourd, -5kg", () => {
+    eq(getAPREAdjustment(0, 6).status, "trop lourd");
+    eq(getAPREAdjustment(2, 6).status, "trop lourd");
+    eq(getAPREAdjustment(2, 6).setAdj, -5);
+    eq(getAPREAdjustment(2, 6).nextAdj, -5);
+  });
+  t("APRE6 : 3-4 reps → lourd, -2.5kg set / 0 next", () => {
+    eq(getAPREAdjustment(3, 6).status, "lourd");
+    eq(getAPREAdjustment(4, 6).status, "lourd");
+    eq(getAPREAdjustment(4, 6).setAdj, -2.5);
+    eq(getAPREAdjustment(4, 6).nextAdj, 0);
+  });
+  t("APRE6 : 5-7 reps → optimal, 0/0", () => {
+    eq(getAPREAdjustment(5, 6).status, "optimal");
+    eq(getAPREAdjustment(7, 6).status, "optimal");
+    eq(getAPREAdjustment(6, 6).setAdj, 0);
+  });
+  t("APRE6 : 8-12 reps → progression, +2.5", () => {
+    eq(getAPREAdjustment(8, 6).status, "progression");
+    eq(getAPREAdjustment(12, 6).status, "progression");
+    eq(getAPREAdjustment(10, 6).nextAdj, 2.5);
+  });
+  t("APRE6 : 13+ reps → trop léger, +5", () => {
+    eq(getAPREAdjustment(13, 6).status, "trop léger");
+    eq(getAPREAdjustment(20, 6).setAdj, 5);
+  });
+
+  // ─── APRE 10 (Hyper, 6 < targetRM ≤ 12) ───
+  t("APRE10 : 0-6 reps → trop lourd, -5", () => {
+    eq(getAPREAdjustment(5, 12).status, "trop lourd");
+    eq(getAPREAdjustment(6, 12).setAdj, -5);
+  });
+  t("APRE10 : 7-8 reps → lourd", () => {
+    eq(getAPREAdjustment(7, 12).status, "lourd");
+    eq(getAPREAdjustment(8, 12).status, "lourd");
+  });
+  t("APRE10 : 9-12 reps → optimal", () => {
+    eq(getAPREAdjustment(9, 12).status, "optimal");
+    eq(getAPREAdjustment(12, 12).status, "optimal");
+  });
+  t("APRE10 : 13-16 reps → progression", () => {
+    eq(getAPREAdjustment(14, 10).status, "progression");
+    eq(getAPREAdjustment(16, 10).nextAdj, 2.5);
+  });
+  t("APRE10 : 17+ reps → trop léger", () => {
+    eq(getAPREAdjustment(20, 10).status, "trop léger");
+  });
+
+  // ─── APRE 3 (Deload, targetRM > 12) ───
+  t("APRE3 : ≤12 reps → lourd", () => {
+    eq(getAPREAdjustment(10, 20).status, "lourd");
+    eq(getAPREAdjustment(12, 20).setAdj, -2.5);
+  });
+  t("APRE3 : 13-20 reps → optimal", () => {
+    eq(getAPREAdjustment(15, 20).status, "optimal");
+    eq(getAPREAdjustment(20, 20).status, "optimal");
+  });
+  t("APRE3 : 21+ reps → trop léger", () => {
+    eq(getAPREAdjustment(25, 20).status, "trop léger");
+    eq(getAPREAdjustment(25, 20).nextAdj, 2.5);
+  });
+});
+
+// ════════════════════════════════════════════════════════════════
+//  NUTCALC()
+// ════════════════════════════════════════════════════════════════
+describe("nutCalc() — Mifflin-St Jeor + macros", t => {
+  const baseM = { weight: 75, height: 178, age: 30, sex: "M", activity: 1.55, goal: -400, proteinPerKg: 2, fatPerKg: 0.8 };
+
+  t("formule Mifflin-St Jeor homme", () => {
+    // BMR = 10*75 + 6.25*178 - 5*30 + 5 = 1717.5 → round 1718
+    const c = nutCalc(baseM);
+    eq(c.bmr, 1718);
+    // TDEE = 1717.5 * 1.55 = 2662.125 → round 2662
+    eq(c.tdee, 2662);
+    // target = round(2662.125 - 400) = 2262
+    eq(c.target, 2262);
+  });
+  t("formule Mifflin-St Jeor femme (offset -161)", () => {
+    const baseF = Object.assign({}, baseM, { sex: "F", weight: 60 });
+    // BMR = 10*60 + 6.25*178 - 5*30 - 161 = 1401.5 → round 1402
+    const c = nutCalc(baseF);
+    eq(c.bmr, 1402);
+  });
+  t("protéines = poids × proteinPerKg", () => {
+    eq(nutCalc(baseM).protein, 150); // 75*2
+    eq(nutCalc(Object.assign({}, baseM, { proteinPerKg: 1.8 })).protein, 135); // 75*1.8
+  });
+  t("lipides = poids × fatPerKg", () => {
+    eq(nutCalc(baseM).fat, 60); // 75*0.8
+  });
+  t("glucides = (target - prot×4 - fat×9) / 4", () => {
+    const c = nutCalc(baseM);
+    // target=2262, P=150*4=600, F=60*9=540, rest=1122 → /4 = 280.5 → round 281
+    near(c.carbs, 281, 1);
+  });
+  t("glucides plancher à 0 (cas extrême)", () => {
+    const c = nutCalc(Object.assign({}, baseM, { proteinPerKg: 10, fatPerKg: 5 }));
+    truthy(c.carbs >= 0, "carbs ne peut pas être négatif");
+  });
+  t("maintenance (goal=0) → target = tdee", () => {
+    const c = nutCalc(Object.assign({}, baseM, { goal: 0 }));
+    eq(c.target, c.tdee);
+    eq(c.deficit, 0);
+  });
+  t("prise de masse (goal>0) → target > tdee", () => {
+    const c = nutCalc(Object.assign({}, baseM, { goal: 500 }));
+    truthy(c.target > c.tdee);
+  });
+  t("weeklyChange computed correctly (1kg=7700kcal)", () => {
+    eq(nutCalc(baseM).weeklyChange, "-0.36"); // -400*7/7700
+    eq(nutCalc(Object.assign({}, baseM, { goal: 0 })).weeklyChange, "0.00");
+  });
+  t("toutes les valeurs numériques sont des entiers (sauf weeklyChange string)", () => {
+    const c = nutCalc(baseM);
+    eq(c.bmr, Math.round(c.bmr));
+    eq(c.tdee, Math.round(c.tdee));
+    eq(c.target, Math.round(c.target));
+    eq(c.protein, Math.round(c.protein));
+    eq(c.fat, Math.round(c.fat));
+    eq(c.carbs, Math.round(c.carbs));
+  });
+});
+
+// ════════════════════════════════════════════════════════════════
+//  MERGEHISTORY()
+// ════════════════════════════════════════════════════════════════
+describe("mergeHistory() — fusion dédupliquée", t => {
+  t("incoming vide → existing inchangé, 0 added/skipped", () => {
+    const ex = [{date:"2026-04-01T00:00:00Z", sessionName:"PUSH"}];
+    const r = mergeHistory([], ex);
+    eq(r.merged.length, 1);
+    eq(r.added, 0);
+    eq(r.skipped, 0);
+  });
+  t("toutes nouvelles entrées ajoutées", () => {
+    const r = mergeHistory([
+      {date:"2026-04-01T00:00:00Z", sessionName:"PUSH"},
+      {date:"2026-04-02T00:00:00Z", sessionName:"PULL"}
+    ], []);
+    eq(r.added, 2);
+    eq(r.skipped, 0);
+    eq(r.merged.length, 2);
+  });
+  t("doublons par date+session ignorés", () => {
+    const ex = [{date:"2026-04-01T00:00:00Z", sessionName:"PUSH"}];
+    // même jour, même session, heure différente
+    const r = mergeHistory([{date:"2026-04-01T08:00:00Z", sessionName:"PUSH"}], ex);
+    eq(r.added, 0);
+    eq(r.skipped, 1);
+  });
+  t("matching session name est case-insensitive", () => {
+    const ex = [{date:"2026-04-01T00:00:00Z", sessionName:"PUSH"}];
+    const r = mergeHistory([{date:"2026-04-01T00:00:00Z", sessionName:"push"}], ex);
+    eq(r.skipped, 1);
+  });
+  t("sessions différentes le même jour sont gardées", () => {
+    const ex = [{date:"2026-04-01T00:00:00Z", sessionName:"PUSH"}];
+    const r = mergeHistory([{date:"2026-04-01T00:00:00Z", sessionName:"PULL"}], ex);
+    eq(r.added, 1);
+    eq(r.merged.length, 2);
+  });
+  t("mix : nouvelles + doublons comptés séparément", () => {
+    const ex = [{date:"2026-04-01T00:00:00Z", sessionName:"PUSH"}];
+    const r = mergeHistory([
+      {date:"2026-04-01T00:00:00Z", sessionName:"PUSH"},  // dup
+      {date:"2026-04-02T00:00:00Z", sessionName:"PULL"}   // new
+    ], ex);
+    eq(r.added, 1);
+    eq(r.skipped, 1);
+    eq(r.merged.length, 2);
+  });
+  t("résultat trié par date décroissante (plus récent en premier)", () => {
+    const r = mergeHistory([
+      {date:"2026-04-01T00:00:00Z", sessionName:"PUSH"},
+      {date:"2026-04-03T00:00:00Z", sessionName:"PULL"},
+      {date:"2026-04-02T00:00:00Z", sessionName:"LEGS"}
+    ], []);
+    eq(r.merged[0].sessionName, "PULL"); // 03 = plus récent
+    eq(r.merged[1].sessionName, "LEGS"); // 02
+    eq(r.merged[2].sessionName, "PUSH"); // 01 = le plus ancien
+  });
+  t("ne mute pas le tableau existing original (pure)", () => {
+    const ex = [{date:"2026-04-01T00:00:00Z", sessionName:"PUSH"}];
+    const exCopy = JSON.parse(JSON.stringify(ex));
+    mergeHistory([{date:"2026-04-02T00:00:00Z", sessionName:"PULL"}], ex);
+    eq(ex, exCopy);
+  });
+  t("gère undefined/null en entrée sans planter", () => {
+    const r = mergeHistory(undefined, undefined);
+    eq(r.added, 0);
+    eq(r.skipped, 0);
+    eq(r.merged.length, 0);
+  });
+  t("fallback sur sessionId si sessionName absent", () => {
+    const ex = [{date:"2026-04-01T00:00:00Z", sessionId:"push"}];
+    const r = mergeHistory([{date:"2026-04-01T00:00:00Z", sessionId:"push"}], ex);
+    eq(r.skipped, 1);
+  });
+});
+
+// ════════════════════════════════════════════════════════════════
+//  PARSECSVTOHISTORY()
+// ════════════════════════════════════════════════════════════════
+describe("parseCSVtoHistory() — parseur CSV", t => {
+  t("texte vide → []", () => {
+    eq(parseCSVtoHistory("").length, 0);
+    eq(parseCSVtoHistory("   \n  ").length, 0);
+    eq(parseCSVtoHistory(null).length, 0);
+  });
+  t("header seul (sans data row) → []", () => {
+    eq(parseCSVtoHistory("Date;Session;Exercice").length, 0);
+  });
+  t("colonnes Date ou Exercice manquantes → []", () => {
+    eq(parseCSVtoHistory("Foo;Bar\n1;2").length, 0);
+    eq(parseCSVtoHistory("Date;Session\n01/04/2026;PUSH").length, 0);
+  });
+  t("ligne unique → 1 entry, 1 exercise, 1 set", () => {
+    const csv = "Date;Session;Phase;Durée;Exercice;Muscle;Set;Kg;Reps;Volume;1RM est.;RIR;Notes\n01/04/2026;PUSH;Force;55;Bench Press;chest;1;80;8;640;100;2;Bon feeling";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 1);
+    eq(r[0].sessionName, "PUSH");
+    eq(r[0].sessionId, "push");
+    eq(r[0].phase, "Force");
+    eq(r[0].duration, 55);
+    eq(r[0].exercises.length, 1);
+    eq(r[0].exercises[0].name, "Bench Press");
+    eq(r[0].exercises[0].muscle, "chest");
+    eq(r[0].exercises[0].rir, 2);
+    eq(r[0].exercises[0].logged[0].weight, 80);
+    eq(r[0].exercises[0].logged[0].reps, 8);
+    eq(r[0].notes, "Bon feeling");
+  });
+  t("BOM UTF-8 stripped en silence", () => {
+    const csv = "﻿Date;Session;Exercice;Set;Kg;Reps\n01/04/2026;PUSH;Bench;1;80;8";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 1);
+  });
+  t("séparateur , détecté automatiquement", () => {
+    const csv = "Date,Session,Exercice,Set,Kg,Reps\n01/04/2026,PUSH,Bench,1,80,8";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 1);
+    eq(r[0].exercises[0].logged[0].weight, 80);
+  });
+  t("virgule décimale dans Kg (82,5) parsée correctement", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps\n01/04/2026;PUSH;Bench;1;82,5;6";
+    const r = parseCSVtoHistory(csv);
+    eq(r[0].exercises[0].logged[0].weight, 82.5);
+  });
+  t("date format ISO (YYYY-MM-DD)", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps\n2026-04-01;PUSH;Bench;1;80;8";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 1);
+    eq(r[0].date.slice(0,10), "2026-04-01");
+  });
+  t("date format FR (DD/MM/YYYY)", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps\n01/04/2026;PUSH;Bench;1;80;8";
+    const r = parseCSVtoHistory(csv);
+    eq(r[0].date.slice(0,10), "2026-04-01");
+  });
+  t("date format FR avec année 2 chiffres (DD/MM/YY) → 20YY", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps\n15/03/26;PUSH;Bench;1;80;8";
+    const r = parseCSVtoHistory(csv);
+    eq(r[0].date.slice(0,10), "2026-03-15");
+  });
+  t("plusieurs sets pour le même exercice", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps\n01/04/2026;PUSH;Bench;1;80;8\n01/04/2026;PUSH;Bench;2;82.5;6\n01/04/2026;PUSH;Bench;3;82.5;5";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 1);
+    eq(r[0].exercises.length, 1);
+    eq(Object.keys(r[0].exercises[0].logged).length, 3);
+    eq(r[0].exercises[0].logged[0].weight, 80);
+    eq(r[0].exercises[0].logged[2].weight, 82.5);
+  });
+  t("plusieurs exercices dans la même session", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps\n01/04/2026;PUSH;Bench;1;80;8\n01/04/2026;PUSH;OHP;1;50;10";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 1);
+    eq(r[0].exercises.length, 2);
+  });
+  t("plusieurs sessions distinctes", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps\n01/04/2026;PUSH;Bench;1;80;8\n02/04/2026;PULL;Row;1;60;10";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 2);
+  });
+  t("inférence du sessionId à partir du nom", () => {
+    const cases = [
+      ["PUSH", "push"], ["push day", "push"],
+      ["PULL", "pull"], ["LEGS", "legs"], ["JAMBES", "legs"],
+      ["CARDIO Course", "cardio"],
+      ["Custom", "imported"]
+    ];
+    cases.forEach(([name, expected]) => {
+      const csv = `Date;Session;Exercice;Set;Kg;Reps\n01/04/2026;${name};Foo;1;50;5`;
+      const r = parseCSVtoHistory(csv);
+      eq(r[0].sessionId, expected, `name="${name}"`);
+    });
+  });
+  t("colonnes optionnelles manquantes (RIR, Phase, Durée)", () => {
+    const csv = "Date;Session;Exercice;Kg;Reps\n01/04/2026;PUSH;Bench;80;8";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 1);
+    eq(r[0].exercises[0].name, "Bench");
+    eq(r[0].phase, "");
+    eq(r[0].duration, 0);
+  });
+  t("ligne avec date invalide → row skipped, pas de crash", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps\nINVALID_DATE;PUSH;Bench;1;80;8\n01/04/2026;PUSH;Bench;1;80;8";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 1);
+  });
+  t("ligne avec exName vide → row skipped", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps\n01/04/2026;PUSH;;1;80;8\n02/04/2026;PUSH;Bench;1;80;8";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 1);
+    eq(r[0].exercises[0].name, "Bench");
+  });
+  t("valeurs RIR vides ignorées (pas d'attribut rir)", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps;RIR\n01/04/2026;PUSH;Bench;1;80;8;";
+    const r = parseCSVtoHistory(csv);
+    eq(r[0].exercises[0].rir, undefined);
+  });
+  t("RIR=0 (failure) doit être préservé", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps;RIR\n01/04/2026;PUSH;Bench;1;80;8;0";
+    const r = parseCSVtoHistory(csv);
+    eq(r[0].exercises[0].rir, 0);
+  });
+  t("résultat trié par date décroissante", () => {
+    const csv = "Date;Session;Exercice;Set;Kg;Reps\n01/04/2026;PUSH;Bench;1;80;8\n03/04/2026;PULL;Row;1;60;10\n02/04/2026;LEGS;Squat;1;100;5";
+    const r = parseCSVtoHistory(csv);
+    eq(r[0].sessionName, "PULL");
+    eq(r[2].sessionName, "PUSH");
+  });
+  t("alias colonnes : poids/weight, exercise, duree, jambes/leg", () => {
+    const csv = "Date;Session;Exercise;Set;Weight;Rep;Duree\n01/04/2026;PUSH;Bench;1;80;8;55";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 1);
+    eq(r[0].duration, 55);
+    eq(r[0].exercises[0].logged[0].weight, 80);
+  });
+  t("pipeline E2E : export → parse round-trip préserve les données", () => {
+    // Simule un export CSV de l'app, le re-parse, vérifie l'équivalence des champs critiques
+    const csv = "Date;Session;Phase;Durée;Exercice;Muscle;Set;Kg;Reps;Volume;1RM est.;RIR;Notes\n" +
+                "01/04/2026;PUSH;Force;55;Bench Press;chest;1;80;8;640;100;2;Bon\n" +
+                "01/04/2026;PUSH;Force;55;Bench Press;chest;2;82,5;6;495;100;2;Bon\n" +
+                "01/04/2026;PUSH;Force;55;OHP;shoulders;1;50;10;500;65;3;\n" +
+                "02/04/2026;PULL;Force;60;Row;back;1;70;8;560;87;2;";
+    const r = parseCSVtoHistory(csv);
+    eq(r.length, 2);
+    eq(r[0].sessionName, "PULL");        // Plus récente
+    eq(r[1].sessionName, "PUSH");
+    eq(r[1].exercises.length, 2);        // Bench + OHP
+    eq(r[1].exercises[0].name, "Bench Press");
+    eq(Object.keys(r[1].exercises[0].logged).length, 2);
+    eq(r[1].exercises[0].logged[1].weight, 82.5);
+    eq(r[1].exercises[0].rir, 2);
+  });
+});
+
+// ════════════════════════════════════════════════════════════════
+//  RUN & RENDER
+// ════════════════════════════════════════════════════════════════
+const t0 = performance.now();
+const out = document.getElementById("results");
+let totalPass = 0, totalFail = 0, totalTests = 0;
+
+SUITES.forEach(suite => {
+  const div = document.createElement("div");
+  div.className = "suite";
+  let html = `<h2>${suite.name}<span class="count">(${suite.tests.length} tests)</span></h2>`;
+  suite.tests.forEach(test => {
+    totalTests++;
+    if(test.ok){
+      totalPass++;
+      html += `<div class="test pass">✓ ${test.label}</div>`;
+    } else {
+      totalFail++;
+      html += `<div class="test fail">✗ ${test.label}<div class="fail-detail">${test.err.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div></div>`;
+    }
+  });
+  div.innerHTML = html;
+  out.appendChild(div);
+});
+
+const elapsed = (performance.now() - t0).toFixed(1);
+const sum = document.getElementById("summary");
+if(totalFail === 0){
+  sum.className = "summary ok";
+  sum.textContent = `✅ ${totalPass} / ${totalTests} TESTS PASSENT`;
+} else {
+  sum.className = "summary ko";
+  sum.textContent = `❌ ${totalFail} ÉCHEC(S) — ${totalPass}/${totalTests}`;
+}
+document.getElementById("meta").textContent = `${SUITES.length} suites · exécution en ${elapsed}ms · APEX Fitness v8.x`;
+</script>
+</body>
+</html>
