@@ -180,16 +180,16 @@ function exportCSV(){
 
 // ─── CHARTS SVG (sans librairie) ───
 function svgBar(data,lk,vk,col,w,h){
-  if(!data.length)return'<div style="text-align:center;color:var(--mt);padding:16px;font-size:11px">—</div>';
+  if(!data.length)return'<div style="text-align:center;color:var(--mt);padding:16px;font-size:13px">—</div>';
   const mx=Math.max(...data.map(d=>d[vk]))||1;const bW=Math.min(28,Math.floor((w-40)/data.length)-3);const cH=h-25;
-  let s=`<svg width="100%" viewBox="0 0 ${w} ${h}"><line x1="28" y1="0" x2="28" y2="${cH}" stroke="var(--bd)"/><line x1="28" y1="${cH}" x2="${w}" y2="${cH}" stroke="var(--bd)"/><text x="25" y="10" text-anchor="end" font-size="7" fill="var(--mt)">${mx}</text>`;
-  data.forEach((d,i)=>{const bh=Math.max(2,(d[vk]/mx)*cH);const x=30+i*(bW+3);s+=`<rect x="${x}" y="${cH-bh}" width="${bW}" height="${bh}" rx="2" fill="${col}" opacity=".8"><title>${d[lk]}: ${d[vk]}</title></rect>`;if(data.length<=10)s+=`<text x="${x+bW/2}" y="${cH+11}" text-anchor="middle" font-size="7" fill="var(--mt)">${d[lk]}</text>`;});
+  let s=`<svg width="100%" viewBox="0 0 ${w} ${h}"><line x1="28" y1="0" x2="28" y2="${cH}" stroke="var(--bd)"/><line x1="28" y1="${cH}" x2="${w}" y2="${cH}" stroke="var(--bd)"/><text x="25" y="10" text-anchor="end" font-size="9" fill="var(--mt)">${mx}</text>`;
+  data.forEach((d,i)=>{const bh=Math.max(2,(d[vk]/mx)*cH);const x=30+i*(bW+3);s+=`<rect x="${x}" y="${cH-bh}" width="${bW}" height="${bh}" rx="2" fill="${col}" opacity=".8"><title>${d[lk]}: ${d[vk]}</title></rect>`;if(data.length<=10)s+=`<text x="${x+bW/2}" y="${cH+11}" text-anchor="middle" font-size="9" fill="var(--mt)">${d[lk]}</text>`;});
   return s+"</svg>";
 }
 function svgLine(data,lk,vk,col,w,h){
   if(data.length<2)return svgBar(data,lk,vk,col,w,h);
   const mx=Math.max(...data.map(d=>d[vk]))||1;const cH=h-25;const cW=w-40;const step=cW/(data.length-1);
-  let pts="",dots="",lbls="",s=`<svg width="100%" viewBox="0 0 ${w} ${h}"><line x1="28" y1="0" x2="28" y2="${cH}" stroke="var(--bd)"/><line x1="28" y1="${cH}" x2="${w}" y2="${cH}" stroke="var(--bd)"/><text x="25" y="10" text-anchor="end" font-size="7" fill="var(--mt)">${mx}</text>`;
-  data.forEach((d,i)=>{const x=30+i*step,y=cH-(d[vk]/mx)*cH;pts+=(i?` L`:`M`)+`${x},${y}`;dots+=`<circle cx="${x}" cy="${y}" r="3.5" fill="${col}"><title>${d[lk]}: ${d[vk]}kg</title></circle>`;if(data.length<=10)lbls+=`<text x="${x}" y="${cH+12}" text-anchor="middle" font-size="7" fill="var(--mt)">${d[lk]}</text>`;});
+  let pts="",dots="",lbls="",s=`<svg width="100%" viewBox="0 0 ${w} ${h}"><line x1="28" y1="0" x2="28" y2="${cH}" stroke="var(--bd)"/><line x1="28" y1="${cH}" x2="${w}" y2="${cH}" stroke="var(--bd)"/><text x="25" y="10" text-anchor="end" font-size="9" fill="var(--mt)">${mx}</text>`;
+  data.forEach((d,i)=>{const x=30+i*step,y=cH-(d[vk]/mx)*cH;pts+=(i?` L`:`M`)+`${x},${y}`;dots+=`<circle cx="${x}" cy="${y}" r="3.5" fill="${col}"><title>${d[lk]}: ${d[vk]}kg</title></circle>`;if(data.length<=10)lbls+=`<text x="${x}" y="${cH+12}" text-anchor="middle" font-size="9" fill="var(--mt)">${d[lk]}</text>`;});
   return s+`<path d="${pts}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round"/>`+dots+lbls+"</svg>";
 }
