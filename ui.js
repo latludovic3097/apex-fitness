@@ -66,50 +66,56 @@ function rHome(){
 function rWU(id){return(WU[id]||[]).map(w=>`<div class="wu-card"><div class="wu-top">${w.img?`<div class="wu-img"><img src="${w.img}" onerror="this.parentElement.style.display='none'"></div>`:''}<div style="flex:1"><div style="font-size:14px;font-weight:700">${w.name}</div><div style="font-size:13px;color:var(--ok);font-weight:600;margin-top:2px">${w.reps}</div>${w.notes?`<div style="font-size:13px;color:var(--t2);margin-top:3px">${w.notes}</div>`:''}<div class="wu-links"><a href="${wk(w.name)}" target="_blank" style="color:#4ecdc4;background:rgba(78,205,196,.1)">Wiki</a>${w.yt?`<a href="${w.yt}" target="_blank" style="color:#ff0000;background:rgba(255,0,0,.08)">▶ YouTube</a>`:''}</div></div></div></div>`).join("");}
 
 // ─── BODY MAP ───
-// Vue dédiée : silhouette face+dos avec heat-map par muscle, click → détail.
-let _selectedMuscle = null; // session-only
+// Vue dédiée : silhouette anatomique face+dos avec heat-map par muscle, click → détail.
+// Paths SVG dans anatomy.js, variantes M/F selon S.nut.sex (override via toggle).
+let _selectedMuscle = null;     // session-only
+let _bodyMapSex = null;         // override de sexe pour la vue ; null → utilise S.nut.sex
+
+function getBodyMapSex(){
+  return _bodyMapSex || S.nut.sex || "M";
+}
+
+// Génère le SVG pour une vue donnée (front | back) avec offset x et le sexe choisi.
+function _renderAnatomyView(sex, view, xOffset, stats){
+  const def = ANATOMY[sex] && ANATOMY[sex][view];
+  if(!def) return "";
+  const fill = m => muscleHeatColor(stats[m].daysAgo);
+  const stroke = m => _selectedMuscle === m ? 'stroke="#fff" stroke-width="2"' : 'stroke="rgba(0,0,0,0.55)" stroke-width="0.7"';
+  const click = m => `data-muscle="${m}" onclick="setBodyMapSelected('${m}')" style="cursor:pointer"`;
+  // Helper : enrichit un path string brut <path d="..."/> avec attributs fill/stroke/click pour le muscle m
+  const inject = (rawPath, m) => rawPath.replace(/<path /g, `<path fill="${fill(m)}" ${stroke(m)} ${click(m)} `);
+
+  let musclesSVG = "";
+  Object.entries(def.muscles).forEach(([m, paths]) => {
+    if(Array.isArray(paths)) paths.forEach(p => { musclesSVG += inject(p, m); });
+    else musclesSVG += inject(paths, m);
+  });
+
+  const label = view === "front" ? "FACE" : "DOS";
+  return `<g transform="translate(${xOffset},0)">
+    ${def.bg}
+    ${musclesSVG}
+    ${def.details}
+    <text x="100" y="508" text-anchor="middle" fill="#9898a8" font-size="13" font-weight="800" letter-spacing="2">${label}</text>
+  </g>`;
+}
 
 function rBodyMap(){
+  const sex = getBodyMapSex();
   const muscles = ["chest","shoulders","biceps","triceps","back","core","quads","hamstrings","calves"];
   const stats = {};
   muscles.forEach(m => stats[m] = getMuscleStats(m));
-  const fill = m => muscleHeatColor(stats[m].daysAgo);
-  const sel = m => _selectedMuscle === m ? 'stroke="#fff" stroke-width="2.5"' : 'stroke="rgba(255,255,255,0.15)" stroke-width="0.8"';
-  const c = m => `data-muscle="${m}" onclick="setBodyMapSelected('${m}')" style="cursor:pointer"`;
 
-  // Front (x=0..200)
-  const front = `
-    <ellipse cx="100" cy="38" rx="22" ry="28" fill="#3a3a4a"/>
-    <path d="M 88 62 L 76 80 L 124 80 L 112 62 Z" fill="#3a3a4a"/>
-    <ellipse cx="60" cy="92" rx="22" ry="18" fill="${fill('shoulders')}" ${sel('shoulders')} ${c('shoulders')}/>
-    <ellipse cx="140" cy="92" rx="22" ry="18" fill="${fill('shoulders')}" ${sel('shoulders')} ${c('shoulders')}/>
-    <ellipse cx="78" cy="115" rx="20" ry="16" fill="${fill('chest')}" ${sel('chest')} ${c('chest')}/>
-    <ellipse cx="122" cy="115" rx="20" ry="16" fill="${fill('chest')}" ${sel('chest')} ${c('chest')}/>
-    <ellipse cx="32" cy="138" rx="14" ry="35" fill="${fill('biceps')}" ${sel('biceps')} ${c('biceps')}/>
-    <ellipse cx="168" cy="138" rx="14" ry="35" fill="${fill('biceps')}" ${sel('biceps')} ${c('biceps')}/>
-    <rect x="78" y="138" width="44" height="80" rx="10" fill="${fill('core')}" ${sel('core')} ${c('core')}/>
-    <ellipse cx="82" cy="265" rx="22" ry="50" fill="${fill('quads')}" ${sel('quads')} ${c('quads')}/>
-    <ellipse cx="118" cy="265" rx="22" ry="50" fill="${fill('quads')}" ${sel('quads')} ${c('quads')}/>
-    <ellipse cx="82" cy="365" rx="14" ry="32" fill="#3a3a4a" opacity="0.45"/>
-    <ellipse cx="118" cy="365" rx="14" ry="32" fill="#3a3a4a" opacity="0.45"/>
-    <text x="100" y="418" text-anchor="middle" fill="#9898a8" font-size="13" font-weight="800" letter-spacing="2">FACE</text>
-  `;
-  // Back (x=200..400)
-  const back = `
-    <ellipse cx="300" cy="38" rx="22" ry="28" fill="#3a3a4a"/>
-    <path d="M 288 62 L 276 80 L 324 80 L 312 62 Z" fill="#3a3a4a"/>
-    <ellipse cx="260" cy="92" rx="22" ry="18" fill="${fill('shoulders')}" ${sel('shoulders')} ${c('shoulders')}/>
-    <ellipse cx="340" cy="92" rx="22" ry="18" fill="${fill('shoulders')}" ${sel('shoulders')} ${c('shoulders')}/>
-    <path d="M 278 100 L 322 100 L 326 160 Q 326 180 318 200 L 282 200 Q 274 180 274 160 Z" fill="${fill('back')}" ${sel('back')} ${c('back')}/>
-    <ellipse cx="232" cy="138" rx="14" ry="35" fill="${fill('triceps')}" ${sel('triceps')} ${c('triceps')}/>
-    <ellipse cx="368" cy="138" rx="14" ry="35" fill="${fill('triceps')}" ${sel('triceps')} ${c('triceps')}/>
-    <ellipse cx="282" cy="265" rx="22" ry="50" fill="${fill('hamstrings')}" ${sel('hamstrings')} ${c('hamstrings')}/>
-    <ellipse cx="318" cy="265" rx="22" ry="50" fill="${fill('hamstrings')}" ${sel('hamstrings')} ${c('hamstrings')}/>
-    <ellipse cx="282" cy="365" rx="15" ry="32" fill="${fill('calves')}" ${sel('calves')} ${c('calves')}/>
-    <ellipse cx="318" cy="365" rx="15" ry="32" fill="${fill('calves')}" ${sel('calves')} ${c('calves')}/>
-    <text x="300" y="418" text-anchor="middle" fill="#9898a8" font-size="13" font-weight="800" letter-spacing="2">DOS</text>
-  `;
-  const svg = `<svg viewBox="0 0 400 432" width="100%" style="max-width:440px;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">${front}${back}</svg>`;
+  const front = _renderAnatomyView(sex, "front", 0, stats);
+  const back  = _renderAnatomyView(sex, "back", 200, stats);
+  const svg = `<svg viewBox="0 0 400 520" width="100%" style="max-width:460px;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg">${front}${back}</svg>`;
+
+  // Toggle Homme / Femme
+  const isF = sex === "F";
+  const sexToggle = `<div style="display:flex;gap:6px;justify-content:center;margin:8px 0 14px">
+    <button onclick="setBodyMapSex('M')" style="padding:8px 18px;border-radius:10px;border:2px solid ${!isF?'var(--ac)':'var(--bd)'};background:${!isF?'var(--ac10)':'none'};color:${!isF?'var(--ac)':'var(--mt)'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">♂ Homme</button>
+    <button onclick="setBodyMapSex('F')" style="padding:8px 18px;border-radius:10px;border:2px solid ${isF?'#E76F51':'var(--bd)'};background:${isF?'rgba(231,111,81,0.15)':'none'};color:${isF?'#E76F51':'var(--mt)'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">♀ Femme</button>
+  </div>`;
 
   // Detail panel
   let detail = `<div class="card" style="text-align:center;color:var(--mt);font-size:13px;padding:18px 14px;line-height:1.5">👆 Touche un muscle pour voir le détail (volume 30j, séances, dernier entraînement, 1RM)</div>`;
@@ -140,13 +146,15 @@ function rBodyMap(){
     </div></div>`;
 
   return `<div style="padding:12px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:5px 10px;font-size:11px" onclick="nav('home')">← Accueil</button><div style="font-size:18px;font-weight:900;letter-spacing:3px;color:var(--ac)">CARTE MUSCULAIRE</div><div style="width:60px"></div></div></div>
+    ${sexToggle}
     <div class="card" style="padding:14px 4px">${svg}</div>
     ${detail}
     ${legend}`;
 }
 
 function setBodyMapSelected(m){ _selectedMuscle = m; R(); }
-function goBodyMap(){ _selectedMuscle = null; nav("bodymap"); }
+function setBodyMapSex(s){ _bodyMapSex = s; R(); }
+function goBodyMap(){ _selectedMuscle = null; _bodyMapSex = null; nav("bodymap"); }
 
 function rSession(){
   const s=S.sess;if(!s)return"";

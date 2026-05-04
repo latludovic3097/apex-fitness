@@ -1,10 +1,9 @@
-const C='apex-v8.6';
-const U=['./index.html','./manifest.json','./core.js','./data.js','./state.js','./ui.js','./firebase-config.js','./sync.js'];
+const C='apex-v8.7';
+const U=['./index.html','./manifest.json','./core.js','./data.js','./anatomy.js','./state.js','./ui.js','./firebase-config.js','./sync.js'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(U))));
 self.addEventListener('message',e=>{if(e.data&&e.data.type==='SKIP_WAITING')self.skipWaiting();});
 self.addEventListener('fetch',e=>{
   const url=new URL(e.request.url);
-  // Ne pas mettre en cache les CDN Firebase (gstatic) — les laisse passer en réseau direct
   if(url.hostname.includes('gstatic.com')||url.hostname.includes('googleapis.com')||url.hostname.includes('firebaseio.com')){
     e.respondWith(fetch(e.request).catch(()=>new Response('',{status:503})));
     return;
