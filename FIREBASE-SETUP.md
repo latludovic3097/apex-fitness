@@ -76,6 +76,30 @@ const firebaseConfig = {
 
 ---
 
+## 4b. ⚠️ IMPORTANT — Restreindre la clé API (sécurité)
+
+La clé API Firebase est **publique par design** (elle identifie le projet, pas une identité), mais il faut la **restreindre** pour empêcher qu'elle soit utilisée depuis un autre domaine que le tien (sinon quelqu'un pourrait bouffer ton quota gratuit).
+
+1. Va sur **https://console.cloud.google.com/apis/credentials?project=TON-PROJECT-ID**
+2. Sous **"API Keys"** clique sur **"Browser key (auto created by Firebase)"**
+3. Section **"Application restrictions"** :
+   - Sélectionne **"Websites"** (HTTP referrers)
+   - **"Add"** → ajoute :
+     - `https://TON-USERNAME.github.io/*` (ex : `https://latludovic3097.github.io/*`)
+     - `http://localhost:*` (pour les tests locaux)
+   - **"Done"**
+4. Section **"API restrictions"** :
+   - Sélectionne **"Restrict key"**
+   - Coche uniquement :
+     - **Identity Toolkit API** (Firebase Auth)
+     - **Cloud Firestore API** (Firestore)
+     - **Token Service API**
+5. **"Save"** en bas
+
+> Sans cette étape, GitHub Secret Scanning va alerter sur ta clé (faux positif technique, mais bonne pratique de la verrouiller). Avec les restrictions, même si quelqu'un copie ta clé, elle ne marche que depuis ton domaine et seulement pour les APIs sélectionnées.
+
+---
+
 ## 5. Coller les valeurs dans le code
 
 1. Ouvre `firebase-config.js` à la racine du repo (ou édite directement sur GitHub)
@@ -94,7 +118,12 @@ window.APEX_FIREBASE_CONFIG = {
 
 3. Commit + push → GitHub Pages redéploie en ~30 sec
 
-> **Sécurité** : ces valeurs SONT publiques. C'est OK. La sécurité repose 100% sur les Security Rules de Firestore (étape 3a) et sur les Authorized domains (étape 2.4). Quelqu'un qui copie ton apiKey ne peut RIEN faire avec, à moins d'avoir aussi un compte Google connecté autorisé sur ton domaine, ET les règles n'autorisent l'accès qu'à son propre document.
+> **Sécurité** : ces valeurs SONT publiques. C'est OK **à condition d'avoir fait l'étape 4b** (restriction de la clé). La sécurité globale repose sur 3 couches :
+> 1. **API key restrictions** (étape 4b) → la clé ne marche que depuis ton domaine
+> 2. **Authorized domains** (étape 2.4) → Auth ne fonctionne que depuis tes domaines
+> 3. **Firestore Security Rules** (étape 3a) → chaque user ne peut lire/écrire que son propre doc
+>
+> Si GitHub Secret Scanning alerte sur ta clé, c'est un **faux positif** : ferme l'alerte avec **"Close as → Revoked"** une fois les 3 couches en place.
 
 ---
 
@@ -149,6 +178,21 @@ Tu peux supporter plusieurs centaines d'utilisateurs sans payer un centime.
 |---|---|---|
 | `auth/unauthorized-domain` | Domaine pas dans Authorized domains | Cf. étape 2.4 |
 | `permission-denied` à l'écriture | Security Rules pas configurées | Cf. étape 3a |
-| `auth/api-key-not-valid` | apiKey mal copiée | Recopie depuis Project Settings |
+| `auth/api-key-not-valid` | apiKey mal copiée OU restrictions trop strictes | Recopie depuis Project Settings, vérifie que `latludovic3097.github.io/*` est dans les HTTP referrers |
 | Popup bloqué | Bloqueur de popup | Autoriser pour le domaine, ou utiliser signInWithRedirect (modif code) |
 | Sync ne se déclenche pas | F12 → Console → cherche `[apex-sync]` | Logs détaillés |
+| Alerte "API Key leaked" sur GitHub | Faux positif (Firebase keys sont publiques par design) | Étape 4b ci-dessus + ferme l'alerte avec "Revoked" |
+
+---
+
+## Si tu dois rotater la clé (compromise, alerte GitHub, etc.)
+
+1. **https://console.cloud.google.com/apis/credentials?project=TON-PROJECT-ID**
+2. Clique sur "Browser key" → bouton **"Regenerate key"** en haut à droite
+3. Copie la nouvelle clé
+4. Vérifie/rajoute les restrictions (cf. étape 4b)
+5. Update `firebase-config.js` avec la nouvelle clé → commit + push
+6. L'ancienne clé est immédiatement invalidée par Google
+7. Sur GitHub : ferme l'alerte avec **"Close as → Revoked"**
+
+L'ancienne clé reste dans l'historique git, mais ne fonctionne plus → aucun risque résiduel.
