@@ -357,7 +357,9 @@ function syncSignIn(){
   window.apexSync.signIn().then(()=>{
     if(typeof pullAndMergeFromCloud === "function") pullAndMergeFromCloud();
   }).catch(e=>{
-    if(e.code === "auth/popup-closed-by-user") return;
+    // Erreurs UX silencieuses (user a fermé la popup ou cliqué 2 fois) — pas de spam d'alerte
+    const silentCodes = ["auth/popup-closed-by-user", "auth/cancelled-popup-request", "auth/popup-blocked"];
+    if(silentCodes.includes(e.code)) return;
     alert("Connexion échouée : "+(e.message||e.code||e));
   });
 }
