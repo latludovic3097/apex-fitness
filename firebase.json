@@ -1,0 +1,25 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      ".firebase/**",
+      "**/.*",
+      "**/node_modules/**",
+      "serve.ps1",
+      "tests.html",
+      "FIREBASE-SETUP.md",
+      "APEX-PROJECT-SPEC.md",
+      "README.md"
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(html|js|svg|json)",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, max-age=0" }
+        ]
+      }
+    ]
+  }
+}

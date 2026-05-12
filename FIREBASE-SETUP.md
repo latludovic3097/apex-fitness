@@ -1,7 +1,19 @@
-# APEX Fitness — Activer la synchronisation cloud (Firebase)
+# APEX Fitness — Setup Firebase (Hosting + Auth + Firestore)
 
-Guide pas-à-pas pour activer la sync de l'historique entre tous tes appareils.
-**Tout est gratuit** dans le quota Firebase Spark (1 Go Firestore, 50k reads/jour, 20k writes/jour).
+Guide pas-à-pas pour activer le déploiement et la synchronisation cloud.
+**Tout est gratuit** dans le quota Firebase Spark (10 GB hosting/mois, 1 GB Firestore, 50k reads/jour, 20k writes/jour).
+
+## URL de production
+
+L'app est déployée sur **https://apexfit-da753.web.app** (et son alias `apexfit-da753.firebaseapp.com`).
+
+**Déployer une nouvelle version** :
+```bash
+cd D:\AgentsIA\FitnessApp\apex-fitness-repo
+firebase deploy --only hosting
+```
+
+GitHub reste utilisé pour le **code source** uniquement (versioning, backup). Le hosting GitHub Pages a été désactivé — Firebase Hosting est notre seule URL publique.
 
 ---
 
@@ -107,11 +119,14 @@ La clé API Firebase est **publique par design** (elle identifie le projet, pas 
 2. Sous **"API Keys"** clique sur **"Browser key (auto created by Firebase)"**
 3. Section **"Application restrictions"** :
    - Sélectionne **"Websites"** (HTTP referrers)
-   - **"Add"** → ajoute uniquement :
-     - `https://TON-USERNAME.github.io/*` (ex : `https://latludovic3097.github.io/*`)
+   - **"Add"** → ajoute (selon ton déploiement) :
+     - `https://TON-PROJECT.web.app/*` (Firebase Hosting — recommandé)
+     - `https://TON-PROJECT.firebaseapp.com/*` (alias Firebase Hosting)
    - **"Done"**
 
-   > **Note localhost** : Google Cloud refuse `http://localhost:*` (wildcard de port non accepté). Tu n'en as pas besoin de toute façon — Firebase Auth utilise une liste séparée (Authentication → Settings → Authorized domains) où `localhost` est déjà autorisé par défaut. Si tu tiens à autoriser le local sur l'API key, ajoute un port spécifique (ex : `http://localhost:5173/*`).
+   > **Pourquoi Firebase Hosting plutôt que GitHub Pages ?** Le domaine `*.web.app` est automatiquement autorisé partout dans Firebase (Auth, Firestore, OAuth). Avec GitHub Pages, il y a un piège récurrent côté OAuth Client (origines JS) qui produit l'erreur "The requested action is invalid". On a galéré 2h dessus avant de basculer sur Firebase Hosting où ça marche du premier coup.
+   >
+   > **Note localhost** : Google Cloud refuse `http://localhost:*` (wildcard de port non accepté). Tu n'en as pas besoin de toute façon — Firebase Auth utilise une liste séparée (Authentication → Settings → Authorized domains) où `localhost` est déjà autorisé par défaut.
 4. Section **"API restrictions"** :
    - Sélectionne **"Restrict key"**
    - Coche uniquement :

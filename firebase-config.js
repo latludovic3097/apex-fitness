@@ -14,7 +14,9 @@
 //          }
 //        }
 //      }
-// 7. Authentication → Settings → Authorized domains : ajoute latludovic3097.github.io
+// 7. Authentication → Settings → Authorized domains : ajoute ton domaine de prod
+//    (déjà fait pour ce projet : apexfit-da753.web.app + apexfit-da753.firebaseapp.com sont auto-autorisés
+//    par Firebase Hosting)
 //
 // Tant que les valeurs sont les placeholders ci-dessous, la sync cloud reste
 // désactivée et l'app fonctionne en local-only (zéro changement de comportement).
