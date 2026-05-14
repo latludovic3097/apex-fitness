@@ -53,21 +53,37 @@ function renderPwaInstallBanner(){
   if(document.getElementById("pwaInstall")) return;
   const b = document.createElement("div");
   b.id = "pwaInstall";
-  b.style.cssText = "position:fixed;bottom:84px;left:50%;transform:translateX(-50%);max-width:90%;background:var(--in);color:#fff;padding:11px 16px;border-radius:12px;z-index:9998;font-size:13px;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;align-items:center;gap:10px;font-family:-apple-system,'Segoe UI',sans-serif";
-  b.innerHTML = `📱 Installer APEX comme une app <button id="pwaInstallBtn" style="background:#fff;color:var(--in);border:none;padding:5px 11px;border-radius:7px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">Installer</button><button id="pwaDismissBtn" style="background:transparent;color:#fff;border:none;padding:3px 6px;font-size:18px;cursor:pointer;line-height:1;opacity:.8" aria-label="Dismiss">×</button>`;
+  // Bottom-right toast on desktop; full-width bottom bar on mobile (always above tab bar).
+  // Reserves body padding-bottom so it never overlays interactive content (e.g. set rows).
+  b.style.cssText = "position:fixed;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 76px);max-width:340px;background:var(--cd);color:var(--t1);border:1px solid var(--bd);padding:10px 14px;border-radius:12px;z-index:9998;font-size:13px;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.12);display:flex;align-items:center;gap:10px;font-family:-apple-system,'Segoe UI',sans-serif";
+  b.innerHTML = `<span style="font-size:18px">📱</span><span style="flex:1">Installer APEX comme une app</span><button id="pwaInstallBtn" style="background:var(--ac);color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">Installer</button><button id="pwaDismissBtn" style="background:transparent;color:var(--t2);border:none;padding:3px 6px;font-size:18px;cursor:pointer;line-height:1;opacity:.7" aria-label="Fermer">×</button>`;
   document.body.appendChild(b);
+  // Mobile: stretch to full width above tab bar
+  const mq = window.matchMedia("(max-width:480px)");
+  const applyMobile = () => {
+    if (mq.matches) {
+      b.style.right = "8px"; b.style.left = "8px"; b.style.maxWidth = "none";
+    } else {
+      b.style.left = ""; b.style.right = "16px"; b.style.maxWidth = "340px";
+    }
+  };
+  applyMobile(); mq.addEventListener("change", applyMobile);
+  // Reserve space so banner never overlays content. Restore on remove.
+  const prevPad = document.body.style.paddingBottom;
+  document.body.style.paddingBottom = "calc(env(safe-area-inset-bottom,0px) + 140px)";
+  const cleanup = () => { document.body.style.paddingBottom = prevPad; mq.removeEventListener("change", applyMobile); b.remove(); };
   document.getElementById("pwaInstallBtn").onclick = async () => {
     if(!_deferredInstallPrompt) return;
     _deferredInstallPrompt.prompt();
     const choice = await _deferredInstallPrompt.userChoice;
     _deferredInstallPrompt = null;
-    b.remove();
+    cleanup();
     if(choice.outcome === "dismissed"){ _pwaDismissed = true; localStorage.setItem("apex_pwa_dismissed", "1"); }
   };
   document.getElementById("pwaDismissBtn").onclick = () => {
     _pwaDismissed = true;
     localStorage.setItem("apex_pwa_dismissed", "1");
-    b.remove();
+    cleanup();
   };
 }
 
