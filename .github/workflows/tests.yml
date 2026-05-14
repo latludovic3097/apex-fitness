@@ -1,0 +1,56 @@
+name: Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Playwright (Chromium only)
+        run: |
+          npm init -y > /dev/null 2>&1 || true
+          npm install --no-save playwright@1.49.0
+          npx playwright install chromium --with-deps
+
+      - name: Run tests (67 assertions on core.js)
+        run: node ci-tests.mjs
+
+      - name: Lint deployed images URLs
+        # Vérifie qu'aucune URL d'image cassée n'est introduite dans data.js
+        run: |
+          python3 << 'EOF'
+          import re, urllib.request, sys
+          with open('data.js', encoding='utf-8') as f: text = f.read()
+          imgs = re.findall(r'imgs:\["([^"]+)","([^"]+)"\]', text)
+          single = re.findall(r'img:I\+"([^"]+)"', text)
+          paths = set()
+          for a, b in imgs: paths.add(a); paths.add(b)
+          for p in single: paths.add(p)
+          folders = set(p.split('/')[0] for p in paths)
+          errors = []
+          for f in sorted(folders):
+              url = f'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/{f}/0.jpg'
+              try:
+                  req = urllib.request.Request(url, method='HEAD')
+                  r = urllib.request.urlopen(req, timeout=10)
+                  if r.status != 200: errors.append((f, r.status))
+              except Exception as e:
+                  errors.append((f, str(e)[:80]))
+          if errors:
+              print(f'FAIL: {len(errors)} broken folders')
+              for f, e in errors: print(f'  - {f}: {e}')
+              sys.exit(1)
+          print(f'OK: {len(folders)} folders, all reachable')
+          EOF

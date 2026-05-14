@@ -3,11 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
-<title>APEX Fitness</title>
+<title>APEX Fitness — App de musculation Push/Pull/Legs avec adaptation lombaire</title>
+<meta name="description" content="App de tracking de musculation (Push/Pull/Legs) avec auto-progression APRE, mode L5-S1 sécurisé, cardio, nutrition, et sync cloud. 100% gratuit, open source.">
+<meta name="keywords" content="musculation, fitness, PPL, push pull legs, L5-S1, hernie discale, APRE, 1RM">
+<meta name="author" content="APEX Fitness">
 <link rel="manifest" href="manifest.json">
+<link rel="canonical" href="https://apexfit-da753.web.app">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" content="#E63946">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="APEX Fitness">
+<!-- Open Graph (Reddit, Facebook, Linkedin) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="APEX Fitness — Musculation adaptée au dos">
+<meta property="og:description" content="Tracking force + cardio + core + nutrition, avec mode L5-S1 sécurisé et progression scientifique (APRE, SUCRA 93%). Gratuit.">
+<meta property="og:url" content="https://apexfit-da753.web.app">
+<meta property="og:image" content="https://apexfit-da753.web.app/icon-512.png">
+<meta property="og:locale" content="fr_FR">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="APEX Fitness — Musculation adaptée au dos">
+<meta name="twitter:description" content="App de tracking PPL avec mode L5-S1 sécurisé. Open source, gratuit.">
+<meta name="twitter:image" content="https://apexfit-da753.web.app/icon-512.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 /* Light theme inspired by Hevy / iOS — readable, large titles, subtle shadows */
@@ -18,7 +36,7 @@
   --bd:#e5e5ea;           /* borders */
   --tx:#1c1c1e;           /* primary text (near-black) */
   --t2:#48484a;           /* secondary text (dark gray, high contrast) */
-  --mt:#8e8e93;           /* muted text (medium gray) */
+  --mt:#6c6c70;           /* muted text (WCAG AA — contraste 5.7:1 sur bg) */
   --ac:#E63946;           /* accent red (kept) */
   --ok:#2A9D8F;           /* success green */
   --wa:#F4A261;           /* warning orange */
@@ -31,6 +49,12 @@
   --shadow-md: 0 2px 8px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.04);
 }
 body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:75px;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+/* P0 #22 A11y : focus visible (clavier) sur tous les éléments cliquables */
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px;border-radius:6px}
+button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+.inp:focus-visible{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px rgba(230,57,70,.20)}
+/* P0 #22 A11y : screen-reader only (texte invisible mais lu par les lecteurs d'écran) */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .hdr{padding:22px 18px 14px;display:flex;justify-content:space-between;align-items:center}
 .logo{font-size:30px;font-weight:900;letter-spacing:5px;color:var(--ac)}
 .stats-row{display:flex;gap:8px;padding:0 16px;margin-bottom:14px}
@@ -110,6 +134,8 @@ body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:
 </style>
 </head>
 <body>
+<h1 class="sr-only">APEX Fitness — Application de musculation Push/Pull/Legs avec adaptation lombaire L5-S1</h1>
+<noscript><div style="padding:24px;text-align:center;background:#fff;font-family:system-ui">APEX Fitness nécessite JavaScript pour fonctionner. Active JavaScript dans ton navigateur pour utiliser l'application.</div></noscript>
 <div id="app"></div>
 
 <!-- APEX Fitness v8.4 — modulaire + cloud sync.
