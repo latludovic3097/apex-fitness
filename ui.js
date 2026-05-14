@@ -337,7 +337,16 @@ function rSession(){
     const imgs=ex.imgs?`<div class="ex-imgs">${ex.imgs.map((p,i)=>`<div class="ex-img-wrap"><img src="${I}${p}" onerror="this.parentElement.innerHTML='<div style=padding:20px;text-align:center;font-size:12px;color:var(--mt)>—</div>'"><div class="ex-img-label">${i?'Fin':'Départ'}</div></div>`).join("")}</div>`:"";
     const links=`<div class="link-row"><a class="ex-link" href="${wk(ex.name)}" target="_blank"><svg style="color:#4ecdc4" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5" stroke="#fff" stroke-width="2" fill="none"/></svg>MuscleWiki</a><a class="ex-link" href="${ex.yt}" target="_blank"><svg style="color:#ff0000" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2s-.2-1.6-.9-2.3c-.9-.9-1.8-.9-2.3-1C17 2.6 12 2.6 12 2.6s-5 0-8.3.3c-.5.1-1.5.1-2.3 1-.7.7-.9 2.3-.9 2.3S.2 8.1.2 10v1.8c0 1.9.3 3.8.3 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.5 1 1.8.2 7.6.2 8.1.2s5 0 8.3-.3c.5-.1 1.5-.1 2.3-1 .7-.7.9-2.3.9-2.3s.3-1.9.3-3.8V10c0-1.9-.3-3.8-.3-3.8z"/><path d="M9.6 15.6V8.4l6.4 3.6z" fill="#fff"/></svg>YouTube</a></div>`;
     const coach=ex.coaching?`<div style="margin-bottom:12px">${ex.coaching.map(c=>`<div style="display:flex;gap:6px;padding:3px 0;font-size:13px;color:var(--t2)"><span style="color:var(--ok);font-weight:700">✦</span>${c}</div>`).join("")}</div>`:"";
-    const l5alert=ex.l5warn?`<div class="l5-alert">⚡ ${ex.l5warn}</div>`:"";
+    // P1 #8 : warnings issus de toutes les pathologies activées (en plus du l5warn historique)
+    const userPaths = (S.health && S.health.pathologies) || [];
+    const dynamicRisks = typeof getExerciseRisks === "function" ? getExerciseRisks(ex.name, userPaths) : [];
+    const l5alert = ex.l5warn ? `<div class="l5-alert">⚡ ${ex.l5warn}</div>` : "";
+    const pathAlerts = dynamicRisks.map(r => {
+      const p = PATHOLOGIES[r.pathology] || { icon: "⚠️", color: "var(--wa)", short: r.pathology };
+      const bg = r.level === "avoid" ? "rgba(230,57,70,.10)" : "rgba(244,162,97,.10)";
+      const border = r.level === "avoid" ? "var(--ac)" : p.color;
+      return `<div class="l5-alert" style="background:${bg};border-color:${border};color:${r.level==='avoid'?'var(--ac)':p.color}">${p.icon} <b>${p.short}${r.level==='avoid'?' — À ÉVITER':''} :</b> ${r.msg}${r.alt?` <i>(Alt : ${r.alt})</i>`:''}</div>`;
+    }).join("");
     const sug=getSuggestion(ex.name);
     const sugHtml=sug?`<div class="suggest-line">🎯 ${sug.reason}</div>`:"";
     const sessCount=S.hist.filter(h=>(Date.now()-new Date(h.date))<36288e5).length;
@@ -349,7 +358,7 @@ function rSession(){
     let pr="";const prev=S.hist.find(h=>h.exercises.some(e=>e.name===ex.name));if(prev){const pe=prev.exercises.find(e=>e.name===ex.name);const b=Math.max(0,...Object.values(pe.logged||{}).map(s=>s.weight||0));if(b>0)pr=`<div class="pr-line">📊 Record: <b>${b}kg</b> — ${new Date(prev.date).toLocaleDateString("fr-FR")}</div>`;}
     content=`<div class="card" style="padding:20px">
       <div style="margin-bottom:14px"><div class="ex-name">${ex.name}<span class="phase-badge" style="background:${ph.color}22;color:${ph.color}">${ph.name} ${ph.reps}</span></div><div class="ex-sets-info">${nSets}×${ph.reps} — Repos ${rest}s</div><div class="ex-muscle-badge" style="background:${mc}22;color:${mc}">${MN[ex.muscle]}</div></div>
-      ${l5alert}${deloadHtml}${imgs}${links}<div class="ex-notes">💡 ${ex.notes}</div>${coach}${sugHtml}${sH}
+      ${l5alert}${pathAlerts}${deloadHtml}${imgs}${links}<div class="ex-notes">💡 ${ex.notes}</div>${coach}${sugHtml}${sH}
       <div style="margin-top:8px;margin-bottom:4px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--mt);margin-bottom:4px;font-weight:600">RIR — Reps en Réserve (optionnel)</div><div style="display:flex;gap:4px">${[0,1,2,3,4].map(r=>{const active=S.log[ex.id]?.rir===r;return`<button onclick="setRIR('${ex.id}',${r})" style="flex:1;padding:6px;border-radius:8px;border:1px solid ${active?'var(--ok)':'var(--bd)'};background:${active?'var(--ok10)':'none'};color:${active?'var(--ok)':'var(--mt)'};font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">${r}</button>`;}).join("")}</div><div style="font-size:11px;color:var(--mt);margin-top:3px;text-align:center">0 = failure · 1 = pouvais en faire 1 de + · 4 = facile</div></div>
       <div class="timer" id="timerbox"><div class="timer-circle"><svg viewBox="0 0 52 52" style="transform:rotate(-90deg)"><circle cx="26" cy="26" r="22" fill="none" stroke="var(--bd)" stroke-width="3"/><circle id="tring" cx="26" cy="26" r="22" fill="none" stroke="${mc}" stroke-width="3" stroke-dasharray="${2*Math.PI*22}" stroke-dashoffset="${2*Math.PI*22}" stroke-linecap="round"/></svg><div class="timer-time" id="tdisp">${Math.floor(rest/60)}:${String(rest%60).padStart(2,"0")}</div></div><div style="flex:1"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:5px;font-weight:600">⏱ ${rest}s</div><div style="display:flex;gap:6px"><button class="tbtn tbtn-go" id="tbtn" onclick="tToggle(${rest})">Start</button><button class="tbtn tbtn-reset" onclick="tReset(${rest})">Reset</button></div></div></div>
       ${pr}${rmHtml}
@@ -391,10 +400,38 @@ function rHist(){
 function rSett(){
   return`<div class="hdr"><div class="logo">RÉGLAGES</div></div>
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Périodisation</div>${PHASES.map((p,i)=>`<div onclick="setPhase(${i})" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;cursor:pointer;border:2px solid ${S.phase===i?p.color:'var(--bd)'};background:${S.phase===i?p.color+'15':'none'}"><div style="width:12px;height:12px;border-radius:50%;background:${p.color}"></div><div><div style="font-size:13px;font-weight:700;color:${p.color}">${p.name}</div><div style="font-size:13px;color:var(--t2)">${p.desc} — ${p.numSets}×${p.reps} — repos ${p.rest}s</div></div></div>`).join("")}</div>
+  ${rPathologiesCard()}
   ${rSyncCard()}
   ${rNotifCard()}
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Données</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn2" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" onclick="doExp()">📤 JSON backup</button><button class="btn2" onclick="doImpUI()">📥 Importer</button>${S.hist.length?`<button class="btn2" style="color:var(--ac);border-color:var(--ac)" onclick="safeWipe()">🗑 Effacer (avec backup)</button>`:""}</div><div id="io"></div></div>
   <div class="card"><div style="font-size:13px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage + sync cloud (Firebase).<br><br><b style="color:var(--ac)">APEX FITNESS</b> v8.4 — Cloud Sync<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Cardio • Core 12 sem • Nutrition</div></div>`;
+}
+
+// ─── P1 #8 : PATHOLOGIES CARD (multi-select) ───
+function rPathologiesCard(){
+  const active = (S.health && S.health.pathologies) || [];
+  const items = Object.entries(PATHOLOGIES).map(([k, p]) => {
+    const on = active.includes(k);
+    return `<button onclick="togglePathology('${k}')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:11px;border:2px solid ${on?p.color:'var(--bd)'};background:${on?p.color+'15':'var(--cd)'};cursor:pointer;font-family:inherit;text-align:left;width:100%;margin-bottom:6px;transition:all .12s">
+      <span style="font-size:22px">${p.icon}</span>
+      <span style="flex:1;font-size:14px;font-weight:700;color:${on?p.color:'var(--tx)'}">${p.label}</span>
+      <span style="font-size:18px;color:${on?p.color:'var(--mt)'};font-weight:900">${on?'✓':''}</span>
+    </button>`;
+  }).join("");
+  return `<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:6px">🏥 Pathologies / Précautions</div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.5">Sélectionne tes zones sensibles. L'app affichera des alertes ciblées pendant les exercices à risque + suggestions d'alternatives.</div>
+    ${items}
+    ${active.length===0?'<div style="font-size:12px;color:var(--mt);text-align:center;padding:8px;font-style:italic">Aucune pathologie sélectionnée — pas d\'alerte pendant les séances.</div>':''}
+  </div>`;
+}
+function togglePathology(key){
+  if(!S.health) S.health = { pathologies: [] };
+  if(!S.health.pathologies) S.health.pathologies = [];
+  const i = S.health.pathologies.indexOf(key);
+  if(i >= 0) S.health.pathologies.splice(i, 1);
+  else S.health.pathologies.push(key);
+  saveS();
+  R();
 }
 
 // ─── CLOUD SYNC CARD ───

@@ -14,7 +14,9 @@ let S = {
   phase: 0,
   cardio: {mode:"run",duration:30,incline:1,speed:10,distance:1000,resistance:5,notes:""},
   core: {startDate:null,coreLog:{},coreNotes:"",coreT0:null,ei:0},
-  nut: {weight:75,height:178,age:30,sex:"M",activity:1.55,goal:-400,proteinPerKg:2,fatPerKg:0.8,weightLog:[]}
+  nut: {weight:75,height:178,age:30,sex:"M",activity:1.55,goal:-400,proteinPerKg:2,fatPerKg:0.8,weightLog:[]},
+  // P1 #8 : pathologies actives — par défaut L5-S1 (mode historique de l'app)
+  health: {pathologies:["l5"]}
 };
 
 function loadS(){
@@ -26,6 +28,7 @@ function loadS(){
       if(d.cardio)S.cardio={...S.cardio,...d.cardio};
       if(d.core)S.core={...S.core,...d.core};
       if(d.nut)S.nut={...S.nut,...d.nut};
+      if(d.health)S.health={...S.health,...d.health};
     }
     const a=localStorage.getItem(SK+"_a");
     if(a){
@@ -42,7 +45,7 @@ function loadS(){
 let _quotaWarned = false;
 function saveS(){
   try{
-    localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut}));
+    localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut,health:S.health}));
     _quotaWarned = false; // reset si on a réussi
   }catch(e){
     if(!_quotaWarned && (e.name === "QuotaExceededError" || /quota/i.test(e.message||""))){
@@ -106,7 +109,8 @@ function scheduleCloudSync(){
         phase: S.phase,
         cardio: S.cardio,
         core: S.core,
-        nut: S.nut
+        nut: S.nut,
+        health: S.health
       });
       _syncStatus = "synced";
     }catch(e){
@@ -131,6 +135,7 @@ async function pullAndMergeFromCloud(){
       // Pour les scalaires : on prend la valeur cloud si présente (last sync wins)
       if(cloud.phase !== undefined) S.phase = cloud.phase;
       if(cloud.cardio) S.cardio = {...S.cardio, ...cloud.cardio};
+      if(cloud.health) S.health = {...S.health, ...cloud.health};
       if(cloud.core) S.core = {...S.core, ...cloud.core};
       if(cloud.nut) S.nut = {...S.nut, ...cloud.nut};
     }
