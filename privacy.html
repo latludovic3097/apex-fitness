@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Politique de confidentialité — APEX Fitness</title>
+<meta name="description" content="Politique de confidentialité APEX Fitness — quelles données nous collectons, comment elles sont utilisées, vos droits RGPD.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://apexfit-da753.web.app/privacy.html">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'Segoe UI',sans-serif;background:#f5f5f7;color:#1c1c1e;max-width:760px;margin:0 auto;padding:24px 20px 80px;line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+header{padding:14px 0 28px;border-bottom:1px solid #e5e5ea;margin-bottom:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{font-size:24px;font-weight:900;letter-spacing:4px;color:#E63946;text-decoration:none}
+.back{font-size:13px;color:#48484a;text-decoration:none;padding:8px 14px;border:1px solid #e5e5ea;border-radius:10px;font-weight:600}
+.back:hover{background:#fff}
+h1{font-size:30px;font-weight:900;margin-bottom:6px;letter-spacing:-.3px}
+.subtitle{color:#6c6c70;font-size:14px;margin-bottom:32px}
+h2{font-size:22px;font-weight:800;margin:38px 0 14px;color:#1c1c1e}
+h3{font-size:17px;font-weight:700;margin:22px 0 10px;color:#1c1c1e}
+p{margin-bottom:14px}
+ul,ol{margin:10px 0 18px 22px}
+li{margin-bottom:6px}
+a{color:#06b6d4;text-decoration:underline;font-weight:500}
+a:hover{color:#0891b2}
+strong{font-weight:700;color:#1c1c1e}
+.callout{background:#fff;border:1px solid #e5e5ea;border-left:4px solid #E63946;border-radius:11px;padding:16px 20px;margin:18px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.ok{border-left-color:#2A9D8F}
+.warn{border-left-color:#F4A261}
+table{width:100%;border-collapse:collapse;margin:16px 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+th,td{padding:10px 12px;text-align:left;font-size:14px;border-bottom:1px solid #e5e5ea}
+th{background:#f0f0f3;font-weight:700;color:#48484a;text-transform:uppercase;font-size:12px;letter-spacing:.5px}
+tr:last-child td{border-bottom:none}
+code{background:#f0f0f3;padding:2px 7px;border-radius:5px;font-size:14px;font-family:'SF Mono',Consolas,monospace;color:#48484a}
+footer{margin-top:48px;padding-top:24px;border-top:1px solid #e5e5ea;font-size:13px;color:#6c6c70;text-align:center}
+footer a{color:#6c6c70}
+@media(prefers-color-scheme:dark){
+  body{background:#1c1c1e;color:#e8e8f0}
+  h1,h2,h3,strong{color:#fff}
+  .subtitle{color:#9898a8}
+  header{border-color:#2a2a3a}
+  .back{color:#9898a8;border-color:#2a2a3a}
+  .back:hover{background:#2a2a3a}
+  .callout{background:#14141f;border-color:#2a2a3a;box-shadow:none}
+  table{background:#14141f;box-shadow:none}
+  th{background:#1a1a2a;color:#9898a8}
+  th,td{border-color:#2a2a3a}
+  code{background:#1a1a2a;color:#e8e8f0}
+  footer{border-color:#2a2a3a;color:#6c6c70}
+  footer a{color:#6c6c70}
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">APEX</a>
+  <a href="/" class="back">← Retour à l'app</a>
+</header>
+
+<h1>Politique de confidentialité</h1>
+<p class="subtitle">Dernière mise à jour : 14 mai 2026 · Version 1.0</p>
+
+<div class="callout ok">
+<strong>TL;DR :</strong> APEX Fitness fonctionne 100% local par défaut. Aucune donnée ne quitte ton appareil sauf si tu actives la sync cloud (Google sign-in). Aucune publicité, aucun tracking, aucun partage avec des tiers commerciaux. Tes données t'appartiennent — tu peux les exporter ou tout effacer à tout moment depuis l'app.
+</div>
+
+<h2>1. Qui sommes-nous ?</h2>
+<p>APEX Fitness est une application web (PWA) de tracking d'entraînement musculaire, gratuite et open-source. Elle est éditée à titre personnel par un particulier basé en France. Le code source est public sur <a href="https://github.com/latludovic3097/apex-fitness" target="_blank" rel="noopener">GitHub</a>.</p>
+<p><strong>Responsable du traitement :</strong> Ludovic Lat (contact : <a href="mailto:lat.ludovic@gmail.com">lat.ludovic@gmail.com</a>)</p>
+
+<h2>2. Quelles données collectons-nous ?</h2>
+
+<h3>2.1 Données stockées localement sur ton appareil (par défaut)</h3>
+<p>Lorsque tu utilises l'app, les données suivantes sont stockées dans le <code>localStorage</code> de ton navigateur — elles ne quittent <strong>jamais</strong> ton appareil :</p>
+<table>
+<thead><tr><th>Donnée</th><th>Exemple</th><th>Finalité</th></tr></thead>
+<tbody>
+<tr><td>Profil corporel</td><td>Sexe, âge, taille, poids</td><td>Calcul BMR / TDEE (Mifflin-St Jeor)</td></tr>
+<tr><td>Historique des séances</td><td>Date, durée, exercices, poids, répétitions, RIR</td><td>Suivi de progression, suggestions APRE</td></tr>
+<tr><td>Préférences</td><td>Phase (Force/Hyper/Deload), pathologies sélectionnées</td><td>Adapter les recommandations</td></tr>
+<tr><td>Données cardio / nutrition / core</td><td>Pesées, courses, objectifs caloriques</td><td>Calcul de macros, suivi du poids</td></tr>
+<tr><td>État de session active</td><td>Sets en cours, timer</td><td>Reprise après fermeture du navigateur</td></tr>
+</tbody>
+</table>
+
+<h3>2.2 Données synchronisées dans le cloud (uniquement si tu te connectes avec Google)</h3>
+<p>Si tu actives la sync cloud via Réglages → Cloud Sync → Se connecter avec Google, les données ci-dessus sont également stockées dans <strong>Google Firestore</strong> (Google Cloud) sous ton compte Google. Ceci permet de retrouver tes données sur plusieurs appareils.</p>
+<p>Données supplémentaires liées à l'authentification :</p>
+<ul>
+<li>Ton adresse e-mail Google (pour identifier ton compte)</li>
+<li>Ton nom d'affichage Google (optionnel, affiché dans l'app)</li>
+<li>Ton identifiant utilisateur Firebase (UID)</li>
+</ul>
+<p>Aucune autre donnée n'est partagée avec Google au-delà de ce qui est nécessaire à la sync.</p>
+
+<h3>2.3 Ce que nous NE collectons PAS</h3>
+<ul>
+<li>❌ Localisation GPS</li>
+<li>❌ Contacts, photos, fichiers de ton appareil</li>
+<li>❌ Données de navigation (sites visités, cookies tiers, fingerprinting)</li>
+<li>❌ Données de tracking publicitaire ou analytique</li>
+<li>❌ Informations bancaires ou de paiement (l'app est gratuite)</li>
+<li>❌ Données médicales sensibles diagnostiquées</li>
+</ul>
+
+<h2>3. Quels services tiers sont utilisés ?</h2>
+<table>
+<thead><tr><th>Service</th><th>Usage</th><th>Données partagées</th><th>Localisation</th></tr></thead>
+<tbody>
+<tr><td>Firebase Hosting</td><td>Hébergement de l'app</td><td>Adresse IP (logs serveur)</td><td>Google Cloud</td></tr>
+<tr><td>Firebase Authentication</td><td>Sign-in Google (optionnel)</td><td>Email, nom, UID Google</td><td>Google Cloud</td></tr>
+<tr><td>Firestore Database</td><td>Sync cloud (optionnel)</td><td>Tes données d'entraînement, profil</td><td>Google Cloud (europe-west)</td></tr>
+<tr><td>GitHub (raw.githubusercontent)</td><td>Images d'exercices</td><td>Adresse IP (chargement images)</td><td>GitHub Inc.</td></tr>
+<tr><td>Wikimedia Commons</td><td>Illustration anatomique muscles.svg</td><td>Aucune (fichier statique servi depuis notre domaine)</td><td>—</td></tr>
+</tbody>
+</table>
+<p>Tous ces services ont leurs propres politiques de confidentialité, que nous t'invitons à consulter :</p>
+<ul>
+<li>Google / Firebase : <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">firebase.google.com/support/privacy</a></li>
+<li>GitHub : <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">docs.github.com</a></li>
+</ul>
+
+<h2>4. Base légale du traitement (RGPD)</h2>
+<p>Conformément au Règlement Général sur la Protection des Données (RGPD), nos traitements reposent sur :</p>
+<ul>
+<li><strong>Exécution du contrat</strong> (art. 6.1.b) : tes données d'entraînement sont nécessaires au fonctionnement de l'app que tu utilises</li>
+<li><strong>Consentement</strong> (art. 6.1.a) : pour la sync cloud (activée explicitement via Google sign-in)</li>
+<li><strong>Intérêt légitime</strong> (art. 6.1.f) : logs serveur Firebase pour la sécurité et la maintenance</li>
+</ul>
+
+<h2>5. Durée de conservation</h2>
+<ul>
+<li><strong>Données locales</strong> : conservées tant que tu utilises l'app. Tu peux tout effacer via Réglages → Effacer (avec backup automatique).</li>
+<li><strong>Données cloud (Firestore)</strong> : conservées tant que ton compte Google est lié. Tu peux te déconnecter à tout moment ; les données restent dans Firestore mais peuvent être supprimées sur demande (voir §7).</li>
+<li><strong>Logs serveur Firebase</strong> : ~30 jours selon la politique Google.</li>
+</ul>
+
+<h2>6. Sécurité</h2>
+<ul>
+<li>Toutes les communications avec Firebase utilisent HTTPS (TLS 1.3).</li>
+<li>Tes données dans Firestore sont protégées par des <strong>Security Rules</strong> strictes : seul toi (via ton UID authentifié) peux lire/écrire ton document. Aucun autre utilisateur n'y a accès.</li>
+<li>La clé API Firebase utilisée côté client est restreinte par domaine (HTTP referrers) et par API (Identity Toolkit + Firestore uniquement).</li>
+<li>Aucune donnée ne transite par un serveur tiers contrôlé par nous.</li>
+</ul>
+
+<h2>7. Tes droits (RGPD)</h2>
+<p>En tant qu'utilisateur européen, tu disposes des droits suivants :</p>
+<ul>
+<li><strong>Droit d'accès et de portabilité</strong> : exporte toutes tes données à tout moment via Réglages → JSON backup. Le fichier généré contient l'intégralité de ce qu'on stocke sur toi (local + cloud).</li>
+<li><strong>Droit de rectification</strong> : modifie tes données directement dans l'app (Réglages, Nutrition, etc.).</li>
+<li><strong>Droit à l'effacement (« droit à l'oubli »)</strong> : Réglages → Effacer (efface le local). Pour effacer le cloud, contacte-nous (cf. §8) ou supprime ton compte Google (Firebase suit automatiquement).</li>
+<li><strong>Droit d'opposition au traitement</strong> : déconnecte-toi de la sync cloud à tout moment (Réglages → Cloud Sync → Se déconnecter).</li>
+<li><strong>Droit de réclamation</strong> : tu peux saisir la <a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL</a> si tu estimes que tes droits ne sont pas respectés.</li>
+</ul>
+
+<h2>8. Contact</h2>
+<p>Pour toute question relative à cette politique, ou pour exercer tes droits RGPD :</p>
+<p><a href="mailto:lat.ludovic@gmail.com">lat.ludovic@gmail.com</a></p>
+<p>Nous nous engageons à répondre dans un délai de <strong>30 jours</strong> conformément au RGPD.</p>
+
+<h2>9. Modifications de la politique</h2>
+<p>Cette politique peut être mise à jour pour refléter les évolutions de l'app ou de la réglementation. En cas de modification substantielle, nous t'informerons via une notification dans l'app. La date de dernière mise à jour est indiquée en haut de cette page.</p>
+
+<div class="callout warn">
+<strong>Important — Données médicales :</strong> APEX Fitness n'est pas un dispositif médical et ne traite aucune donnée de santé au sens du RGPD (art. 9). Les informations que tu saisis (poids, mesures, ressentis d'entraînement) sont des données fitness/bien-être, pas des données médicales. Si tu as une pathologie diagnostiquée, consulte ton médecin avant de suivre nos suggestions.
+</div>
+
+<footer>
+<a href="/">Retour à l'app</a> · <a href="/terms.html">Conditions d'utilisation</a> · <a href="https://github.com/latludovic3097/apex-fitness" target="_blank" rel="noopener">Code source</a>
+</footer>
+</body>
+</html>

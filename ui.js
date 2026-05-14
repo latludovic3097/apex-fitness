@@ -592,7 +592,14 @@ function rSett(){
   ${rSyncCard()}
   ${rNotifCard()}
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Données</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn2" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" onclick="doExp()">📤 JSON backup</button><button class="btn2" onclick="doImpUI()">📥 Importer</button>${S.hist.length?`<button class="btn2" style="color:var(--ac);border-color:var(--ac)" onclick="safeWipe()">🗑 Effacer (avec backup)</button>`:""}</div><div id="io"></div></div>
-  <div class="card"><div style="font-size:13px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage + sync cloud (Firebase).<br><br><b style="color:var(--ac)">APEX FITNESS</b> v8.4 — Cloud Sync<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Cardio • Core 12 sem • Nutrition</div></div>`;
+  <div class="card"><div style="font-size:13px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage + sync cloud (Firebase).<br><br><b style="color:var(--ac)">APEX FITNESS</b> v8.x — Cloud Sync<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Cardio • Core 12 sem • Nutrition</div></div>
+  <div class="card" style="text-align:center;font-size:13px;color:var(--mt);padding:14px;line-height:2">
+    <a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--in);text-decoration:none;font-weight:600">Politique de confidentialité</a>
+    &nbsp;·&nbsp;
+    <a href="/terms.html" target="_blank" rel="noopener" style="color:var(--in);text-decoration:none;font-weight:600">Conditions d'utilisation</a>
+    <br>
+    <a href="https://github.com/latludovic3097/apex-fitness" target="_blank" rel="noopener" style="color:var(--mt);text-decoration:none;font-size:12px">Code source — GitHub ↗</a>
+  </div>`;
 }
 
 // ─── P1 #9 : CUSTOM BUILDER (sélection multi-exercices pour une séance perso) ───
@@ -1028,7 +1035,7 @@ if(!localStorage.getItem("apex_disclaimer")){
       </div>
       <button onclick="localStorage.setItem('apex_disclaimer','1');loadS();R();" style="background:#E63946;color:#fff;border:none;border-radius:12px;padding:15px 24px;font-size:15px;font-weight:800;cursor:pointer;width:100%;margin-top:18px;font-family:inherit;letter-spacing:.5px">J'ai compris — Commencer</button>
     </div>
-    <div style="font-size:12px;color:#8e8e93;margin-top:14px;text-align:center;font-weight:500">Progression basée sur APRE (Huang et al. 2025, SUCRA 93%)<br>1RM: moyenne Epley + Brzycki (DiStasio 2014, ±2.7kg)</div>
+    <div style="font-size:12px;color:#8e8e93;margin-top:14px;text-align:center;font-weight:500">Progression basée sur APRE (Huang et al. 2025, SUCRA 93%)<br>1RM: moyenne Epley + Brzycki (DiStasio 2014, ±2.7kg)<br><br>En cliquant, tu acceptes la <a href="/privacy.html" target="_blank" rel="noopener" style="color:#E63946;font-weight:600;text-decoration:underline">politique de confidentialité</a> et les <a href="/terms.html" target="_blank" rel="noopener" style="color:#E63946;font-weight:600;text-decoration:underline">conditions d'utilisation</a>.</div>
   </div>`;
 } else {
   // P0 #5 : utilisateurs existants (avec historique) considérés onboardés automatiquement
