@@ -8,8 +8,8 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 import {
-  getFirestore, doc, setDoc, getDoc, serverTimestamp,
-  enableIndexedDbPersistence
+  initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
+  doc, setDoc, getDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
 const cfg = window.APEX_FIREBASE_CONFIG;
@@ -27,10 +27,11 @@ if (!isPlaceholder) {
   try {
     app = initializeApp(cfg);
     auth = getAuth(app);
-    db = getFirestore(app);
-    enableIndexedDbPersistence(db).catch(err => {
-      // failed-precondition: plusieurs tabs / unimplemented: navigateur non supporté → on ignore
-      console.warn("[apex-sync] persistence offline indisponible:", err.code || err.message);
+    // New Firestore cache API (v10+): replaces deprecated enableIndexedDbPersistence
+    db = initializeFirestore(app, {
+      localCache: persistentLocalCache({
+        tabManager: persistentMultipleTabManager()
+      })
     });
     onAuthStateChanged(auth, user => {
       currentUser = user;
