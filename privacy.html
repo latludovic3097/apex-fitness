@@ -27,7 +27,9 @@ strong{font-weight:700;color:#1c1c1e}
 .callout{background:#fff;border:1px solid #e5e5ea;border-left:4px solid #E63946;border-radius:11px;padding:16px 20px;margin:18px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .ok{border-left-color:#2A9D8F}
 .warn{border-left-color:#F4A261}
-table{width:100%;border-collapse:collapse;margin:16px 0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+table{width:100%;border-collapse:collapse;background:#fff;min-width:480px}
+.table-wrap table{margin:0;box-shadow:none;border-radius:0}
 th,td{padding:10px 12px;text-align:left;font-size:14px;border-bottom:1px solid #e5e5ea}
 th{background:#f0f0f3;font-weight:700;color:#48484a;text-transform:uppercase;font-size:12px;letter-spacing:.5px}
 tr:last-child td{border-bottom:none}
@@ -72,7 +74,7 @@ footer a{color:#6c6c70}
 
 <h3>2.1 Données stockées localement sur ton appareil (par défaut)</h3>
 <p>Lorsque tu utilises l'app, les données suivantes sont stockées dans le <code>localStorage</code> de ton navigateur — elles ne quittent <strong>jamais</strong> ton appareil :</p>
-<table>
+<div class="table-wrap"><table>
 <thead><tr><th>Donnée</th><th>Exemple</th><th>Finalité</th></tr></thead>
 <tbody>
 <tr><td>Profil corporel</td><td>Sexe, âge, taille, poids</td><td>Calcul BMR / TDEE (Mifflin-St Jeor)</td></tr>
@@ -81,7 +83,7 @@ footer a{color:#6c6c70}
 <tr><td>Données cardio / nutrition / core</td><td>Pesées, courses, objectifs caloriques</td><td>Calcul de macros, suivi du poids</td></tr>
 <tr><td>État de session active</td><td>Sets en cours, timer</td><td>Reprise après fermeture du navigateur</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <h3>2.2 Données synchronisées dans le cloud (uniquement si tu te connectes avec Google)</h3>
 <p>Si tu actives la sync cloud via Réglages → Cloud Sync → Se connecter avec Google, les données ci-dessus sont également stockées dans <strong>Google Firestore</strong> (Google Cloud) sous ton compte Google. Ceci permet de retrouver tes données sur plusieurs appareils.</p>
@@ -104,7 +106,7 @@ footer a{color:#6c6c70}
 </ul>
 
 <h2>3. Quels services tiers sont utilisés ?</h2>
-<table>
+<div class="table-wrap"><table>
 <thead><tr><th>Service</th><th>Usage</th><th>Données partagées</th><th>Localisation</th></tr></thead>
 <tbody>
 <tr><td>Firebase Hosting</td><td>Hébergement de l'app</td><td>Adresse IP (logs serveur)</td><td>Google Cloud</td></tr>
@@ -113,7 +115,7 @@ footer a{color:#6c6c70}
 <tr><td>GitHub (raw.githubusercontent)</td><td>Images d'exercices</td><td>Adresse IP (chargement images)</td><td>GitHub Inc.</td></tr>
 <tr><td>Wikimedia Commons</td><td>Illustration anatomique muscles.svg</td><td>Aucune (fichier statique servi depuis notre domaine)</td><td>—</td></tr>
 </tbody>
-</table>
+</table></div>
 <p>Tous ces services ont leurs propres politiques de confidentialité, que nous t'invitons à consulter :</p>
 <ul>
 <li>Google / Firebase : <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">firebase.google.com/support/privacy</a></li>
