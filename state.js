@@ -38,9 +38,55 @@ function loadS(){
     }
   }catch{}
 }
+// P0 #4 : détecte QuotaExceededError et avertit l'utilisateur (sinon silent fail → perte de données)
+let _quotaWarned = false;
 function saveS(){
-  try{localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut}));}catch{}
+  try{
+    localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut}));
+    _quotaWarned = false; // reset si on a réussi
+  }catch(e){
+    if(!_quotaWarned && (e.name === "QuotaExceededError" || /quota/i.test(e.message||""))){
+      _quotaWarned = true;
+      console.error("[apex] localStorage saturé:", e);
+      // Affiche un toast d'alerte (en évitant d'écraser le rendu)
+      setTimeout(() => {
+        if(confirm("⚠️ Stockage local saturé !\n\nTes dernières données n'ont pas pu être sauvegardées.\n\nClique OK pour télécharger un backup JSON tout de suite (recommandé), puis va dans Réglages → Effacer pour libérer de l'espace.")){
+          if(typeof safeWipe === "function") safeWipe();
+        }
+      }, 100);
+    }
+  }
   scheduleCloudSync();
+}
+
+// P0 #3 : error boundary — capture les erreurs non rattrapées, montre un écran de récupération
+window.addEventListener("error", e => {
+  console.error("[apex] uncaught:", e.error || e.message);
+  if(window._apexBootRecovering) return; // évite la boucle
+  // On affiche un écran de secours uniquement si l'app est cassée (R n'arrive pas à rendre)
+});
+window.addEventListener("unhandledrejection", e => {
+  console.error("[apex] unhandled rejection:", e.reason);
+});
+
+// Wrap safe rendering : utilisé par ui.js R() pour ne pas crasher tout l'écran si une erreur survient
+function safeRender(renderFn){
+  try{
+    return renderFn();
+  }catch(e){
+    console.error("[apex] render crashed:", e);
+    return `<div style="padding:24px 20px;max-width:480px;margin:0 auto">
+      <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:#E63946;margin-bottom:22px">APEX FITNESS</div>
+      <div style="background:#fff;border-radius:16px;border:1px solid #e5e5ea;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
+        <div style="font-size:18px;font-weight:800;margin-bottom:14px;color:#E63946">⚠️ Oups, l'écran a planté</div>
+        <div style="font-size:14px;color:#48484a;line-height:1.7;margin-bottom:18px">
+          Une erreur inattendue est survenue lors de l'affichage. Tes données sont en sécurité.<br><br>
+          <code style="background:#f0f0f3;padding:6px 10px;border-radius:6px;font-size:12px;display:block;word-break:break-all">${esc(String(e.message||e).slice(0,200))}</code>
+        </div>
+        <button onclick="S.view='home';S.sess=null;saveA();location.reload()" style="background:#E63946;color:#fff;border:none;border-radius:12px;padding:14px 24px;font-size:15px;font-weight:800;cursor:pointer;width:100%;font-family:inherit">Recharger l'app</button>
+      </div>
+    </div>`;
+  }
 }
 function saveA(){try{if(S.sess)localStorage.setItem(SK+"_a",JSON.stringify({sid:S.sess.id,ei:S.ei,log:S.log,notes:S.notes,t0:S.t0,exercises:S.sess.exercises}));else localStorage.removeItem(SK+"_a");}catch{}}
 
@@ -224,10 +270,30 @@ function beep(){try{initAudio();if(!audioCtx)return;if(audioCtx.state==="suspend
 // ─── TIMER (Date.now() based, anti-throttle navigateur) ───
 let T = {on:false,at:0,total:0,dir:"down",rem:0,done:false}, tRAF;
 function tGet(){if(!T.on)return T.rem;const e=Math.floor((Date.now()-T.at)/1000);return T.dir==="down"?Math.max(0,T.rem-e):Math.min(T.total,e+T.rem);}
-function tTick(){const r=tGet(),p=T.dir==="down"?(T.total-r)/T.total:r/T.total;const d=document.getElementById("tdisp"),rng=document.getElementById("tring"),bx=document.getElementById("timerbox");if(d)d.textContent=`${Math.floor(r/60)}:${String(r%60).padStart(2,"0")}`;if(rng){rng.style.strokeDashoffset=2*Math.PI*22*(1-p);rng.style.transition="stroke-dashoffset .3s";}if((T.dir==="down"&&r<=0)||(T.dir!=="down"&&r>=T.total)){T.on=false;T.done=true;if(rng)rng.setAttribute("stroke","var(--ok)");if(bx)bx.classList.add("done");const b=document.getElementById("tbtn");if(b){b.textContent="✓";b.className="tbtn tbtn-go";}beep();cancelAnimationFrame(tRAF);return;}tRAF=requestAnimationFrame(tTick);}
-function tToggle(tot,dir){dir=dir||"down";if(T.done||T.total!==tot||T.dir!==dir){cancelAnimationFrame(tRAF);T={on:false,at:0,total:tot,dir:dir,rem:dir==="up"?0:tot,done:false};const bx=document.getElementById("timerbox");if(bx)bx.classList.remove("done");}S._timerExIdx=S.ei;T.dir=dir;T.total=tot;if(T.on){T.on=false;T.rem=tGet();cancelAnimationFrame(tRAF);const b=document.getElementById("tbtn");if(b){b.textContent="Start";b.className="tbtn tbtn-go";}}else{if(!T.at&&T.rem===0)T.rem=T.dir==="down"?tot:0;T.at=Date.now();T.on=true;const b=document.getElementById("tbtn");if(b){b.textContent="Pause";b.className="tbtn tbtn-pause";}tTick();}}
+function tTick(){const r=tGet(),p=T.dir==="down"?(T.total-r)/T.total:r/T.total;const d=document.getElementById("tdisp"),rng=document.getElementById("tring"),bx=document.getElementById("timerbox");if(d)d.textContent=`${Math.floor(r/60)}:${String(r%60).padStart(2,"0")}`;if(rng){rng.style.strokeDashoffset=2*Math.PI*22*(1-p);rng.style.transition="stroke-dashoffset .3s";}if((T.dir==="down"&&r<=0)||(T.dir!=="down"&&r>=T.total)){T.on=false;T.done=true;if(rng)rng.setAttribute("stroke","var(--ok)");if(bx)bx.classList.add("done");const b=document.getElementById("tbtn");if(b){b.textContent="✓";b.className="tbtn tbtn-go";}beep();releaseWakeLock();cancelAnimationFrame(tRAF);return;}tRAF=requestAnimationFrame(tTick);}
+function tToggle(tot,dir){dir=dir||"down";if(T.done||T.total!==tot||T.dir!==dir){cancelAnimationFrame(tRAF);T={on:false,at:0,total:tot,dir:dir,rem:dir==="up"?0:tot,done:false};const bx=document.getElementById("timerbox");if(bx)bx.classList.remove("done");}S._timerExIdx=S.ei;T.dir=dir;T.total=tot;if(T.on){T.on=false;T.rem=tGet();cancelAnimationFrame(tRAF);const b=document.getElementById("tbtn");if(b){b.textContent="Start";b.className="tbtn tbtn-go";}releaseWakeLock();}else{if(!T.at&&T.rem===0)T.rem=T.dir==="down"?tot:0;T.at=Date.now();T.on=true;const b=document.getElementById("tbtn");if(b){b.textContent="Pause";b.className="tbtn tbtn-pause";}tTick();requestWakeLock();}}
 function tReset(tot,dir){cancelAnimationFrame(tRAF);T={on:false,at:0,total:tot,dir:dir||"down",rem:dir==="up"?0:tot,done:false};const d=document.getElementById("tdisp"),rng=document.getElementById("tring"),bx=document.getElementById("timerbox"),b=document.getElementById("tbtn");if(d)d.textContent=`${Math.floor(T.rem/60)}:${String(T.rem%60).padStart(2,"0")}`;if(rng){rng.style.strokeDashoffset=2*Math.PI*22;}if(bx)bx.classList.remove("done");if(b){b.textContent="Start";b.className="tbtn tbtn-go";}}
-function tStop(){cancelAnimationFrame(tRAF);T={on:false,at:0,total:0,dir:"down",rem:0,done:false};}
+function tStop(){cancelAnimationFrame(tRAF);T={on:false,at:0,total:0,dir:"down",rem:0,done:false};releaseWakeLock();}
+
+// ─── WAKE LOCK (garde l'écran allumé pendant le timer / la séance) ───
+let _wakeLock = null;
+async function requestWakeLock(){
+  if(!("wakeLock" in navigator)) return;
+  if(_wakeLock) return;
+  try{
+    _wakeLock = await navigator.wakeLock.request("screen");
+    _wakeLock.addEventListener("release", () => { _wakeLock = null; });
+  }catch(e){ /* user gesture required ou non-supporté → silencieux */ }
+}
+async function releaseWakeLock(){
+  if(!_wakeLock) return;
+  try{ await _wakeLock.release(); }catch{}
+  _wakeLock = null;
+}
+// Re-demande quand la page redevient visible (Android relâche au lock)
+document.addEventListener("visibilitychange", () => {
+  if(document.visibilityState === "visible" && T.on) requestWakeLock();
+});
 
 // ─── BUSINESS LOGIC (utilise S + données) ───
 

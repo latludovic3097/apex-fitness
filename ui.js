@@ -1,21 +1,140 @@
 // APEX Fitness — Rendu, actions, init
 // Dépend de : core.js, data.js, state.js (chargés avant)
 
-// ─── RENDER ROOT ───
+// ─── RENDER ROOT (P0 #3 : wrapped in safeRender for error boundary) ───
 function R(){
-  const a=document.getElementById("app");let h="";
-  if(S.view==="home")h=rHome();
-  else if(S.view==="session")h=rSession();
-  else if(S.view==="cardio")h=rCardio();
-  else if(S.view==="core")h=rCore();
-  else if(S.view==="nutrition")h=rNutrition();
-  else if(S.view==="bodymap")h=rBodyMap();
-  else if(S.view==="history")h=rHist();
-  else if(S.view==="settings")h=rSett();
-  if(S.view!=="session")h+=`<div class="nav">${[{id:"home",l:"Accueil",i:'<path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/>'},{id:"history",l:"Historique",i:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'},{id:"settings",l:"Réglages",i:'<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>'}].map(x=>`<button class="nav-btn ${S.view===x.id?'active':''}" onclick="nav('${x.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${x.i}</svg>${x.l}</button>`).join("")}</div>`;
-  a.innerHTML=h;
+  const a=document.getElementById("app");
+  // Garde-fou : si le disclaimer n'a pas été accepté, R() ne doit rien faire
+  // (sinon sync.js qui appelle R() au sync-ready override le disclaimer)
+  if(!localStorage.getItem("apex_disclaimer")) return;
+  // P0 #5 : onboarding wizard intercepte le rendu tant que l'utilisateur n'est pas onboardé
+  if(!localStorage.getItem("apex_onboarded")){
+    a.innerHTML = safeRender(rOnboarding);
+    return;
+  }
+  // safeRender remplace tout le contenu par un écran de récupération en cas d'erreur
+  const out = safeRender(() => {
+    let h="";
+    if(S.view==="home")h=rHome();
+    else if(S.view==="session")h=rSession();
+    else if(S.view==="cardio")h=rCardio();
+    else if(S.view==="core")h=rCore();
+    else if(S.view==="nutrition")h=rNutrition();
+    else if(S.view==="bodymap")h=rBodyMap();
+    else if(S.view==="plate")h=rPlateCalc();
+    else if(S.view==="history")h=rHist();
+    else if(S.view==="settings")h=rSett();
+    if(S.view!=="session")h+=`<div class="nav">${[{id:"home",l:"Accueil",i:'<path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/>'},{id:"history",l:"Historique",i:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'},{id:"settings",l:"Réglages",i:'<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>'}].map(x=>`<button class="nav-btn ${S.view===x.id?'active':''}" onclick="nav('${x.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${x.i}</svg>${x.l}</button>`).join("")}</div>`;
+    return h;
+  });
+  a.innerHTML = out;
+  // PWA install banner overlay (P0 #2)
+  renderPwaInstallBanner();
   // Update floating timer display
   if(T.on){const ft=document.getElementById("floatTimer");if(ft){const r=tGet();ft.textContent=`${Math.floor(r/60)}:${String(r%60).padStart(2,"0")}`;}}
+}
+
+// ─── P0 #2 : PWA install prompt ───
+let _deferredInstallPrompt = null;
+let _pwaDismissed = false;
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  _deferredInstallPrompt = e;
+  _pwaDismissed = localStorage.getItem("apex_pwa_dismissed") === "1";
+  if(!_pwaDismissed && document.getElementById("app")) renderPwaInstallBanner();
+});
+window.addEventListener("appinstalled", () => {
+  _deferredInstallPrompt = null;
+  const b = document.getElementById("pwaInstall"); if(b) b.remove();
+});
+function renderPwaInstallBanner(){
+  if(!_deferredInstallPrompt || _pwaDismissed) return;
+  if(document.getElementById("pwaInstall")) return;
+  const b = document.createElement("div");
+  b.id = "pwaInstall";
+  b.style.cssText = "position:fixed;bottom:84px;left:50%;transform:translateX(-50%);max-width:90%;background:var(--in);color:#fff;padding:11px 16px;border-radius:12px;z-index:9998;font-size:13px;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,.18);display:flex;align-items:center;gap:10px;font-family:-apple-system,'Segoe UI',sans-serif";
+  b.innerHTML = `📱 Installer APEX comme une app <button id="pwaInstallBtn" style="background:#fff;color:var(--in);border:none;padding:5px 11px;border-radius:7px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">Installer</button><button id="pwaDismissBtn" style="background:transparent;color:#fff;border:none;padding:3px 6px;font-size:18px;cursor:pointer;line-height:1;opacity:.8" aria-label="Dismiss">×</button>`;
+  document.body.appendChild(b);
+  document.getElementById("pwaInstallBtn").onclick = async () => {
+    if(!_deferredInstallPrompt) return;
+    _deferredInstallPrompt.prompt();
+    const choice = await _deferredInstallPrompt.userChoice;
+    _deferredInstallPrompt = null;
+    b.remove();
+    if(choice.outcome === "dismissed"){ _pwaDismissed = true; localStorage.setItem("apex_pwa_dismissed", "1"); }
+  };
+  document.getElementById("pwaDismissBtn").onclick = () => {
+    _pwaDismissed = true;
+    localStorage.setItem("apex_pwa_dismissed", "1");
+    b.remove();
+  };
+}
+
+// ─── P0 #6 : PLATE CALCULATOR ───
+// Calcule la combinaison optimale de disques par côté pour atteindre un poids cible
+// Disques standard : 25, 20, 15, 10, 5, 2.5, 1.25 kg. Barre 20kg par défaut.
+const PLATES_AVAILABLE = [25, 20, 15, 10, 5, 2.5, 1.25]; // par côté, disponibilité illimitée
+function calcPlates(targetKg, barKg){
+  if(targetKg < barKg) return { error: `Poids cible (${targetKg}kg) < barre (${barKg}kg)` };
+  const perSide = (targetKg - barKg) / 2;
+  if(perSide === 0) return { perSide: 0, plates: [], reachable: targetKg, missing: 0 };
+  const plates = [];
+  let remain = perSide;
+  for(const p of PLATES_AVAILABLE){
+    while(remain >= p - 0.001){
+      plates.push(p);
+      remain -= p;
+    }
+  }
+  const reached = perSide - remain;
+  return {
+    perSide: perSide,
+    plates: plates,
+    reachable: barKg + 2 * reached,
+    missing: remain > 0.01 ? remain * 2 : 0
+  };
+}
+
+let _plateTarget = 60;
+let _plateBar = 20;
+function setPlateTarget(v){ _plateTarget = parseFloat(v) || 0; R(); }
+function setPlateBar(v){ _plateBar = parseFloat(v) || 0; R(); }
+
+function rPlateCalc(){
+  const result = calcPlates(_plateTarget, _plateBar);
+  // Groupe les disques identiques pour affichage
+  const grouped = {};
+  if(result.plates) result.plates.forEach(p => grouped[p] = (grouped[p]||0)+1);
+  const platesHtml = result.error
+    ? `<div style="text-align:center;padding:20px;color:var(--ac);font-weight:700">${result.error}</div>`
+    : result.perSide === 0
+    ? `<div style="text-align:center;padding:20px;color:var(--ok);font-weight:700;font-size:15px">Juste la barre (${_plateBar} kg)</div>`
+    : `<div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+        <div style="font-size:13px;color:var(--mt);font-weight:600;letter-spacing:1px;text-transform:uppercase">Par côté</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">${Object.entries(grouped).sort((a,b)=>b[0]-a[0]).map(([p,n]) => {
+          const color = p>=20?"var(--ac)":p>=15?"#E76F51":p>=10?"#F4A261":p>=5?"var(--in)":p>=2.5?"#10b981":"var(--mt)";
+          return `<div style="background:${color};color:#fff;padding:10px 16px;border-radius:10px;font-weight:900;font-size:18px;box-shadow:var(--shadow-sm)">${p} kg ${n>1?`×${n}`:""}</div>`;
+        }).join("")}</div>
+        ${result.missing > 0.01 ? `<div style="font-size:13px;color:var(--wa);font-weight:600;margin-top:6px">⚠️ Impossible d'atteindre exactement : ${result.reachable.toFixed(2)} kg réel (manque ${result.missing.toFixed(2)} kg)</div>` : `<div style="font-size:13px;color:var(--ok);font-weight:600;margin-top:6px">✓ ${result.perSide} kg × 2 = ${result.perSide*2} kg + ${_plateBar} kg barre = <b>${_plateTarget} kg</b></div>`}
+      </div>`;
+  return `<div style="padding:14px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:6px 12px;font-size:12px" onclick="nav('home')">← Accueil</button><div style="font-size:20px;font-weight:900;letter-spacing:2px;color:var(--ac)">PLATE CALCULATOR</div><div style="width:80px"></div></div></div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <div style="font-size:12px;text-transform:uppercase;color:var(--mt);letter-spacing:1px;font-weight:700;margin-bottom:6px">Poids cible (kg)</div>
+          <input class="inp" type="number" min="0" step="0.5" value="${_plateTarget}" onchange="setPlateTarget(this.value)" style="font-size:22px;text-align:center;padding:14px">
+        </div>
+        <div>
+          <div style="font-size:12px;text-transform:uppercase;color:var(--mt);letter-spacing:1px;font-weight:700;margin-bottom:6px">Barre (kg)</div>
+          <input class="inp" type="number" min="0" step="0.5" value="${_plateBar}" onchange="setPlateBar(this.value)" style="font-size:22px;text-align:center;padding:14px">
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap">
+        ${[40,50,60,70,80,90,100,110,120].map(w=>`<button class="pill" onclick="setPlateTarget(${w})" style="background:${_plateTarget===w?'var(--ac)':'var(--cd2)'};color:${_plateTarget===w?'#fff':'var(--t2)'};border-color:${_plateTarget===w?'var(--ac)':'var(--bd)'}">${w} kg</button>`).join("")}
+      </div>
+    </div>
+    <div class="card" style="padding:22px">${platesHtml}</div>
+    <div class="card" style="background:var(--in10);border-color:var(--in)"><div style="font-size:13px;color:var(--t2);line-height:1.6"><b style="color:var(--in)">💡 Disques utilisés</b><br>Standard olympique : 25, 20, 15, 10, 5, 2.5, 1.25 kg.<br>Barre par défaut : 20 kg (olympique). Femme/jeune : 15 kg. EZ : 7 kg.</div></div>`;
 }
 
 // ─── STREAK BANNER ───
@@ -52,6 +171,7 @@ function rHome(){
   ${recSess?`<div class="card" style="border-left:4px solid ${recSess.color};cursor:pointer" onclick="goSess('${rec.id}')"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--ok);font-weight:600">💡 Recommandé aujourd'hui</div><div style="font-size:16px;font-weight:900;color:${recSess.color};margin-top:4px">${recSess.name}</div><div style="font-size:13px;color:var(--mt);margin-top:2px">${rec.days>0?`Dernier il y a ${rec.days}j`:'Jamais fait'} — WOD: ${pickWOD(rec.id)?.name||'—'}</div></div>`:``}
   <div class="card" style="padding:12px 16px"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:10px">⟳ Cycle PPL — Récupération</div><div style="display:flex;align-items:center;gap:5px">${ppls.map((p,i)=>`<div style="flex:1;text-align:center;border-radius:10px;padding:9px 4px;border:1px solid ${p.days===0?p.color:'var(--bd)'};background:${p.days===0?p.color+'22':p.days===null?'var(--cd2)':'none'}"><div style="font-size:14px;font-weight:900;color:${p.color}">${p.name}</div><div style="font-size:13px;font-weight:700;margin-top:3px;color:${p.days===null?'var(--mt)':p.days===0?p.color:p.days<=2?'var(--ok)':p.days<=5?'var(--t2)':'var(--mt)'}">${p.days===null?'—':p.days===0?'Auj.':p.days===1?'Hier':p.days+'j'}</div></div>${i<2?`<div style="color:var(--mt);font-size:13px;flex-shrink:0">→</div>`:''}`).join('')}</div></div>
   <div class="card sess-card" style="border-left-color:#E76F51" onclick="goBodyMap()"><div class="sess-inner"><div><div class="sess-name" style="color:#E76F51">CARTE MUSCULAIRE</div><div class="sess-meta">Visualise quels muscles sont frais ou négligés (heat-map sur 30 jours)</div></div><div style="color:#E76F51;font-size:22px;opacity:.7">🗺</div></div></div>
+  <div class="card sess-card" style="border-left-color:#8B5CF6" onclick="nav('plate')"><div class="sess-inner"><div><div class="sess-name" style="color:#8B5CF6">PLATE CALCULATOR</div><div class="sess-meta">Quels disques charger pour atteindre 80 kg ? Bench, squat, deadlift...</div></div><div style="color:#8B5CF6;font-size:22px;opacity:.7">🏋️</div></div></div>
   <div class="sec-title">Programme PPL</div>
   ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const wod=pickWOD(s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.compounds.length+s.pools.length} exos + WOD ${wod?.type||""}: ${wod?.name||""}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
   <div class="sec-title">Cardio</div>
@@ -519,6 +639,110 @@ function doImpFile(el){const f=el.files&&el.files[0];if(!f)return;const rd=new F
 
 // ─── INIT ───
 loadS();
+// ─── P0 #5 : ONBOARDING WIZARD (3 écrans après le disclaimer) ───
+let _onbStep = 0;
+let _onbProfile = { sex: "M", height: 178, weight: 75, age: 30, goal: 0 };
+
+function rOnboarding(){
+  const steps = [rOnbStep1, rOnbStep2, rOnbStep3];
+  const stepFn = steps[_onbStep] || steps[0];
+  const progress = ((_onbStep + 1) / steps.length) * 100;
+  return `<div style="padding:24px 20px;max-width:480px;margin:0 auto">
+    <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:var(--ac);margin-bottom:8px;text-align:center">APEX FITNESS</div>
+    <div style="background:var(--bd);border-radius:4px;height:6px;margin-bottom:20px;overflow:hidden"><div style="height:6px;background:var(--ac);width:${progress}%;transition:width .3s"></div></div>
+    ${stepFn()}
+  </div>`;
+}
+function rOnbStep1(){
+  const p = _onbProfile;
+  return `<div class="card" style="padding:22px">
+    <div style="font-size:22px;font-weight:900;margin-bottom:6px">👋 Bienvenue !</div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:20px;line-height:1.6">On commence par quelques infos pour adapter ton entraînement. Tout est privé, stocké sur ton appareil.</div>
+    <div style="margin-bottom:16px">
+      <div style="font-size:13px;color:var(--t2);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Sexe</div>
+      <div style="display:flex;gap:8px">
+        <button onclick="onbSet('sex','M')" style="flex:1;padding:14px;border-radius:11px;border:2px solid ${p.sex==='M'?'var(--ac)':'var(--bd)'};background:${p.sex==='M'?'var(--ac10)':'var(--cd)'};color:${p.sex==='M'?'var(--ac)':'var(--tx)'};font-weight:700;cursor:pointer;font-family:inherit;font-size:14px">♂ Homme</button>
+        <button onclick="onbSet('sex','F')" style="flex:1;padding:14px;border-radius:11px;border:2px solid ${p.sex==='F'?'var(--ac)':'var(--bd)'};background:${p.sex==='F'?'var(--ac10)':'var(--cd)'};color:${p.sex==='F'?'var(--ac)':'var(--tx)'};font-weight:700;cursor:pointer;font-family:inherit;font-size:14px">♀ Femme</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div>
+        <div style="font-size:13px;color:var(--t2);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Poids (kg)</div>
+        <input class="inp" type="number" min="30" max="250" step="0.1" value="${p.weight}" onchange="onbSet('weight',parseFloat(this.value)||0)" style="font-size:18px;text-align:center;padding:14px">
+      </div>
+      <div>
+        <div style="font-size:13px;color:var(--t2);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Taille (cm)</div>
+        <input class="inp" type="number" min="120" max="220" step="1" value="${p.height}" onchange="onbSet('height',parseInt(this.value)||0)" style="font-size:18px;text-align:center;padding:14px">
+      </div>
+    </div>
+    <div style="margin-bottom:24px">
+      <div style="font-size:13px;color:var(--t2);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Âge</div>
+      <input class="inp" type="number" min="14" max="100" value="${p.age}" onchange="onbSet('age',parseInt(this.value)||0)" style="font-size:18px;text-align:center;padding:14px">
+    </div>
+    <button class="btn" onclick="onbNext()">Continuer →</button>
+    <button onclick="onbSkip()" style="background:none;color:var(--mt);border:none;width:100%;padding:12px;margin-top:8px;cursor:pointer;font-family:inherit;font-size:13px;text-decoration:underline">Passer (utiliser les valeurs par défaut)</button>
+  </div>`;
+}
+function rOnbStep2(){
+  const p = _onbProfile;
+  const goals = [
+    { id: 0, name: "Force", emoji: "💪", color: "#E63946", desc: "Charges lourdes, 4-6 reps, repos long. Ta priorité = la barre qui monte." },
+    { id: 1, name: "Hypertrophie", emoji: "🔥", color: "#457B9D", desc: "Volume modéré, 8-12 reps. Construire du muscle visible." },
+    { id: 2, name: "Deload / Maintien", emoji: "🌿", color: "#2A9D8F", desc: "Récupération active, 15-20 reps légers. À utiliser entre 2 cycles." }
+  ];
+  return `<div class="card" style="padding:22px">
+    <div style="font-size:22px;font-weight:900;margin-bottom:6px">🎯 Quel est ton objectif ?</div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:20px;line-height:1.6">Ton choix détermine les charges et les répétitions suggérées. Tu peux changer à tout moment dans Réglages.</div>
+    ${goals.map(g => `
+      <div onclick="onbSet('goal',${g.id})" style="background:${p.goal===g.id?g.color+'18':'var(--cd2)'};border:2px solid ${p.goal===g.id?g.color:'var(--bd)'};border-radius:13px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .12s">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><span style="font-size:28px">${g.emoji}</span><span style="font-size:18px;font-weight:900;color:${g.color}">${g.name}</span></div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.5">${g.desc}</div>
+      </div>
+    `).join("")}
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn2" onclick="onbBack()" style="flex:1">← Retour</button>
+      <button class="btn" onclick="onbNext()" style="flex:2">Continuer →</button>
+    </div>
+  </div>`;
+}
+function rOnbStep3(){
+  // Calcule la session recommandée (utilise getRecommendation si possible, sinon push par défaut)
+  const recId = typeof getRecommendation === "function" ? getRecommendation().id : "push";
+  const recSess = PROG.sessions.find(s => s.id === recId);
+  const goals = ["Force", "Hypertrophie", "Deload"];
+  const ph = PHASES[_onbProfile.goal];
+  return `<div class="card" style="padding:22px">
+    <div style="font-size:22px;font-weight:900;margin-bottom:6px">🚀 Tu es prêt !</div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.6">Ton profil est configuré. Voici un récap :</div>
+    <div style="background:var(--cd2);border-radius:12px;padding:16px;margin-bottom:16px;font-size:14px;color:var(--tx);line-height:2">
+      <b>Profil :</b> ${_onbProfile.sex==='M'?'♂':'♀'} ${_onbProfile.height} cm, ${_onbProfile.weight} kg, ${_onbProfile.age} ans<br>
+      <b>Objectif :</b> <span style="color:${ph.color};font-weight:800">${goals[_onbProfile.goal]}</span> — ${ph.numSets}×${ph.reps}, repos ${ph.rest}s<br>
+      <b>Programme :</b> PPL (Push / Pull / Legs) en 3 séances/sem
+    </div>
+    ${recSess?`<div class="card sess-card" style="border-left-color:${recSess.color};margin:0 0 14px 0;background:${recSess.color}11">
+      <div class="sess-inner"><div><div class="sess-meta" style="color:var(--ok);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:0">💡 Recommandé pour démarrer</div><div class="sess-name" style="color:${recSess.color};margin-top:4px">${recSess.name}</div><div class="sess-meta">${recSess.compounds.length + recSess.pools.length} exercices · ~45 min</div></div></div>
+    </div>`:""}
+    <button class="btn" onclick="onbFinish(true,'${recId}')">🏋️ Lancer ${recSess?recSess.name:""} maintenant</button>
+    <button class="btn2" onclick="onbFinish(false)" style="width:100%;margin-top:10px">Plus tard — aller à l'accueil</button>
+  </div>`;
+}
+function onbSet(k,v){ _onbProfile[k] = v; R(); }
+function onbNext(){ _onbStep++; R(); }
+function onbBack(){ _onbStep = Math.max(0, _onbStep - 1); R(); }
+function onbSkip(){ onbFinish(false); }
+function onbFinish(launchSession, sessId){
+  // Applique le profil au state
+  S.nut.sex = _onbProfile.sex;
+  S.nut.height = _onbProfile.height;
+  S.nut.weight = _onbProfile.weight;
+  S.nut.age = _onbProfile.age;
+  S.phase = _onbProfile.goal;
+  localStorage.setItem("apex_onboarded", "1");
+  saveS();
+  if(launchSession && sessId){ goSess(sessId); }
+  else { S.view = "home"; R(); }
+}
+
 if(!localStorage.getItem("apex_disclaimer")){
   document.getElementById("app").innerHTML=`<div style="padding:24px 20px;max-width:480px;margin:0 auto">
     <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:#E63946;margin-bottom:22px">APEX FITNESS</div>
@@ -537,7 +761,15 @@ if(!localStorage.getItem("apex_disclaimer")){
     </div>
     <div style="font-size:12px;color:#8e8e93;margin-top:14px;text-align:center;font-weight:500">Progression basée sur APRE (Huang et al. 2025, SUCRA 93%)<br>1RM: moyenne Epley + Brzycki (DiStasio 2014, ±2.7kg)</div>
   </div>`;
-} else { R(); }
+} else {
+  // P0 #5 : utilisateurs existants (avec historique) considérés onboardés automatiquement
+  if(!localStorage.getItem("apex_onboarded") && S.hist.length > 0){
+    localStorage.setItem("apex_onboarded","1");
+  }
+  // Pré-remplit l'onboarding wizard avec les valeurs courantes de S
+  _onbProfile = { sex: S.nut.sex, height: S.nut.height, weight: S.nut.weight, age: S.nut.age, goal: S.phase };
+  R();
+}
 
 // Rappel : déclenche un check après 1.5s pour ne pas bloquer le rendu initial.
 // La notif ne s'envoie que si user a opt-in + permission OK + pas de notif récente (throttle 24h).
