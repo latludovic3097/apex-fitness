@@ -22,6 +22,7 @@ function R(){
     else if(S.view==="nutrition")h=rNutrition();
     else if(S.view==="bodymap")h=rBodyMap();
     else if(S.view==="plate")h=rPlateCalc();
+    else if(S.view==="achievements")h=rAchievements();
     else if(S.view==="history")h=rHist();
     else if(S.view==="settings")h=rSett();
     if(S.view!=="session")h+=`<div class="nav">${[{id:"home",l:"Accueil",i:'<path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/>'},{id:"history",l:"Historique",i:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'},{id:"settings",l:"Réglages",i:'<circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>'}].map(x=>`<button class="nav-btn ${S.view===x.id?'active':''}" onclick="nav('${x.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${x.i}</svg>${x.l}</button>`).join("")}</div>`;
@@ -172,6 +173,7 @@ function rHome(){
   <div class="card" style="padding:12px 16px"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:10px">⟳ Cycle PPL — Récupération</div><div style="display:flex;align-items:center;gap:5px">${ppls.map((p,i)=>`<div style="flex:1;text-align:center;border-radius:10px;padding:9px 4px;border:1px solid ${p.days===0?p.color:'var(--bd)'};background:${p.days===0?p.color+'22':p.days===null?'var(--cd2)':'none'}"><div style="font-size:14px;font-weight:900;color:${p.color}">${p.name}</div><div style="font-size:13px;font-weight:700;margin-top:3px;color:${p.days===null?'var(--mt)':p.days===0?p.color:p.days<=2?'var(--ok)':p.days<=5?'var(--t2)':'var(--mt)'}">${p.days===null?'—':p.days===0?'Auj.':p.days===1?'Hier':p.days+'j'}</div></div>${i<2?`<div style="color:var(--mt);font-size:13px;flex-shrink:0">→</div>`:''}`).join('')}</div></div>
   <div class="card sess-card" style="border-left-color:#E76F51" onclick="goBodyMap()"><div class="sess-inner"><div><div class="sess-name" style="color:#E76F51">CARTE MUSCULAIRE</div><div class="sess-meta">Visualise quels muscles sont frais ou négligés (heat-map sur 30 jours)</div></div><div style="color:#E76F51;font-size:22px;opacity:.7">🗺</div></div></div>
   <div class="card sess-card" style="border-left-color:#8B5CF6" onclick="nav('plate')"><div class="sess-inner"><div><div class="sess-name" style="color:#8B5CF6">PLATE CALCULATOR</div><div class="sess-meta">Quels disques charger pour atteindre 80 kg ? Bench, squat, deadlift...</div></div><div style="color:#8B5CF6;font-size:22px;opacity:.7">🏋️</div></div></div>
+  ${(S.custom && S.custom.exerciseIds && S.custom.exerciseIds.length)?`<div class="card sess-card" style="border-left-color:#A78BFA" onclick="goSess('custom')"><div class="sess-inner"><div><div class="sess-name" style="color:#A78BFA">${esc(S.custom.name||"CUSTOM")}</div><div class="sess-meta">${S.custom.exerciseIds.length} exos personnalisés${(()=>{const last=S.hist.find(h=>h.sessionId==='custom');return last?` · Dernier ${new Date(last.date).toLocaleDateString("fr-FR")}`:" · Jamais lancé";})()}</div></div><div style="color:#A78BFA;font-size:22px;opacity:.7">🎨</div></div></div>`:""}
   <div class="sec-title">Programme PPL</div>
   ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const wod=pickWOD(s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.compounds.length+s.pools.length} exos + WOD ${wod?.type||""}: ${wod?.name||""}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
   <div class="sec-title">Cardio</div>
@@ -379,6 +381,191 @@ function rSession(){
     ${content}`;
 }
 
+// P1 #10 : ACHIEVEMENTS CARD (badges débloqués + progression)
+function rAchievementsCard(){
+  if(typeof computeAchievements !== "function") return "";
+  const all = computeAchievements(S.hist, S);
+  const earned = all.filter(a => a.earned);
+  const inProgress = all.filter(a => !a.earned && a.progress > 0).sort((a,b) => b.progress - a.progress).slice(0, 3);
+  const badge = (a, isEarned) => {
+    const opa = isEarned ? "1" : "0.4";
+    const color = isEarned ? "var(--tx)" : "var(--mt)";
+    return `<div style="text-align:center;flex-shrink:0;width:78px;opacity:${opa}" title="${a.ach.desc}">
+      <div style="font-size:34px;filter:${isEarned?'none':'grayscale(0.7)'};margin-bottom:3px">${a.ach.icon}</div>
+      <div style="font-size:11px;font-weight:700;color:${color};line-height:1.2">${a.ach.name}</div>
+      ${!isEarned ? `<div style="font-size:10px;color:var(--mt);margin-top:2px">${Math.round(a.progress*100)}%</div>` : ''}
+    </div>`;
+  };
+  return `<div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-size:13px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:1px">🏆 Achievements (${earned.length}/${all.length})</div>
+      <button class="btn2" style="padding:5px 10px;font-size:11px" onclick="nav('achievements')">Voir tout →</button>
+    </div>
+    ${earned.length ? `<div style="display:flex;gap:8px;overflow-x:auto;padding:4px 0">${earned.slice(-6).reverse().map(a=>badge(a,true)).join("")}</div>` : `<div style="font-size:13px;color:var(--mt);text-align:center;padding:10px">Aucun badge encore — lance ta 1re séance !</div>`}
+    ${inProgress.length ? `<div style="margin-top:14px;border-top:1px solid var(--bd);padding-top:12px">
+      <div style="font-size:11px;color:var(--mt);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Bientôt débloqués</div>
+      <div style="display:flex;gap:8px;overflow-x:auto;padding:4px 0">${inProgress.map(a=>badge(a,false)).join("")}</div>
+    </div>` : ''}
+  </div>`;
+}
+
+// Vue dédiée : tous les achievements groupés par catégorie
+function rAchievements(){
+  const all = computeAchievements(S.hist, S);
+  const cats = {};
+  all.forEach(a => {
+    const c = a.ach.cat || "Autre";
+    if(!cats[c]) cats[c] = [];
+    cats[c].push(a);
+  });
+  const catLabels = { "assiduité":"Assiduité", "streak":"Régularité", "variété":"Variété", "performance":"Performance", "cardio":"Cardio", "core":"Core" };
+  const earned = all.filter(a => a.earned).length;
+  return `<div style="padding:14px 16px;border-bottom:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center"><button class="btn2" style="padding:6px 12px;font-size:12px" onclick="nav('history')">← Historique</button><div style="font-size:20px;font-weight:900;letter-spacing:2px;color:var(--ac)">🏆 ACHIEVEMENTS</div><div style="width:80px"></div></div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:32px;font-weight:900;color:var(--ac)">${earned} / ${all.length}</div><div style="font-size:13px;color:var(--mt);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:4px">Badges débloqués</div></div>
+    ${Object.entries(cats).map(([cat, items]) => `
+      <div class="sec-title">${catLabels[cat] || cat}</div>
+      <div class="card">${items.map(a => `
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd);opacity:${a.earned?1:0.5}">
+          <div style="font-size:32px;flex-shrink:0;filter:${a.earned?'none':'grayscale(0.7)'}">${a.ach.icon}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:14px;font-weight:800;color:${a.earned?'var(--tx)':'var(--t2)'}">${a.ach.name}</div>
+            <div style="font-size:12px;color:var(--mt);margin-top:2px">${a.ach.desc}</div>
+          </div>
+          ${a.earned ? '<div style="color:var(--ok);font-size:22px;font-weight:900">✓</div>' : `<div style="font-size:12px;color:var(--mt);font-weight:700">${Math.round(a.progress*100)}%</div>`}
+        </div>`).join("")}
+      </div>
+    `).join("")}`;
+}
+
+// P1 #12 : SHARE WORKOUT TO INSTAGRAM (Canvas → image carrée + Web Share API)
+async function shareLastWorkout(){
+  if(!S.hist.length) return alert("Aucune séance à partager !");
+  const h = S.hist[0];
+  const canvas = document.createElement("canvas");
+  canvas.width = 1080; canvas.height = 1080;
+  const ctx = canvas.getContext("2d");
+  // Background dégradé
+  const grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+  grad.addColorStop(0, "#E63946");
+  grad.addColorStop(1, "#264653");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 1080, 1080);
+  // Logo APEX en haut
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  ctx.font = "900 90px -apple-system, 'Segoe UI', sans-serif";
+  ctx.textAlign = "center";
+  ctx.letterSpacing = "10px";
+  ctx.fillText("APEX FITNESS", 540, 140);
+  ctx.font = "700 32px -apple-system, sans-serif";
+  ctx.fillText(new Date(h.date).toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}), 540, 195);
+  // Carte centrale
+  ctx.fillStyle = "rgba(255,255,255,0.10)";
+  ctx.roundRect ? (ctx.beginPath(), ctx.roundRect(80, 270, 920, 600, 30), ctx.fill()) : ctx.fillRect(80, 270, 920, 600);
+  // Session name
+  ctx.fillStyle = "#fff";
+  ctx.font = "900 110px -apple-system, sans-serif";
+  ctx.fillText(h.sessionName || "Séance", 540, 410);
+  ctx.font = "700 36px -apple-system, sans-serif";
+  ctx.fillText(`${h.duration||0} min · ${h.phase||""}`, 540, 470);
+  // Top exercices (top 3 par volume)
+  const exos = (h.exercises||[]).map(e => {
+    const vol = Object.values(e.logged||{}).reduce((s,x) => s + (x.weight||0)*(x.reps||0), 0);
+    const max = Math.max(0, ...Object.values(e.logged||{}).map(x => x.weight||0));
+    return { name: e.name, vol, max };
+  }).filter(e => e.vol > 0).sort((a,b) => b.vol - a.vol).slice(0, 4);
+  let y = 560;
+  ctx.font = "700 38px -apple-system, sans-serif";
+  ctx.textAlign = "left";
+  exos.forEach(e => {
+    ctx.fillStyle = "rgba(255,255,255,0.9)";
+    ctx.fillText(e.name.length > 22 ? e.name.slice(0,21)+"…" : e.name, 130, y);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#F4A261";
+    ctx.fillText(`${e.max} kg`, 950, y);
+    ctx.textAlign = "left";
+    y += 65;
+  });
+  // Footer
+  ctx.textAlign = "center";
+  ctx.fillStyle = "rgba(255,255,255,0.7)";
+  ctx.font = "600 26px -apple-system, sans-serif";
+  ctx.fillText("apexfit-da753.web.app", 540, 1020);
+  // Convertit en blob et partage
+  canvas.toBlob(async blob => {
+    if(!blob) return alert("Erreur génération image");
+    const file = new File([blob], `apex-${new Date(h.date).toISOString().slice(0,10)}.png`, { type: "image/png" });
+    if(navigator.canShare && navigator.canShare({ files: [file] })){
+      try {
+        await navigator.share({
+          files: [file],
+          title: `Ma séance ${h.sessionName}`,
+          text: `Séance ${h.sessionName} de ${h.duration}min — via APEX Fitness 💪`
+        });
+      } catch(e) { /* user cancelled */ }
+    } else {
+      // Fallback : téléchargement direct
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = file.name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      alert("Image téléchargée — tu peux la partager manuellement sur Instagram 📸");
+    }
+  }, "image/png", 0.95);
+}
+
+// P1 #11 : CALENDAR HEATMAP (GitHub-style 12 dernières semaines)
+function rCalendarHeatmap(){
+  // Comptabilise sessions par jour
+  const byDay = {};
+  S.hist.forEach(h => {
+    const d = new Date(h.date); d.setHours(0,0,0,0);
+    const k = d.toISOString().slice(0,10);
+    byDay[k] = (byDay[k] || 0) + 1;
+  });
+  const today = new Date(); today.setHours(0,0,0,0);
+  // 12 semaines = 84 jours
+  const weeks = 12, days = weeks * 7;
+  const cells = [];
+  // Trouve le lundi le plus ancien dans la fenêtre
+  for(let i = days - 1; i >= 0; i--){
+    const d = new Date(today); d.setDate(d.getDate() - i);
+    const k = d.toISOString().slice(0,10);
+    const count = byDay[k] || 0;
+    cells.push({ date: d, count });
+  }
+  // Couleur selon intensité
+  const color = c => c === 0 ? "var(--cd2)" : c === 1 ? "rgba(42,157,143,.45)" : c === 2 ? "rgba(42,157,143,.70)" : "var(--ok)";
+  // Aligne sur grille semaines (lundi=0..dimanche=6)
+  // Le premier cellule peut commencer un mardi etc, on remplit avec des cases invisibles
+  const firstDow = (cells[0].date.getDay() + 6) % 7; // 0=mon..6=sun
+  const padding = Array.from({length: firstDow}).map(() => null);
+  const grid = [...padding, ...cells];
+  // Découpe en colonnes (semaines)
+  const cols = [];
+  for(let i = 0; i < grid.length; i += 7) cols.push(grid.slice(i, i+7));
+  const cellSize = 13, gap = 3;
+  const gridHtml = cols.map((col, ci) =>
+    col.map((c, ri) => {
+      if(!c) return `<div style="width:${cellSize}px;height:${cellSize}px"></div>`;
+      const title = `${c.date.toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})} — ${c.count} séance${c.count>1?"s":""}`;
+      return `<div title="${title}" style="width:${cellSize}px;height:${cellSize}px;background:${color(c.count)};border-radius:3px"></div>`;
+    }).join("")
+  ).join("");
+  return `<div class="card">
+    <div style="font-size:13px;font-weight:700;color:var(--t2);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">Activité 12 dernières semaines</div>
+    <div style="display:grid;grid-template-columns:repeat(${cols.length},${cellSize}px);grid-template-rows:repeat(7,${cellSize}px);gap:${gap}px;justify-content:center">${gridHtml}</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--mt);margin-top:10px;justify-content:flex-end">
+      <span>Moins</span>
+      <span style="width:11px;height:11px;background:${color(0)};border-radius:2px"></span>
+      <span style="width:11px;height:11px;background:${color(1)};border-radius:2px"></span>
+      <span style="width:11px;height:11px;background:${color(2)};border-radius:2px"></span>
+      <span style="width:11px;height:11px;background:${color(3)};border-radius:2px"></span>
+      <span>Plus</span>
+    </div>
+  </div>`;
+}
+
 function rHist(){
   const names=[];S.hist.forEach(h=>h.exercises.forEach(e=>{if(Object.keys(e.logged||{}).length&&!names.includes(e.name))names.push(e.name);}));
   const wv={};S.hist.forEach(h=>{const d=new Date(h.date),ws=new Date(d);ws.setDate(d.getDate()-d.getDay()+1);const k=ws.toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"});if(!wv[k])wv[k]={s:k,v:0};h.exercises.forEach(x=>Object.values(x.logged||{}).forEach(s=>{wv[k].v+=((s.weight||0)*(s.reps||0));}));});
@@ -390,7 +577,7 @@ function rHist(){
   if(names.length)charts+=`<div class="card"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:8px">Poids max par exercice</div><select class="inp" style="margin-bottom:8px" onchange="document.getElementById('exC').innerHTML=getExChartHTML(this.value)">${names.map(n=>`<option>${n}</option>`).join("")}</select><div id="exC">${svgLine(getExProg(names[0]),"d","kg","#457B9D",300,120)}</div></div>`;
 
   if(!S.hist.length)return`<div class="hdr"><div class="logo">HISTORIQUE</div></div>${charts}<div class="card" style="text-align:center;color:var(--mt);padding:30px">Aucune séance 💪</div>`;
-  return`<div class="hdr"><div class="logo">HISTORIQUE</div></div><div style="padding:0 14px 8px"><button class="btn2" style="width:100%" onclick="exportCSV()">📊 CSV (Excel)</button></div>${charts}`+
+  return`<div class="hdr"><div class="logo">HISTORIQUE</div></div><div style="padding:0 14px 8px;display:flex;gap:8px"><button class="btn2" style="flex:1" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" style="flex:1" onclick="shareLastWorkout()">📸 Partager</button></div>${rCalendarHeatmap()}${rAchievementsCard()}${charts}`+
   S.hist.map((h,hi)=>{const col=h.sessionId==='cardio'?'#06b6d4':(PROG.sessions.find(s=>s.id===h.sessionId)?.color||"var(--ac)");const di="d"+hi;
     if(h.cardio){const c=h.cardio,ic=c.mode==='run'?'🏃':c.mode==='swim'?'🏊':'🚴';const stats=c.mode==='run'?`${c.duration}min · ${c.speed}km/h · ${c.incline}% pente`:c.mode==='swim'?`${c.distance}m · ${c.duration}min`:`${c.duration}min · ${c.incline}% · rés.${c.resistance}`;return`<div class="card"><div class="hist-top"><div style="font-size:14px;font-weight:900;letter-spacing:2px;color:${col}">${ic} ${esc(h.sessionName)}</div><div style="font-size:12px;color:var(--mt)">${new Date(h.date).toLocaleDateString("fr-FR",{weekday:"short",day:"numeric",month:"short"})} • ${h.duration}min</div></div><div style="font-size:13px;color:var(--t2);margin-top:4px">${stats}</div>${h.notes?`<div style="font-size:13px;color:var(--mt);margin-top:5px;font-style:italic">"${esc(h.notes)}"</div>`:''}</div>`;}
     const det=h.exercises.map(x=>{const sets=Object.entries(x.logged||{});return sets.length?sets.map(([si,s])=>`<div style="display:grid;grid-template-columns:1fr 38px 38px 45px;gap:3px;font-size:12px;padding:2px 0"><span>${esc(x.name)}</span><span>${s.weight}kg</span><span>${s.reps}r</span><span style="color:var(--mt)">${(s.weight||0)*(s.reps||0)}</span></div>`).join(""):`<div style="font-size:12px;color:var(--mt)">${esc(x.name)}: —</div>`;}).join("");
@@ -400,11 +587,56 @@ function rHist(){
 function rSett(){
   return`<div class="hdr"><div class="logo">RÉGLAGES</div></div>
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Périodisation</div>${PHASES.map((p,i)=>`<div onclick="setPhase(${i})" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;cursor:pointer;border:2px solid ${S.phase===i?p.color:'var(--bd)'};background:${S.phase===i?p.color+'15':'none'}"><div style="width:12px;height:12px;border-radius:50%;background:${p.color}"></div><div><div style="font-size:13px;font-weight:700;color:${p.color}">${p.name}</div><div style="font-size:13px;color:var(--t2)">${p.desc} — ${p.numSets}×${p.reps} — repos ${p.rest}s</div></div></div>`).join("")}</div>
+  ${rCustomBuilderCard()}
   ${rPathologiesCard()}
   ${rSyncCard()}
   ${rNotifCard()}
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Données</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn2" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" onclick="doExp()">📤 JSON backup</button><button class="btn2" onclick="doImpUI()">📥 Importer</button>${S.hist.length?`<button class="btn2" style="color:var(--ac);border-color:var(--ac)" onclick="safeWipe()">🗑 Effacer (avec backup)</button>`:""}</div><div id="io"></div></div>
   <div class="card"><div style="font-size:13px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage + sync cloud (Firebase).<br><br><b style="color:var(--ac)">APEX FITNESS</b> v8.4 — Cloud Sync<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Cardio • Core 12 sem • Nutrition</div></div>`;
+}
+
+// ─── P1 #9 : CUSTOM BUILDER (sélection multi-exercices pour une séance perso) ───
+function rCustomBuilderCard(){
+  const sel = (S.custom && S.custom.exerciseIds) || [];
+  const all = typeof getAllExercises === "function" ? getAllExercises() : [];
+  // Groupe par muscle
+  const byMuscle = {};
+  all.forEach(e => {
+    if(!byMuscle[e.muscle]) byMuscle[e.muscle] = [];
+    byMuscle[e.muscle].push(e);
+  });
+  const muscleOrder = ["chest","shoulders","back","biceps","triceps","quads","hamstrings","calves","core"];
+  return `<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:6px">🎨 Programme personnalisé</div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.5">Choisis 4-8 exercices pour ta séance "CUSTOM". Elle apparaîtra sur l'accueil. ${sel.length} sélectionné${sel.length>1?"s":""}.</div>
+    <div style="margin-bottom:12px"><input class="inp" type="text" placeholder="Nom de la séance (ex: Bras intense)" value="${esc((S.custom&&S.custom.name)||"")}" oninput="setCustomName(this.value)" style="font-size:14px"></div>
+    ${muscleOrder.filter(m => byMuscle[m]).map(m => `
+      <details style="margin-bottom:6px;border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+        <summary style="padding:9px 12px;font-size:13px;font-weight:700;cursor:pointer;background:var(--cd2);color:${MC[m]}">${MN[m]} <span style="float:right;color:var(--mt);font-weight:500">${byMuscle[m].filter(e=>sel.includes(e.id)).length}/${byMuscle[m].length}</span></summary>
+        <div style="padding:6px 12px">
+          ${byMuscle[m].map(e => `
+            <label style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:13px;cursor:pointer">
+              <input type="checkbox" ${sel.includes(e.id)?"checked":""} onchange="toggleCustomExercise('${e.id}')" style="width:18px;height:18px;accent-color:#8B5CF6">
+              <span style="flex:1">${esc(e.name)}</span>
+              <span style="font-size:11px;color:var(--mt)">${e.reps}</span>
+            </label>
+          `).join("")}
+        </div>
+      </details>
+    `).join("")}
+    ${sel.length>0?`<button class="btn" style="background:#8B5CF6;border-color:#8B5CF6;margin-top:12px" onclick="goSess('custom')">🚀 Lancer ${esc((S.custom&&S.custom.name)||"CUSTOM")}</button>`:""}
+  </div>`;
+}
+function setCustomName(v){ if(!S.custom)S.custom={exerciseIds:[]}; S.custom.name = v || "CUSTOM"; saveS(); }
+function toggleCustomExercise(id){
+  if(!S.custom) S.custom = { name:"CUSTOM", exerciseIds:[] };
+  if(!S.custom.exerciseIds) S.custom.exerciseIds = [];
+  const i = S.custom.exerciseIds.indexOf(id);
+  if(i>=0) S.custom.exerciseIds.splice(i,1);
+  else S.custom.exerciseIds.push(id);
+  saveS();
+  // Pas besoin de R() ici — le checkbox change visuellement de lui-même
+  // Mais on doit actualiser le compteur du <summary>
+  R();
 }
 
 // ─── P1 #8 : PATHOLOGIES CARD (multi-select) ───

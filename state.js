@@ -16,7 +16,9 @@ let S = {
   core: {startDate:null,coreLog:{},coreNotes:"",coreT0:null,ei:0},
   nut: {weight:75,height:178,age:30,sex:"M",activity:1.55,goal:-400,proteinPerKg:2,fatPerKg:0.8,weightLog:[]},
   // P1 #8 : pathologies actives — par défaut L5-S1 (mode historique de l'app)
-  health: {pathologies:["l5"]}
+  health: {pathologies:["l5"]},
+  // P1 #9 : programme custom — IDs d'exercices favoris choisis par l'utilisateur (depuis PROG)
+  custom: {name:"CUSTOM", exerciseIds:[]}
 };
 
 function loadS(){
@@ -29,6 +31,7 @@ function loadS(){
       if(d.core)S.core={...S.core,...d.core};
       if(d.nut)S.nut={...S.nut,...d.nut};
       if(d.health)S.health={...S.health,...d.health};
+      if(d.custom)S.custom={...S.custom,...d.custom};
     }
     const a=localStorage.getItem(SK+"_a");
     if(a){
@@ -45,7 +48,7 @@ function loadS(){
 let _quotaWarned = false;
 function saveS(){
   try{
-    localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut,health:S.health}));
+    localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut,health:S.health,custom:S.custom}));
     _quotaWarned = false; // reset si on a réussi
   }catch(e){
     if(!_quotaWarned && (e.name === "QuotaExceededError" || /quota/i.test(e.message||""))){
@@ -394,8 +397,36 @@ function pickPoolExercise(pool){
   })[0];
 }
 
+// P1 #9 : récupère TOUS les exercices disponibles (compounds + tous les pools, déduplique par id)
+function getAllExercises(){
+  const seen = {};
+  PROG.sessions.forEach(s => {
+    s.compounds.forEach(e => { if(!seen[e.id]) seen[e.id] = e; });
+    s.pools.forEach(p => p.exercises.forEach(e => { if(!seen[e.id]) seen[e.id] = e; }));
+  });
+  return Object.values(seen);
+}
+
+// P1 #9 : construit une session custom à partir des exercise IDs sélectionnés par l'utilisateur
+function buildCustomSession(){
+  const ids = (S.custom && S.custom.exerciseIds) || [];
+  if(!ids.length) return null;
+  const all = getAllExercises();
+  const exercises = ids.map(id => all.find(e => e.id === id)).filter(Boolean);
+  return {
+    id: "custom",
+    name: S.custom.name || "CUSTOM",
+    color: "#8B5CF6",
+    muscles: [...new Set(exercises.map(e => e.muscle))],
+    compounds: [],
+    pools: [],
+    exercises
+  };
+}
+
 // Construit une session (compounds fixes + 1 accessoire LRU par pool)
 function buildSession(sessId,savedExercises){
+  if(sessId === "custom") return buildCustomSession();
   const base=PROG.sessions.find(s=>s.id===sessId);if(!base)return null;
   const sess=Object.assign({},base);
   if(savedExercises&&savedExercises.length){
