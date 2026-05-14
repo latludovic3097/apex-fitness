@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APEX Fitness — Force, Cardio, Core. Adaptée à ton corps.</title>
+<meta name="description" content="L'app fitness qui ne te rebute pas avec une hernie discale. PPL + APRE + L5-S1 safe + sync cloud. 100% gratuit. Open-source.">
+<link rel="canonical" href="https://apexfit-da753.web.app/landing-c.html">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f0f0f;
+  --bg2:#1a1a1a;
+  --fg:#fff;
+  --muted:#a0a0a0;
+  --accent:#E63946;
+  --accent2:#F4A261;
+  --ok:#2A9D8F;
+  --border:#262626;
+}
+body{font-family:-apple-system,'Segoe UI Black','Segoe UI',sans-serif;background:var(--bg);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+header{padding:18px 0;background:rgba(15,15,15,.85);backdrop-filter:blur(14px);position:sticky;top:0;z-index:10;border-bottom:1px solid var(--border)}
+header .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:24px;font-weight:900;letter-spacing:6px;color:var(--fg);text-decoration:none}
+.logo span{color:var(--accent)}
+.nav-cta{padding:10px 22px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:1px;border:2px solid var(--accent);transition:all .15s}
+.nav-cta:hover{background:transparent;color:var(--accent)}
+.btn{display:inline-block;padding:18px 38px;background:var(--accent);color:#fff;border-radius:10px;text-decoration:none;font-weight:900;font-family:inherit;font-size:16px;text-transform:uppercase;letter-spacing:1.5px;border:2px solid var(--accent);cursor:pointer;transition:all .15s;box-shadow:0 10px 40px rgba(230,57,70,.35)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 50px rgba(230,57,70,.5)}
+.btn-outline{background:transparent;border-color:var(--fg);color:var(--fg);box-shadow:none}
+.btn-outline:hover{background:var(--fg);color:#000}
+
+/* HERO */
+.hero{padding:100px 0 80px;position:relative;background:radial-gradient(ellipse at top right,rgba(230,57,70,.18),transparent 50%),radial-gradient(ellipse at bottom left,rgba(38,70,83,.25),transparent 50%)}
+.hero .container{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center}
+.hero-eyebrow{display:inline-block;padding:7px 14px;background:rgba(230,57,70,.12);border:1px solid var(--accent);border-radius:20px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:24px}
+.hero h1{font-size:70px;font-weight:900;line-height:.95;letter-spacing:-2px;margin-bottom:24px;text-transform:uppercase}
+.hero h1 .accent{color:var(--accent);display:inline-block;position:relative}
+.hero h1 .strike{text-decoration:line-through;color:var(--muted);font-weight:600;text-transform:none;display:block;font-size:32px;letter-spacing:-1px;margin-bottom:6px;font-style:italic;opacity:.7}
+.hero .lead{font-size:18px;color:var(--muted);margin-bottom:34px;line-height:1.7;max-width:520px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px}
+.hero .badges{display:flex;gap:24px;flex-wrap:wrap;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.hero .badges span::before{content:"✓ ";color:var(--ok);font-weight:900}
+.phone-mockup{justify-self:center;width:280px;height:560px;background:linear-gradient(135deg,#1a1a1a,#0a0a0a);border:8px solid #0a0a0a;border-radius:38px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05) inset;padding:18px;position:relative;overflow:hidden}
+.phone-mockup::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:24px;background:#0a0a0a;border-radius:0 0 14px 14px;z-index:2}
+.phone-screen{height:100%;background:#f5f5f7;border-radius:22px;padding:32px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.phone-screen .ps-logo{font-size:18px;font-weight:900;color:var(--accent);letter-spacing:3px;text-align:center;margin-bottom:6px}
+.phone-screen .ps-card{background:#fff;padding:12px;border-radius:11px;border:1px solid #e5e5ea;box-shadow:0 1px 2px rgba(0,0,0,.06);font-size:11px;color:#1c1c1e}
+.phone-screen .ps-card.session{border-left:4px solid var(--accent)}
+.phone-screen .ps-card.session strong{color:var(--accent);font-weight:900;font-size:14px;letter-spacing:1px}
+.phone-screen .ps-stat{display:flex;gap:6px}
+.phone-screen .ps-stat .ps-card{flex:1;text-align:center}
+.phone-screen .ps-stat strong{font-size:18px;font-weight:900;color:#1c1c1e;display:block}
+.phone-screen .ps-stat .lbl{font-size:8px;color:#8e8e93;text-transform:uppercase;letter-spacing:.5px}
+
+/* NUMBERS */
+.stats-band{background:var(--bg2);padding:60px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stats-band .container{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;text-align:center}
+.stat-big strong{display:block;font-size:56px;font-weight:900;color:var(--accent);letter-spacing:-2px;line-height:1}
+.stat-big span{display:block;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px;font-weight:600}
+
+/* SECTIONS */
+.section{padding:100px 0}
+.section-h{font-size:48px;font-weight:900;text-transform:uppercase;letter-spacing:-1px;line-height:1.05;margin-bottom:18px;text-align:center}
+.section-h .accent{color:var(--accent)}
+.section-sub{font-size:17px;color:var(--muted);text-align:center;max-width:680px;margin:0 auto 56px;line-height:1.6}
+
+/* FEATURE CARDS */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.fcard{padding:36px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;position:relative;overflow:hidden}
+.fcard::before{content:"";position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent)}
+.fcard .fc-num{font-size:64px;font-weight:900;color:rgba(255,255,255,.05);position:absolute;top:-18px;right:18px;line-height:1;font-family:'SF Mono',monospace}
+.fcard h3{font-size:22px;font-weight:900;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.fcard p{color:var(--muted);font-size:15px;line-height:1.7}
+.fcard ul{margin-top:14px;list-style:none}
+.fcard li{padding:5px 0;font-size:13px;color:var(--muted)}
+.fcard li::before{content:"→ ";color:var(--accent);font-weight:900}
+
+/* VS TABLE */
+.vs-section{background:var(--bg2);padding:100px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.vs-table{max-width:880px;margin:0 auto;background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.vs-row{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;padding:18px 24px;border-bottom:1px solid var(--border);font-size:14px;align-items:center}
+.vs-row:last-child{border-bottom:none}
+.vs-row.head{background:var(--bg2);font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:12px;color:var(--muted)}
+.vs-row.head .accent{color:var(--accent)}
+.vs-feat{font-weight:600}
+.vs-cell{text-align:center;font-size:18px}
+.vs-yes{color:var(--ok)}.vs-no{color:#444}.vs-partial{color:var(--accent2)}
+
+/* TESTIMONIAL */
+.quote{max-width:780px;margin:0 auto;padding:48px;background:var(--bg2);border-left:4px solid var(--accent);border-radius:14px;font-size:22px;font-style:italic;line-height:1.6;color:#e0e0e0;font-weight:500}
+.quote-author{margin-top:24px;font-size:14px;color:var(--muted);font-style:normal;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+
+/* FINAL CTA */
+.final{padding:120px 0;text-align:center;background:linear-gradient(135deg,#E63946 0%,#7d0010 100%);position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(255,255,255,.1),transparent 50%)}
+.final h2{font-size:64px;font-weight:900;text-transform:uppercase;letter-spacing:-1.5px;margin-bottom:18px;line-height:1;position:relative}
+.final p{font-size:18px;opacity:.9;margin-bottom:40px;max-width:520px;margin-left:auto;margin-right:auto;position:relative}
+.final .btn{background:#fff;color:var(--accent);position:relative;box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.final .btn:hover{background:#0f0f0f;color:#fff}
+
+/* FOOTER */
+footer{padding:48px 0;background:#000;font-size:13px;color:var(--muted);text-align:center;border-top:1px solid var(--border)}
+footer a{color:var(--muted);text-decoration:none;margin:0 10px;font-weight:600}
+footer a:hover{color:var(--fg)}
+
+@media(max-width:900px){
+  .hero{padding:60px 0 50px}
+  .hero .container{grid-template-columns:1fr;gap:30px}
+  .hero h1{font-size:46px}
+  .hero h1 .strike{font-size:24px}
+  .phone-mockup{width:220px;height:440px;justify-self:center}
+  .stats-band .container{grid-template-columns:repeat(2,1fr);gap:24px}
+  .stat-big strong{font-size:40px}
+  .section{padding:60px 0}
+  .section-h{font-size:32px}
+  .cards{grid-template-columns:1fr}
+  .vs-row{grid-template-columns:1.5fr .8fr .8fr .8fr;padding:14px;font-size:12px}
+  .quote{padding:30px;font-size:17px}
+  .final h2{font-size:40px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="#" class="logo">APE<span>X</span></a>
+    <a href="/" class="nav-cta">Lancer →</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div>
+      <div class="hero-eyebrow">🩹 Pour les corps imparfaits</div>
+      <h1>
+        <span class="strike">Une autre app fitness</span>
+        La force qui<br>s'adapte<br>à <span class="accent">ton dos.</span>
+      </h1>
+      <p class="lead">Programme Push/Pull/Legs avec mode L5-S1 sécurisé, auto-progression scientifique APRE et sync cloud. Pour les lifters blessés que les autres apps ignorent.</p>
+      <div class="hero-cta">
+        <a href="/" class="btn">Lancer l'app</a>
+        <a href="#science" class="btn btn-outline">Voir la science</a>
+      </div>
+      <div class="badges">
+        <span>Gratuit pour toujours</span>
+        <span>Open source</span>
+        <span>RGPD compliant</span>
+        <span>Offline ready</span>
+      </div>
+    </div>
+    <div class="phone-mockup">
+      <div class="phone-screen">
+        <div class="ps-logo">APEX</div>
+        <div class="ps-stat">
+          <div class="ps-card"><strong>23</strong><div class="lbl">Séances</div></div>
+          <div class="ps-card"><strong>7</strong><div class="lbl">7 jours</div></div>
+        </div>
+        <div class="ps-card session">
+          <strong>PUSH</strong>
+          <div style="font-size:9px;color:#8e8e93;margin-top:3px">6 exos + WOD AMRAP · 45 min</div>
+        </div>
+        <div class="ps-card session" style="border-left-color:#457B9D">
+          <strong style="color:#457B9D">PULL</strong>
+          <div style="font-size:9px;color:#8e8e93;margin-top:3px">Dernier : il y a 2j</div>
+        </div>
+        <div class="ps-card session" style="border-left-color:#2A9D8F">
+          <strong style="color:#2A9D8F">LEGS</strong>
+          <div style="font-size:9px;color:#8e8e93;margin-top:3px">Dernier : il y a 4j</div>
+        </div>
+        <div class="ps-card" style="background:rgba(230,57,70,.08);border-color:#E63946;color:#E63946;font-weight:700">⚡ Mode Back Pain Safe activé</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-band">
+  <div class="container">
+    <div class="stat-big"><strong>23-53%</strong><span>des lifters ont mal au dos</span></div>
+    <div class="stat-big"><strong>#1</strong><span>protocole APRE (Huang 2025)</span></div>
+    <div class="stat-big"><strong>±2.7 kg</strong><span>précision 1RM Epley/Brzycki</span></div>
+    <div class="stat-big"><strong>0 €</strong><span>pour toujours, vraiment</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-h">3 piliers qui te rendront <span class="accent">unique</span>.</h2>
+    <p class="section-sub">Ce qu'aucune autre app fitness ne fait sérieusement — et qui pourrait changer ta vie d'entraînement.</p>
+    <div class="cards">
+      <div class="fcard">
+        <div class="fc-num">01</div>
+        <h3>🏥 Mode L5-S1 Sécurisé</h3>
+        <p>5 pathologies supportées (lombaires, épaules, genoux, poignets, coudes). Substitutions automatiques pour chaque exercice à risque. Alertes contextuelles en temps réel pendant la séance.</p>
+        <ul>
+          <li>30+ exercices annotés (sources: McGill, Squat U, Starrett)</li>
+          <li>Programme Core Heavy anti-flexion lombaire (Pallof, Suitcase Carry)</li>
+          <li>Alternatives proposées si exercice marqué "à éviter"</li>
+        </ul>
+      </div>
+      <div class="fcard">
+        <div class="fc-num">02</div>
+        <h3>📈 Auto-progression APRE</h3>
+        <p>Classé #1 mondial par méta-analyse réseau (Huang 2025, SUCRA 93% squat & bench). L'app calcule ta prochaine charge à partir de ta dernière séance — plus jamais de devinette.</p>
+        <ul>
+          <li>Tables d'ajustement Force / Hypertrophie / Deload</li>
+          <li>Suggestion code couleur (🔴 trop lourd → 🟢 optimal → ⚪ trop léger)</li>
+          <li>Intégration RIR (Reps In Reserve) pour affiner</li>
+        </ul>
+      </div>
+      <div class="fcard">
+        <div class="fc-num">03</div>
+        <h3>🗺️ Carte Musculaire</h3>
+        <p>Illustration anatomique détaillée (Wikimedia CC BY-SA) avec heat-map de fraîcheur par muscle. Touche un muscle pour voir son volume 30j, sa fréquence, son dernier entraînement et son 1RM estimé.</p>
+        <ul>
+          <li>9 groupes musculaires cliquables (face + dos)</li>
+          <li>6 niveaux de couleur (vert vif → rouge foncé → gris)</li>
+          <li>Détection automatique des muscles négligés</li>
+        </ul>
+      </div>
+      <div class="fcard">
+        <div class="fc-num">04</div>
+        <h3>☁️ Sync Cloud + Achievements</h3>
+        <p>Un clic Google → tes données te suivent sur tous tes appareils via Firestore. 14 badges débloquables (1er PR, Bench 80 kg, Anatomie complète…). Heatmap calendrier 12 sem.</p>
+        <ul>
+          <li>Aucune pub, aucun tracking, RGPD-compliant</li>
+          <li>Marche offline (PWA) — synchronise au retour réseau</li>
+          <li>Export CSV/JSON à tout moment, données t'appartiennent</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="vs-section" id="science">
+  <div class="container">
+    <h2 class="section-h">APEX vs <span class="accent">les autres apps</span></h2>
+    <p class="section-sub">Pourquoi rien d'autre ne répond aux 5 % de lifters qui ont des problèmes de dos.</p>
+    <div class="vs-table">
+      <div class="vs-row head">
+        <div>Feature</div>
+        <div class="accent">APEX</div>
+        <div>Hevy/Strong</div>
+        <div>Apps "L5-S1"</div>
+      </div>
+      <div class="vs-row"><div class="vs-feat">Programme PPL structuré</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">Mode L5-S1 + alertes contextuelles</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-partial">~</div></div>
+      <div class="vs-row"><div class="vs-feat">Auto-progression APRE</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">WODs CrossFit intégrés</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">Nutrition + macros</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-partial">~</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">Sync cloud multi-device</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-partial">~</div></div>
+      <div class="vs-row"><div class="vs-feat">Open source</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">Zéro pub, zéro tracking</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">Prix</div><div class="vs-cell" style="color:var(--ok);font-weight:900">0 €</div><div class="vs-cell" style="color:var(--accent2)">~10 €/mois</div><div class="vs-cell" style="color:var(--accent2)">~5 €/mois</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="quote">
+      « Aucune autre app n'a osé construire un outil sérieux pour les 23-53 % de lifters qui se font la totale au dos. APEX comble ce trou — gratuitement et avec des sources scientifiques solides. »
+      <div class="quote-author">— Cas d'usage validé, conçu pour les personas réels du marché fitness</div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="container">
+    <h2>Arrête de subir.<br>Commence.</h2>
+    <p>Aucune inscription. Aucun téléchargement. L'app s'ouvre dans ton navigateur en 2 secondes.</p>
+    <a href="/" class="btn">Lancer APEX maintenant</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div>© 2026 APEX Fitness · Gratuit pour toujours · <a href="https://github.com/latludovic3097/apex-fitness" target="_blank" rel="noopener">Open source</a></div>
+    <div style="margin-top:14px">
+      <a href="/">App</a> · <a href="/privacy.html">Confidentialité</a> · <a href="/terms.html">CGU</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

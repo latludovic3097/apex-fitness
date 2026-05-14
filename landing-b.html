@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APEX Fitness — Musculation Push/Pull/Legs avec mode L5-S1</title>
+<meta name="description" content="App fitness 100% gratuite : programme PPL, mode lombaire sécurisé, auto-progression APRE, cardio, nutrition, sync cloud. Open-source. 0 pub.">
+<link rel="canonical" href="https://apexfit-da753.web.app/landing-b.html">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#fff;--fg:#0f172a;--muted:#64748b;--soft:#f8fafc;--accent:#E63946;--ok:#2A9D8F;--border:#e2e8f0}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#0f172a;--fg:#f8fafc;--muted:#94a3b8;--soft:#1e293b;--border:#334155}
+}
+body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+.narrow{max-width:820px}
+header{padding:18px 0;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10}
+header .container{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:900;letter-spacing:4px;color:var(--accent);text-decoration:none}
+.nav-cta{padding:9px 18px;background:var(--accent);color:#fff;border-radius:9px;text-decoration:none;font-size:14px;font-weight:700}
+.btn{display:inline-block;padding:14px 28px;background:var(--accent);color:#fff;border-radius:11px;text-decoration:none;font-weight:700;font-family:inherit;border:none;cursor:pointer;font-size:15px;box-shadow:0 4px 14px rgba(230,57,70,.25);transition:transform .12s}
+.btn:hover{transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--fg);border:1.5px solid var(--border);box-shadow:none}
+
+/* Hero */
+.hero{padding:80px 0 60px;text-align:center;background:linear-gradient(180deg,var(--soft),transparent)}
+.hero h1{font-size:54px;font-weight:900;line-height:1.1;margin-bottom:20px;letter-spacing:-1px}
+.hero h1 .accent{color:var(--accent)}
+.hero .tagline{font-size:20px;color:var(--muted);max-width:680px;margin:0 auto 32px}
+.hero .cta-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.proof-bar{display:flex;justify-content:center;gap:32px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.proof-bar span strong{color:var(--fg);font-weight:700}
+
+/* For who */
+.section{padding:80px 0}
+.section.alt{background:var(--soft)}
+.section-eyebrow{font-size:13px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);text-align:center;font-weight:700;margin-bottom:12px}
+.section-title{font-size:38px;font-weight:900;text-align:center;margin-bottom:18px;letter-spacing:-.5px;max-width:760px;margin-left:auto;margin-right:auto;line-height:1.2}
+.section-sub{text-align:center;color:var(--muted);font-size:17px;max-width:600px;margin:0 auto 48px}
+.personas{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.persona{padding:28px;background:var(--bg);border:1px solid var(--border);border-radius:14px}
+.section.alt .persona{background:var(--bg)}
+.persona-emoji{font-size:38px;margin-bottom:14px}
+.persona h3{font-size:18px;font-weight:800;margin-bottom:10px}
+.persona p{color:var(--muted);font-size:14px;line-height:1.6}
+.persona .stat{font-size:12px;color:var(--accent);font-weight:700;margin-top:14px;text-transform:uppercase;letter-spacing:1px}
+
+/* How it works */
+.steps{display:flex;flex-direction:column;gap:18px;max-width:780px;margin:0 auto}
+.step{display:flex;gap:22px;align-items:flex-start;padding:24px;background:var(--bg);border:1px solid var(--border);border-radius:14px}
+.section.alt .step{background:var(--bg)}
+.step-num{flex-shrink:0;width:44px;height:44px;border-radius:12px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px}
+.step h4{font-size:17px;font-weight:800;margin-bottom:6px}
+.step p{color:var(--muted);font-size:14px;line-height:1.6}
+
+/* Features grid */
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.feat{padding:28px;background:var(--bg);border:1px solid var(--border);border-radius:14px}
+.section.alt .feat{background:var(--bg)}
+.feat-emoji{font-size:28px;margin-bottom:14px}
+.feat h4{font-size:17px;font-weight:800;margin-bottom:8px}
+.feat p{color:var(--muted);font-size:14px;line-height:1.55}
+
+/* Science / sources */
+.sources{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:880px;margin:0 auto}
+.source{padding:18px 22px;background:var(--bg);border:1px solid var(--border);border-radius:12px;font-size:14px;line-height:1.6}
+.section.alt .source{background:var(--bg)}
+.source strong{color:var(--accent);font-weight:700}
+
+/* Pricing */
+.pricing{max-width:480px;margin:0 auto;text-align:center;padding:40px 32px;background:var(--bg);border:2px solid var(--accent);border-radius:18px;box-shadow:0 8px 30px rgba(230,57,70,.10)}
+.pricing .price{font-size:60px;font-weight:900;margin:10px 0;color:var(--accent);letter-spacing:-2px}
+.pricing .price span{font-size:18px;color:var(--muted);font-weight:500}
+.pricing ul{list-style:none;text-align:left;margin:24px 0 28px}
+.pricing li{padding:8px 0;font-size:14px;display:flex;align-items:flex-start;gap:10px}
+.pricing li::before{content:"✓";color:var(--ok);font-weight:900;flex-shrink:0}
+
+/* FAQ */
+.faq{max-width:780px;margin:0 auto}
+.faq details{padding:18px 22px;background:var(--bg);border:1px solid var(--border);border-radius:12px;margin-bottom:10px}
+.section.alt .faq details{background:var(--bg)}
+.faq summary{font-weight:700;cursor:pointer;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq summary::after{content:"+";color:var(--accent);font-size:22px;font-weight:300}
+.faq details[open] summary::after{content:"−"}
+.faq details[open]{border-color:var(--accent)}
+.faq p{margin-top:14px;color:var(--muted);font-size:14px;line-height:1.7}
+
+/* Final CTA */
+.final{padding:100px 0;text-align:center;background:linear-gradient(135deg,var(--accent) 0%,#264653 100%);color:#fff}
+.final h2{font-size:42px;font-weight:900;margin-bottom:16px;letter-spacing:-.5px}
+.final p{font-size:18px;opacity:.9;margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto}
+.final .btn{background:#fff;color:var(--accent);box-shadow:0 6px 24px rgba(0,0,0,.2)}
+
+/* Footer */
+footer{padding:48px 0;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
+footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+footer a{color:var(--muted);text-decoration:none;margin-right:18px}
+footer a:hover{color:var(--fg)}
+
+@media(max-width:760px){
+  .hero h1{font-size:38px}
+  .hero .tagline{font-size:16px}
+  .section-title{font-size:28px}
+  .personas,.features,.sources{grid-template-columns:1fr}
+  .final h2{font-size:30px}
+  .section{padding:60px 0}
+  .proof-bar{gap:18px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="#" class="logo">APEX</a>
+    <a href="/" class="nav-cta">Lancer l'app</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>L'app de musculation qui<br><span class="accent">s'adapte à ton dos.</span></h1>
+    <p class="tagline">Push/Pull/Legs avec mode L5-S1 sécurisé, progression scientifique APRE et sync cloud. 100% gratuit, open-source, sans pub.</p>
+    <div class="cta-group">
+      <a href="/" class="btn">🚀 Lancer l'app gratuitement</a>
+      <a href="#how" class="btn btn-outline">Voir comment ça marche</a>
+    </div>
+    <div class="proof-bar">
+      <span>✓ <strong>Open source</strong> sur GitHub</span>
+      <span>✓ <strong>Zéro</strong> publicité</span>
+      <span>✓ <strong>RGPD</strong>-compliant</span>
+      <span>✓ <strong>Marche offline</strong> (PWA)</span>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="section-eyebrow">Pour qui ?</div>
+    <h2 class="section-title">Conçue pour 3 profils négligés par les autres apps.</h2>
+    <p class="section-sub">23 à 53 % des lifters ont des douleurs lombaires (Training Room NOLA 2023). Aucune autre app ne s'y adapte.</p>
+    <div class="personas">
+      <div class="persona">
+        <div class="persona-emoji">🏥</div>
+        <h3>Le lifter blessé</h3>
+        <p>Hernie L5-S1, protrusion, sciatique. Tu veux continuer la muscu sans rechute. APEX bloque les mouvements dangereux et propose des substitutions automatiques.</p>
+        <div class="stat">46-106M de personnes dans le monde</div>
+      </div>
+      <div class="persona">
+        <div class="persona-emoji">📈</div>
+        <h3>L'intermédiaire structuré</h3>
+        <p>Tu plafonnes. Tu veux un programme PPL périodisé sans payer 50 €/mois un coach. Le protocole APRE classé #1 mondial fait le boulot.</p>
+        <div class="stat">SUCRA 93 % — méta-analyse Huang 2025</div>
+      </div>
+      <div class="persona">
+        <div class="persona-emoji">🔥</div>
+        <h3>Le CrossFitter hybride</h3>
+        <p>Tu veux tracker la force ET les WODs dans une seule app. APEX a 20+ WODs rotatifs (AMRAP, EMOM, Tabata) intégrés à chaque session.</p>
+        <div class="stat">15 WODs par cycle PPL</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="container narrow">
+    <div class="section-eyebrow">Comment ça marche</div>
+    <h2 class="section-title">De zéro à ta première séance en 30 secondes.</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div><h4>Pas de téléchargement</h4><p>L'app marche directement dans ton navigateur (PWA). Tu peux l'installer en 1 clic sur ton écran d'accueil ensuite.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div><h4>Sélectionne ton profil</h4><p>Sexe, poids, taille, objectif (force / hyper / sèche). 20 secondes. Optionnel : pathologies (lombaires, épaules, genoux…).</p></div></div>
+      <div class="step"><div class="step-num">3</div><div><h4>Lance ta session recommandée</h4><p>L'app détermine quel jour est le plus pertinent (Push / Pull / Legs) selon ton historique. Charges pré-suggérées via APRE.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div><h4>Track tes sets en temps réel</h4><p>Kg + reps + RIR. Sauvegarde automatique. Timer intégré qui garde l'écran allumé. Bip à la fin du repos.</p></div></div>
+      <div class="step"><div class="step-num">5</div><div><h4>Sync entre tes appareils (optionnel)</h4><p>Un clic "Se connecter avec Google" et tes données te suivent partout. Sinon, tout reste local sur ton appareil.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="section-eyebrow">Features</div>
+    <h2 class="section-title">10 fonctionnalités. Toutes gratuites.</h2>
+    <div class="features">
+      <div class="feat"><div class="feat-emoji">💪</div><h4>Programme PPL complet</h4><p>3 sessions, 40+ exercices, accessoires en rotation LRU (Helms/RTS), pools variés pour stimuler tous les chefs musculaires.</p></div>
+      <div class="feat"><div class="feat-emoji">🎯</div><h4>Auto-progression APRE</h4><p>Table d'ajustement Force / Hypertrophie / Deload. Tu ne devines plus quelle charge mettre — l'app le calcule à partir du dernier set.</p></div>
+      <div class="feat"><div class="feat-emoji">🏥</div><h4>5 pathologies supportées</h4><p>L5-S1, épaules, genoux, poignets, coudes. Alertes contextuelles + substitutions automatiques (~30 exos annotés).</p></div>
+      <div class="feat"><div class="feat-emoji">🗺️</div><h4>Carte musculaire interactive</h4><p>Anatomie détaillée Wikimedia. Heat-map de fraîcheur (vert → rouge). Click sur un muscle pour voir volume, 1RM, dernier entraînement.</p></div>
+      <div class="feat"><div class="feat-emoji">🥬</div><h4>Nutrition Mifflin-St Jeor</h4><p>Calcul BMR/TDEE + macros (protéines/lipides/glucides) + DB de 50+ aliments avec densité protéique. Suivi du poids avec graphique.</p></div>
+      <div class="feat"><div class="feat-emoji">🏃</div><h4>Cardio + Core 12 sem</h4><p>Course, nage, vélo avec dérivés (allure, FC zones Seiler). Programme Core Heavy L5-S1 safe (Pallof + Suitcase Carry McGill).</p></div>
+      <div class="feat"><div class="feat-emoji">🏆</div><h4>Achievements + Calendar</h4><p>14 badges (premier PR, streak 7j, anatomie complète…). Heatmap GitHub-style 12 semaines. Calcul de streak automatique.</p></div>
+      <div class="feat"><div class="feat-emoji">📸</div><h4>Partage social</h4><p>Génère une image carrée 1080×1080 de ta séance pour Instagram/Story. Web Share API native, fallback download direct.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow">Sources scientifiques</div>
+    <h2 class="section-title">Aucune affirmation sans publication peer-reviewed.</h2>
+    <p class="section-sub">Chaque protocole et chaque chiffre cité est traçable. Pas de gourou, pas de "secret de coach", juste de la littérature scientifique.</p>
+    <div class="sources">
+      <div class="source"><strong>APRE progression</strong><br>Huang et al. 2025 (Shanghai University of Sport) — méta-analyse réseau, classement #1 (SUCRA 93 % squat, bench).</div>
+      <div class="source"><strong>Mode lombaire</strong><br>McGill 2015-2016 — Back Mechanic + Ultimate Back Fitness. Protocole McGill Big 3 + substitutions.</div>
+      <div class="source"><strong>Estimation 1RM</strong><br>DiStasio 2014 — Epley/Brzycki validés (±2.7 kg à 3RM). Mayhew pour >10 reps.</div>
+      <div class="source"><strong>RIR-based training</strong><br>Larsen 2021 + Zhang 2021 — RIR-RPE supérieur aux protocoles à % fixe.</div>
+      <div class="source"><strong>Deload timing</strong><br>Sports Med Open 2024 (246 athlètes) — deload optimal toutes les 5.6 semaines.</div>
+      <div class="source"><strong>Nutrition</strong><br>Mifflin-St Jeor 1990 + Helms 2014 (protéines 2g/kg pour préservation musculaire en déficit).</div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="section-eyebrow">Prix</div>
+    <h2 class="section-title">Gratuit. Pour toujours. Vraiment.</h2>
+    <p class="section-sub">Open-source sur GitHub. Pas de freemium déguisé, pas de paywall qui débarque dans 6 mois.</p>
+    <div class="pricing">
+      <div style="font-size:14px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:1px">APEX Fitness</div>
+      <div class="price">0 €<span>/à vie</span></div>
+      <ul>
+        <li>Programme PPL complet + WODs rotatifs</li>
+        <li>5 pathologies (L5-S1, épaules, genoux, poignets, coudes)</li>
+        <li>Auto-progression APRE</li>
+        <li>Cardio + Core 12 sem + Nutrition</li>
+        <li>Carte musculaire interactive</li>
+        <li>Sync cloud multi-appareils (Google)</li>
+        <li>Export CSV / JSON</li>
+        <li>Aucune pub, aucun tracking</li>
+      </ul>
+      <a href="/" class="btn" style="width:100%">Commencer maintenant</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container narrow">
+    <div class="section-eyebrow">FAQ</div>
+    <h2 class="section-title">Questions fréquentes.</h2>
+    <div class="faq">
+      <details><summary>Pourquoi gratuit alors ? C'est louche.</summary><p>L'app est open-source et développée à titre personnel. Pas de structure commerciale derrière, donc pas de coût d'acquisition / marketing / équipe à amortir. L'hébergement Firebase coûte 0 € jusqu'à 1 GB de stockage. Si un jour l'app a 10 000 utilisateurs actifs, on étudiera un don ou un tier premium optionnel — jamais de pub.</p></details>
+      <details><summary>C'est vraiment safe pour mon dos ?</summary><p>L'app suit les protocoles publiés (McGill). Mais elle n'est <strong>pas un dispositif médical</strong>. Si tu as une pathologie diagnostiquée, consulte ton kinésithérapeute avant. Le mode L5-S1 réduit les risques par rapport à un programme standard, il ne les élimine pas.</p></details>
+      <details><summary>Mes données sont en sécurité ?</summary><p>Par défaut, tout reste sur ton appareil (localStorage). Si tu actives la sync cloud (Google sign-in), les données sont stockées dans Firestore avec des Security Rules qui n'autorisent QUE toi à accéder à ton document. Aucune analyse, aucun partage, aucune monétisation.</p></details>
+      <details><summary>Pourquoi pas une vraie app iOS / Android ?</summary><p>C'est une PWA — Progressive Web App. Tu l'installes sur ton écran d'accueil en 1 clic et elle se comporte comme une app native (offline, notifications, plein écran). Avantage : 1 seul code à maintenir, déploiement instantané, zéro store fees, marche partout.</p></details>
+      <details><summary>Je peux contribuer ?</summary><p>Yes. Le code est sur <a href="https://github.com/latludovic3097/apex-fitness" target="_blank">GitHub</a>. Issues bienvenues, pull requests aussi. Tu peux aussi juste partager l'app autour de toi.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="container">
+    <h2>Prêt à t'entraîner intelligemment ?</h2>
+    <p>Aucune inscription requise. L'app s'ouvre en moins de 2 secondes.</p>
+    <a href="/" class="btn">Lancer APEX maintenant →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div>© 2026 APEX Fitness · Open source · Gratuit pour toujours</div>
+    <div><a href="/">App</a><a href="/privacy.html">Confidentialité</a><a href="/terms.html">CGU</a><a href="https://github.com/latludovic3097/apex-fitness" target="_blank" rel="noopener">GitHub</a></div>
+  </div>
+</footer>
+</body>
+</html>
