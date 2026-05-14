@@ -136,20 +136,26 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
 <body>
 <h1 class="sr-only">APEX Fitness — Application de musculation Push/Pull/Legs avec adaptation lombaire L5-S1</h1>
 <noscript><div style="padding:24px;text-align:center;background:#fff;font-family:system-ui">APEX Fitness nécessite JavaScript pour fonctionner. Active JavaScript dans ton navigateur pour utiliser l'application.</div></noscript>
-<div id="app"></div>
+<main id="app" role="main">
+  <!-- Placeholder affiché avant le 1er render JS (FCP immédiat sur 4G lent) -->
+  <div style="padding:60px 20px;text-align:center">
+    <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:#E63946;margin-bottom:14px">APEX FITNESS</div>
+    <div style="font-size:14px;color:#48484a;font-weight:600">Chargement…</div>
+  </div>
+</main>
 
-<!-- APEX Fitness v8.4 — modulaire + cloud sync.
-     Ordre de chargement strict : core (purs) → data (immutable) → state (S + logic) → ui (rendu + actions + init).
-     firebase-config.js est chargé AVANT sync.js (qui lit window.APEX_FIREBASE_CONFIG).
+<!-- APEX Fitness — modulaire + cloud sync.
+     `defer` sur tous les classics : téléchargement parallèle, exécution séquentielle après HTML parsé.
+     → débloque le rendu initial (FCP) sans changer l'ordre d'exécution.
      sync.js est un module ES (defer auto) → s'exécute après les classics, dispatche apex:sync-ready. -->
-<script src="core.js"></script>
-<script src="data.js"></script>
-<script src="anatomy.js"></script>
-<script src="pathologies.js"></script>
-<script src="achievements.js"></script>
-<script src="state.js"></script>
-<script src="ui.js"></script>
-<script src="firebase-config.js"></script>
+<script src="core.js" defer></script>
+<script src="data.js" defer></script>
+<script src="anatomy.js" defer></script>
+<script src="pathologies.js" defer></script>
+<script src="achievements.js" defer></script>
+<script src="state.js" defer></script>
+<script src="ui.js" defer></script>
+<script src="firebase-config.js" defer></script>
 <script type="module" src="sync.js"></script>
 
 <!-- Service Worker : auto-update + toast -->

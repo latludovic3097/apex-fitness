@@ -9,15 +9,34 @@
       "**/node_modules/**",
       "serve.ps1",
       "tests.html",
+      "ci-tests.mjs",
       "FIREBASE-SETUP.md",
       "APEX-PROJECT-SPEC.md",
       "README.md"
     ],
     "headers": [
       {
-        "source": "**/*.@(html|js|svg|json)",
+        "source": "sw.js",
         "headers": [
-          { "key": "Cache-Control", "value": "no-cache, max-age=0" }
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      },
+      {
+        "source": "**/*.@(html|json)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=300, must-revalidate" }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
+        ]
+      },
+      {
+        "source": "**/*.@(svg|png|jpg|jpeg|webp|woff|woff2)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=2592000, immutable" }
         ]
       }
     ]
