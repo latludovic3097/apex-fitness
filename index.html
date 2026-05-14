@@ -66,10 +66,14 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
 .sec-title{padding:18px 16px 10px;font-size:22px;font-weight:900;letter-spacing:1px;color:var(--tx);text-transform:uppercase}
 .card{background:var(--cd);border-radius:16px;border:1px solid var(--bd);padding:18px;margin:0 16px 12px;box-shadow:var(--shadow-sm)}
 .sess-card{cursor:pointer;border-left:5px solid var(--ac);transition:transform .12s, box-shadow .12s}.sess-card:active{transform:scale(.985);box-shadow:var(--shadow-md)}
-/* Semantic card variants (F-002): replaces per-section rainbow with 3 categories */
+/* Semantic card variants (F-002): replaces per-section rainbow with 3 categories.
+   Rule: titre = voix de marque, bordure = catégorie, icône = dimmed.
+   Utility cards: brand-red title (cohérence) + neutral border (distinction).
+   Wellness cards: green throughout (active recovery).
+   Training cards: per-session color (data-driven). */
 .sess-card-util{border-left-color:var(--bd)}
-.sess-card-util .sess-name{color:var(--t1)}
-.sess-card-util .sess-icon{color:var(--t2);opacity:.55}
+.sess-card-util .sess-name{color:var(--ac)}
+.sess-card-util .sess-icon{color:var(--t2);opacity:.5}
 .sess-card-well{border-left-color:var(--ok)}
 .sess-card-well .sess-name{color:var(--ok)}
 .sess-card-well .sess-icon{color:var(--ok);opacity:.7}
