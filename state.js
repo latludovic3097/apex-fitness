@@ -373,7 +373,14 @@ function getRecommendation(){
 }
 
 // Sélectionne le WOD le moins récemment utilisé pour cette session (LRU)
+// Exception "custom" : le WOD est choisi manuellement par l'utilisateur via S.custom.wodIdx.
+// Si pas défini, aucun WOD n'est ajouté à la séance custom (WOD optionnel).
 function pickWOD(sessId){
+  if(sessId === "custom"){
+    const idx = S.custom && typeof S.custom.wodIdx === "number" ? S.custom.wodIdx : null;
+    if(idx === null || !WODS.custom || !WODS.custom[idx]) return null;
+    return WODS.custom[idx];
+  }
   const pool=WODS[sessId];if(!pool||!pool.length)return pool?pool[0]:null;
   const used={};
   S.hist.filter(h=>h.sessionId===sessId).forEach(h=>{if(h.wodName&&!used[h.wodName])used[h.wodName]=h.date;});

@@ -105,6 +105,85 @@ legs:[
   {name:"10 Box Step-ups (5/côté)",img:I+"Barbell_Step_Ups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-step-up",yt:"https://www.youtube.com/results?search_query=step+up+exercise+form"},
   {name:"15 KB Swings",img:I+"Kettlebell_Sumo_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
   {name:"20 Flutter Kicks",img:I+"Flutter_Kicks/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-flutter-kicks",yt:"https://www.youtube.com/results?search_query=flutter+kicks+core"}]}
+],
+// ─── CUSTOM WOD POOL : 20 WODs L5-S1 safe, sélectionnables manuellement dans le builder Custom ───
+// Catégories : Full-body (6), Haut (4), Bas (4), Core (3), Cardio (3).
+// Champ `desc` = explication simple (1 phrase) de ce que le WOD travaille efficacement.
+// Champ `cat` = catégorie pour le regroupement UI.
+custom:[
+// ─── FULL-BODY CONDITIONING (6) ───
+{cat:"Full-body",type:"AMRAP",duration:8,name:"Burpee Storm",desc:"Brûle un max de calories en 8 min : cœur, jambes, épaules. Step-back uniquement, zéro charge sur la colonne.",movements:[
+  {name:"AMRAP : Step-back Burpees",img:I+"Mountain_Climbers/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-burpee",yt:"https://www.youtube.com/results?search_query=step+back+burpee+form"}]},
+{cat:"Full-body",type:"For Time",duration:null,name:"DT Modifié",desc:"Le classique CrossFit DT en version dos sécurisée. Force-endurance corps entier en 12-18 min.",movements:[
+  {name:"5 rounds : 12 KB Romanian DL (dos neutre ⚡)",img:I+"Stiff-Legged_Barbell_Deadlift/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-deadlift",yt:"https://www.youtube.com/results?search_query=kettlebell+romanian+deadlift+form"},
+  {name:"9 DB Push Press",img:I+"Dumbbell_Shoulder_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-push-press",yt:"https://www.youtube.com/results?search_query=dumbbell+push+press+form"},
+  {name:"6 DB Front Squats",img:I+"Dumbbell_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",yt:"https://www.youtube.com/results?search_query=dumbbell+front+squat+form"}]},
+{cat:"Full-body",type:"AMRAP",duration:20,name:"Cindy Modifiée",desc:"Référence mondiale CrossFit. Endurance musculaire pure, accessible à tous niveaux.",movements:[
+  {name:"5 Pull-ups (ou Inverted Rows)",img:I+"Pullups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+or+inverted+row"},
+  {name:"10 Push-ups",img:I+"Pushups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=push+up+form"},
+  {name:"15 Air Squats",img:I+"Bodyweight_Squat/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-squat",yt:"https://www.youtube.com/results?search_query=air+squat+form"}]},
+{cat:"Full-body",type:"AMRAP",duration:12,name:"Devil's Conditioning",desc:"Cardio + force totale en 12 min. Travaille épaules, hanches, abdo en gainage.",movements:[
+  {name:"5 DB Devil's Press",img:I+"Dumbbell_Bench_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=devils+press+dumbbell+form"},
+  {name:"10 KB Swings",img:I+"Kettlebell_Sumo_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
+  {name:"15 Mountain Climbers",img:I+"Mountain_Climbers/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-mountain-climber",yt:"https://www.youtube.com/results?search_query=mountain+climbers+form"}]},
+{cat:"Full-body",type:"For Time",duration:null,name:"21-15-9 Hero Pump",desc:"Sprint cardio-musculaire intense. Te met sur les genoux en 10-15 min, full-body brûle-graisse.",movements:[
+  {name:"21-15-9 DB Thrusters",img:I+"Dumbbell_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-thruster",yt:"https://www.youtube.com/results?search_query=dumbbell+thruster+form"},
+  {name:"21-15-9 Step-back Burpees",img:I+"Mountain_Climbers/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-burpee",yt:"https://www.youtube.com/results?search_query=step+back+burpee+form"}]},
+{cat:"Full-body",type:"Tabata",duration:8,name:"Ladder Tabata",desc:"Brûle-graisse rapide. 8 min = équivalent métabolique de 30-40 min de cardio classique.",movements:[
+  {name:"R1-2 : Jumping Jacks 20s/10s",img:I+"Jumping_Jacks/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-jumping-jack",yt:"https://www.youtube.com/results?search_query=jumping+jacks"},
+  {name:"R3-4 : Air Squats 20s/10s",img:I+"Bodyweight_Squat/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-squat",yt:"https://www.youtube.com/results?search_query=air+squat+form"},
+  {name:"R5-6 : Push-ups 20s/10s",img:I+"Pushups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=push+up+form"},
+  {name:"R7-8 : Mountain Climbers 20s/10s",img:I+"Mountain_Climbers/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-mountain-climber",yt:"https://www.youtube.com/results?search_query=mountain+climbers+form"}]},
+// ─── HAUT DU CORPS (4) ───
+{cat:"Haut du corps",type:"EMOM",duration:10,name:"Push-Pull Pump",desc:"Pectoraux + dos en alternance. Volume max sur le haut du corps sans fatiguer les jambes.",movements:[
+  {name:"Pair : 10 Push-ups",img:I+"Pushups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=push+up+form"},
+  {name:"Impair : 8 DB Rows/bras",img:I+"One-Arm_Dumbbell_Row/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=one+arm+dumbbell+row+form"}]},
+{cat:"Haut du corps",type:"AMRAP",duration:8,name:"Shoulder Burner",desc:"Sculpte les épaules sous trois angles en 8 min. Aucun mouvement debout, dos protégé.",movements:[
+  {name:"10 DB Lateral Raises",img:I+"Side_Lateral_Raise/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-lateral-raise",yt:"https://www.youtube.com/results?search_query=lateral+raise+form"},
+  {name:"8 Arnold Press",img:I+"Arnold_Dumbbell_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-arnold-press",yt:"https://www.youtube.com/results?search_query=arnold+press+form"},
+  {name:"6 Pike Push-ups",img:I+"Decline_Push-Up/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pike-push-up",yt:"https://www.youtube.com/results?search_query=pike+push+up+shoulders+form"}]},
+{cat:"Haut du corps",type:"For Time",duration:null,name:"Pull Power",desc:"Dos large et posture. Travail unique de tirage horizontal (rows) et vertical (pull-ups).",movements:[
+  {name:"50 Pull-ups (band-assist OK)",img:I+"Pullups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form+band+assist"},
+  {name:"100 Band Pull-Aparts",img:I+"Band_Pull_Apart/0.jpg",mw:"https://musclewiki.com/exercise/band-pull-apart",yt:"https://www.youtube.com/results?search_query=band+pull+apart+form"}]},
+{cat:"Haut du corps",type:"EMOM",duration:12,name:"Arm Day Express",desc:"Biceps + triceps en superset. 12 min pour des bras bien gonflés, sans charge lombaire.",movements:[
+  {name:"Pair : 8 Hammer Curls",img:I+"Hammer_Curls/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-hammer-curl",yt:"https://www.youtube.com/results?search_query=hammer+curl+form"},
+  {name:"Impair : 10 Bench Tricep Dips",img:I+"Dips_-_Triceps_Version/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-bench-dip",yt:"https://www.youtube.com/results?search_query=bench+tricep+dips+form"}]},
+// ─── BAS DU CORPS (4) ───
+{cat:"Bas du corps",type:"AMRAP",duration:10,name:"Leg Volume",desc:"Cuisses + fessiers + ischios. Tout le bas du corps sans aucune flexion lombaire chargée.",movements:[
+  {name:"10 Goblet Squats",img:I+"Goblet_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",yt:"https://www.youtube.com/results?search_query=goblet+squat+form"},
+  {name:"8 KB Romanian DL (dos neutre ⚡)",img:I+"Stiff-Legged_Barbell_Deadlift/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-deadlift",yt:"https://www.youtube.com/results?search_query=kettlebell+romanian+deadlift+form"},
+  {name:"6 Reverse Lunges/jambe",img:I+"Dumbbell_Lunges/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-reverse-lunge",yt:"https://www.youtube.com/results?search_query=reverse+lunge+form"}]},
+{cat:"Bas du corps",type:"EMOM",duration:12,name:"Glute Builder",desc:"Fessiers explosifs. Améliore aussi la posture et protège le bas du dos.",movements:[
+  {name:"Pair : 12 KB Swings",img:I+"Kettlebell_Sumo_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
+  {name:"Impair : 10 Glute Bridges chargés",img:I+"Butt_Lift_Bridge/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-glute-bridge",yt:"https://www.youtube.com/results?search_query=glute+bridge+weighted+form"}]},
+{cat:"Bas du corps",type:"Tabata",duration:4,name:"Quad Pump",desc:"Cuisses en feu. 4 min de pur travail des quadriceps en haute intensité.",movements:[
+  {name:"Goblet Squat 20s on / 10s off ×8",img:I+"Goblet_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",yt:"https://www.youtube.com/results?search_query=goblet+squat+tabata"}]},
+{cat:"Bas du corps",type:"For Time",duration:null,name:"Walking Power",desc:"Force des jambes + gainage debout. Travaille aussi les avant-bras (grip) et la posture.",movements:[
+  {name:"10 rounds : 20m Farmer's Walk (lourd)",img:I+"Dumbbell_Shrug/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-farmers-walk",yt:"https://www.youtube.com/results?search_query=farmers+walk+form"},
+  {name:"10 Step-ups/jambe",img:I+"Barbell_Step_Ups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-step-up",yt:"https://www.youtube.com/results?search_query=step+up+exercise+form"}]},
+// ─── CORE STABILITÉ L5-S1 (3) ───
+{cat:"Core stabilité",type:"AMRAP",duration:10,name:"McGill Big 3 Plus",desc:"Renforce le dos sans flexion. Protocole McGill validé scientifiquement pour les hernies lombaires.",movements:[
+  {name:"5 McGill Curl-ups (hold 10s)",img:I+"Cable_Crunch/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-crunch",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up+form"},
+  {name:"5 Side Plank/côté (10s)",img:I+"Side_Bridge/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-side-plank",yt:"https://www.youtube.com/results?search_query=side+plank+mcgill"},
+  {name:"5 Bird Dogs/côté (hold 5s)",img:I+"Donkey_Kicks/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-bird-dog",yt:"https://www.youtube.com/results?search_query=bird+dog+exercise+form"},
+  {name:"30s Pallof Press (chaque côté)",img:I+"Cable_Crunch/0.jpg",mw:"https://musclewiki.com/exercise/cable-pallof-press",yt:"https://www.youtube.com/results?search_query=pallof+press+form"}]},
+{cat:"Core stabilité",type:"EMOM",duration:8,name:"Anti-Rotation",desc:"Stabilité du tronc latérale et anti-rotation. Idéal hernie lombaire et posture quotidienne.",movements:[
+  {name:"Pair : 10 Pallof Press/côté",img:I+"Cable_Crunch/0.jpg",mw:"https://musclewiki.com/exercise/cable-pallof-press",yt:"https://www.youtube.com/results?search_query=pallof+press+form"},
+  {name:"Impair : 30s Suitcase Carry",img:I+"Dumbbell_Shrug/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-suitcase-carry",yt:"https://www.youtube.com/results?search_query=suitcase+carry+form"}]},
+{cat:"Core stabilité",type:"Tabata",duration:4,name:"Plank Fortress",desc:"Gainage pur. Renforce le caisson abdominal sans charger la colonne ni faire de flexion.",movements:[
+  {name:"R1-3 : Front Plank 20s/10s",img:I+"Plank/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-plank",yt:"https://www.youtube.com/results?search_query=front+plank+form"},
+  {name:"R4-6 : Side Plank 20s/10s (alterne)",img:I+"Side_Bridge/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-side-plank",yt:"https://www.youtube.com/results?search_query=side+plank+form"},
+  {name:"R7-8 : Reverse Plank 20s/10s",img:I+"Butt_Lift_Bridge/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=reverse+plank+form"}]},
+// ─── CARDIO (3) ───
+{cat:"Cardio",type:"EMOM",duration:10,name:"HIIT Runner",desc:"10 min HIIT cardio pur. Plus efficace que 45 min de jogging stable pour brûler du gras.",movements:[
+  {name:"Chaque min : 30s sprint + 30s marche",img:"",mw:"",yt:"https://www.youtube.com/results?search_query=HIIT+running+30s+sprint"}]},
+{cat:"Cardio",type:"For Time",duration:null,name:"Row Sprint 5×500m",desc:"Cardio puissance sans impact articulaire. Améliore la VO2max, idéal protection du dos.",movements:[
+  {name:"5×500m Rameur (ou vélo équivalent)",img:"",mw:"",yt:"https://www.youtube.com/results?search_query=rowing+500m+sprint+form"},
+  {name:"90s repos entre chaque",img:"",mw:"",yt:""}]},
+{cat:"Cardio",type:"AMRAP",duration:10,name:"Jump Rope Ladder",desc:"Cardio + coordination + jambes. 10 min pour brûler 150-200 kcal, low-impact contrôlé.",movements:[
+  {name:"50 Jump Rope (ou jumping jacks)",img:I+"Jumping_Jacks/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-jumping-jack",yt:"https://www.youtube.com/results?search_query=jump+rope+form"},
+  {name:"10 Air Squats",img:I+"Bodyweight_Squat/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-squat",yt:"https://www.youtube.com/results?search_query=air+squat+form"},
+  {name:"5 Step-back Burpees",img:I+"Mountain_Climbers/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-burpee",yt:"https://www.youtube.com/results?search_query=step+back+burpee+form"}]}
 ]};
 
 // ─── WARMUPS ───
