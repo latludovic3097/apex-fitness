@@ -1,4 +1,4 @@
-# Impeccable Audit — APEX Fitness home dashboard
+# Impeccable Audit — FITStark home dashboard
 
 > Date : 2026-05-16
 > Commande : `/impeccable audite l'interface de frontend/index.html et améliore la hiérarchie visuelle du dashboard`

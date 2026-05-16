@@ -1,4 +1,4 @@
-﻿// APEX Fitness — Configuration Firebase
+// FITStark — Configuration Firebase
 //
 // 1. Va sur https://console.firebase.google.com et crée un projet (gratuit)
 // 2. Active Authentication → Sign-in method → Google (toggle on)

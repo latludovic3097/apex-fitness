@@ -1,4 +1,4 @@
-// APEX Fitness — Constantes et données de programme (immutables, sans logique)
+// FITStark — Constantes et données de programme (immutables, sans logique)
 // Sources : free-exercise-db (yuhonas, GitHub, domaine public) · MuscleWiki · USDA FoodData Central · Ciqual ANSES
 
 const I = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/";

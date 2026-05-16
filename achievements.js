@@ -1,4 +1,4 @@
-// APEX Fitness — Système d'achievements (badges débloquables)
+// FITStark — Système d'achievements (badges débloquables)
 // Chaque achievement a un id, label, description, icône, et une fonction `check(hist, S)`
 // qui renvoie { earned: boolean, progress: 0..1 (pour les progressifs) }
 

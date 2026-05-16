@@ -1,4 +1,4 @@
-# APEX Fitness v7.0 — Science-Based
+# FITStark v7.0 — Science-Based
 
 ## Fondements scientifiques
 

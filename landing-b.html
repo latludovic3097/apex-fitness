@@ -2,263 +2,1044 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>APEX Fitness — Musculation Push/Pull/Legs avec mode L5-S1</title>
-<meta name="description" content="App fitness 100% gratuite : programme PPL, mode lombaire sécurisé, auto-progression APRE, cardio, nutrition, sync cloud. Open-source. 0 pub.">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<title>FITStark — Musculation Push/Pull/Legs avec mode L4-L5-S1</title>
+<meta name="description" content="App fitness 100% gratuite : programme PPL, mode lombaire sécurisé, auto-progression APRE, cardio, nutrition, sync cloud. 0 pub.">
 <link rel="canonical" href="https://apexfit-da753.web.app/landing-b.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#fff;--fg:#0f172a;--muted:#64748b;--soft:#f8fafc;--accent:#E63946;--ok:#2A9D8F;--border:#e2e8f0}
-@media(prefers-color-scheme:dark){
-  :root{--bg:#0f172a;--fg:#f8fafc;--muted:#94a3b8;--soft:#1e293b;--border:#334155}
+/* ── TOKENS ── */
+:root {
+  --bg:       oklch(98.5% 0.005 35);
+  --bg-soft:  oklch(96.5% 0.006 35);
+  --surface:  oklch(99.5% 0.003 35);
+  --border:   oklch(91%   0.006 35);
+  --border-2: oklch(86%   0.008 35);
+  --tx:       oklch(14%   0.012 35);
+  --tx-2:     oklch(38%   0.008 35);
+  --tx-muted: oklch(56%   0.007 35);
+  --red:      oklch(52%   0.21  24);
+  --red-soft: oklch(52%   0.21  24 / 0.08);
+  --red-mid:  oklch(52%   0.21  24 / 0.16);
+  --teal:     oklch(57%   0.13  190);
+  --teal-soft:oklch(57%   0.13  190 / 0.10);
+  --font: 'Manrope', system-ui, sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
-body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased}
-.container{max-width:1100px;margin:0 auto;padding:0 24px}
-.narrow{max-width:820px}
-header{padding:18px 0;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10}
-header .container{display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:22px;font-weight:900;letter-spacing:4px;color:var(--accent);text-decoration:none}
-.nav-cta{padding:9px 18px;background:var(--accent);color:#fff;border-radius:9px;text-decoration:none;font-size:14px;font-weight:700}
-.btn{display:inline-block;padding:14px 28px;background:var(--accent);color:#fff;border-radius:11px;text-decoration:none;font-weight:700;font-family:inherit;border:none;cursor:pointer;font-size:15px;box-shadow:0 4px 14px rgba(230,57,70,.25);transition:transform .12s}
-.btn:hover{transform:translateY(-1px)}
-.btn-outline{background:transparent;color:var(--fg);border:1.5px solid var(--border);box-shadow:none}
 
-/* Hero */
-.hero{padding:80px 0 60px;text-align:center;background:linear-gradient(180deg,var(--soft),transparent)}
-.hero h1{font-size:54px;font-weight:900;line-height:1.1;margin-bottom:20px;letter-spacing:-1px}
-.hero h1 .accent{color:var(--accent)}
-.hero .tagline{font-size:20px;color:var(--muted);max-width:680px;margin:0 auto 32px}
-.hero .cta-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
-.proof-bar{display:flex;justify-content:center;gap:32px;font-size:13px;color:var(--muted);flex-wrap:wrap}
-.proof-bar span strong{color:var(--fg);font-weight:700}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:       oklch(13%  0.010 35);
+    --bg-soft:  oklch(17%  0.010 35);
+    --surface:  oklch(18%  0.010 35);
+    --border:   oklch(25%  0.010 35);
+    --border-2: oklch(30%  0.010 35);
+    --tx:       oklch(96%  0.005 35);
+    --tx-2:     oklch(75%  0.006 35);
+    --tx-muted: oklch(58%  0.006 35);
+    --red:      oklch(60%  0.21  24);
+    --teal:     oklch(65%  0.13  190);
+  }
+}
 
-/* For who */
-.section{padding:80px 0}
-.section.alt{background:var(--soft)}
-.section-eyebrow{font-size:13px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);text-align:center;font-weight:700;margin-bottom:12px}
-.section-title{font-size:38px;font-weight:900;text-align:center;margin-bottom:18px;letter-spacing:-.5px;max-width:760px;margin-left:auto;margin-right:auto;line-height:1.2}
-.section-sub{text-align:center;color:var(--muted);font-size:17px;max-width:600px;margin:0 auto 48px}
-.personas{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.persona{padding:28px;background:var(--bg);border:1px solid var(--border);border-radius:14px}
-.section.alt .persona{background:var(--bg)}
-.persona-emoji{font-size:38px;margin-bottom:14px}
-.persona h3{font-size:18px;font-weight:800;margin-bottom:10px}
-.persona p{color:var(--muted);font-size:14px;line-height:1.6}
-.persona .stat{font-size:12px;color:var(--accent);font-weight:700;margin-top:14px;text-transform:uppercase;letter-spacing:1px}
+/* ── RESET ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--tx);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button { font-family: inherit; cursor: pointer; }
 
-/* How it works */
-.steps{display:flex;flex-direction:column;gap:18px;max-width:780px;margin:0 auto}
-.step{display:flex;gap:22px;align-items:flex-start;padding:24px;background:var(--bg);border:1px solid var(--border);border-radius:14px}
-.section.alt .step{background:var(--bg)}
-.step-num{flex-shrink:0;width:44px;height:44px;border-radius:12px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px}
-.step h4{font-size:17px;font-weight:800;margin-bottom:6px}
-.step p{color:var(--muted);font-size:14px;line-height:1.6}
+/* ── LAYOUT ── */
+.wrap      { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+.wrap-mid  { max-width: 820px;  margin: 0 auto; padding: 0 28px; }
+.wrap-narrow { max-width: 640px; margin: 0 auto; padding: 0 28px; }
 
-/* Features grid */
-.features{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.feat{padding:28px;background:var(--bg);border:1px solid var(--border);border-radius:14px}
-.section.alt .feat{background:var(--bg)}
-.feat-emoji{font-size:28px;margin-bottom:14px}
-.feat h4{font-size:17px;font-weight:800;margin-bottom:8px}
-.feat p{color:var(--muted);font-size:14px;line-height:1.55}
+/* ── HEADER ── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  padding: 18px 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color 250ms var(--ease-out-expo),
+              background 250ms var(--ease-out-expo),
+              backdrop-filter 250ms var(--ease-out-expo);
+}
+.site-header.scrolled {
+  background: oklch(98.5% 0.005 35 / 0.85);
+  backdrop-filter: saturate(160%) blur(16px);
+  border-color: var(--border);
+}
+@media (prefers-color-scheme: dark) {
+  .site-header.scrolled { background: oklch(13% 0.010 35 / 0.88); }
+}
+.site-header .wrap {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo {
+  font-size: 19px; font-weight: 800; letter-spacing: 5px;
+  color: var(--red); text-decoration: none; text-transform: uppercase;
+}
+.nav-cta {
+  padding: 9px 20px;
+  background: var(--red); color: oklch(99% 0.003 35);
+  border-radius: 10px; text-decoration: none;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.3px;
+  transition: opacity 150ms, transform 150ms;
+}
+.nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
 
-/* Science / sources */
-.sources{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:880px;margin:0 auto}
-.source{padding:18px 22px;background:var(--bg);border:1px solid var(--border);border-radius:12px;font-size:14px;line-height:1.6}
-.section.alt .source{background:var(--bg)}
-.source strong{color:var(--accent);font-weight:700}
+/* ── HERO ── */
+.hero {
+  min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 0 60px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 45%,
+      oklch(52% 0.21 24 / 0.06) 0%,
+      transparent 70%),
+    radial-gradient(ellipse 40% 35% at 72% 20%,
+      oklch(57% 0.13 190 / 0.04) 0%,
+      transparent 60%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; }
+.badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  background: var(--red-soft);
+  border: 1px solid var(--red-mid);
+  border-radius: 100px;
+  font-size: 12px; font-weight: 700; color: var(--red);
+  letter-spacing: 0.2px;
+  margin-bottom: 28px;
+}
+.badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--red);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.7); }
+}
+.hero h1 {
+  font-size: clamp(44px, 7vw, 80px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -2.5px;
+  margin-bottom: 24px;
+  max-width: 820px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--red);
+}
+.hero-sub {
+  font-size: clamp(16px, 2.2vw, 20px);
+  color: var(--tx-2);
+  max-width: 580px;
+  line-height: 1.6;
+  margin-bottom: 36px;
+  font-weight: 500;
+}
+.cta-row {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  align-items: center; margin-bottom: 44px;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: var(--red); color: oklch(99% 0.003 35);
+  border: none; border-radius: 12px;
+  font-size: 15px; font-weight: 700; letter-spacing: 0.1px;
+  text-decoration: none;
+  transition: opacity 150ms var(--ease-out-expo),
+              transform 150ms var(--ease-out-expo);
+  box-shadow: 0 4px 20px oklch(52% 0.21 24 / 0.28);
+}
+.btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+.btn-ghost {
+  display: inline-flex; align-items: center;
+  padding: 14px 24px;
+  background: transparent;
+  border: 1.5px solid var(--border-2); border-radius: 12px;
+  font-size: 15px; font-weight: 600; color: var(--tx-2);
+  text-decoration: none;
+  transition: border-color 150ms, color 150ms, transform 150ms;
+}
+.btn-ghost:hover { border-color: var(--tx-muted); color: var(--tx); transform: translateY(-1px); }
+.proof-row {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.proof-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 13px; font-weight: 600; color: var(--tx-2);
+}
+.proof-pill svg { flex-shrink: 0; }
 
-/* Pricing */
-.pricing{max-width:480px;margin:0 auto;text-align:center;padding:40px 32px;background:var(--bg);border:2px solid var(--accent);border-radius:18px;box-shadow:0 8px 30px rgba(230,57,70,.10)}
-.pricing .price{font-size:60px;font-weight:900;margin:10px 0;color:var(--accent);letter-spacing:-2px}
-.pricing .price span{font-size:18px;color:var(--muted);font-weight:500}
-.pricing ul{list-style:none;text-align:left;margin:24px 0 28px}
-.pricing li{padding:8px 0;font-size:14px;display:flex;align-items:flex-start;gap:10px}
-.pricing li::before{content:"✓";color:var(--ok);font-weight:900;flex-shrink:0}
+/* ── SECTIONS ── */
+.section { padding: 100px 0; }
+.section-alt { background: var(--bg-soft); }
 
-/* FAQ */
-.faq{max-width:780px;margin:0 auto}
-.faq details{padding:18px 22px;background:var(--bg);border:1px solid var(--border);border-radius:12px;margin-bottom:10px}
-.section.alt .faq details{background:var(--bg)}
-.faq summary{font-weight:700;cursor:pointer;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center}
-.faq summary::after{content:"+";color:var(--accent);font-size:22px;font-weight:300}
-.faq details[open] summary::after{content:"−"}
-.faq details[open]{border-color:var(--accent)}
-.faq p{margin-top:14px;color:var(--muted);font-size:14px;line-height:1.7}
+.kicker {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--red);
+  margin-bottom: 16px;
+}
+.section-h2 {
+  font-size: clamp(30px, 4.5vw, 52px);
+  font-weight: 800; letter-spacing: -1.5px;
+  line-height: 1.1; margin-bottom: 20px;
+}
+.section-sub {
+  font-size: 17px; color: var(--tx-2);
+  max-width: 62ch; line-height: 1.7; font-weight: 500;
+  margin-bottom: 60px;
+}
 
-/* Final CTA */
-.final{padding:100px 0;text-align:center;background:linear-gradient(135deg,var(--accent) 0%,#264653 100%);color:#fff}
-.final h2{font-size:42px;font-weight:900;margin-bottom:16px;letter-spacing:-.5px}
-.final p{font-size:18px;opacity:.9;margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto}
-.final .btn{background:#fff;color:var(--accent);box-shadow:0 6px 24px rgba(0,0,0,.2)}
+/* ── PERSONAS ── */
+.personas-layout {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.persona-primary {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  position: relative; overflow: hidden;
+}
+.persona-primary::after {
+  content: '';
+  position: absolute; bottom: 0; right: 0;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, oklch(52% 0.21 24 / 0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.persona-stat-big {
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 800; letter-spacing: -3px;
+  color: var(--red); line-height: 1;
+  margin-bottom: 8px;
+}
+.persona-stat-label {
+  font-size: 17px; color: var(--tx-muted); font-weight: 600;
+  margin-bottom: 28px;
+}
+.persona-primary h3 {
+  font-size: 22px; font-weight: 800; margin-bottom: 14px;
+  letter-spacing: -0.4px;
+}
+.persona-primary p {
+  font-size: 15px; color: var(--tx-2); line-height: 1.7; font-weight: 500;
+}
+.personas-stack { display: flex; flex-direction: column; gap: 16px; }
+.persona-secondary {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 32px;
+}
+.persona-secondary .stat {
+  font-size: 28px; font-weight: 800; letter-spacing: -1px;
+  color: var(--teal); margin-bottom: 6px; line-height: 1;
+}
+.persona-secondary h3 {
+  font-size: 17px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.3px;
+}
+.persona-secondary p {
+  font-size: 14px; color: var(--tx-2); line-height: 1.65; font-weight: 500;
+}
 
-/* Footer */
-footer{padding:48px 0;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
-footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
-footer a{color:var(--muted);text-decoration:none;margin-right:18px}
-footer a:hover{color:var(--fg)}
+/* ── STEPS ── */
+.steps-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+}
+.steps-layout::before {
+  content: '';
+  position: absolute;
+  top: 36px; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--border) 10%,
+    var(--border) 90%,
+    transparent 100%);
+}
+.step-item {
+  padding: 16px 20px 16px 0;
+  position: relative;
+}
+.step-num-ghost {
+  font-size: 72px; font-weight: 800; letter-spacing: -4px;
+  color: var(--tx); opacity: 0.045; line-height: 1;
+  margin-bottom: -12px;
+  font-variant-numeric: tabular-nums;
+}
+.step-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--red);
+  margin-bottom: 20px;
+  box-shadow: 0 0 0 4px var(--red-soft);
+}
+.step-item h4 {
+  font-size: 15px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.2px;
+}
+.step-item p {
+  font-size: 13px; color: var(--tx-muted); line-height: 1.6; font-weight: 500;
+}
 
-@media(max-width:760px){
-  .hero h1{font-size:38px}
-  .hero .tagline{font-size:16px}
-  .section-title{font-size:28px}
-  .personas,.features,.sources{grid-template-columns:1fr}
-  .final h2{font-size:30px}
-  .section{padding:60px 0}
-  .proof-bar{gap:18px}
+/* ── FEATURES ── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto auto;
+  gap: 14px;
+}
+.feat {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 28px 30px;
+  transition: border-color 200ms, transform 200ms var(--ease-out-expo),
+              box-shadow 200ms var(--ease-out-expo);
+}
+.feat:hover {
+  border-color: var(--border-2);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px oklch(14% 0.012 35 / 0.07);
+}
+.feat.feat-wide { grid-column: span 2; }
+.feat.feat-tinted { background: var(--red-soft); border-color: var(--red-mid); }
+.feat.feat-tinted-teal { background: var(--teal-soft); border-color: oklch(57% 0.13 190 / 0.2); }
+.feat-icon {
+  width: 36px; height: 36px; margin-bottom: 18px;
+  color: var(--red);
+}
+.feat.feat-tinted-teal .feat-icon { color: var(--teal); }
+.feat h4 {
+  font-size: 16px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.2px;
+}
+.feat p {
+  font-size: 14px; color: var(--tx-2); line-height: 1.65; font-weight: 500;
+}
+
+/* ── SCIENCE TABLE ── */
+.science-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 14px;
+}
+.science-table thead th {
+  text-align: left; padding: 10px 20px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--tx-muted);
+  border-bottom: 1px solid var(--border);
+}
+.science-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 150ms;
+}
+.science-table tbody tr:last-child { border-bottom: none; }
+.science-table tbody tr:hover { background: var(--bg-soft); }
+.science-table td {
+  padding: 16px 20px;
+  vertical-align: top;
+  font-weight: 500;
+  color: var(--tx-2);
+}
+.science-table td:first-child {
+  font-weight: 700; color: var(--tx); white-space: nowrap;
+}
+.science-table td:nth-child(2) {
+  color: var(--red); font-weight: 700; white-space: nowrap;
+}
+.science-table td:last-child { color: var(--tx-2); }
+
+/* ── PRICING ── */
+.pricing-wrap { display: flex; justify-content: center; }
+.pricing-card {
+  width: 100%; max-width: 460px;
+  background: var(--surface);
+  border: 2px solid var(--red);
+  border-radius: 24px;
+  padding: 44px 40px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 8px 40px oklch(52% 0.21 24 / 0.12);
+}
+.pricing-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 90% 50% at 50% 0%,
+    oklch(52% 0.21 24 / 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.pricing-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--tx-muted);
+  margin-bottom: 12px;
+}
+.pricing-price {
+  font-size: 96px; font-weight: 800; letter-spacing: -6px;
+  color: var(--red); line-height: 1;
+  margin-bottom: 4px;
+}
+.pricing-price span {
+  font-size: 20px; font-weight: 600; letter-spacing: -0.5px;
+  color: var(--tx-muted);
+}
+.pricing-sub {
+  font-size: 13px; color: var(--tx-muted); font-weight: 600;
+  margin-bottom: 32px;
+}
+.pricing-divider {
+  height: 1px; background: var(--border); margin-bottom: 28px;
+}
+.pricing-list {
+  list-style: none; display: flex; flex-direction: column; gap: 14px;
+  margin-bottom: 32px;
+}
+.pricing-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 14px; font-weight: 600; color: var(--tx-2);
+}
+.pricing-list li svg { flex-shrink: 0; color: var(--teal); margin-top: 2px; }
+.pricing-btn {
+  display: block; width: 100%;
+  padding: 15px;
+  background: var(--red); color: oklch(99% 0.003 35);
+  border: none; border-radius: 12px;
+  font-size: 15px; font-weight: 800; letter-spacing: 0.2px;
+  text-align: center; text-decoration: none;
+  transition: opacity 150ms, transform 150ms;
+}
+.pricing-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* ── FAQ ── */
+.faq-list { display: flex; flex-direction: column; gap: 8px; }
+details.faq-item {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 200ms;
+}
+details.faq-item[open] { border-color: var(--red); }
+details.faq-item summary {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px;
+  font-size: 15px; font-weight: 700; letter-spacing: -0.2px;
+  cursor: pointer; list-style: none; user-select: none;
+  gap: 16px;
+}
+details.faq-item summary::-webkit-details-marker { display: none; }
+.faq-chevron {
+  flex-shrink: 0; transition: transform 250ms var(--ease-out-expo);
+  color: var(--tx-muted);
+}
+details.faq-item[open] .faq-chevron { transform: rotate(180deg); }
+.faq-body {
+  padding: 0 24px 22px;
+  font-size: 14px; color: var(--tx-2); line-height: 1.75; font-weight: 500;
+}
+.faq-body a { color: var(--red); font-weight: 600; }
+
+/* ── FINAL CTA ── */
+.final-cta {
+  padding: 120px 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 50%, oklch(45% 0.20 24) 0%, transparent 60%),
+    oklch(18% 0.015 35);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.final-cta::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 40% at 75% 50%,
+    oklch(57% 0.13 190 / 0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.final-cta .wrap { position: relative; z-index: 1; }
+.final-cta h2 {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 800; letter-spacing: -2px; line-height: 1.1;
+  color: oklch(97% 0.004 35);
+  margin-bottom: 16px;
+}
+.final-cta p {
+  font-size: 18px; color: oklch(75% 0.006 35);
+  margin-bottom: 40px; font-weight: 500; max-width: 50ch;
+  margin-left: auto; margin-right: auto;
+}
+.btn-final {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 16px 36px;
+  background: oklch(97% 0.004 35); color: var(--red);
+  border: none; border-radius: 14px;
+  font-size: 16px; font-weight: 800; letter-spacing: 0.1px;
+  text-decoration: none;
+  transition: opacity 150ms, transform 150ms;
+  box-shadow: 0 4px 24px oklch(5% 0.01 35 / 0.4);
+}
+.btn-final:hover { opacity: 0.94; transform: translateY(-2px); }
+
+/* ── FOOTER ── */
+.site-footer {
+  padding: 48px 0; border-top: 1px solid var(--border);
+  font-size: 13px; color: var(--tx-muted);
+}
+.site-footer .wrap {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+}
+.footer-links a {
+  color: var(--tx-muted); text-decoration: none; margin-right: 18px; font-weight: 600;
+  transition: color 150ms;
+}
+.footer-links a:hover { color: var(--tx); }
+
+/* ── ANIMATION BASE ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 500ms var(--ease-out-expo),
+              transform 500ms var(--ease-out-expo);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-d1 { transition-delay: 80ms; }
+.reveal-d2 { transition-delay: 160ms; }
+.reveal-d3 { transition-delay: 240ms; }
+.reveal-d4 { transition-delay: 320ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .badge-dot { animation: none; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .personas-layout { grid-template-columns: 1fr; }
+  .steps-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .steps-layout::before { display: none; }
+  .step-item { padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .step-item:last-child { border-bottom: none; }
+  .step-num-ghost { font-size: 48px; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .feat.feat-wide { grid-column: span 2; }
+  .science-table thead { display: none; }
+  .science-table tbody tr { display: block; padding: 16px 0; }
+  .science-table td {
+    display: block; padding: 4px 0; border: none;
+    white-space: normal;
+  }
+  .science-table td:first-child { font-size: 15px; }
+  .science-table td:nth-child(2) { font-size: 13px; }
+}
+@media (max-width: 600px) {
+  .wrap, .wrap-mid, .wrap-narrow { padding: 0 20px; }
+  .section { padding: 72px 0; }
+  .features-grid { grid-template-columns: 1fr; }
+  .feat.feat-wide { grid-column: span 1; }
+  .cta-row { flex-direction: column; align-items: flex-start; }
+  .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+  .final-cta { padding: 80px 0; }
+  .site-footer .wrap { flex-direction: column; align-items: flex-start; }
+  .pricing-price { font-size: 72px; }
+  .pricing-card { padding: 32px 24px; }
+}
+
+/* DONATION */
+.donation {
+  padding: 80px 0;
+  text-align: center;
+  border-top: 1px solid oklch(90% 0.005 250);
+}
+@media(prefers-color-scheme:dark){
+  .donation { border-color: oklch(22% 0.005 250); }
+}
+.donation-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: oklch(97% 0.01 15);
+  margin-bottom: 20px;
+}
+@media(prefers-color-scheme:dark){
+  .donation-icon { background: oklch(20% 0.01 15); }
+}
+.donation-icon svg { color: var(--ac); }
+.donation h2 {
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+  color: oklch(15% 0.005 250);
+}
+@media(prefers-color-scheme:dark){
+  .donation h2 { color: oklch(92% 0.005 250); }
+}
+.donation p {
+  font-size: 16px;
+  color: oklch(45% 0.01 250);
+  max-width: 480px;
+  margin: 0 auto 28px;
+  line-height: 1.65;
+}
+@media(prefers-color-scheme:dark){
+  .donation p { color: oklch(60% 0.01 250); }
+}
+.btn-donate {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: 1.5px solid oklch(75% 0.18 15);
+  border-radius: 10px;
+  background: transparent;
+  color: oklch(40% 0.18 15);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+}
+.btn-donate:hover {
+  background: oklch(40% 0.18 15);
+  color: oklch(97% 0.005 250);
+}
+@media(prefers-color-scheme:dark){
+  .btn-donate { color: oklch(72% 0.18 15); border-color: oklch(45% 0.18 15); }
+  .btn-donate:hover { background: oklch(40% 0.18 15); color: oklch(97% 0.005 250); }
+}
+.donation-note {
+  margin-top: 14px;
+  font-size: 13px;
+  color: oklch(58% 0.008 250);
 }
 </style>
 </head>
 <body>
-<header>
-  <div class="container">
-    <a href="#" class="logo">APEX</a>
+
+<header class="site-header" id="site-header">
+  <div class="wrap">
+    <a href="#" class="logo">FITStark</a>
     <a href="/" class="nav-cta">Lancer l'app</a>
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="container">
-    <h1>L'app de musculation qui<br><span class="accent">s'adapte à ton dos.</span></h1>
-    <p class="tagline">Push/Pull/Legs avec mode L5-S1 sécurisé, progression scientifique APRE et sync cloud. 100% gratuit, open-source, sans pub.</p>
-    <div class="cta-group">
-      <a href="/" class="btn">🚀 Lancer l'app gratuitement</a>
-      <a href="#how" class="btn btn-outline">Voir comment ça marche</a>
+  <div class="wrap hero-inner">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Classé #1 SUCRA 93% — Huang 2025
     </div>
-    <div class="proof-bar">
-      <span>✓ <strong>Open source</strong> sur GitHub</span>
-      <span>✓ <strong>Zéro</strong> publicité</span>
-      <span>✓ <strong>RGPD</strong>-compliant</span>
-      <span>✓ <strong>Marche offline</strong> (PWA)</span>
+    <h1>Un programme de sport<br><em>adapté à tes faiblesses.</em></h1>
+    <p class="hero-sub">Push/Pull/Legs avec mode L4-L5-S1 sécurisé, progression scientifique APRE et sync cloud. 100% gratuit, sans pub.</p>
+    <div class="cta-row">
+      <a href="/" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Lancer l'app gratuitement
+      </a>
+      <a href="#how" class="btn-ghost">Voir comment ça marche</a>
     </div>
-  </div>
-</section>
-
-<section class="section alt">
-  <div class="container">
-    <div class="section-eyebrow">Pour qui ?</div>
-    <h2 class="section-title">Conçue pour 3 profils négligés par les autres apps.</h2>
-    <p class="section-sub">23 à 53 % des lifters ont des douleurs lombaires (Training Room NOLA 2023). Aucune autre app ne s'y adapte.</p>
-    <div class="personas">
-      <div class="persona">
-        <div class="persona-emoji">🏥</div>
-        <h3>Le lifter blessé</h3>
-        <p>Hernie L5-S1, protrusion, sciatique. Tu veux continuer la muscu sans rechute. APEX bloque les mouvements dangereux et propose des substitutions automatiques.</p>
-        <div class="stat">46-106M de personnes dans le monde</div>
-      </div>
-      <div class="persona">
-        <div class="persona-emoji">📈</div>
-        <h3>L'intermédiaire structuré</h3>
-        <p>Tu plafonnes. Tu veux un programme PPL périodisé sans payer 50 €/mois un coach. Le protocole APRE classé #1 mondial fait le boulot.</p>
-        <div class="stat">SUCRA 93 % — méta-analyse Huang 2025</div>
-      </div>
-      <div class="persona">
-        <div class="persona-emoji">🔥</div>
-        <h3>Le CrossFitter hybride</h3>
-        <p>Tu veux tracker la force ET les WODs dans une seule app. APEX a 20+ WODs rotatifs (AMRAP, EMOM, Tabata) intégrés à chaque session.</p>
-        <div class="stat">15 WODs par cycle PPL</div>
-      </div>
+    <div class="proof-row">
+      <span class="proof-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        100% gratuite
+      </span>
+      <span class="proof-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Zéro publicité
+      </span>
+      <span class="proof-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        RGPD-compliant
+      </span>
+      <span class="proof-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Marche offline (PWA)
+      </span>
     </div>
   </div>
 </section>
 
+<!-- PERSONAS -->
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="reveal"><span class="kicker">Pour qui ?</span></div>
+    <h2 class="section-h2 reveal reveal-d1">Conçue pour 3 profils négligés<br>par les autres apps.</h2>
+    <p class="section-sub reveal reveal-d2">23 à 53 % des lifters ont des douleurs lombaires (Training Room NOLA 2023) — et bien d'autres souffrent d'épaules, genoux, poignets ou coudes. Aucune autre app ne s'y adapte vraiment.</p>
+    <div class="personas-layout">
+      <div class="persona-primary reveal">
+        <div class="persona-stat-big">46M+</div>
+        <div class="persona-stat-label">personnes dans le monde avec une hernie L4-L5-S1</div>
+        <h3>personnes atteintes de</h3>
+        <p>Hernie L4-L5-S1, protrusion, sciatique. Tu veux continuer la muscu sans rechute. FITStark bloque les mouvements dangereux et propose des substitutions automatiques.</p>
+      </div>
+      <div class="personas-stack">
+        <div class="persona-secondary reveal reveal-d1">
+          <div class="stat">93%</div>
+          <h3>L'intermédiaire structuré</h3>
+          <p>Tu plafonnes. Tu veux un programme PPL périodisé sans payer 50 €/mois un coach. Le protocole APRE classé #1 mondial fait le boulot.</p>
+        </div>
+        <div class="persona-secondary reveal reveal-d2">
+          <div class="stat">15+</div>
+          <h3>Le CrossFitter hybride</h3>
+          <p>Tu veux tracker la force ET les WODs dans une seule app. FITStark a 20+ WODs rotatifs (AMRAP, EMOM, Tabata) intégrés à chaque session.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
 <section class="section" id="how">
-  <div class="container narrow">
-    <div class="section-eyebrow">Comment ça marche</div>
-    <h2 class="section-title">De zéro à ta première séance en 30 secondes.</h2>
-    <div class="steps">
-      <div class="step"><div class="step-num">1</div><div><h4>Pas de téléchargement</h4><p>L'app marche directement dans ton navigateur (PWA). Tu peux l'installer en 1 clic sur ton écran d'accueil ensuite.</p></div></div>
-      <div class="step"><div class="step-num">2</div><div><h4>Sélectionne ton profil</h4><p>Sexe, poids, taille, objectif (force / hyper / sèche). 20 secondes. Optionnel : pathologies (lombaires, épaules, genoux…).</p></div></div>
-      <div class="step"><div class="step-num">3</div><div><h4>Lance ta session recommandée</h4><p>L'app détermine quel jour est le plus pertinent (Push / Pull / Legs) selon ton historique. Charges pré-suggérées via APRE.</p></div></div>
-      <div class="step"><div class="step-num">4</div><div><h4>Track tes sets en temps réel</h4><p>Kg + reps + RIR. Sauvegarde automatique. Timer intégré qui garde l'écran allumé. Bip à la fin du repos.</p></div></div>
-      <div class="step"><div class="step-num">5</div><div><h4>Sync entre tes appareils (optionnel)</h4><p>Un clic "Se connecter avec Google" et tes données te suivent partout. Sinon, tout reste local sur ton appareil.</p></div></div>
+  <div class="wrap">
+    <div class="reveal"><span class="kicker">Comment ça marche</span></div>
+    <h2 class="section-h2 reveal reveal-d1">Démarre ta première séance<br>en 30 secondes.</h2>
+    <div class="steps-layout">
+      <div class="step-item reveal">
+        <div class="step-num-ghost">1</div>
+        <div class="step-dot"></div>
+        <h4>Pas de téléchargement</h4>
+        <p>L'app marche directement dans ton navigateur (PWA). Tu peux l'installer en 1 clic sur ton écran d'accueil.</p>
+      </div>
+      <div class="step-item reveal reveal-d1">
+        <div class="step-num-ghost">2</div>
+        <div class="step-dot"></div>
+        <h4>Sélectionne ton profil</h4>
+        <p>Sexe, poids, taille, objectif. 20 secondes. Optionnel : pathologies (lombaires, épaules, genoux).</p>
+      </div>
+      <div class="step-item reveal reveal-d2">
+        <div class="step-num-ghost">3</div>
+        <div class="step-dot"></div>
+        <h4>Lance ta session</h4>
+        <p>L'app détermine le jour le plus pertinent selon ton historique. Charges pré-suggérées via APRE.</p>
+      </div>
+      <div class="step-item reveal reveal-d3">
+        <div class="step-num-ghost">4</div>
+        <div class="step-dot"></div>
+        <h4>Track tes sets</h4>
+        <p>Kg + reps + RIR. Sauvegarde automatique. Timer intégré. Bip à la fin du repos.</p>
+      </div>
+      <div class="step-item reveal reveal-d4">
+        <div class="step-num-ghost">5</div>
+        <div class="step-dot"></div>
+        <h4>Sync optionnel</h4>
+        <p>Un clic "Se connecter avec Google" et tes données te suivent partout. Sinon, tout reste local.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section alt">
-  <div class="container">
-    <div class="section-eyebrow">Features</div>
-    <h2 class="section-title">10 fonctionnalités. Toutes gratuites.</h2>
-    <div class="features">
-      <div class="feat"><div class="feat-emoji">💪</div><h4>Programme PPL complet</h4><p>3 sessions, 40+ exercices, accessoires en rotation LRU (Helms/RTS), pools variés pour stimuler tous les chefs musculaires.</p></div>
-      <div class="feat"><div class="feat-emoji">🎯</div><h4>Auto-progression APRE</h4><p>Table d'ajustement Force / Hypertrophie / Deload. Tu ne devines plus quelle charge mettre — l'app le calcule à partir du dernier set.</p></div>
-      <div class="feat"><div class="feat-emoji">🏥</div><h4>5 pathologies supportées</h4><p>L5-S1, épaules, genoux, poignets, coudes. Alertes contextuelles + substitutions automatiques (~30 exos annotés).</p></div>
-      <div class="feat"><div class="feat-emoji">🗺️</div><h4>Carte musculaire interactive</h4><p>Anatomie détaillée Wikimedia. Heat-map de fraîcheur (vert → rouge). Click sur un muscle pour voir volume, 1RM, dernier entraînement.</p></div>
-      <div class="feat"><div class="feat-emoji">🥬</div><h4>Nutrition Mifflin-St Jeor</h4><p>Calcul BMR/TDEE + macros (protéines/lipides/glucides) + DB de 50+ aliments avec densité protéique. Suivi du poids avec graphique.</p></div>
-      <div class="feat"><div class="feat-emoji">🏃</div><h4>Cardio + Core 12 sem</h4><p>Course, nage, vélo avec dérivés (allure, FC zones Seiler). Programme Core Heavy L5-S1 safe (Pallof + Suitcase Carry McGill).</p></div>
-      <div class="feat"><div class="feat-emoji">🏆</div><h4>Achievements + Calendar</h4><p>14 badges (premier PR, streak 7j, anatomie complète…). Heatmap GitHub-style 12 semaines. Calcul de streak automatique.</p></div>
-      <div class="feat"><div class="feat-emoji">📸</div><h4>Partage social</h4><p>Génère une image carrée 1080×1080 de ta séance pour Instagram/Story. Web Share API native, fallback download direct.</p></div>
+<!-- FEATURES -->
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="reveal"><span class="kicker">Features</span></div>
+    <h2 class="section-h2 reveal reveal-d1">10 fonctionnalités.<br>Toutes gratuites.</h2>
+    <div class="features-grid" style="margin-top: 48px;">
+      <!-- Large: PPL -->
+      <div class="feat feat-wide feat-tinted reveal">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        <h4>Programme PPL — Push / Pull / Legs</h4>
+        <p>3 sessions, 40+ exercices, accessoires en rotation LRU (Helms/RTS), pools variés pour stimuler tous les chefs musculaires.</p>
+      </div>
+      <!-- APRE -->
+      <div class="feat reveal reveal-d1">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <h4>Auto-progression APRE</h4>
+        <p>Table d'ajustement Force / Hypertrophie / Deload. L'app calcule ta prochaine charge à partir du dernier set.</p>
+      </div>
+      <!-- Pathologies -->
+      <div class="feat reveal reveal-d2">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        <h4>5 pathologies supportées</h4>
+        <p>L4-L5-S1, épaules, genoux, poignets, coudes. Alertes contextuelles et substitutions automatiques sur 30 exos annotés.</p>
+      </div>
+      <!-- Carte musculaire -->
+      <div class="feat feat-tinted-teal reveal reveal-d3">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <h4>Carte musculaire interactive</h4>
+        <p>Anatomie détaillée Wikimedia. Heat-map de fraîcheur. Click sur un muscle pour voir volume, 1RM, dernier entraînement.</p>
+      </div>
+      <!-- Nutrition -->
+      <div class="feat reveal">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h4>Nutrition Mifflin-St Jeor</h4>
+        <p>Calcul BMR/TDEE + macros + base de données de 50+ aliments avec densité protéique. Suivi du poids avec graphique.</p>
+      </div>
+      <!-- Cardio -->
+      <div class="feat reveal reveal-d1">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <h4>Cardio + Core 12 sem</h4>
+        <p>Course, nage, vélo avec dérivés. Programme Core Heavy L4-L5-S1 safe (Pallof + Suitcase Carry McGill).</p>
+      </div>
+      <!-- Achievements -->
+      <div class="feat reveal reveal-d2">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        <h4>Succès + Calendrier</h4>
+        <p>14 badges débloquables. Heatmap 12 semaines. Calcul de streak automatique.</p>
+      </div>
+      <!-- Partage -->
+      <div class="feat reveal reveal-d3">
+        <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <h4>Partage social</h4>
+        <p>Génère une image carrée 1080×1080 de ta séance pour Instagram/Story. Web Share API native, fallback download.</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- SCIENCE -->
 <section class="section">
-  <div class="container">
-    <div class="section-eyebrow">Sources scientifiques</div>
-    <h2 class="section-title">Aucune affirmation sans publication peer-reviewed.</h2>
-    <p class="section-sub">Chaque protocole et chaque chiffre cité est traçable. Pas de gourou, pas de "secret de coach", juste de la littérature scientifique.</p>
-    <div class="sources">
-      <div class="source"><strong>APRE progression</strong><br>Huang et al. 2025 (Shanghai University of Sport) — méta-analyse réseau, classement #1 (SUCRA 93 % squat, bench).</div>
-      <div class="source"><strong>Mode lombaire</strong><br>McGill 2015-2016 — Back Mechanic + Ultimate Back Fitness. Protocole McGill Big 3 + substitutions.</div>
-      <div class="source"><strong>Estimation 1RM</strong><br>DiStasio 2014 — Epley/Brzycki validés (±2.7 kg à 3RM). Mayhew pour >10 reps.</div>
-      <div class="source"><strong>RIR-based training</strong><br>Larsen 2021 + Zhang 2021 — RIR-RPE supérieur aux protocoles à % fixe.</div>
-      <div class="source"><strong>Deload timing</strong><br>Sports Med Open 2024 (246 athlètes) — deload optimal toutes les 5.6 semaines.</div>
-      <div class="source"><strong>Nutrition</strong><br>Mifflin-St Jeor 1990 + Helms 2014 (protéines 2g/kg pour préservation musculaire en déficit).</div>
+  <div class="wrap">
+    <div class="reveal"><span class="kicker">Sources scientifiques</span></div>
+    <h2 class="section-h2 reveal reveal-d1">Aucune affirmation sans<br>étude scientifique vérifiée.</h2>
+    <p class="section-sub reveal reveal-d2">Chaque protocole et chaque chiffre cité est traçable. Pas de gourou, pas de "secret de coach", juste de la littérature scientifique.</p>
+    <div class="reveal reveal-d3" style="border: 1.5px solid var(--border); border-radius: 18px; overflow: hidden;">
+      <table class="science-table">
+        <thead>
+          <tr>
+            <th>Protocole</th>
+            <th>Source</th>
+            <th>Résultat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>APRE progression</td>
+            <td>Huang 2025</td>
+            <td>Méta-analyse réseau, Shanghai University of Sport — classement #1 (SUCRA 93% squat, bench).</td>
+          </tr>
+          <tr>
+            <td>Mode lombaire</td>
+            <td>McGill 2015-16</td>
+            <td>Back Mechanic + Ultimate Back Fitness. Protocole McGill Big 3 et substitutions.</td>
+          </tr>
+          <tr>
+            <td>Estimation 1RM</td>
+            <td>DiStasio 2014</td>
+            <td>Epley/Brzycki validés (±2.7 kg à 3RM). Mayhew pour plus de 10 reps.</td>
+          </tr>
+          <tr>
+            <td>RIR-based training</td>
+            <td>Larsen 2021, Zhang 2021</td>
+            <td>RIR-RPE supérieur aux protocoles à pourcentage fixe.</td>
+          </tr>
+          <tr>
+            <td>Deload timing</td>
+            <td>Sports Med Open 2024</td>
+            <td>Étude sur 246 athlètes : deload optimal toutes les 5.6 semaines.</td>
+          </tr>
+          <tr>
+            <td>Nutrition</td>
+            <td>Mifflin 1990, Helms 2014</td>
+            <td>BMR/TDEE + protéines 2g/kg pour préservation musculaire en déficit.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
 
-<section class="section alt">
-  <div class="container">
-    <div class="section-eyebrow">Prix</div>
-    <h2 class="section-title">Gratuit. Pour toujours. Vraiment.</h2>
-    <p class="section-sub">Open-source sur GitHub. Pas de freemium déguisé, pas de paywall qui débarque dans 6 mois.</p>
-    <div class="pricing">
-      <div style="font-size:14px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:1px">APEX Fitness</div>
-      <div class="price">0 €<span>/à vie</span></div>
-      <ul>
-        <li>Programme PPL complet + WODs rotatifs</li>
-        <li>5 pathologies (L5-S1, épaules, genoux, poignets, coudes)</li>
-        <li>Auto-progression APRE</li>
-        <li>Cardio + Core 12 sem + Nutrition</li>
-        <li>Carte musculaire interactive</li>
-        <li>Sync cloud multi-appareils (Google)</li>
-        <li>Export CSV / JSON</li>
-        <li>Aucune pub, aucun tracking</li>
-      </ul>
-      <a href="/" class="btn" style="width:100%">Commencer maintenant</a>
+<!-- PRICING -->
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center;"><span class="kicker">Prix</span></div>
+    <h2 class="section-h2 reveal reveal-d1" style="text-align:center; margin-bottom:14px;">Gratuit, sans frais et sans carte bancaire.</h2>
+    <p class="section-sub reveal reveal-d2" style="text-align:center; margin-left:auto; margin-right:auto;">Pas de formule cachée, pas d'accès payant qui débarque dans 6 mois.</p>
+    <div class="pricing-wrap">
+      <div class="pricing-card reveal reveal-d3">
+        <div class="pricing-label">FITStark</div>
+        <div class="pricing-price">0 €</div>
+        <div class="pricing-sub">Gratuit. Aucune carte requise.</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-list">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Programme Push / Pull / Legs + WODs rotatifs
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            5 pathologies (L4-L5-S1, épaules, genoux, poignets, coudes)
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Auto-progression APRE
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Cardio + Core 12 sem + Nutrition
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Carte musculaire interactive
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Sauvegarde Cloud Google (multi-appareils)
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Export fichier sauvegarde
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Aucune pub, aucun tracking
+          </li>
+        </ul>
+        <a href="/" class="pricing-btn">Commencer maintenant</a>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- FAQ -->
 <section class="section">
-  <div class="container narrow">
-    <div class="section-eyebrow">FAQ</div>
-    <h2 class="section-title">Questions fréquentes.</h2>
-    <div class="faq">
-      <details><summary>Pourquoi gratuit alors ? C'est louche.</summary><p>L'app est open-source et développée à titre personnel. Pas de structure commerciale derrière, donc pas de coût d'acquisition / marketing / équipe à amortir. L'hébergement Firebase coûte 0 € jusqu'à 1 GB de stockage. Si un jour l'app a 10 000 utilisateurs actifs, on étudiera un don ou un tier premium optionnel — jamais de pub.</p></details>
-      <details><summary>C'est vraiment safe pour mon dos ?</summary><p>L'app suit les protocoles publiés (McGill). Mais elle n'est <strong>pas un dispositif médical</strong>. Si tu as une pathologie diagnostiquée, consulte ton kinésithérapeute avant. Le mode L5-S1 réduit les risques par rapport à un programme standard, il ne les élimine pas.</p></details>
-      <details><summary>Mes données sont en sécurité ?</summary><p>Par défaut, tout reste sur ton appareil (localStorage). Si tu actives la sync cloud (Google sign-in), les données sont stockées dans Firestore avec des Security Rules qui n'autorisent QUE toi à accéder à ton document. Aucune analyse, aucun partage, aucune monétisation.</p></details>
-      <details><summary>Pourquoi pas une vraie app iOS / Android ?</summary><p>C'est une PWA — Progressive Web App. Tu l'installes sur ton écran d'accueil en 1 clic et elle se comporte comme une app native (offline, notifications, plein écran). Avantage : 1 seul code à maintenir, déploiement instantané, zéro store fees, marche partout.</p></details>
-      <details><summary>Je peux contribuer ?</summary><p>Yes. Le code est sur <a href="https://github.com/latludovic3097/apex-fitness" target="_blank">GitHub</a>. Issues bienvenues, pull requests aussi. Tu peux aussi juste partager l'app autour de toi.</p></details>
+  <div class="wrap-mid">
+    <div class="reveal"><span class="kicker">FAQ</span></div>
+    <h2 class="section-h2 reveal reveal-d1" style="margin-bottom:48px;">Questions fréquentes.</h2>
+    <div class="faq-list">
+      <details class="faq-item reveal">
+        <summary>
+          Pourquoi l'application est gratuite ?
+          <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">L'app est développée à titre personnel. Pas de structure commerciale derrière, donc pas de coût d'acquisition, de marketing ou d'équipe à amortir. L'hébergement Firebase coûte 0 € jusqu'à 1 GB de stockage. Si un jour l'app a 10 000 utilisateurs actifs, on étudiera un don ou un tier premium optionnel. Jamais de pub.</div>
+      </details>
+      <details class="faq-item reveal reveal-d1">
+        <summary>
+          C'est vraiment safe pour mon dos ?
+          <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">L'app suit les protocoles publiés (McGill). Mais elle n'est <strong>pas un dispositif médical</strong>. Si tu as une pathologie diagnostiquée, consulte ton kinésithérapeute avant. Le mode L4-L5-S1 réduit les risques par rapport à un programme standard, il ne les élimine pas.</div>
+      </details>
+      <details class="faq-item reveal reveal-d2">
+        <summary>
+          Mes données sont en sécurité ?
+          <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">Par défaut, tout reste sur ton appareil (localStorage). Si tu actives la sync cloud (Google sign-in), les données sont stockées dans Firestore avec des Security Rules qui n'autorisent que toi à accéder à ton document. Aucune analyse, aucun partage, aucune monétisation.</div>
+      </details>
+      <details class="faq-item reveal reveal-d3">
+        <summary>
+          Pourquoi pas une vraie app iOS / Android ?
+          <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">C'est une PWA (Progressive Web App). Tu l'installes sur ton écran d'accueil en 1 clic et elle se comporte comme une app native (offline, plein écran). Avantage : 1 seul code à maintenir, déploiement instantané, zéro store fees, marche partout.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>
+          Je peux contribuer ?
+          <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-body">Tu peux partager l'app autour de toi, laisser un retour via le formulaire de contact ou soutenir le projet via Ko-fi. Chaque contribution compte.</div>
+      </details>
     </div>
   </div>
 </section>
 
-<section class="final">
-  <div class="container">
-    <h2>Prêt à t'entraîner intelligemment ?</h2>
-    <p>Aucune inscription requise. L'app s'ouvre en moins de 2 secondes.</p>
-    <a href="/" class="btn">Lancer APEX maintenant →</a>
+<!-- DONATION -->
+<section class="donation">
+  <div class="wrap">
+    <div class="donation-icon reveal">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <h2 class="reveal reveal-d1">L'application est gratuite.</h2>
+    <p class="reveal reveal-d2">Si elle t'a aidé à reprendre l'entraînement ou à progresser sans te blesser, un café est toujours bienvenu. Aucune obligation, aucune pression.</p>
+    <a href="https://ko-fi.com/leonydas3097" target="_blank" rel="noopener" class="btn-donate reveal reveal-d3">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Offrir un café
+    </a>
+    <div class="donation-note reveal reveal-d3">Paiement sécurisé via Ko-fi · Tu restes anonyme si tu veux</div>
   </div>
 </section>
 
-<footer>
-  <div class="container">
-    <div>© 2026 APEX Fitness · Open source · Gratuit pour toujours</div>
-    <div><a href="/">App</a><a href="/privacy.html">Confidentialité</a><a href="/terms.html">CGU</a><a href="https://github.com/latludovic3097/apex-fitness" target="_blank" rel="noopener">GitHub</a></div>
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="wrap">
+    <h2 class="reveal">Prêt à t'entraîner intelligemment ?</h2>
+    <p class="reveal reveal-d1">Aucune inscription requise. L'app s'ouvre en moins de 2 secondes.</p>
+    <a href="/" class="btn-final reveal reveal-d2">
+      Lancer FITStark maintenant
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div>© 2026 FITStark · Gratuit pour toujours</div>
+    <div class="footer-links">
+      <a href="/">App</a>
+      <a href="/privacy.html">Confidentialité</a>
+      <a href="/terms.html">CGU</a>
+    </div>
   </div>
 </footer>
+
+<script>
+(function () {
+  // Header blur on scroll
+  const header = document.getElementById('site-header');
+  const onScroll = () => {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Scroll reveal
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+})();
+</script>
+
 </body>
 </html>

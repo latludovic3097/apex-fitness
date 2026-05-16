@@ -11,7 +11,7 @@
       "tests.html",
       "ci-tests.mjs",
       "FIREBASE-SETUP.md",
-      "APEX-PROJECT-SPEC.md",
+      "FITSTARK-PROJECT-SPEC.md",
       "README.md"
     ],
     "headers": [

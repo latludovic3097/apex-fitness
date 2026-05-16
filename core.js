@@ -1,4 +1,4 @@
-// APEX Fitness — Core pure functions (testables)
+// FITStark — Core pure functions (testables)
 // Chargé par index.html ET tests.html. Aucune dépendance au state global S.
 
 // ─── XSS ESCAPE ───

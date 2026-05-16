@@ -1,4 +1,4 @@
-// APEX Fitness — Paths SVG anatomiques pour la carte musculaire
+// FITStark — Paths SVG anatomiques pour la carte musculaire
 // Organisation : ANATOMY[sex].view = { bg, muscles, details }
 //   bg       : éléments non cliquables (tête, mains, pieds, articulations) — gris
 //   muscles  : { muscleKey: pathData|[paths] } — cliquables, fill = heat-color

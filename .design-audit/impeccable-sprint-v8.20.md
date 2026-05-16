@@ -2,7 +2,7 @@
 
 > Date : 2026-05-16
 > Commande : `/impeccable` (4 commands en un sprint)
-> Cible : home dashboard APEX Fitness (post v8.19)
+> Cible : home dashboard FITStark (post v8.19)
 > Register : product
 
 ## Phase 1 — Critique heuristique

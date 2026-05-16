@@ -1,4 +1,4 @@
-// APEX Fitness — Gestion de l'état + business logic stateful
+// FITStark — Gestion de l'état + business logic stateful
 // Dépend de : core.js (calc1RM, getAPREAdjustment), data.js (PHASES, WODS, PROG)
 
 // ─── L10 v8.24 : UTM tracking RGPD-pur (0 third-party, 0 IP, 0 fingerprint)
@@ -103,7 +103,7 @@ function safeRender(renderFn){
   }catch(e){
     console.error("[apex] render crashed:", e);
     return `<div style="padding:24px 20px;max-width:480px;margin:0 auto">
-      <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:#E63946;margin-bottom:22px">APEX FITNESS</div>
+      <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:#E63946;margin-bottom:22px">FITSTARK</div>
       <div style="background:#fff;border-radius:16px;border:1px solid #e5e5ea;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
         <div style="font-size:18px;font-weight:800;margin-bottom:14px;color:#E63946">⚠️ Oups, l'écran a planté</div>
         <div style="font-size:14px;color:#48484a;line-height:1.7;margin-bottom:18px">
@@ -283,7 +283,7 @@ function checkAndShowReminder(){
   if(Date.now() - last < 24*36e5) return; // pas plus d'1 notif par 24h
   const info = getStreakInfo();
   if(!info || info.status === "active" || info.status === "ok" || info.status === "new") return;
-  const ok = showLocalNotif("APEX Fitness 💪", info.message.replace(/^[⚠️🚨🔥]\s*/, ""));
+  const ok = showLocalNotif("FITStark 💪", info.message.replace(/^[⚠️🚨🔥]\s*/, ""));
   if(ok) localStorage.setItem(NOTIF_LAST_KEY, String(Date.now()));
 }
 

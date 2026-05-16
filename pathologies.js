@@ -1,4 +1,4 @@
-// APEX Fitness — Bibliothèque de pathologies & risques par exercice
+// FITStark — Bibliothèque de pathologies & risques par exercice
 // Sources : Squat University (Aaron Horschig), McGill (Back Mechanic), Kelly Starrett (Becoming a Supple Leopard),
 // Tom Morrison (Strength & Conditioning), revue PubMed sur biomécanique des exercices à risque.
 

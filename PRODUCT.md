@@ -18,7 +18,7 @@ Trois personas, par ordre de priorité :
 
 ## Product Purpose
 
-APEX Fitness est une PWA d'entraînement complète (Force + Cardio + Core + Nutrition) en français, 100% locale, zéro pub, zéro abonnement, ~120KB.
+FITStark est une PWA d'entraînement complète (Force + Cardio + Core + Nutrition) en français, 100% locale, zéro pub, zéro abonnement, ~120KB.
 
 Elle se différencie sur quatre axes :
 

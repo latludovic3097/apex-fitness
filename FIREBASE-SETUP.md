@@ -1,4 +1,4 @@
-# APEX Fitness — Setup Firebase (Hosting + Auth + Firestore)
+# FITStark — Setup Firebase (Hosting + Auth + Firestore)
 
 Guide pas-à-pas pour activer le déploiement et la synchronisation cloud.
 **Tout est gratuit** dans le quota Firebase Spark (10 GB hosting/mois, 1 GB Firestore, 50k reads/jour, 20k writes/jour).
@@ -33,7 +33,7 @@ GitHub reste utilisé pour le **code source** uniquement (versioning, backup). L
 1. Va sur **https://console.cloud.google.com/apis/credentials/consent?project=TON-PROJECT-ID**
 2. **User Type** : **External** → **Créer**
 3. App information :
-   - **App name** : nom de ton app (ex: APEX Fitness)
+   - **App name** : nom de ton app (ex: FITStark)
    - **User support email** : ton Gmail
    - **Application home page** : `https://TON-USERNAME.github.io/TON-REPO/`
    - **Authorized domains** : ⚠️ NE PAS mettre `github.io` (rejeté — Public Suffix List). Deux options : (a) laisser **vide** (OK en mode Testing, c'est facultatif), ou (b) ajouter le sous-domaine complet `TON-USERNAME.github.io` (ex: `latludovic3097.github.io`) — Google le traite comme ton domaine personnel

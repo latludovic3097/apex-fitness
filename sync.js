@@ -1,4 +1,4 @@
-// APEX Fitness — Cloud Sync wrapper (Firebase Auth + Firestore)
+// FITStark — Cloud Sync wrapper (Firebase Auth + Firestore)
 // Module ES chargé après firebase-config.js. Expose `window.apexSync` quand prêt.
 // Si la config est en placeholder, le module reste inerte (mode local-only).
 

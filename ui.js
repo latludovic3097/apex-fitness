@@ -1,4 +1,4 @@
-// APEX Fitness — Rendu, actions, init
+// FITStark — Rendu, actions, init
 // Dépend de : core.js, data.js, state.js (chargés avant)
 
 // ─── SVG icons inline (Phase 4 polish : cohérence cross-OS, remplace les emojis) ───
@@ -83,7 +83,7 @@ function R(){
       <div style="font-size:42px;margin-bottom:18px">🔒</div>
       <h1 style="font-size:22px;font-weight:900;letter-spacing:1px;color:#E63946;margin-bottom:14px;text-transform:uppercase">Stockage bloqué</h1>
       <p style="font-size:15px;color:#48484a;line-height:1.6;margin-bottom:18px">
-        APEX a besoin du stockage local de ton navigateur pour fonctionner.
+        FITStark a besoin du stockage local de ton navigateur pour fonctionner.
         Pour le moment il est bloqué, ce qui arrive le plus souvent dans :
       </p>
       <ul style="text-align:left;font-size:14px;color:#48484a;line-height:1.7;list-style:none;padding:0;margin:0 auto 24px;max-width:340px">
@@ -153,7 +153,7 @@ function renderPwaInstallBanner(){
   // Bottom-right toast on desktop; full-width bottom bar on mobile (always above tab bar).
   // Reserves body padding-bottom so it never overlays interactive content (e.g. set rows).
   b.style.cssText = "position:fixed;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 76px);max-width:340px;background:var(--cd);color:var(--t1);border:1px solid var(--bd);padding:10px 14px;border-radius:12px;z-index:9998;font-size:13px;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.12);display:flex;align-items:center;gap:10px;font-family:-apple-system,'Segoe UI',sans-serif";
-  b.innerHTML = `<span style="font-size:18px">📱</span><span style="flex:1">Installer APEX comme une app</span><button id="pwaInstallBtn" style="background:var(--ac);color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">Installer</button><button id="pwaDismissBtn" style="background:transparent;color:var(--t2);border:none;padding:3px 6px;font-size:18px;cursor:pointer;line-height:1;opacity:.7" aria-label="Fermer">×</button>`;
+  b.innerHTML = `<span style="font-size:18px">📱</span><span style="flex:1">Installer FITStark comme une app</span><button id="pwaInstallBtn" style="background:var(--ac);color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">Installer</button><button id="pwaDismissBtn" style="background:transparent;color:var(--t2);border:none;padding:3px 6px;font-size:18px;cursor:pointer;line-height:1;opacity:.7" aria-label="Fermer">×</button>`;
   document.body.appendChild(b);
   // Mobile: stretch to full width above tab bar
   const mq = window.matchMedia("(max-width:480px)");
@@ -270,7 +270,7 @@ function rHome(){
   const compounds=["Bench Press","Back Squat","Romanian Deadlift","OHP Debout","Pull-ups"];
   const rmCards=compounds.map(n=>{const rm=get1RM(n);return rm?`<div style="text-align:center;min-width:70px"><div style="font-size:16px;font-weight:900">${rm}<span style="font-size:12px;color:var(--mt)">kg</span></div><div style="font-size:10px;color:var(--mt);margin-top:1px">${n.length>12?n.slice(0,12)+'…':n}</div></div>`:null;}).filter(Boolean);
 
-  return`<div class="hdr"><h1 class="logo" aria-label="APEX Fitness — Musculation L5-S1 safe">APEX</h1><div style="font-size:13px;color:var(--mt)">${today}</div></div>
+  return`<div class="hdr"><h1 class="logo" aria-label="FITStark — Musculation L5-S1 safe">FIT<span class="brand-accent">Stark</span></h1><div style="font-size:13px;color:var(--mt)">${today}</div></div>
   <details class="l5-banner">
     <summary><span class="l5-banner-dot"></span>Mode L5-S1 actif — règles de protection</summary>
     <div class="l5-body"><b>Obligatoire</b> : McGill Big 3 + Dead Bug<br><b>Interdit</b> : Bent-over rows, deadlift conventionnel<br><b>Modifié</b> : Burpees step-back, ceinture au squat<br><b>Alertes</b> : en temps réel sur chaque exercice sensible</div>
@@ -565,12 +565,12 @@ async function shareLastWorkout(){
   grad.addColorStop(1, "#264653");
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 1080, 1080);
-  // Logo APEX en haut
+  // Logo FITStark en haut
   ctx.fillStyle = "rgba(255,255,255,0.95)";
   ctx.font = "900 90px -apple-system, 'Segoe UI', sans-serif";
   ctx.textAlign = "center";
   ctx.letterSpacing = "10px";
-  ctx.fillText("APEX FITNESS", 540, 140);
+  ctx.fillText("FITSTARK", 540, 140);
   ctx.font = "700 32px -apple-system, sans-serif";
   ctx.fillText(new Date(h.date).toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}), 540, 195);
   // Carte centrale
@@ -614,7 +614,7 @@ async function shareLastWorkout(){
         await navigator.share({
           files: [file],
           title: `Ma séance ${h.sessionName}`,
-          text: `Séance ${h.sessionName} de ${h.duration}min — via APEX Fitness 💪`
+          text: `Séance ${h.sessionName} de ${h.duration}min — via FITStark 💪`
         });
       } catch(e) { /* user cancelled */ }
     } else {
@@ -707,7 +707,7 @@ function rSett(){
   ${rSyncCard()}
   ${rNotifCard()}
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Données</div><div style="display:flex;flex-direction:column;gap:8px"><button class="btn2" onclick="exportCSV()">📊 CSV (Excel)</button><button class="btn2" onclick="doExp()">📤 JSON backup</button><button class="btn2" onclick="doImpUI()">📥 Importer</button>${S.hist.length?`<button class="btn2" style="color:var(--ac);border-color:var(--ac)" onclick="safeWipe()">🗑 Effacer (avec backup)</button>`:""}</div><div id="io"></div></div>
-  <div class="card"><div style="font-size:13px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage + sync cloud (Firebase).<br><br><b style="color:var(--ac)">APEX FITNESS</b> v8.x — Cloud Sync<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Cardio • Core 12 sem • Nutrition</div></div>
+  <div class="card"><div style="font-size:13px;color:var(--t2);line-height:1.6"><b style="color:var(--wa)">⚠️</b> Données en localStorage + sync cloud (Firebase).<br><br><b style="color:var(--ac)">FITSTARK</b> v8.x — Cloud Sync<br>APRE progression (Huang 2025) • 1RM Epley+Brzycki • RIR tracker<br>Fatigue score • Back Pain Safe mode<br>Périodisation • Cardio • Core 12 sem • Nutrition</div></div>
   <div class="card" style="text-align:center;font-size:13px;color:var(--mt);padding:14px;line-height:2">
     <a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--in);text-decoration:none;font-weight:600">Politique de confidentialité</a>
     &nbsp;·&nbsp;
@@ -899,7 +899,7 @@ async function enableNotif(){
 }
 function toggleNotif(){ setNotifEnabled(!isNotifEnabled()); R(); }
 function testNotif(){
-  const ok = showLocalNotif("APEX Fitness 💪", "Test : c'est bien toi ! Les rappels fonctionneront comme ça.");
+  const ok = showLocalNotif("FITStark 💪", "Test : c'est bien toi ! Les rappels fonctionneront comme ça.");
   if(!ok) alert("Notification non envoyée. Vérifie la permission dans les réglages du navigateur.");
 }
 
@@ -1060,7 +1060,7 @@ function safeWipe(){
     }
   },300);
 }
-function doImpUI(){document.getElementById("io").innerHTML=`<div style="margin-top:10px;display:flex;flex-direction:column;gap:8px"><div style="font-size:14px;color:var(--t2);font-weight:600">📁 Importer depuis un fichier</div><input type="file" accept=".csv,.json,text/csv,application/json,text/plain" onchange="doImpFile(this)" style="font-size:14px;color:var(--tx);width:100%;padding:12px;border:1px dashed var(--bd);border-radius:10px;background:var(--bg);cursor:pointer;box-sizing:border-box;font-family:inherit"><div style="font-size:12px;color:var(--mt);text-align:center;margin-top:4px">— ou coller du JSON —</div><textarea class="inp" id="impT" style="min-height:50px;font-size:11px" placeholder="{...JSON...}"></textarea><button class="btn" onclick="doImp()">Importer JSON collé</button><div style="font-size:12px;color:var(--mt);line-height:1.5"><b>Formats acceptés</b> : CSV (export d'une ancienne version d'APEX, séparateur <code>;</code> ou <code>,</code>) ou JSON. Les séances sont fusionnées avec l'historique existant (dédup par date + nom de session).</div></div>`;}
+function doImpUI(){document.getElementById("io").innerHTML=`<div style="margin-top:10px;display:flex;flex-direction:column;gap:8px"><div style="font-size:14px;color:var(--t2);font-weight:600">📁 Importer depuis un fichier</div><input type="file" accept=".csv,.json,text/csv,application/json,text/plain" onchange="doImpFile(this)" style="font-size:14px;color:var(--tx);width:100%;padding:12px;border:1px dashed var(--bd);border-radius:10px;background:var(--bg);cursor:pointer;box-sizing:border-box;font-family:inherit"><div style="font-size:12px;color:var(--mt);text-align:center;margin-top:4px">— ou coller du JSON —</div><textarea class="inp" id="impT" style="min-height:50px;font-size:11px" placeholder="{...JSON...}"></textarea><button class="btn" onclick="doImp()">Importer JSON collé</button><div style="font-size:12px;color:var(--mt);line-height:1.5"><b>Formats acceptés</b> : CSV (export d'une ancienne version d'FITStark, séparateur <code>;</code> ou <code>,</code>) ou JSON. Les séances sont fusionnées avec l'historique existant (dédup par date + nom de session).</div></div>`;}
 function doImp(){try{const d=JSON.parse(document.getElementById("impT").value);if(d.history){const r=mergeHistory(d.history,S.hist);S.hist=r.merged;if(d.phase!==undefined)S.phase=d.phase;saveS();R();alert(`✓ ${r.added} séance(s) importée(s)${r.skipped?`, ${r.skipped} doublon(s) ignoré(s)`:""}`);}else alert("JSON sans champ 'history'");}catch(e){alert("JSON invalide : "+e.message);}}
 function doImpFile(el){const f=el.files&&el.files[0];if(!f)return;const rd=new FileReader();rd.onload=ev=>{const txt=ev.target.result;try{let hist,phase;const isCSV=f.name.toLowerCase().endsWith(".csv")||(txt.replace(/^﻿/,"").trim()[0]!=="{"&&(txt.includes(";")||txt.toLowerCase().includes("exercice")));if(isCSV){hist=parseCSVtoHistory(txt);if(!hist.length){alert("Aucune séance détectée dans le CSV. Vérifie que les colonnes incluent au moins Date, Session, Exercice.");return;}}else{const d=JSON.parse(txt);hist=d.history||[];phase=d.phase;if(!hist.length){alert("JSON sans historique");return;}}const r=mergeHistory(hist,S.hist);S.hist=r.merged;if(phase!==undefined)S.phase=phase;saveS();R();alert(`✓ ${r.added} séance(s) importée(s)${r.skipped?`, ${r.skipped} doublon(s) ignoré(s)`:""}`);}catch(e){alert("Erreur d'import : "+e.message);}};rd.onerror=()=>alert("Lecture du fichier impossible");rd.readAsText(f,"utf-8");el.value="";}
 
@@ -1075,7 +1075,7 @@ function rOnboarding(){
   const stepFn = steps[_onbStep] || steps[0];
   const progress = ((_onbStep + 1) / steps.length) * 100;
   return `<div style="padding:24px 20px;max-width:480px;margin:0 auto">
-    <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:var(--ac);margin-bottom:8px;text-align:center">APEX FITNESS</div>
+    <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:var(--ac);margin-bottom:8px;text-align:center">FITSTARK</div>
     <div style="background:var(--bd);border-radius:4px;height:6px;margin-bottom:20px;overflow:hidden"><div style="height:6px;background:var(--ac);width:${progress}%;transition:width .3s"></div></div>
     ${stepFn()}
   </div>`;
@@ -1172,7 +1172,7 @@ function onbFinish(launchSession, sessId){
 
 if(!localStorage.getItem("apex_disclaimer")){
   document.getElementById("app").innerHTML=`<div style="padding:24px 20px;max-width:480px;margin:0 auto">
-    <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:#E63946;margin-bottom:22px">APEX FITNESS</div>
+    <div style="font-size:30px;font-weight:900;letter-spacing:5px;color:#E63946;margin-bottom:22px">FITSTARK</div>
     <div style="background:#fff;border-radius:16px;border:1px solid #e5e5ea;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
       <div style="font-size:18px;font-weight:800;margin-bottom:14px;color:#B97534">⚕️ Avertissement médical</div>
       <div style="font-size:14px;color:#48484a;line-height:1.7">

@@ -1,4 +1,4 @@
-# APEX FITNESS — Spécification complète du projet
+# FITStark FITNESS — Spécification complète du projet
 
 > **Document de référence pour Claude Code**
 > Dernière mise à jour : 3 mai 2026
@@ -14,7 +14,7 @@
 > "L'app de force qui s'adapte à ton corps — même quand ton dos ne suit pas."
 
 ### Pitch
-APEX Fitness est une PWA d'entraînement complète (Force + Cardio + Core + Nutrition) qui se différencie par :
+FITStark Fitness est une PWA d'entraînement complète (Force + Cardio + Core + Nutrition) qui se différencie par :
 1. **Adaptation aux pathologies lombaires** (L5-S1) — aucun concurrent ne le fait, programme Core Heavy 12 semaines anti-flexion intégré
 2. **Progression scientifiquement validée** (protocole APRE, #1 mondial, SUCRA 93%)
 3. **WODs rotatifs** intégrés au programme de force — hybride musculation + conditioning
@@ -539,4 +539,4 @@ Le fichier `apex-fitness.html` à la racine est un artefact historique (peut êt
 
 ---
 
-*Ce document est la source de vérité pour le projet APEX Fitness. Toute modification de l'app doit être reflétée ici.*
+*Ce document est la source de vérité pour le projet FITStark Fitness. Toute modification de l'app doit être reflétée ici.*

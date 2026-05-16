@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "claude-in-chrome": {
+      "command": "npx",
+      "args": ["-y", "claude-code-in-chrome-mcp"]
+    }
+  }
+}

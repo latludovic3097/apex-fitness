@@ -36,7 +36,7 @@ Stratégie : **Restrained**. Un rouge accent + neutres légèrement teintés + u
 
 ### Règles de couleur
 
-- **Le rouge `--ac` ne sort que pour** : (1) la voix de marque (logo APEX, titres marketing courts), (2) le call-to-action primaire (.btn), (3) un état actif (.nav-btn.active, .pill.active), (4) une alerte importante (l5-alert tinted background mais texte sombre, pas de pavé rouge), (5) le focus-visible (outline 3px solid `--ac`).
+- **Le rouge `--ac` ne sort que pour** : (1) la voix de marque (logo FITStark, titres marketing courts), (2) le call-to-action primaire (.btn), (3) un état actif (.nav-btn.active, .pill.active), (4) une alerte importante (l5-alert tinted background mais texte sombre, pas de pavé rouge), (5) le focus-visible (outline 3px solid `--ac`).
 - **Le vert `--ok`** = catégorie wellness (cardio, core, nutrition, set-done). Pas de mélange avec `--ac`.
 - **L'orange `--wa`** = warning L5-S1, deload alert. Le ratio sur la page ne dépasse jamais 5% de la surface visible.
 - **Pas de `#fff` ou `#000` purs** : les vars `--cd`/`--tx` les remplacent — déjà teintés vers le gris froid iOS.
@@ -55,7 +55,7 @@ Stratégie : **Restrained**. Un rouge accent + neutres légèrement teintés + u
 
 | Token | Taille | Weight | Letter-spacing | Usage |
 |------|------|------|------|------|
-| Logo APEX | 30px | 900 | 5px | Header home uniquement |
+| Logo FITStark | 30px | 900 | 5px | Header home uniquement |
 | sec-title | 22px | 900 | 1px (uppercase) | Titres de section ("Programme PPL", "Cardio", "Nutrition") |
 | sess-name | 24px | 900 | 3px (uppercase) | Nom de session/carte ("PUSH", "CARTE MUSCULAIRE") |
 | page-title | 20px | 800 | 2px (uppercase) | Header pages secondaires ("Historique", "Réglages") |
@@ -162,7 +162,7 @@ Limite : les emojis varient selon l'OS (Apple vs Google vs Microsoft). Acceptabl
 
 - `:focus-visible` : outline 3px solid `--ac` + offset 2-3px, radius 6px. Pattern propre.
 - `.inp:focus-visible` : ring shadow rouge à 20% opacity (plus visible que l'outline standard sur input).
-- `.sr-only` : pattern WCAG standard (h1 caché lu par screen readers, "APEX Fitness — Application de musculation...").
+- `.sr-only` : pattern WCAG standard (h1 caché lu par screen readers, "FITStark — Application de musculation...").
 - Pinch-to-zoom autorisé : `maximum-scale=5` (non `user-scalable=no`).
 - Disclaimer médical bloquant au premier lancement (`apex_disclaimer` localStorage flag).
 
