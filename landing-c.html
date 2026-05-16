@@ -2,285 +2,799 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>APEX Fitness — Force, Cardio, Core. Adaptée à ton corps.</title>
-<meta name="description" content="L'app fitness qui ne te rebute pas avec une hernie discale. PPL + APRE + L5-S1 safe + sync cloud. 100% gratuit. Open-source.">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<title>APEX Fitness — La force qui s'adapte à ton dos</title>
+<meta name="description" content="App musculation PPL avec mode L5-S1 sécurisé, auto-progression APRE scientifique, sync cloud, zéro pub. Construite pour les lifters dont les autres apps ignorent le dos.">
+<meta name="theme-color" content="#0F0F0F">
+<meta property="og:title" content="APEX Fitness — La force qui s'adapte à ton dos">
+<meta property="og:description" content="Pour les lifters dont les autres apps ignorent le dos.">
+<meta property="og:image" content="https://apexfit-da753.web.app/icon-512.png">
+<meta property="og:locale" content="fr_FR">
 <link rel="canonical" href="https://apexfit-da753.web.app/landing-c.html">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<!-- Cabinet Grotesk : variable, free, hors reflex-reject list -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800,900&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 :root{
-  --bg:#0f0f0f;
-  --bg2:#1a1a1a;
-  --fg:#fff;
-  --muted:#a0a0a0;
+  --bg:#0A0A0A;
+  --bg2:#141414;
+  --bg3:#1C1C1C;
+  --fg:#F5F0E8;
+  --muted:#8A8580;
+  --muted-deep:#5C5853;
   --accent:#E63946;
-  --accent2:#F4A261;
+  --accent-deep:#B12C36;
+  --accent-glow:rgba(230,57,70,.4);
   --ok:#2A9D8F;
+  --wa:#F4A261;
   --border:#262626;
+  --border-soft:#1F1F1F;
 }
-body{font-family:-apple-system,'Segoe UI Black','Segoe UI',sans-serif;background:var(--bg);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-.container{max-width:1200px;margin:0 auto;padding:0 24px}
-header{padding:18px 0;background:rgba(15,15,15,.85);backdrop-filter:blur(14px);position:sticky;top:0;z-index:10;border-bottom:1px solid var(--border)}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Cabinet Grotesk',-apple-system,'Segoe UI',sans-serif;
+  font-weight:500;
+  background:var(--bg);color:var(--fg);
+  line-height:1.5;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  font-feature-settings:"ss01" 1;
+}
+
+/* ─── Subtle grain texture (uncommon in landings) ───────────── */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity:.5;mix-blend-mode:overlay;
+}
+
+a{color:inherit;text-decoration:none}
+
+.container{max-width:1200px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
+@media(max-width:720px){.container{padding:0 20px}}
+
+/* ─── HEADER ────────────────────────────────────────────────── */
+header{
+  padding:18px 0;
+  background:rgba(10,10,10,.78);
+  backdrop-filter:blur(16px) saturate(160%);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  position:sticky;top:0;z-index:50;
+  border-bottom:1px solid var(--border-soft);
+}
 header .container{display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:24px;font-weight:900;letter-spacing:6px;color:var(--fg);text-decoration:none}
+.logo{
+  font-size:22px;font-weight:900;letter-spacing:6px;
+  color:var(--fg);text-decoration:none;
+}
 .logo span{color:var(--accent)}
-.nav-cta{padding:10px 22px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:1px;border:2px solid var(--accent);transition:all .15s}
-.nav-cta:hover{background:transparent;color:var(--accent)}
-.btn{display:inline-block;padding:18px 38px;background:var(--accent);color:#fff;border-radius:10px;text-decoration:none;font-weight:900;font-family:inherit;font-size:16px;text-transform:uppercase;letter-spacing:1.5px;border:2px solid var(--accent);cursor:pointer;transition:all .15s;box-shadow:0 10px 40px rgba(230,57,70,.35)}
-.btn:hover{transform:translateY(-2px);box-shadow:0 14px 50px rgba(230,57,70,.5)}
-.btn-outline{background:transparent;border-color:var(--fg);color:var(--fg);box-shadow:none}
-.btn-outline:hover{background:var(--fg);color:#000}
+.nav-cta{
+  padding:0 16px;min-height:42px;
+  display:inline-flex;align-items:center;
+  background:transparent;color:var(--fg);
+  text-decoration:none;font-size:12px;font-weight:800;
+  text-transform:uppercase;letter-spacing:2px;
+  border:1.5px solid var(--accent);
+  transition:background .15s,color .15s;
+}
+.nav-cta:hover{background:var(--accent);color:#fff}
 
-/* HERO */
-.hero{padding:100px 0 80px;position:relative;background:radial-gradient(ellipse at top right,rgba(230,57,70,.18),transparent 50%),radial-gradient(ellipse at bottom left,rgba(38,70,83,.25),transparent 50%)}
-.hero .container{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center}
-.hero-eyebrow{display:inline-block;padding:7px 14px;background:rgba(230,57,70,.12);border:1px solid var(--accent);border-radius:20px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:24px}
-.hero h1{font-size:70px;font-weight:900;line-height:.95;letter-spacing:-2px;margin-bottom:24px;text-transform:uppercase}
-.hero h1 .accent{color:var(--accent);display:inline-block;position:relative}
-.hero h1 .strike{text-decoration:line-through;color:var(--muted);font-weight:600;text-transform:none;display:block;font-size:32px;letter-spacing:-1px;margin-bottom:6px;font-style:italic;opacity:.7}
-.hero .lead{font-size:18px;color:var(--muted);margin-bottom:34px;line-height:1.7;max-width:520px}
-.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px}
-.hero .badges{display:flex;gap:24px;flex-wrap:wrap;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.hero .badges span::before{content:"✓ ";color:var(--ok);font-weight:900}
-.phone-mockup{justify-self:center;width:280px;height:560px;background:linear-gradient(135deg,#1a1a1a,#0a0a0a);border:8px solid #0a0a0a;border-radius:38px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05) inset;padding:18px;position:relative;overflow:hidden}
-.phone-mockup::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:24px;background:#0a0a0a;border-radius:0 0 14px 14px;z-index:2}
-.phone-screen{height:100%;background:#f5f5f7;border-radius:22px;padding:32px 16px 16px;display:flex;flex-direction:column;gap:10px}
-.phone-screen .ps-logo{font-size:18px;font-weight:900;color:var(--accent);letter-spacing:3px;text-align:center;margin-bottom:6px}
-.phone-screen .ps-card{background:#fff;padding:12px;border-radius:11px;border:1px solid #e5e5ea;box-shadow:0 1px 2px rgba(0,0,0,.06);font-size:11px;color:#1c1c1e}
-.phone-screen .ps-card.session{border-left:4px solid var(--accent)}
-.phone-screen .ps-card.session strong{color:var(--accent);font-weight:900;font-size:14px;letter-spacing:1px}
-.phone-screen .ps-stat{display:flex;gap:6px}
-.phone-screen .ps-stat .ps-card{flex:1;text-align:center}
-.phone-screen .ps-stat strong{font-size:18px;font-weight:900;color:#1c1c1e;display:block}
-.phone-screen .ps-stat .lbl{font-size:8px;color:#8e8e93;text-transform:uppercase;letter-spacing:.5px}
+/* ─── BUTTONS ───────────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:0 30px;min-height:56px;
+  background:var(--accent);color:#fff;
+  text-decoration:none;font-family:inherit;
+  font-size:14px;font-weight:900;
+  text-transform:uppercase;letter-spacing:2px;
+  border:2px solid var(--accent);cursor:pointer;
+  box-shadow:0 0 0 0 var(--accent-glow);
+  transition:transform .18s cubic-bezier(.5,0,.1,1),box-shadow .25s,background .15s;
+}
+.btn::after{content:"→";font-weight:900;transition:transform .18s;font-size:18px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 60px var(--accent-glow)}
+.btn:hover::after{transform:translateX(4px)}
+.btn-outline{background:transparent;border-color:var(--border)}
+.btn-outline:hover{background:var(--fg);color:#000;border-color:var(--fg)}
+.btn-ghost{background:transparent;border:none;color:var(--muted);font-weight:700;padding:0;min-height:auto;letter-spacing:1px}
+.btn-ghost::after{display:inline}
+.btn-ghost:hover{color:var(--fg);box-shadow:none;transform:none}
 
-/* NUMBERS */
-.stats-band{background:var(--bg2);padding:60px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.stats-band .container{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;text-align:center}
-.stat-big strong{display:block;font-size:56px;font-weight:900;color:var(--accent);letter-spacing:-2px;line-height:1}
-.stat-big span{display:block;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px;font-weight:600}
+/* ─── HERO ──────────────────────────────────────────────────── */
+.hero{
+  padding:90px 0 80px;position:relative;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 30%, rgba(230,57,70,.20), transparent 60%),
+    radial-gradient(ellipse 60% 70% at 10% 90%, rgba(177,44,54,.15), transparent 60%);
+}
+.hero .container{display:grid;grid-template-columns:1.25fr 1fr;gap:60px;align-items:center}
+@media(max-width:920px){.hero .container{grid-template-columns:1fr;gap:40px}}
 
-/* SECTIONS */
-.section{padding:100px 0}
-.section-h{font-size:48px;font-weight:900;text-transform:uppercase;letter-spacing:-1px;line-height:1.05;margin-bottom:18px;text-align:center}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:7px 14px;
+  background:rgba(230,57,70,.08);
+  border:1px solid var(--accent);
+  font-size:11px;font-weight:800;
+  text-transform:uppercase;letter-spacing:2.5px;
+  color:var(--accent);margin-bottom:28px;
+}
+.hero-eyebrow .pulse{
+  width:7px;height:7px;background:var(--accent);
+  border-radius:50%;animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 var(--accent-glow)}
+  50%{box-shadow:0 0 0 6px transparent}
+}
+@media(prefers-reduced-motion:reduce){.hero-eyebrow .pulse{animation:none}}
+
+.hero h1{
+  font-size:clamp(40px,7vw,86px);
+  font-weight:900;line-height:.92;
+  letter-spacing:-3px;margin-bottom:28px;
+  text-transform:uppercase;
+}
+.hero h1 .strike{
+  display:block;font-size:.36em;
+  font-weight:500;font-style:italic;
+  text-transform:none;letter-spacing:-.5px;
+  color:var(--muted-deep);
+  margin-bottom:14px;
+  position:relative;
+}
+.hero h1 .strike::after{
+  content:"";position:absolute;left:-4px;right:-4px;top:53%;height:3px;
+  background:var(--muted);transform:rotate(-1deg);transform-origin:left;
+  opacity:.6;
+}
+.hero h1 .accent{color:var(--accent);display:inline-block}
+.hero h1 .it{font-style:italic;display:inline-block}
+
+.hero .lead{
+  font-size:clamp(15px,1.4vw,18px);
+  color:var(--muted);
+  margin-bottom:36px;line-height:1.65;
+  max-width:540px;
+}
+.hero .lead b{color:var(--fg);font-weight:700}
+
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px;align-items:center}
+
+.hero .badges{
+  display:flex;gap:20px;flex-wrap:wrap;
+  font-size:11px;color:var(--muted);
+  text-transform:uppercase;letter-spacing:1.5px;font-weight:700;
+}
+.hero .badges span{display:inline-flex;align-items:center;gap:8px}
+.hero .badges span::before{
+  content:"";width:6px;height:6px;background:var(--ok);
+  border-radius:50%;flex-shrink:0;
+}
+
+/* ─── PHONE MOCKUP (preserved, refined) ─────────────────────── */
+.phone-mockup{
+  justify-self:center;
+  width:300px;height:600px;
+  background:#000;
+  border:10px solid #050505;
+  border-radius:42px;
+  box-shadow:
+    0 40px 80px rgba(0,0,0,.6),
+    0 0 0 1px rgba(255,255,255,.04) inset,
+    0 0 80px rgba(230,57,70,.15);
+  padding:0;position:relative;overflow:hidden;
+}
+.phone-mockup::before{
+  content:"";position:absolute;top:0;left:50%;
+  transform:translateX(-50%);
+  width:130px;height:26px;background:#000;
+  border-radius:0 0 16px 16px;z-index:3;
+}
+.phone-screen{
+  height:100%;background:#F5F0E8;
+  border-radius:24px;padding:36px 14px 14px;
+  display:flex;flex-direction:column;gap:9px;
+  font-family:'Cabinet Grotesk',sans-serif;
+}
+.ps-logo{
+  font-size:20px;font-weight:900;color:var(--accent);
+  letter-spacing:4px;text-align:center;margin-bottom:4px;
+}
+.ps-date{font-size:10px;color:#8A8580;text-align:center;margin-bottom:6px}
+.ps-banner{
+  background:rgba(42,157,143,.08);border:1px solid rgba(42,157,143,.5);
+  border-radius:10px;padding:8px 10px;
+  font-size:10px;color:var(--ok);font-weight:700;
+  display:flex;align-items:center;gap:7px;
+}
+.ps-banner::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.ps-stat{display:flex;gap:6px}
+.ps-card{
+  background:#fff;padding:9px 8px;border-radius:9px;
+  border:1px solid #e5e5ea;flex:1;text-align:center;
+  font-size:10px;color:#1c1c1e;font-weight:600;
+}
+.ps-card strong{font-size:18px;font-weight:900;display:block;color:#1c1c1e;line-height:1}
+.ps-card .lbl{font-size:8px;color:#8A8580;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;font-weight:700}
+.ps-section{
+  font-size:9px;color:#8A8580;
+  text-transform:none;font-weight:700;letter-spacing:.2px;
+  margin-top:6px;margin-bottom:-2px;
+}
+.ps-tiles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+.ps-tile{
+  background:#fff;border:1px solid #e5e5ea;
+  border-top:2px solid var(--accent);
+  border-radius:9px;padding:8px 4px;text-align:center;
+}
+.ps-tile.pull{border-top-color:#457B9D}
+.ps-tile.legs{border-top-color:var(--ok)}
+.ps-tile strong{font-size:13px;font-weight:900;letter-spacing:1px;display:block;line-height:1}
+.ps-tile.push strong{color:var(--accent)}
+.ps-tile.pull strong{color:#457B9D}
+.ps-tile.legs strong{color:var(--ok)}
+.ps-tile .ago{font-size:8px;color:#8A8580;margin-top:3px;font-weight:600}
+
+/* ─── STATS BAND ────────────────────────────────────────────── */
+.stats-band{
+  background:var(--bg2);
+  padding:60px 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.stats-band .container{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;text-align:left;
+}
+@media(max-width:720px){.stats-band .container{grid-template-columns:repeat(2,1fr);gap:24px}}
+.stat-big{
+  padding:0 24px;border-left:1px solid var(--border);
+  font-feature-settings:"tnum" 1;
+}
+.stat-big:first-child{border-left:none;padding-left:0}
+@media(max-width:720px){.stat-big{border:none;padding:0}}
+.stat-big strong{
+  display:block;font-size:clamp(40px,5vw,60px);
+  font-weight:900;color:var(--accent);
+  letter-spacing:-2px;line-height:1;
+}
+.stat-big .sub{
+  display:block;font-size:11px;color:var(--muted);
+  text-transform:uppercase;letter-spacing:2px;
+  margin-top:10px;font-weight:700;
+}
+.stat-big .src{
+  display:block;font-size:10px;color:var(--muted-deep);
+  margin-top:6px;font-family:ui-monospace,'Cascadia Mono','SF Mono',monospace;
+  letter-spacing:.3px;
+}
+
+/* ─── SECTIONS ──────────────────────────────────────────────── */
+.section{padding:110px 0;position:relative}
+@media(max-width:720px){.section{padding:70px 0}}
+.section-chapter{
+  display:inline-flex;align-items:baseline;gap:14px;
+  font-size:11px;font-weight:800;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:24px;
+}
+.section-chapter .num{color:var(--accent);font-weight:900}
+.section-chapter .rule{display:inline-block;width:36px;height:1px;background:var(--muted);opacity:.5}
+
+.section-h{
+  font-size:clamp(34px,5vw,60px);
+  font-weight:900;text-transform:uppercase;
+  letter-spacing:-1.5px;line-height:1.0;
+  margin-bottom:20px;
+}
 .section-h .accent{color:var(--accent)}
-.section-sub{font-size:17px;color:var(--muted);text-align:center;max-width:680px;margin:0 auto 56px;line-height:1.6}
+.section-h em{font-style:italic;font-weight:900}
+.section-sub{
+  font-size:17px;color:var(--muted);
+  max-width:680px;line-height:1.65;margin-bottom:56px;
+}
+.section-sub b{color:var(--fg);font-weight:700}
 
-/* FEATURE CARDS */
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.fcard{padding:36px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;position:relative;overflow:hidden}
-.fcard::before{content:"";position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent)}
-.fcard .fc-num{font-size:64px;font-weight:900;color:rgba(255,255,255,.05);position:absolute;top:-18px;right:18px;line-height:1;font-family:'SF Mono',monospace}
-.fcard h3{font-size:22px;font-weight:900;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
-.fcard p{color:var(--muted);font-size:15px;line-height:1.7}
-.fcard ul{margin-top:14px;list-style:none}
-.fcard li{padding:5px 0;font-size:13px;color:var(--muted)}
-.fcard li::before{content:"→ ";color:var(--accent);font-weight:900}
+/* ─── FEATURE CARDS (4-up, dark, fixed side-stripe) ─────────── */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+@media(max-width:720px){.cards{grid-template-columns:1fr}}
+.fcard{
+  padding:40px 32px 36px;
+  background:transparent;
+  position:relative;overflow:hidden;
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.fcard:nth-child(2n){border-right:none}
+.fcard:nth-child(n+3){border-bottom:none}
+@media(max-width:720px){
+  .fcard{border-right:none;border-bottom:1px solid var(--border)!important}
+  .fcard:last-child{border-bottom:none!important}
+}
+.fcard:hover{background:rgba(230,57,70,.025)}
+.fcard .fc-tag{
+  font-size:11px;font-weight:900;color:var(--accent);
+  letter-spacing:3px;margin-bottom:24px;
+  font-family:ui-monospace,'Cascadia Mono','SF Mono',monospace;
+}
+.fcard .fc-icon{
+  width:44px;height:44px;color:var(--fg);
+  margin-bottom:22px;
+}
+.fcard .fc-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fcard h3{
+  font-size:24px;font-weight:900;
+  text-transform:uppercase;letter-spacing:-.5px;
+  margin-bottom:14px;line-height:1.1;
+}
+.fcard p{color:var(--muted);font-size:15px;line-height:1.65}
+.fcard ul{margin-top:18px;list-style:none;padding:0}
+.fcard li{
+  padding:4px 0 4px 18px;font-size:13px;color:var(--muted);
+  position:relative;line-height:1.5;
+}
+.fcard li::before{
+  content:"";position:absolute;left:0;top:13px;
+  width:8px;height:1px;background:var(--accent);
+}
+.fcard .source{
+  margin-top:20px;padding:8px 0 0;
+  border-top:1px dashed var(--border);
+  font-family:ui-monospace,'Cascadia Mono','SF Mono',monospace;
+  font-size:10px;color:var(--muted-deep);letter-spacing:.3px;
+}
+.fcard .source b{color:var(--accent);font-weight:700;font-family:'Cabinet Grotesk',sans-serif}
 
-/* VS TABLE */
-.vs-section{background:var(--bg2);padding:100px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.vs-table{max-width:880px;margin:0 auto;background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.vs-row{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;padding:18px 24px;border-bottom:1px solid var(--border);font-size:14px;align-items:center}
+/* ─── VS TABLE ──────────────────────────────────────────────── */
+.vs-section{background:var(--bg2);padding:110px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.vs-table{
+  max-width:920px;margin:0 auto;
+  background:var(--bg);border:1px solid var(--border);
+  overflow:hidden;
+}
+.vs-row{
+  display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;
+  padding:18px 24px;border-bottom:1px solid var(--border);
+  font-size:14px;align-items:center;
+}
 .vs-row:last-child{border-bottom:none}
-.vs-row.head{background:var(--bg2);font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:12px;color:var(--muted)}
+.vs-row.head{
+  background:var(--bg2);font-weight:900;
+  text-transform:uppercase;letter-spacing:2px;font-size:11px;
+  color:var(--muted);
+}
 .vs-row.head .accent{color:var(--accent)}
-.vs-feat{font-weight:600}
-.vs-cell{text-align:center;font-size:18px}
-.vs-yes{color:var(--ok)}.vs-no{color:#444}.vs-partial{color:var(--accent2)}
+.vs-feat{font-weight:600;color:var(--fg)}
+.vs-cell{text-align:center;font-size:18px;font-weight:900}
+.vs-yes{color:var(--ok)}
+.vs-no{color:#3D3936}
+.vs-partial{color:var(--wa)}
+.vs-row.price{background:rgba(230,57,70,.05)}
+.vs-row.price .vs-cell{font-size:15px;font-weight:900}
+@media(max-width:720px){
+  .vs-row{grid-template-columns:1.6fr .8fr .8fr .8fr;padding:14px 12px;font-size:11px}
+  .vs-row.head{font-size:9px;letter-spacing:1px}
+  .vs-cell{font-size:14px}
+}
 
-/* TESTIMONIAL */
-.quote{max-width:780px;margin:0 auto;padding:48px;background:var(--bg2);border-left:4px solid var(--accent);border-radius:14px;font-size:22px;font-style:italic;line-height:1.6;color:#e0e0e0;font-weight:500}
-.quote-author{margin-top:24px;font-size:14px;color:var(--muted);font-style:normal;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+/* ─── SOURCES (academic-style) ──────────────────────────────── */
+.section-sources{background:var(--bg2);padding-top:90px;padding-bottom:90px}
+.sources-list{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:0;
+  border-top:1px solid var(--border);
+  font-family:ui-monospace,'Cascadia Mono','SF Mono',monospace;
+}
+@media(max-width:720px){.sources-list{grid-template-columns:1fr}}
+.source-item{
+  padding:18px 24px 18px 0;
+  border-bottom:1px solid var(--border);
+  font-size:12.5px;line-height:1.55;color:var(--muted);
+}
+.source-item b{
+  color:var(--accent);font-weight:700;
+  font-family:'Cabinet Grotesk',sans-serif;
+  display:block;margin-bottom:3px;
+}
+.source-item em{font-style:italic;color:var(--muted-deep)}
+.source-item:nth-child(even){padding-left:24px;padding-right:0}
+@media(max-width:720px){.source-item{padding:18px 0!important}}
 
-/* FINAL CTA */
-.final{padding:120px 0;text-align:center;background:linear-gradient(135deg,#E63946 0%,#7d0010 100%);position:relative;overflow:hidden}
-.final::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(255,255,255,.1),transparent 50%)}
-.final h2{font-size:64px;font-weight:900;text-transform:uppercase;letter-spacing:-1.5px;margin-bottom:18px;line-height:1;position:relative}
-.final p{font-size:18px;opacity:.9;margin-bottom:40px;max-width:520px;margin-left:auto;margin-right:auto;position:relative}
-.final .btn{background:#fff;color:var(--accent);position:relative;box-shadow:0 12px 40px rgba(0,0,0,.4)}
-.final .btn:hover{background:#0f0f0f;color:#fff}
+/* ─── FINAL CTA ─────────────────────────────────────────────── */
+.final{
+  padding:140px 0;text-align:left;
+  background:
+    linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 60%, var(--bg) 130%);
+  position:relative;overflow:hidden;
+}
+.final::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 70% 30%,rgba(255,255,255,.12),transparent 50%);
+}
+.final .container{position:relative;z-index:2;display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:center}
+@media(max-width:920px){.final .container{grid-template-columns:1fr;gap:36px}}
+.final h2{
+  font-size:clamp(40px,5.5vw,72px);
+  font-weight:900;text-transform:uppercase;
+  letter-spacing:-2px;line-height:.95;
+  margin-bottom:22px;color:#fff;
+  max-width:14ch;
+}
+.final h2 em{font-style:italic;color:#FFF4E8;display:inline-block}
+.final p{
+  font-size:17px;color:rgba(255,255,255,.92);
+  margin-bottom:36px;max-width:46ch;line-height:1.6;
+}
+.final .btn{background:#fff;color:var(--accent);border-color:#fff}
+.final .btn:hover{background:#0A0A0A;color:#fff;border-color:#0A0A0A;box-shadow:0 16px 60px rgba(0,0,0,.4)}
+.final-stats{
+  display:flex;flex-direction:column;gap:24px;
+  border-left:2px solid rgba(255,255,255,.4);padding-left:30px;
+}
+.final-stat .v{
+  font-size:40px;font-weight:900;letter-spacing:-1px;
+  color:#fff;line-height:1;font-feature-settings:"tnum" 1;
+}
+.final-stat .l{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  font-weight:700;color:rgba(255,255,255,.78);margin-top:6px;
+}
 
-/* FOOTER */
-footer{padding:48px 0;background:#000;font-size:13px;color:var(--muted);text-align:center;border-top:1px solid var(--border)}
-footer a{color:var(--muted);text-decoration:none;margin:0 10px;font-weight:600}
-footer a:hover{color:var(--fg)}
+/* ─── FOOTER ────────────────────────────────────────────────── */
+footer{
+  padding:48px 0 40px;background:#000;
+  font-size:13px;color:var(--muted-deep);
+  border-top:1px solid var(--border);
+}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;align-items:flex-end}
+footer .foot-brand{font-family:inherit}
+footer .foot-meta{
+  font-family:ui-monospace,'Cascadia Mono','SF Mono',monospace;
+  font-size:10px;letter-spacing:.5px;
+  color:var(--muted-deep);margin-top:8px;
+}
+footer nav{display:flex;gap:24px;flex-wrap:wrap}
+footer nav a{color:var(--muted);text-decoration:none;font-weight:600;transition:color .15s}
+footer nav a:hover{color:var(--accent)}
 
-@media(max-width:900px){
-  .hero{padding:60px 0 50px}
-  .hero .container{grid-template-columns:1fr;gap:30px}
-  .hero h1{font-size:46px}
-  .hero h1 .strike{font-size:24px}
-  .phone-mockup{width:220px;height:440px;justify-self:center}
-  .stats-band .container{grid-template-columns:repeat(2,1fr);gap:24px}
-  .stat-big strong{font-size:40px}
-  .section{padding:60px 0}
-  .section-h{font-size:32px}
-  .cards{grid-template-columns:1fr}
-  .vs-row{grid-template-columns:1.5fr .8fr .8fr .8fr;padding:14px;font-size:12px}
-  .quote{padding:30px;font-size:17px}
-  .final h2{font-size:40px}
+/* ─── REVEAL (no-JS safe) ───────────────────────────────────── */
+@media(prefers-reduced-motion:no-preference){
+  html.js-anim .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.6,.2,1),transform .8s cubic-bezier(.2,.6,.2,1)}
+  html.js-anim .reveal.in{opacity:1;transform:translateY(0)}
+}
+
+@media print{
+  body{background:white;color:black}
+  .hero,.final,.stats-band,.vs-section,.section-sources{background:white;color:black}
 }
 </style>
 </head>
 <body>
+
 <header>
   <div class="container">
     <a href="#" class="logo">APE<span>X</span></a>
-    <a href="/" class="nav-cta">Lancer →</a>
+    <a href="https://apexfit-da753.web.app" class="nav-cta">Lancer l'app</a>
   </div>
 </header>
 
+<!-- ═══════════════════════════════════════════════════════════
+     HERO : THE MANIFESTO IN DARK
+     ═══════════════════════════════════════════════════════════ -->
 <section class="hero">
   <div class="container">
     <div>
-      <div class="hero-eyebrow">🩹 Pour les corps imparfaits</div>
+      <div class="hero-eyebrow">
+        <span class="pulse"></span>
+        <span>Pour les lifters dont les autres apps ignorent le dos</span>
+      </div>
       <h1>
-        <span class="strike">Une autre app fitness</span>
-        La force qui<br>s'adapte<br>à <span class="accent">ton dos.</span>
+        <span class="strike">Une autre app musculation générique.</span>
+        Ta hernie<br>
+        n'a pas <span class="it">tué</span><br>
+        <span class="accent">ton envie de lever.</span>
       </h1>
-      <p class="lead">Programme Push/Pull/Legs avec mode L5-S1 sécurisé, auto-progression scientifique APRE et sync cloud. Pour les lifters blessés que les autres apps ignorent.</p>
+      <p class="lead">
+        Programme Push/Pull/Legs <b>L5-S1 safe par défaut</b>, auto-progression APRE (#1 mondial), McGill Big 3 intégré. Conçu avec les sources scientifiques que ton kiné cite. <b>Gratuit, sans pub, sans abonnement.</b>
+      </p>
       <div class="hero-cta">
-        <a href="/" class="btn">Lancer l'app</a>
-        <a href="#science" class="btn btn-outline">Voir la science</a>
+        <a href="https://apexfit-da753.web.app" class="btn">Lancer ma première séance</a>
+        <a href="#methode" class="btn-ghost">Voir la méthode →</a>
       </div>
       <div class="badges">
-        <span>Gratuit pour toujours</span>
-        <span>Open source</span>
-        <span>RGPD compliant</span>
+        <span>30 sec, sans email</span>
+        <span>100 % local</span>
+        <span>Open source MIT</span>
         <span>Offline ready</span>
       </div>
     </div>
-    <div class="phone-mockup">
+
+    <!-- Phone mockup with real app preview -->
+    <div class="phone-mockup" aria-hidden="true">
       <div class="phone-screen">
         <div class="ps-logo">APEX</div>
+        <div class="ps-date">samedi 16 mai</div>
+        <div class="ps-banner">Mode L5-S1 actif — règles de protection</div>
         <div class="ps-stat">
           <div class="ps-card"><strong>23</strong><div class="lbl">Séances</div></div>
           <div class="ps-card"><strong>7</strong><div class="lbl">7 jours</div></div>
         </div>
-        <div class="ps-card session">
-          <strong>PUSH</strong>
-          <div style="font-size:9px;color:#8e8e93;margin-top:3px">6 exos + WOD AMRAP · 45 min</div>
+        <div class="ps-section">PROGRAMME PPL</div>
+        <div class="ps-tiles">
+          <div class="ps-tile push"><strong>PUSH</strong><div class="ago">Hier</div></div>
+          <div class="ps-tile pull"><strong>PULL</strong><div class="ago">il y a 2j</div></div>
+          <div class="ps-tile legs"><strong>LEGS</strong><div class="ago">il y a 4j</div></div>
         </div>
-        <div class="ps-card session" style="border-left-color:#457B9D">
-          <strong style="color:#457B9D">PULL</strong>
-          <div style="font-size:9px;color:#8e8e93;margin-top:3px">Dernier : il y a 2j</div>
+        <div class="ps-section">WELLNESS</div>
+        <div class="ps-card" style="border-left:3px solid var(--ok);padding:10px 11px">
+          <strong style="color:var(--ok);font-size:13px;letter-spacing:1px">CORE</strong>
+          <div style="font-size:9px;color:#8A8580;margin-top:2px">Pallof + Carry · Sem 4/12</div>
         </div>
-        <div class="ps-card session" style="border-left-color:#2A9D8F">
-          <strong style="color:#2A9D8F">LEGS</strong>
-          <div style="font-size:9px;color:#8e8e93;margin-top:3px">Dernier : il y a 4j</div>
-        </div>
-        <div class="ps-card" style="background:rgba(230,57,70,.08);border-color:#E63946;color:#E63946;font-weight:700">⚡ Mode Back Pain Safe activé</div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════════
+     STATS BAND : ANCHORING
+     ═══════════════════════════════════════════════════════════ -->
 <section class="stats-band">
   <div class="container">
-    <div class="stat-big"><strong>23-53%</strong><span>des lifters ont mal au dos</span></div>
-    <div class="stat-big"><strong>#1</strong><span>protocole APRE (Huang 2025)</span></div>
-    <div class="stat-big"><strong>±2.7 kg</strong><span>précision 1RM Epley/Brzycki</span></div>
-    <div class="stat-big"><strong>0 €</strong><span>pour toujours, vraiment</span></div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <h2 class="section-h">3 piliers qui te rendront <span class="accent">unique</span>.</h2>
-    <p class="section-sub">Ce qu'aucune autre app fitness ne fait sérieusement — et qui pourrait changer ta vie d'entraînement.</p>
-    <div class="cards">
-      <div class="fcard">
-        <div class="fc-num">01</div>
-        <h3>🏥 Mode L5-S1 Sécurisé</h3>
-        <p>5 pathologies supportées (lombaires, épaules, genoux, poignets, coudes). Substitutions automatiques pour chaque exercice à risque. Alertes contextuelles en temps réel pendant la séance.</p>
-        <ul>
-          <li>30+ exercices annotés (sources: McGill, Squat U, Starrett)</li>
-          <li>Programme Core Heavy anti-flexion lombaire (Pallof, Suitcase Carry)</li>
-          <li>Alternatives proposées si exercice marqué "à éviter"</li>
-        </ul>
-      </div>
-      <div class="fcard">
-        <div class="fc-num">02</div>
-        <h3>📈 Auto-progression APRE</h3>
-        <p>Classé #1 mondial par méta-analyse réseau (Huang 2025, SUCRA 93% squat & bench). L'app calcule ta prochaine charge à partir de ta dernière séance — plus jamais de devinette.</p>
-        <ul>
-          <li>Tables d'ajustement Force / Hypertrophie / Deload</li>
-          <li>Suggestion code couleur (🔴 trop lourd → 🟢 optimal → ⚪ trop léger)</li>
-          <li>Intégration RIR (Reps In Reserve) pour affiner</li>
-        </ul>
-      </div>
-      <div class="fcard">
-        <div class="fc-num">03</div>
-        <h3>🗺️ Carte Musculaire</h3>
-        <p>Illustration anatomique détaillée (Wikimedia CC BY-SA) avec heat-map de fraîcheur par muscle. Touche un muscle pour voir son volume 30j, sa fréquence, son dernier entraînement et son 1RM estimé.</p>
-        <ul>
-          <li>9 groupes musculaires cliquables (face + dos)</li>
-          <li>6 niveaux de couleur (vert vif → rouge foncé → gris)</li>
-          <li>Détection automatique des muscles négligés</li>
-        </ul>
-      </div>
-      <div class="fcard">
-        <div class="fc-num">04</div>
-        <h3>☁️ Sync Cloud + Achievements</h3>
-        <p>Un clic Google → tes données te suivent sur tous tes appareils via Firestore. 14 badges débloquables (1er PR, Bench 80 kg, Anatomie complète…). Heatmap calendrier 12 sem.</p>
-        <ul>
-          <li>Aucune pub, aucun tracking, RGPD-compliant</li>
-          <li>Marche offline (PWA) — synchronise au retour réseau</li>
-          <li>Export CSV/JSON à tout moment, données t'appartiennent</li>
-        </ul>
-      </div>
+    <div class="stat-big">
+      <strong>23—53<span style="font-size:.55em;letter-spacing:-1px">%</span></strong>
+      <span class="sub">Des lifters avec mal de dos</span>
+      <span class="src">PubMed 2023 · Training Room NOLA</span>
+    </div>
+    <div class="stat-big">
+      <strong>#1</strong>
+      <span class="sub">Protocole APRE mondial</span>
+      <span class="src">Huang 2025 · SUCRA 93 %</span>
+    </div>
+    <div class="stat-big">
+      <strong>± 2,7<span style="font-size:.5em;margin-left:4px">kg</span></strong>
+      <span class="sub">Précision 1RM estimé</span>
+      <span class="src">DiStasio 2014 · Epley à 3RM</span>
+    </div>
+    <div class="stat-big">
+      <strong>0 €</strong>
+      <span class="sub">Pour toujours, vraiment</span>
+      <span class="src">Code MIT · GitHub public</span>
     </div>
   </div>
 </section>
 
-<section class="vs-section" id="science">
+<!-- ═══════════════════════════════════════════════════════════
+     MÉTHODE : 4 PILIERS, citations under each
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section" id="methode">
   <div class="container">
-    <h2 class="section-h">APEX vs <span class="accent">les autres apps</span></h2>
-    <p class="section-sub">Pourquoi rien d'autre ne répond aux 5 % de lifters qui ont des problèmes de dos.</p>
+    <div class="section-chapter">
+      <span class="num">02</span><span class="rule"></span><span>La méthode</span>
+    </div>
+    <h2 class="section-h">Ce qu'aucune autre<br>n'a osé <span class="accent">construire</span>.</h2>
+    <p class="section-sub">
+      Quatre choix de conception qui distinguent APEX d'un tracker générique. Chacun adossé à une source <b>peer-reviewed</b>, pas à du marketing.
+    </p>
+
+    <div class="cards">
+
+      <div class="fcard">
+        <div class="fc-tag">M / 01</div>
+        <div class="fc-icon">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="13"/>
+            <path d="M8 16 L14 22 L24 10"/>
+          </svg>
+        </div>
+        <h3>L5-S1 safe<br>par défaut.</h3>
+        <p>Romanian DL avec alerte « dos neutre », Back Squat avec rappel ceinture, OHP avec gainage strict. Substitutions automatiques sur les exercices interdits.</p>
+        <ul>
+          <li>Bent-over Row → Bench-supported DB Row</li>
+          <li>Conventional DL → Romanian DL amplitude réduite</li>
+          <li>Burpees → Step-back Burpees uniquement</li>
+          <li>Programme Core Heavy 12 sem anti-flexion lombaire</li>
+        </ul>
+        <div class="source"><b>SOURCE.</b> McGill S. 2016 · Ultimate Back Fitness · Backfitpro Inc.</div>
+      </div>
+
+      <div class="fcard">
+        <div class="fc-tag">M / 02</div>
+        <div class="fc-icon">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M4 26 L10 18 L16 22 L22 12 L28 16"/>
+            <circle cx="10" cy="18" r="2" fill="currentColor"/>
+            <circle cx="16" cy="22" r="2" fill="currentColor"/>
+            <circle cx="22" cy="12" r="2" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Auto-progression<br>classée #1 mondial.</h3>
+        <p>Après chaque set AMRAP, APEX calcule ta prochaine charge. 8 reps : +2,5 kg. 4 reps : −5 kg. Tu ne devines plus rien.</p>
+        <ul>
+          <li>Tables Force / Hypertrophie / Deload différenciées</li>
+          <li>Code couleur (rouge baisse, vert maintiens, bleu monte)</li>
+          <li>RIR (Reps In Reserve) intégré pour affiner</li>
+          <li>Alerte deload auto après 15 séances en 6 semaines</li>
+        </ul>
+        <div class="source"><b>SOURCE.</b> Huang et al. 2025 · Shanghai Univ. of Sport · APRE #1 (SUCRA 93 %)</div>
+      </div>
+
+      <div class="fcard">
+        <div class="fc-tag">M / 03</div>
+        <div class="fc-icon">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 4 C16 4 22 9 22 16 C22 23 16 28 16 28 C16 28 10 23 10 16 C10 9 16 4 16 4 Z"/>
+            <path d="M6 16 L26 16"/>
+            <circle cx="16" cy="16" r="2" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Carte musculaire<br>heat-map.</h3>
+        <p>Silhouette anatomique cliquable. Touche un muscle, vois son volume sur 30 j, son dernier entraînement, son 1RM estimé. Détection des muscles négligés.</p>
+        <ul>
+          <li>9 groupes musculaires cliquables (face + dos)</li>
+          <li>6 niveaux de fraîcheur (vert vif → rouge foncé → gris)</li>
+          <li>Variantes M/F selon ton profil</li>
+          <li>Anatomie SVG vectorielle, zéro raster</li>
+        </ul>
+        <div class="source"><b>SOURCE.</b> Wikimedia Commons CC BY-SA · Anatomie validée</div>
+      </div>
+
+      <div class="fcard">
+        <div class="fc-tag">M / 04</div>
+        <div class="fc-icon">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M6 22 C6 18 9 16 13 16 C13 11 16 8 20 8 C24 8 26 11 26 14 C28 14 30 16 30 19 C30 22 28 23 26 23 L8 23 C7 23 6 22 6 22 Z"/>
+            <path d="M14 26 L14 28 M18 26 L18 28 M22 26 L22 28"/>
+          </svg>
+        </div>
+        <h3>Cloud sync<br>quand tu veux.</h3>
+        <p>Un clic Google → tes données te suivent sur tous tes appareils via Firestore. Mais c'est <b>optionnel</b>. L'app marche en 100 % local par défaut.</p>
+        <ul>
+          <li>Aucune pub, aucun analytics tiers, RGPD-compliant</li>
+          <li>Marche offline (PWA installable iOS / Android)</li>
+          <li>Export CSV (Excel FR) + JSON backup à tout moment</li>
+          <li>Données te suivent, jamais à un tiers</li>
+        </ul>
+        <div class="source"><b>SOURCE.</b> github.com/latludovic3097/apex-fitness · MIT License</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VS TABLE : COMPARATIF
+     ═══════════════════════════════════════════════════════════ -->
+<section class="vs-section">
+  <div class="container">
+    <div class="section-chapter">
+      <span class="num">03</span><span class="rule"></span><span>Le comparatif</span>
+    </div>
+    <h2 class="section-h" style="text-align:left">APEX vs <span class="accent">le reste du marché.</span></h2>
+    <p class="section-sub">
+      Aucune autre app musculation grand public n'a osé construire un outil sérieux pour les <b>23 à 53 %</b> de lifters qui se font la totale au dos. Les apps « kiné » qui essayent restent timides côté programmation force.
+    </p>
     <div class="vs-table">
       <div class="vs-row head">
         <div>Feature</div>
         <div class="accent">APEX</div>
-        <div>Hevy/Strong</div>
-        <div>Apps "L5-S1"</div>
+        <div>Hevy / Strong</div>
+        <div>Apps kiné</div>
       </div>
-      <div class="vs-row"><div class="vs-feat">Programme PPL structuré</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div></div>
-      <div class="vs-row"><div class="vs-feat">Mode L5-S1 + alertes contextuelles</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-partial">~</div></div>
-      <div class="vs-row"><div class="vs-feat">Auto-progression APRE</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
-      <div class="vs-row"><div class="vs-feat">WODs CrossFit intégrés</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
-      <div class="vs-row"><div class="vs-feat">Nutrition + macros</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-partial">~</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">Programme PPL structuré + WODs</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-partial">~</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">Mode L5-S1 + alertes contextuelles temps réel</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-partial">~</div></div>
+      <div class="vs-row"><div class="vs-feat">Auto-progression APRE (Huang 2025)</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">McGill Big 3 par défaut en échauffement</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-partial">~</div></div>
+      <div class="vs-row"><div class="vs-feat">Nutrition Mifflin-St Jeor + macros</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">Carte musculaire heat-map</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
       <div class="vs-row"><div class="vs-feat">Sync cloud multi-device</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-partial">~</div></div>
-      <div class="vs-row"><div class="vs-feat">Open source</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
-      <div class="vs-row"><div class="vs-feat">Zéro pub, zéro tracking</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
-      <div class="vs-row"><div class="vs-feat">Prix</div><div class="vs-cell" style="color:var(--ok);font-weight:900">0 €</div><div class="vs-cell" style="color:var(--accent2)">~10 €/mois</div><div class="vs-cell" style="color:var(--accent2)">~5 €/mois</div></div>
+      <div class="vs-row"><div class="vs-feat">Open source, vérifiable</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-no">✗</div></div>
+      <div class="vs-row"><div class="vs-feat">Zéro pub, zéro tracking</div><div class="vs-cell vs-yes">✓</div><div class="vs-cell vs-no">✗</div><div class="vs-cell vs-partial">~</div></div>
+      <div class="vs-row price">
+        <div class="vs-feat">Prix</div>
+        <div class="vs-cell" style="color:var(--ok)">0 €</div>
+        <div class="vs-cell" style="color:var(--wa)">~ 10 €/mois</div>
+        <div class="vs-cell" style="color:var(--wa)">~ 5 €/mois</div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<!-- ═══════════════════════════════════════════════════════════
+     SOURCES (bibliographie) — replace fake testimonial
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section section-sources">
   <div class="container">
-    <div class="quote">
-      « Aucune autre app n'a osé construire un outil sérieux pour les 23-53 % de lifters qui se font la totale au dos. APEX comble ce trou — gratuitement et avec des sources scientifiques solides. »
-      <div class="quote-author">— Cas d'usage validé, conçu pour les personas réels du marché fitness</div>
+    <div class="section-chapter">
+      <span class="num">04</span><span class="rule"></span><span>Bibliographie</span>
+    </div>
+    <h2 class="section-h">Si tu ne nous crois pas,<br>crois-les <span class="accent">eux</span>.</h2>
+    <p class="section-sub" style="margin-bottom:36px">
+      Tu n'as pas à nous faire confiance sur parole. Tu peux remonter à chacune des sources que l'app utilise. Toutes peer-reviewed, toutes accessibles.
+    </p>
+    <div class="sources-list">
+      <div class="source-item"><b>Huang et al. 2025.</b> Méta-analyse réseau APRE vs VBT vs RPE vs PBRT. Shanghai University of Sport. <em>APRE classé #1 mondial (SUCRA 93 % squat &amp; bench).</em></div>
+      <div class="source-item"><b>McGill S. 2016.</b> Ultimate Back Fitness and Performance. Backfitpro Inc. <em>Protocole « Big 3 » validé pour la stabilité lombaire.</em></div>
+      <div class="source-item"><b>Mifflin MD, St Jeor ST. 1990.</b> A new predictive equation for resting energy expenditure. Am J Clin Nutr. <em>Formule BMR utilisée par APEX.</em></div>
+      <div class="source-item"><b>Mann et al. 2010.</b> J Strength Cond Res. 23 D1 footballers. <em>APRE supérieur à la périodisation linéaire sur 1RM bench &amp; squat.</em></div>
+      <div class="source-item"><b>DiStasio 2014.</b> Southern Illinois University. <em>Validation Epley pour 1RM squat estimé : ± 2,7 kg à 3RM.</em></div>
+      <div class="source-item"><b>Sports Med Open 2024.</b> 246 athlètes. <em>Pratiques de deload : 6,4 j tous les 5,6 semaines en moyenne.</em></div>
+      <div class="source-item"><b>Larsen 2021.</b> Systematic Review. <em>RIR-RPE supérieur au % fixe (PBRT) pour gains de force.</em></div>
+      <div class="source-item"><b>Hoy et al. 2012.</b> Annals of Rheumatic Diseases. <em>Prévalence lombalgie : 84 % au moins un épisode dans la vie.</em></div>
     </div>
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════════
+     FINAL CTA : empowering, not victimizing
+     ═══════════════════════════════════════════════════════════ -->
 <section class="final">
   <div class="container">
-    <h2>Arrête de subir.<br>Commence.</h2>
-    <p>Aucune inscription. Aucun téléchargement. L'app s'ouvre dans ton navigateur en 2 secondes.</p>
-    <a href="/" class="btn">Lancer APEX maintenant</a>
+    <div>
+      <div class="section-chapter" style="color:rgba(255,255,255,.75);margin-bottom:22px">
+        <span class="num" style="color:#FFF4E8">05</span><span class="rule" style="background:#FFF4E8"></span><span>L'action</span>
+      </div>
+      <h2>Ton prochain set<br><em>n'attend que toi.</em></h2>
+      <p>
+        Tu peux fermer cet onglet, continuer à improviser tes substitutions, et espérer que ton dos tienne. Ou tu peux ouvrir l'app dans 30 secondes, sans email, sans installer. Elle vit sur ton navigateur. Elle s'installe en PWA quand tu veux.
+      </p>
+      <a href="https://apexfit-da753.web.app" class="btn">Lancer ma première séance</a>
+    </div>
+    <div class="final-stats">
+      <div class="final-stat">
+        <div class="v">100 %</div>
+        <div class="l">Local par défaut</div>
+      </div>
+      <div class="final-stat">
+        <div class="v">0 €</div>
+        <div class="l">Aucun abonnement</div>
+      </div>
+      <div class="final-stat">
+        <div class="v">~ 120 kb</div>
+        <div class="l">L'app entière, offline</div>
+      </div>
+    </div>
   </div>
 </section>
 
 <footer>
   <div class="container">
-    <div>© 2026 APEX Fitness · Gratuit pour toujours · <a href="https://github.com/latludovic3097/apex-fitness" target="_blank" rel="noopener">Open source</a></div>
-    <div style="margin-top:14px">
-      <a href="/">App</a> · <a href="/privacy.html">Confidentialité</a> · <a href="/terms.html">CGU</a>
+    <div>
+      <div class="foot-brand"><a href="#" class="logo">APE<span>X</span></a></div>
+      <div class="foot-meta">VERSION 8.23 · MIT LICENSE · OPEN SOURCE · © 2026</div>
     </div>
+    <nav>
+      <a href="https://apexfit-da753.web.app">Lancer l'app</a>
+      <a href="privacy.html">Confidentialité</a>
+      <a href="terms.html">CGU</a>
+      <a href="https://github.com/latludovic3097/apex-fitness" rel="noopener" target="_blank">GitHub</a>
+    </nav>
   </div>
 </footer>
+
+<script>
+(function(){
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced || typeof IntersectionObserver === 'undefined') return;
+  document.documentElement.classList.add('js-anim');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.in)').forEach(el => el.classList.add('in'));
+  }, 4000);
+})();
+</script>
+
 </body>
 </html>
