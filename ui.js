@@ -61,9 +61,46 @@ function matchWodFilter(w, filter){
   return true;
 }
 
+// ─── L1 fix v8.24 : détecte un localStorage cassé (iOS Safari Private, quotas)
+// Sans ça, l'app boucle sur le disclaimer ou crash silencieusement.
+function _localStorageBroken(){
+  try{
+    const k="__apex_ls_test__";
+    localStorage.setItem(k,"1");
+    if(localStorage.getItem(k)!=="1") return true;
+    localStorage.removeItem(k);
+    return false;
+  }catch(e){ return true; }
+}
+
 // ─── RENDER ROOT (P0 #3 : wrapped in safeRender for error boundary) ───
 function R(){
   const a=document.getElementById("app");
+  // L1 fix : si le navigateur a bloqué localStorage (Safari Private, cookies off),
+  // on ne peut RIEN faire. On affiche un écran clair plutôt que de boucler.
+  if(_localStorageBroken()){
+    a.innerHTML = `<div style="padding:60px 24px;text-align:center;max-width:480px;margin:0 auto">
+      <div style="font-size:42px;margin-bottom:18px">🔒</div>
+      <h1 style="font-size:22px;font-weight:900;letter-spacing:1px;color:#E63946;margin-bottom:14px;text-transform:uppercase">Stockage bloqué</h1>
+      <p style="font-size:15px;color:#48484a;line-height:1.6;margin-bottom:18px">
+        APEX a besoin du stockage local de ton navigateur pour fonctionner.
+        Pour le moment il est bloqué, ce qui arrive le plus souvent dans :
+      </p>
+      <ul style="text-align:left;font-size:14px;color:#48484a;line-height:1.7;list-style:none;padding:0;margin:0 auto 24px;max-width:340px">
+        <li style="padding:6px 0;border-bottom:1px solid #e5e5ea"><b style="color:#1c1c1e">Safari iOS</b> en navigation privée</li>
+        <li style="padding:6px 0;border-bottom:1px solid #e5e5ea"><b style="color:#1c1c1e">Chrome</b> en navigation privée ou cookies désactivés</li>
+        <li style="padding:6px 0"><b style="color:#1c1c1e">Bloqueurs de pubs</b> trop agressifs (rare)</li>
+      </ul>
+      <p style="font-size:14px;color:#48484a;line-height:1.6">
+        <b style="color:#1c1c1e">Solution :</b> ouvre cet onglet en mode normal (pas privé),
+        ou autorise le stockage pour <code style="background:#f0f0f3;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:13px">apexfit-da753.web.app</code>.
+      </p>
+      <p style="font-size:12px;color:#6c6c70;margin-top:24px">
+        Tes données restent 100 % sur ton appareil. Aucun envoi serveur.
+      </p>
+    </div>`;
+    return;
+  }
   // Garde-fou : si le disclaimer n'a pas été accepté, R() ne doit rien faire
   // (sinon sync.js qui appelle R() au sync-ready override le disclaimer)
   if(!localStorage.getItem("apex_disclaimer")) return;

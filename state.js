@@ -1,6 +1,27 @@
 // APEX Fitness — Gestion de l'état + business logic stateful
 // Dépend de : core.js (calc1RM, getAPREAdjustment), data.js (PHASES, WODS, PROG)
 
+// ─── L10 v8.24 : UTM tracking RGPD-pur (0 third-party, 0 IP, 0 fingerprint)
+// Capture les paramètres UTM SI l'utilisateur arrive avec une URL taggée
+// (ex: apexfit-da753.web.app/?utm_source=reddit&utm_medium=backpain).
+// Persisté UNIQUEMENT en localStorage. Propagé à Firestore seulement si l'user
+// se connecte avec Google (consentement explicite). Pas d'event tracking en
+// continu : un seul capture au tout premier hit avec UTM.
+(function captureAcquisition(){
+  try {
+    if(localStorage.getItem("apex_acquisition")) return; // déjà capturé
+    const p = new URLSearchParams(window.location.search);
+    const keys = ["utm_source","utm_medium","utm_campaign","utm_term","utm_content","ref"];
+    const data = {};
+    let hasAny = false;
+    keys.forEach(k => { const v = p.get(k); if(v){ data[k] = v.slice(0,80); hasAny = true; } });
+    if(!hasAny) return;
+    data.firstVisit = new Date().toISOString();
+    data.landing = location.pathname; // ex: /landing-c.html ou /
+    localStorage.setItem("apex_acquisition", JSON.stringify(data));
+  } catch(e) {}
+})();
+
 // ─── STATE GLOBAL ───
 const SK = "apex-fit-v8";
 let S = {
