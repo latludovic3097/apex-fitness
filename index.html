@@ -38,14 +38,14 @@
   --tx:#1c1c1e;           /* primary text (near-black) */
   --t2:#48484a;           /* secondary text (dark gray, high contrast) */
   --mt:#6c6c70;           /* muted text (WCAG AA — contraste 5.7:1 sur bg) */
-  --ac:#E63946;           /* accent red (kept) */
-  --ok:#2A9D8F;           /* success green */
-  --wa:#F4A261;           /* warning orange */
-  --in:#06b6d4;           /* info / cyan (Hevy-like active) */
+  --ac:#E63946;           /* accent red (voix de marque, 5 rôles précis) */
+  --ok:#2A9D8F;           /* success green (wellness category) */
+  --wa:#F4A261;           /* warning orange (L5-S1 alerts) */
+  --info:#4A7AAB;         /* info bleu acier (suggest-line APRE, tooltip popovers) */
   --ac10:rgba(230,57,70,.10);
   --ok10:rgba(42,157,143,.10);
   --wa10:rgba(244,162,97,.10);
-  --in10:rgba(6,182,212,.10);
+  --info10:rgba(74,122,171,.10);
   --shadow-sm: 0 1px 2px rgba(0,0,0,.06), 0 1px 1px rgba(0,0,0,.04);
   --shadow-md: 0 2px 8px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.04);
 }
@@ -83,8 +83,8 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
 .sess-meta{font-size:13px;color:var(--t2);margin-top:5px;font-weight:500}
 .sess-muscles{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}
 .muscle-tag{font-size:11px;padding:4px 10px;border-radius:10px;font-weight:700}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--cd);border-top:1px solid var(--bd);display:flex;justify-content:space-around;padding:10px 0 14px;z-index:100;box-shadow:0 -2px 12px rgba(0,0,0,.04)}
-.nav-btn{background:none;border:none;color:var(--mt);font-size:12px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 14px;font-family:inherit}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--cd);border-top:1px solid var(--bd);display:flex;justify-content:space-around;padding:8px 0 12px;z-index:100;box-shadow:0 -2px 12px rgba(0,0,0,.04)}
+.nav-btn{background:none;border:none;color:var(--mt);font-size:12px;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;padding:6px 14px;font-family:inherit;min-height:48px;min-width:60px}
 .nav-btn.active{color:var(--ac);font-weight:800}.nav-btn svg{width:22px;height:22px}
 .btn{background:var(--ac);color:#fff;border:none;border-radius:12px;padding:14px 20px;font-size:15px;font-weight:800;cursor:pointer;width:100%;font-family:inherit;box-shadow:var(--shadow-sm);letter-spacing:.5px}.btn:active{opacity:.85;transform:scale(.99)}
 .btn-ok{background:var(--ok)}.btn2{background:var(--cd2);color:var(--tx);border:1px solid var(--bd);border-radius:11px;padding:11px 16px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
@@ -93,8 +93,8 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
 .prog-bar{background:var(--bd);border-radius:4px;height:5px;margin-top:8px}.prog-fill{height:5px;border-radius:4px;transition:width .3s}
 .pills{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent)}
 .pills::-webkit-scrollbar{display:none}
-.pill{padding:7px 14px;border-radius:18px;border:1.5px solid var(--bd);background:var(--cd);color:var(--t2);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;scroll-snap-align:start;flex-shrink:0}.pill.active{color:#fff;border-color:transparent}
-@media(max-width:480px){.pills{padding:12px 12px;gap:5px}.pill{padding:7px 11px;font-size:12px}}
+.pill{padding:0 16px;min-height:44px;border-radius:22px;border:1.5px solid var(--bd);background:var(--cd);color:var(--t2);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;scroll-snap-align:start;flex-shrink:0;display:inline-flex;align-items:center}.pill.active{color:#fff;border-color:transparent}
+@media(max-width:480px){.pills{padding:12px 12px;gap:5px}.pill{padding:0 12px;font-size:12px}}
 .ex-imgs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding:4px 0}
 .ex-img-wrap{flex-shrink:0;width:135px;height:135px;border-radius:12px;overflow:hidden;border:1.5px solid var(--bd);background:var(--cd2);position:relative}
 .ex-img-wrap img{width:100%;height:100%;object-fit:cover}
@@ -117,7 +117,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
 .tbtn{border:none;border-radius:9px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
 .tbtn-go{background:var(--ok);color:#fff}.tbtn-pause{background:var(--ac);color:#fff}.tbtn-reset{background:var(--cd);color:var(--t2);border:1.5px solid var(--bd)}
 .pr-line{margin-top:12px;font-size:13px;color:var(--t2);text-align:center;padding:10px;background:var(--cd2);border-radius:10px;font-weight:600}
-.suggest-line{margin-top:10px;font-size:13px;text-align:center;padding:10px;background:rgba(69,123,157,.10);border-radius:10px;color:#3D6790;font-weight:700;border:1px solid rgba(69,123,157,.2)}
+.suggest-line{margin-top:10px;font-size:13px;text-align:center;padding:10px;background:var(--info10);border-radius:10px;color:var(--info);font-weight:700;border:1px solid var(--info10)}
 .ex-nav{display:flex;gap:10px;margin-top:18px}.ex-nav>*{flex:1}
 .wu-card{border-bottom:1px solid var(--bd);padding:14px 0}.wu-card:last-child{border-bottom:none}
 .wu-top{display:flex;gap:13px;align-items:flex-start}
@@ -139,6 +139,33 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
 .score-item{flex:1;background:var(--cd);border-radius:14px;padding:14px 8px;text-align:center;border:1px solid var(--bd);box-shadow:var(--shadow-sm)}
 .score-val{font-size:22px;font-weight:900}.score-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--mt);margin-top:3px;font-weight:700}
 .l5-alert{background:rgba(244,162,97,.10);border:1.5px solid var(--wa);border-radius:11px;padding:11px 14px;font-size:13px;color:#B97534;margin-bottom:14px;display:flex;align-items:center;gap:8px;font-weight:600}
+/* ─── L5-S1 banner ambient (Phase 2 layout : info critique persona primaire en haut) ─── */
+.l5-banner{margin:0 16px 14px;background:var(--ok10);border:1px solid var(--ok);border-radius:12px;overflow:hidden}
+.l5-banner summary{padding:0 14px;min-height:44px;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--ok);list-style:none;user-select:none}
+.l5-banner summary::-webkit-details-marker{display:none}
+.l5-banner summary::after{content:"›";margin-left:auto;font-size:22px;font-weight:600;color:var(--ok);transition:transform .15s ease-out;line-height:1}
+.l5-banner[open] summary::after{transform:rotate(90deg)}
+.l5-banner-dot{width:10px;height:10px;border-radius:50%;background:var(--ok);flex-shrink:0;box-shadow:0 0 0 4px var(--ok10)}
+.l5-body{padding:4px 14px 14px;font-size:13px;color:var(--t2);line-height:1.6}
+.l5-body b{color:var(--tx);font-weight:700}
+/* ─── PPL 3-up grid (Phase 2 layout : casser monotonie 8 cartes verticales) ─── */
+.home-row-3up{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 16px;margin-bottom:12px}
+.home-tile{background:var(--cd);border:1px solid var(--bd);border-top:3px solid var(--ac);border-radius:12px;padding:14px 8px 12px;text-align:center;cursor:pointer;min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:var(--shadow-sm);transition:transform .12s ease-out,box-shadow .12s ease-out;font-family:inherit}
+.home-tile:active{transform:scale(.97);box-shadow:var(--shadow-md)}
+.home-tile .tile-name{font-size:18px;font-weight:800;letter-spacing:1.5px}
+.home-tile .tile-meta{font-size:11px;color:var(--mt);font-weight:600;letter-spacing:.2px}
+/* ─── Tools chip list (Phase 2 layout : outils en footer condensé) ─── */
+.tools-chips{display:flex;gap:8px;padding:0 16px 14px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent)}
+.tools-chips::-webkit-scrollbar{display:none}
+.tool-chip{flex-shrink:0;scroll-snap-align:start;background:var(--cd);border:1px solid var(--bd);border-radius:12px;padding:0 14px;min-height:44px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;color:var(--ac);white-space:nowrap;box-shadow:var(--shadow-sm);transition:transform .12s ease-out}
+.tool-chip:active{transform:scale(.97)}
+.tool-chip-ic{width:18px;height:18px;flex-shrink:0;color:var(--ac)}
+/* ─── Tooltip system (Phase 4 polish : aide inline pour concepts techniques) ─── */
+.ttip-btn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--cd2);color:var(--mt);border:1px solid var(--bd);font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;padding:0;margin-left:4px;vertical-align:1px;-webkit-tap-highlight-color:transparent}
+.ttip-btn:hover,.ttip-btn:focus-visible{color:var(--ac);border-color:var(--ac);outline:none}
+.ttip-pop{position:fixed;z-index:200;background:var(--tx);color:#fff;padding:10px 14px;border-radius:10px;max-width:260px;font-size:12.5px;font-weight:500;line-height:1.45;box-shadow:0 8px 24px rgba(0,0,0,.18);pointer-events:none}
+.ttip-pop b{color:#fff;font-weight:700}
+@media(prefers-reduced-motion:reduce){.home-tile,.tool-chip,.l5-banner summary::after{transition:none}}
 /* ─── Body map (anatomie Wikimedia + hotspots) ─── */
 .bodymap-container{position:relative;max-width:520px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid var(--bd)}
 .bodymap-container img{width:100%;display:block;user-select:none;-webkit-user-drag:none}
@@ -164,15 +191,15 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
      `defer` sur tous les classics : téléchargement parallèle, exécution séquentielle après HTML parsé.
      → débloque le rendu initial (FCP) sans changer l'ordre d'exécution.
      sync.js est un module ES (defer auto) → s'exécute après les classics, dispatche apex:sync-ready. -->
-<script src="core.js?v=8.19" defer></script>
-<script src="data.js?v=8.19" defer></script>
-<script src="anatomy.js?v=8.19" defer></script>
-<script src="pathologies.js?v=8.19" defer></script>
-<script src="achievements.js?v=8.19" defer></script>
-<script src="state.js?v=8.19" defer></script>
-<script src="ui.js?v=8.19" defer></script>
-<script src="firebase-config.js?v=8.19" defer></script>
-<script type="module" src="sync.js?v=8.19"></script>
+<script src="core.js?v=8.20" defer></script>
+<script src="data.js?v=8.20" defer></script>
+<script src="anatomy.js?v=8.20" defer></script>
+<script src="pathologies.js?v=8.20" defer></script>
+<script src="achievements.js?v=8.20" defer></script>
+<script src="state.js?v=8.20" defer></script>
+<script src="ui.js?v=8.20" defer></script>
+<script src="firebase-config.js?v=8.20" defer></script>
+<script type="module" src="sync.js?v=8.20"></script>
 
 <!-- Service Worker : auto-update + toast -->
 <script>

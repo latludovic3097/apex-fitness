@@ -1,6 +1,49 @@
 // APEX Fitness — Rendu, actions, init
 // Dépend de : core.js, data.js, state.js (chargés avant)
 
+// ─── SVG icons inline (Phase 4 polish : cohérence cross-OS, remplace les emojis) ───
+// Feather/Lucide-style 24px viewBox, stroke=currentColor pour thème.
+const SVG = {
+  map:'<svg class="tool-chip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>',
+  barbell:'<svg class="tool-chip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="2" y1="12" x2="22" y2="12"/><line x1="5" y1="8" x2="5" y2="16"/><line x1="8" y1="6" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="18"/><line x1="19" y1="8" x2="19" y2="16"/></svg>',
+  sliders:'<svg class="tool-chip-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>',
+  bulb:'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>'
+};
+
+// ─── Tooltip popover (Phase 4 polish : aide inline pour APRE/RIR/BMR/TDEE/1RM/Fatigue) ───
+let _ttipEl = null, _ttipDismiss = null;
+function showTip(el, text){
+  if(_ttipEl){ _ttipEl.remove(); _ttipEl = null; if(_ttipDismiss){ document.removeEventListener('click', _ttipDismiss); _ttipDismiss = null; } }
+  const t = document.createElement('div');
+  t.className = 'ttip-pop';
+  t.setAttribute('role','tooltip');
+  t.innerHTML = text;
+  document.body.appendChild(t);
+  const r = el.getBoundingClientRect();
+  const w = t.offsetWidth, h = t.offsetHeight;
+  let x = Math.min(window.innerWidth - w - 8, Math.max(8, r.left + r.width/2 - w/2));
+  let y = r.bottom + 8;
+  if(y + h > window.innerHeight - 8) y = r.top - h - 8;
+  t.style.left = x + 'px';
+  t.style.top = y + 'px';
+  _ttipEl = t;
+  // Dismiss on next click anywhere except the same button
+  setTimeout(()=>{
+    _ttipDismiss = (e)=>{
+      if(e.target === el || el.contains(e.target)) return;
+      if(_ttipEl){ _ttipEl.remove(); _ttipEl = null; }
+      document.removeEventListener('click', _ttipDismiss);
+      _ttipDismiss = null;
+    };
+    document.addEventListener('click', _ttipDismiss);
+  }, 0);
+}
+// Helper pour générer un bouton ?-tooltip
+function ttip(text){
+  const e = text.replace(/'/g, "&#39;").replace(/"/g, "&quot;");
+  return `<button type="button" class="ttip-btn" onclick="showTip(this,'${e}')" aria-label="Explication">?</button>`;
+}
+
 // ─── RENDER ROOT (P0 #3 : wrapped in safeRender for error boundary) ───
 function R(){
   const a=document.getElementById("app");
@@ -170,34 +213,37 @@ function rHome(){
   const today=new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
   const ph=PHASES[S.phase],fat=getFatigue(),rec=getRecommendation();
   const recSess=PROG.sessions.find(s=>s.id===rec.id);
-  const ppls=['push','pull','legs'].map(id=>{const h=S.hist.find(x=>x.sessionId===id);const d=h?Math.floor((Date.now()-new Date(h.date))/864e5):null;const ss=PROG.sessions.find(s=>s.id===id);return{name:ss.name,color:ss.color,days:d};});
   const compounds=["Bench Press","Back Squat","Romanian Deadlift","OHP Debout","Pull-ups"];
   const rmCards=compounds.map(n=>{const rm=get1RM(n);return rm?`<div style="text-align:center;min-width:70px"><div style="font-size:16px;font-weight:900">${rm}<span style="font-size:12px;color:var(--mt)">kg</span></div><div style="font-size:10px;color:var(--mt);margin-top:1px">${n.length>12?n.slice(0,12)+'…':n}</div></div>`:null;}).filter(Boolean);
 
   return`<div class="hdr"><div class="logo">APEX</div><div style="font-size:13px;color:var(--mt)">${today}</div></div>
+  <details class="l5-banner">
+    <summary><span class="l5-banner-dot"></span>Mode L5-S1 actif — règles de protection</summary>
+    <div class="l5-body"><b>Obligatoire</b> : McGill Big 3 + Dead Bug<br><b>Interdit</b> : Bent-over rows, deadlift conventionnel<br><b>Modifié</b> : Burpees step-back, ceinture au squat<br><b>Alertes</b> : en temps réel sur chaque exercice sensible</div>
+  </details>
   ${rStreakBanner()}
   ${S.hist.length>=4?`<div class="score-card">
-    <div class="score-item"><div class="score-val" style="color:${fat.color}">${fat.score}</div><div class="score-lbl">Fatigue</div></div>
+    <div class="score-item"><div class="score-val" style="color:${fat.color}">${fat.score}</div><div class="score-lbl">Fatigue ${ttip("Compare ton volume 7 derniers jours à ta moyenne hebdo. <b>&gt;75</b> = surcharge, considère un deload (Sports Med Open 2024).")}</div></div>
     <div class="score-item"><div class="score-val">${S.hist.length}</div><div class="score-lbl">Séances</div></div>
     <div class="score-item"><div class="score-val">${S.hist.filter(h=>(Date.now()-new Date(h.date))<6048e5).length}</div><div class="score-lbl">7 jours</div></div>
   </div>
   <div class="card" style="padding:12px 16px"><div style="font-size:13px;color:${fat.color};font-weight:600">${fat.label}</div><div style="background:var(--bd);border-radius:4px;height:8px;margin-top:6px;overflow:hidden"><div class="fatigue-bar" style="width:${fat.score}%;background:${fat.color}"></div></div></div>`
   :`<div class="stats-row"><div class="stat-box"><div class="stat-val">${S.hist.length}</div><div class="stat-lbl">Séances</div></div><div class="stat-box"><div class="stat-val">${S.hist.filter(h=>(Date.now()-new Date(h.date))<6048e5).length}</div><div class="stat-lbl">7 jours</div></div></div>`}
-  ${rmCards.length?`<div class="card"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:8px">1RM Estimés (Epley)</div><div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:8px">${rmCards.join("")}</div></div>`:""}
+  ${rmCards.length?`<div class="card"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:8px;display:flex;align-items:center">1RM Estimés (Epley) ${ttip("<b>1 Rep Max</b> estimé via la formule d Epley : W × (1 + reps/30). Précis à ±2.7 kg pour 3RM (DiStasio 2014).")}</div><div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:8px">${rmCards.join("")}</div></div>`:""}
   <div class="card" style="border-left:4px solid ${ph.color}"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">Phase</div><div style="font-size:16px;font-weight:900;color:${ph.color};margin-top:2px">${ph.name}</div><div style="font-size:13px;color:var(--t2);margin-top:2px">${ph.desc} — ${ph.numSets}×${ph.reps}</div></div><div style="display:flex;gap:4px">${PHASES.map((p,i)=>`<button onclick="setPhase(${i})" style="width:24px;height:24px;border-radius:50%;border:2px solid ${p.color};background:${S.phase===i?p.color:'none'};cursor:pointer;color:${S.phase===i?'#fff':p.color};font-size:11px;font-weight:700">${i+1}</button>`).join("")}</div></div></div>
-  ${recSess?`<div class="card" style="border-left:4px solid ${recSess.color};cursor:pointer" onclick="goSess('${rec.id}')"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--ok);font-weight:600">💡 Recommandé aujourd'hui</div><div style="font-size:16px;font-weight:900;color:${recSess.color};margin-top:4px">${recSess.name}</div><div style="font-size:13px;color:var(--mt);margin-top:2px">${rec.days>0?`Dernier il y a ${rec.days}j`:'Jamais fait'} — WOD: ${pickWOD(rec.id)?.name||'—'}</div></div>`:``}
-  <div class="card" style="padding:12px 16px"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:10px">⟳ Cycle PPL — Récupération</div><div style="display:flex;align-items:center;gap:5px">${ppls.map((p,i)=>`<div style="flex:1;text-align:center;border-radius:10px;padding:9px 4px;border:1px solid ${p.days===0?p.color:'var(--bd)'};background:${p.days===0?p.color+'22':p.days===null?'var(--cd2)':'none'}"><div style="font-size:14px;font-weight:900;color:${p.color}">${p.name}</div><div style="font-size:13px;font-weight:700;margin-top:3px;color:${p.days===null?'var(--mt)':p.days===0?p.color:p.days<=2?'var(--ok)':p.days<=5?'var(--t2)':'var(--mt)'}">${p.days===null?'—':p.days===0?'Auj.':p.days===1?'Hier':p.days+'j'}</div></div>${i<2?`<div style="color:var(--mt);font-size:13px;flex-shrink:0">→</div>`:''}`).join('')}</div></div>
+  ${recSess?`<div class="card" style="border-left:4px solid ${recSess.color};cursor:pointer" onclick="goSess('${rec.id}')"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--ok);font-weight:600;display:flex;align-items:center;gap:6px">${SVG.bulb}<span>Recommandé aujourd'hui</span></div><div style="font-size:16px;font-weight:900;color:${recSess.color};margin-top:4px">${recSess.name}</div><div style="font-size:13px;color:var(--mt);margin-top:2px">${rec.days>0?`Dernier il y a ${rec.days}j`:'Jamais fait'} — WOD: ${pickWOD(rec.id)?.name||'—'}</div></div>`:``}
   <h2 class="sec-title">Programme PPL</h2>
-  ${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const wod=pickWOD(s.id);return`<div class="card sess-card" style="border-left-color:${s.color}" onclick="goSess('${s.id}')"><div class="sess-inner"><div><div class="sess-name" style="color:${s.color}">${s.name}</div><div class="sess-meta">${s.compounds.length+s.pools.length} exos + WOD ${wod?.type||""}: ${wod?.name||""}</div><div class="sess-muscles">${s.muscles.map(m=>`<span class="muscle-tag" style="background:${MC[m]}22;color:${MC[m]}">${MN[m]}</span>`).join("")}</div>${last?`<div class="sess-meta">Dernier : ${new Date(last.date).toLocaleDateString("fr-FR")}</div>`:""}</div><div style="color:${s.color};font-size:22px;opacity:.7">→</div></div></div>`;}).join("")}
+  <div class="home-row-3up">${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const daysAgo=last?Math.floor((Date.now()-new Date(last.date))/864e5):null;const metaText=daysAgo===null?"Jamais":daysAgo===0?"Aujourd'hui":daysAgo===1?"Hier":`il y a ${daysAgo}j`;return`<button type="button" class="home-tile" style="border-top-color:${s.color}" onclick="goSess('${s.id}')" aria-label="Lancer ${s.name}"><div class="tile-name" style="color:${s.color}">${s.name}</div><div class="tile-meta">${metaText}</div></button>`;}).join("")}</div>
   <h2 class="sec-title">Wellness</h2>
   <div class="card sess-card sess-card-well" onclick="goCardio()"><div class="sess-inner"><div><div class="sess-name">CARDIO</div><div class="sess-meta">Course · Nage · Vélo — durée, pente, vitesse, distance, résistance</div>${(()=>{const lastC=S.hist.find(h=>h.sessionId==='cardio');return lastC?`<div class="sess-meta">Dernier : ${new Date(lastC.date).toLocaleDateString("fr-FR")} — ${lastC.cardio?.mode==='run'?'Course':lastC.cardio?.mode==='swim'?'Nage':'Vélo'}</div>`:"";})()}</div><div class="sess-icon">→</div></div></div>
   <div class="card sess-card sess-card-well" onclick="goCore()"><div class="sess-inner"><div><div class="sess-name">CORE</div><div class="sess-meta">Pallof Press + Suitcase Carry — programme 12 sem · 2×/sem · L5-S1 safe</div>${(()=>{const lastC=S.hist.find(h=>h.sessionId==='core');const wk=S.core.startDate?coreCurrentWeek():null;return lastC?`<div class="sess-meta">Dernier : ${new Date(lastC.date).toLocaleDateString("fr-FR")}${wk?` · Semaine ${wk}/12`:""}</div>`:wk?`<div class="sess-meta">Semaine ${wk}/12</div>`:`<div class="sess-meta" style="color:var(--ok)">Pas encore démarré</div>`;})()}</div><div class="sess-icon">→</div></div></div>
   <div class="card sess-card sess-card-well" onclick="nav('nutrition')"><div class="sess-inner"><div><div class="sess-name">NUTRITION</div><div class="sess-meta">${(()=>{const c=nutCalc(S.nut);return`Cible : <b style="color:var(--ok)">${c.target} kcal/j</b> · ${c.protein}g prot · ${c.fat}g lip · ${c.carbs}g glucides`;})()}</div>${S.nut.weightLog.length?`<div class="sess-meta">Dernière pesée : ${S.nut.weightLog[0].weight}kg le ${new Date(S.nut.weightLog[0].date).toLocaleDateString("fr-FR")}</div>`:`<div class="sess-meta" style="color:var(--ok)">Configurer mon plan calorique →</div>`}</div><div class="sess-icon">→</div></div></div>
   <h2 class="sec-title">Outils</h2>
-  <div class="card sess-card sess-card-util" onclick="goBodyMap()"><div class="sess-inner"><div><div class="sess-name">CARTE MUSCULAIRE</div><div class="sess-meta">Visualise quels muscles sont frais ou négligés (heat-map sur 30 jours)</div></div><div class="sess-icon">🗺</div></div></div>
-  <div class="card sess-card sess-card-util" onclick="nav('plate')"><div class="sess-inner"><div><div class="sess-name">PLATE CALCULATOR</div><div class="sess-meta">Quels disques charger pour atteindre 80 kg ? Bench, squat, deadlift...</div></div><div class="sess-icon">🏋️</div></div></div>
-  ${(S.custom && S.custom.exerciseIds && S.custom.exerciseIds.length)?`<div class="card sess-card sess-card-util" onclick="goSess('custom')"><div class="sess-inner"><div><div class="sess-name">${esc(S.custom.name||"CUSTOM")}</div><div class="sess-meta">${S.custom.exerciseIds.length} exos personnalisés${(()=>{const last=S.hist.find(h=>h.sessionId==='custom');return last?` · Dernier ${new Date(last.date).toLocaleDateString("fr-FR")}`:" · Jamais lancé";})()}</div></div><div class="sess-icon">🎨</div></div></div>`:""}
-  <div class="card" style="background:var(--ok10);border-color:var(--ok)"><div style="font-size:14px;font-weight:700;color:var(--ok);margin-bottom:4px">⚡ Mode Back Pain Safe — L5-S1</div><div style="font-size:13px;color:var(--t2);line-height:1.6"><b>Obligatoire</b> : McGill Big 3 + Dead Bug<br><b>Interdit</b> : Bent-over rows, deadlift conventionnel<br><b>Modifié</b> : Burpees step-back, ceinture au squat<br><b>Alertes</b> : en temps réel sur chaque exercice sensible</div></div>`;
+  <div class="tools-chips">
+    <button type="button" class="tool-chip" onclick="goBodyMap()" aria-label="Carte musculaire">${SVG.map}Carte musculaire</button>
+    <button type="button" class="tool-chip" onclick="nav('plate')" aria-label="Plate calculator">${SVG.barbell}Plate calculator</button>
+    ${(S.custom && S.custom.exerciseIds && S.custom.exerciseIds.length)?`<button type="button" class="tool-chip" onclick="goSess('custom')" aria-label="${esc(S.custom.name||"Custom")}">${SVG.sliders}${esc(S.custom.name||"Custom")}</button>`:""}
+  </div>`;
 }
 
 function rWU(id){return(WU[id]||[]).map(w=>`<div class="wu-card"><div class="wu-top">${w.img?`<div class="wu-img"><img src="${w.img}" alt="${esc(w.name)}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`:''}<div style="flex:1"><div style="font-size:14px;font-weight:700">${w.name}</div><div style="font-size:13px;color:var(--ok);font-weight:600;margin-top:2px">${w.reps}</div>${w.notes?`<div style="font-size:13px;color:var(--t2);margin-top:3px">${w.notes}</div>`:''}<div class="wu-links"><a href="${wk(w.name)}" target="_blank" style="color:#4ecdc4;background:rgba(78,205,196,.1)">Wiki</a>${w.yt?`<a href="${w.yt}" target="_blank" style="color:#ff0000;background:rgba(255,0,0,.08)">▶ YouTube</a>`:''}</div></div></div></div>`).join("");}
