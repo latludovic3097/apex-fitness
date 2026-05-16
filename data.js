@@ -15,93 +15,93 @@ const PHASES = [
 // ─── WOD POOLS ───
 const WODS = {
 push:[
-{type:"AMRAP",duration:8,name:"Push Storm",movements:[
+{type:"AMRAP",duration:8,name:"Push Storm",desc:"Pectoraux + épaules + abdo en endurance cardio. 8 min pour bien transpirer.",movements:[
   {name:"10 Push-ups",img:I+"Pushups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=push+up+proper+form"},
   {name:"10 DB Thrusters",img:I+"Dumbbell_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-thruster",yt:"https://www.youtube.com/results?search_query=dumbbell+thruster+form"},
   {name:"10 Sit-ups McGill",img:I+"Cable_Crunch/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-crunch",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up+form"}]},
-{type:"For Time",duration:null,name:"21-15-9",movements:[
+{type:"For Time",duration:null,name:"21-15-9",desc:"Sprint pectoraux + épaules + cardio via burpees. Pur sprint qui te met sur les genoux.",movements:[
   {name:"21-15-9 DB Push Press",img:I+"Dumbbell_Shoulder_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-push-press",yt:"https://www.youtube.com/results?search_query=dumbbell+push+press+form"},
   {name:"21-15-9 Step-back Burpees",img:I+"Mountain_Climbers/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-burpee",yt:"https://www.youtube.com/results?search_query=step+back+burpee+form"}]},
-{type:"EMOM",duration:10,name:"Push EMOM",movements:[
+{type:"EMOM",duration:10,name:"Push EMOM",desc:"Volume contrôlé pectoraux + hanches en EMOM. Bon travail technique sous fatigue.",movements:[
   {name:"Pair: 12 KB Swings",img:I+"Kettlebell_Sumo_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
   {name:"Impair: 8 Diamond Push-ups",img:I+"Push-Ups_-_Close_Triceps_Position/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-diamond-push-up",yt:"https://www.youtube.com/results?search_query=diamond+push+up+form"}]},
-{type:"Tabata",duration:4,name:"Push Tabata",movements:[
+{type:"Tabata",duration:4,name:"Push Tabata",desc:"Pectoraux + triceps en 4 min de pur HIIT. Brûle-graisse express.",movements:[
   {name:"Push-ups 20s on / 10s off ×8",img:I+"Pushups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=tabata+push+ups"}]},
-{type:"AMRAP",duration:10,name:"Ground to OH",movements:[
+{type:"AMRAP",duration:10,name:"Ground to OH",desc:"Full-body push + jambes via Devil's Press. Travail puissance verticale.",movements:[
   {name:"5 Devil's Press (DB)",img:I+"Dumbbell_Bench_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=devil+press+dumbbell+form"},
   {name:"10 Plate Ground-to-OH",img:I+"Clean_and_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=plate+ground+to+overhead+form"},
   {name:"15 Flutter Kicks",img:I+"Flutter_Kicks/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-flutter-kicks",yt:"https://www.youtube.com/results?search_query=flutter+kicks+form"}]},
-{type:"AMRAP",duration:12,name:"Press Circuit",movements:[
+{type:"AMRAP",duration:12,name:"Press Circuit",desc:"Volume épaules + triceps en circuit. Pump sans charge lombaire.",movements:[
   {name:"8 DB Push Press",img:I+"Dumbbell_Shoulder_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-push-press",yt:"https://www.youtube.com/results?search_query=dumbbell+push+press+form"},
   {name:"10 Pike Push-ups",img:I+"Decline_Push-Up/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pike-push-up",yt:"https://www.youtube.com/results?search_query=pike+push+up+shoulders+form"},
   {name:"12 Bench Tricep Dips",img:I+"Dips_-_Triceps_Version/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-bench-dip",yt:"https://www.youtube.com/results?search_query=bench+tricep+dips+form"}]},
-{type:"For Time",duration:null,name:"Push Chipper",movements:[
+{type:"For Time",duration:null,name:"Push Chipper",desc:"Pectoraux + triceps en pyramide descendante. Endurance musculaire pure.",movements:[
   {name:"30 Push-ups",img:I+"Pushups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=push+up+form"},
   {name:"20 DB Push Press",img:I+"Dumbbell_Shoulder_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-push-press",yt:"https://www.youtube.com/results?search_query=dumbbell+push+press"},
   {name:"10 Diamond Push-ups",img:I+"Push-Ups_-_Close_Triceps_Position/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-diamond-push-up",yt:"https://www.youtube.com/results?search_query=diamond+push+up"},
   {name:"20 DB Push Press",img:I+"Dumbbell_Shoulder_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-push-press",yt:"https://www.youtube.com/results?search_query=dumbbell+push+press"},
   {name:"30 Push-ups",img:I+"Pushups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-push-up",yt:"https://www.youtube.com/results?search_query=push+up+form"}]},
-{type:"EMOM",duration:10,name:"Shoulder Pump",movements:[
+{type:"EMOM",duration:10,name:"Shoulder Pump",desc:"Isolation épaules : deltoïdes latéraux + Arnold press. Volume pur.",movements:[
   {name:"Pair: 10 DB Lateral Raises",img:I+"Side_Lateral_Raise/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-lateral-raise",yt:"https://www.youtube.com/results?search_query=lateral+raise+form"},
   {name:"Impair: 8 DB Arnold Press",img:I+"Arnold_Dumbbell_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-arnold-press",yt:"https://www.youtube.com/results?search_query=arnold+press+form"}]}
 ],
 pull:[
-{type:"EMOM",duration:10,name:"Pull EMOM",movements:[
+{type:"EMOM",duration:10,name:"Pull EMOM",desc:"Dos en volume contrôlé, rows et tirages. Bon pour la posture.",movements:[
   {name:"Pair: 12 Ring/Band Rows",img:I+"Inverted_Row/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-inverted-row",yt:"https://www.youtube.com/results?search_query=inverted+row+ring+row+form"},
   {name:"Impair: 8 DB Rows/bras",img:I+"One-Arm_Dumbbell_Row/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=one+arm+dumbbell+row+form"}]},
-{type:"For Time",duration:null,name:"Pull Chipper",movements:[
+{type:"For Time",duration:null,name:"Pull Chipper",desc:"Dos + cardio en circuit dense. Force-endurance corps entier.",movements:[
   {name:"5 rounds: 5 Pull-ups",img:I+"Pullups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form"},
   {name:"10 KB Swings",img:I+"Kettlebell_Sumo_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
   {name:"15 Sit-ups",img:I+"Cable_Crunch/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-crunch",yt:"https://www.youtube.com/results?search_query=mcgill+curl+up"}]},
-{type:"AMRAP",duration:8,name:"Row Storm",movements:[
+{type:"AMRAP",duration:8,name:"Row Storm",desc:"Dos haut + posture par renegade rows et dead bugs. Anti-rotation.",movements:[
   {name:"8 Renegade Rows",img:I+"Dumbbell_Bench_Press/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=renegade+row+form"},
   {name:"12 Band Pull-Aparts",img:I+"Band_Pull_Apart/0.jpg",mw:"https://musclewiki.com/exercise/band-pull-apart",yt:"https://www.youtube.com/results?search_query=band+pull+apart+form"},
   {name:"16 Dead Bugs",img:I+"Dead_Bug/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-dead-bug",yt:"https://www.youtube.com/results?search_query=dead+bug+exercise"}]},
-{type:"Tabata",duration:4,name:"Pull Tabata",movements:[
+{type:"Tabata",duration:4,name:"Pull Tabata",desc:"Dos en 4 min HIIT. Inverted rows à haute fréquence.",movements:[
   {name:"Body Rows 20s/10s ×8",img:I+"Inverted_Row/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-inverted-row",yt:"https://www.youtube.com/results?search_query=inverted+row+form"}]},
-{type:"AMRAP",duration:12,name:"Endurance Pull",movements:[
+{type:"AMRAP",duration:12,name:"Endurance Pull",desc:"Dos + biceps + cardio low-impact (200m run). Volume + cœur.",movements:[
   {name:"6 DB Rows/bras",img:I+"One-Arm_Dumbbell_Row/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=dumbbell+row+form"},
   {name:"8 Hammer Curls légers",img:I+"Hammer_Curls/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-hammer-curl",yt:"https://www.youtube.com/results?search_query=hammer+curl+form"},
   {name:"200m Run",img:"",mw:"",yt:""}]},
-{type:"AMRAP",duration:10,name:"Back Attack",movements:[
+{type:"AMRAP",duration:10,name:"Back Attack",desc:"Dos large : pull-ups, rows, band pull-aparts. Travail postural.",movements:[
   {name:"6 Pull-ups (ou Inverted Rows)",img:I+"Pullups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form"},
   {name:"10 DB Rows/bras",img:I+"One-Arm_Dumbbell_Row/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-row",yt:"https://www.youtube.com/results?search_query=dumbbell+row+form"},
   {name:"15 Band Pull-Aparts",img:I+"Band_Pull_Apart/0.jpg",mw:"https://musclewiki.com/exercise/band-pull-apart",yt:"https://www.youtube.com/results?search_query=band+pull+apart"}]},
-{type:"For Time",duration:null,name:"Curl Ladder",movements:[
+{type:"For Time",duration:null,name:"Curl Ladder",desc:"Biceps + dos via pyramide hammer curls et inverted rows.",movements:[
   {name:"21-15-9 Hammer Curls",img:I+"Hammer_Curls/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-hammer-curl",yt:"https://www.youtube.com/results?search_query=hammer+curl+form"},
   {name:"21-15-9 Inverted Rows",img:I+"Inverted_Row/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-inverted-row",yt:"https://www.youtube.com/results?search_query=inverted+row+form"}]},
-{type:"EMOM",duration:8,name:"Pull Power",movements:[
+{type:"EMOM",duration:8,name:"Pull Power",desc:"Dos + scapula en EMOM. Inverted rows + face pulls. Anti-protraction épaules.",movements:[
   {name:"Pair: 8 Inverted Rows",img:I+"Inverted_Row/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-inverted-row",yt:"https://www.youtube.com/results?search_query=inverted+row"},
   {name:"Impair: 10 Face Pulls + 5 Scap. Pull-ups",img:I+"Face_Pull/0.jpg",mw:"https://musclewiki.com/exercise/cable-face-pull",yt:"https://www.youtube.com/results?search_query=face+pull+form"}]}
 ],
 legs:[
-{type:"Chipper",duration:null,name:"Leg Chipper",movements:[
+{type:"Chipper",duration:null,name:"Leg Chipper",desc:"Jambes + cardio plein gaz. Burpees, swings, squats en pyramide.",movements:[
   {name:"20 Step-back Burpees",img:I+"Mountain_Climbers/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-burpee",yt:"https://www.youtube.com/results?search_query=step+back+burpee+form"},
   {name:"30 KB Swings",img:I+"Kettlebell_Sumo_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
   {name:"40 Air Squats",img:I+"Bodyweight_Squat/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-squat",yt:"https://www.youtube.com/results?search_query=air+squat+form"},
   {name:"30 KB Swings",img:I+"Kettlebell_Sumo_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
   {name:"20 Step-back Burpees",img:I+"Mountain_Climbers/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-burpee",yt:"https://www.youtube.com/results?search_query=step+back+burpee+form"}]},
-{type:"For Time",duration:null,name:"Leg Builder",movements:[
+{type:"For Time",duration:null,name:"Leg Builder",desc:"Volume cuisses + fessiers + ischios. Hypertrophie sans charge lombaire.",movements:[
   {name:"5×12 Goblet Squats",img:I+"Goblet_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",yt:"https://www.youtube.com/results?search_query=goblet+squat+form"},
   {name:"5×12 KB Deadlifts",img:I+"Stiff-Legged_Barbell_Deadlift/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-deadlift",yt:"https://www.youtube.com/results?search_query=kettlebell+deadlift+form"},
   {name:"5×12 Box Step-ups",img:I+"Barbell_Step_Ups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-step-up",yt:"https://www.youtube.com/results?search_query=box+step+up+form"}]},
-{type:"EMOM",duration:12,name:"Legs EMOM",movements:[
+{type:"EMOM",duration:12,name:"Legs EMOM",desc:"Cuisses + fessiers en EMOM. Unilatéral et bilatéral mixés.",movements:[
   {name:"Min 1: 10 Air Squats",img:I+"Bodyweight_Squat/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-squat",yt:"https://www.youtube.com/results?search_query=air+squat+form"},
   {name:"Min 2: 8 Lunges",img:I+"Bodyweight_Walking_Lunge/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-lunge",yt:"https://www.youtube.com/results?search_query=walking+lunge+form"},
   {name:"Min 3: 6 Glute Bridges lestés",img:I+"Butt_Lift_Bridge/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-glute-bridge",yt:"https://www.youtube.com/results?search_query=weighted+glute+bridge+form"}]},
-{type:"AMRAP",duration:10,name:"Quad Blaster",movements:[
+{type:"AMRAP",duration:10,name:"Quad Blaster",desc:"Quadriceps en feu. Wall balls + lunges + broad jumps explosifs.",movements:[
   {name:"15 Wall Balls",img:I+"Goblet_Squat/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=wall+ball+crossfit+form"},
   {name:"10 Step-back Lunges",img:I+"Bodyweight_Walking_Lunge/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-lunge",yt:"https://www.youtube.com/results?search_query=reverse+lunge+form"},
   {name:"5 Broad Jumps",img:I+"Frog_Hops/0.jpg",mw:"",yt:"https://www.youtube.com/results?search_query=broad+jump+form+technique"}]},
-{type:"Tabata",duration:4,name:"Squat Tabata",movements:[
+{type:"Tabata",duration:4,name:"Squat Tabata",desc:"Cuisses + fessiers en 4 min HIIT alternés. Pur métabolique.",movements:[
   {name:"Goblet Squat / Glute Bridge alternés",img:I+"Goblet_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",yt:"https://www.youtube.com/results?search_query=goblet+squat+glute+bridge+tabata"}]},
-{type:"For Time",duration:null,name:"Leg Pyramid",movements:[
+{type:"For Time",duration:null,name:"Leg Pyramid",desc:"Volume jambes en pyramide montée puis descente. Endurance musculaire.",movements:[
   {name:"10→20→30→20→10 Air Squats",img:I+"Bodyweight_Squat/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-squat",yt:"https://www.youtube.com/results?search_query=air+squat+form"},
   {name:"5→10→15→10→5 Goblet Squats",img:I+"Goblet_Squat/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-goblet-squat",yt:"https://www.youtube.com/results?search_query=goblet+squat+form"}]},
-{type:"EMOM",duration:10,name:"Hip Hinge Focus",movements:[
+{type:"EMOM",duration:10,name:"Hip Hinge Focus",desc:"Ischios + fessiers via KB DL (dos neutre) et glute bridges. Posture.",movements:[
   {name:"Pair: 10 KB Deadlifts (dos neutre ⚡)",img:I+"Stiff-Legged_Barbell_Deadlift/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-deadlift",yt:"https://www.youtube.com/results?search_query=kettlebell+deadlift+form"},
   {name:"Impair: 12 Glute Bridges lestés",img:I+"Butt_Lift_Bridge/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-glute-bridge",yt:"https://www.youtube.com/results?search_query=glute+bridge+weighted"}]},
-{type:"AMRAP",duration:8,name:"Step & Swing",movements:[
+{type:"AMRAP",duration:8,name:"Step & Swing",desc:"Jambes + abdo + cardio via step-ups, swings, flutter kicks. 8 min punch.",movements:[
   {name:"10 Box Step-ups (5/côté)",img:I+"Barbell_Step_Ups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-step-up",yt:"https://www.youtube.com/results?search_query=step+up+exercise+form"},
   {name:"15 KB Swings",img:I+"Kettlebell_Sumo_High_Pull/0.jpg",mw:"https://musclewiki.com/exercise/kettlebell-swing",yt:"https://www.youtube.com/results?search_query=kettlebell+swing+form"},
   {name:"20 Flutter Kicks",img:I+"Flutter_Kicks/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-flutter-kicks",yt:"https://www.youtube.com/results?search_query=flutter+kicks+core"}]}
@@ -142,7 +142,7 @@ custom:[
   {name:"10 DB Lateral Raises",img:I+"Side_Lateral_Raise/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-lateral-raise",yt:"https://www.youtube.com/results?search_query=lateral+raise+form"},
   {name:"8 Arnold Press",img:I+"Arnold_Dumbbell_Press/0.jpg",mw:"https://musclewiki.com/exercise/dumbbell-arnold-press",yt:"https://www.youtube.com/results?search_query=arnold+press+form"},
   {name:"6 Pike Push-ups",img:I+"Decline_Push-Up/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pike-push-up",yt:"https://www.youtube.com/results?search_query=pike+push+up+shoulders+form"}]},
-{cat:"Haut du corps",type:"For Time",duration:null,name:"Pull Power",desc:"Dos large et posture. Travail unique de tirage horizontal (rows) et vertical (pull-ups).",movements:[
+{cat:"Haut du corps",type:"For Time",duration:null,name:"Pull Volume",desc:"Dos large + posture. Volume de tirage : 50 pull-ups + 100 pull-aparts. Évite le doublon avec le Pull Power EMOM.",movements:[
   {name:"50 Pull-ups (band-assist OK)",img:I+"Pullups/0.jpg",mw:"https://musclewiki.com/exercise/bodyweight-pull-up",yt:"https://www.youtube.com/results?search_query=pull+up+form+band+assist"},
   {name:"100 Band Pull-Aparts",img:I+"Band_Pull_Apart/0.jpg",mw:"https://musclewiki.com/exercise/band-pull-apart",yt:"https://www.youtube.com/results?search_query=band+pull+apart+form"}]},
 {cat:"Haut du corps",type:"EMOM",duration:12,name:"Arm Day Express",desc:"Biceps + triceps en superset. 12 min pour des bras bien gonflés, sans charge lombaire.",movements:[

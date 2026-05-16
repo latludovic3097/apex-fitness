@@ -48,6 +48,19 @@ function ttip(text){
   return `<button type="button" class="ttip-btn" onclick="showTip(this,'${e}')" aria-label="Explication">?</button>`;
 }
 
+// ─── Custom WOD picker : filtre durée (v8.23) ─────────────────────────────
+// State session-only (pas persisté) : 'all' | 'express' | 'standard' | 'long'.
+// Reset à 'all' à chaque chargement.
+let _wodFilter = 'all';
+function setWodFilter(filter){ _wodFilter = filter; R(); }
+function matchWodFilter(w, filter){
+  if(filter === 'all') return true;
+  if(filter === 'express') return w.duration !== null && w.duration <= 8;
+  if(filter === 'standard') return w.duration !== null && w.duration >= 10 && w.duration <= 12;
+  if(filter === 'long') return w.duration === null || w.duration >= 15;
+  return true;
+}
+
 // ─── RENDER ROOT (P0 #3 : wrapped in safeRender for error boundary) ───
 function R(){
   const a=document.getElementById("app");
@@ -235,7 +248,7 @@ function rHome(){
   :`<div class="stats-row"><div class="stat-box"><div class="stat-val">${S.hist.length}</div><div class="stat-lbl">Séances</div></div><div class="stat-box"><div class="stat-val">${S.hist.filter(h=>(Date.now()-new Date(h.date))<6048e5).length}</div><div class="stat-lbl">7 jours</div></div></div>`}
   ${rmCards.length?`<div class="card"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600;margin-bottom:8px;display:flex;align-items:center">1RM Estimés (Epley) ${ttip("<b>1 Rep Max</b> estimé via la formule d Epley : W × (1 + reps/30). Précis à ±2.7 kg pour 3RM (DiStasio 2014).")}</div><div style="display:flex;justify-content:space-around;flex-wrap:wrap;gap:8px">${rmCards.join("")}</div></div>`:""}
   <div class="card" style="border-left:4px solid ${ph.color}"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mt);font-weight:600">Phase</div><div style="font-size:16px;font-weight:900;color:${ph.color};margin-top:2px">${ph.name}</div><div style="font-size:13px;color:var(--t2);margin-top:2px">${ph.desc} — ${ph.numSets}×${ph.reps}</div></div><div style="display:flex;gap:4px">${PHASES.map((p,i)=>`<button onclick="setPhase(${i})" style="width:24px;height:24px;border-radius:50%;border:2px solid ${p.color};background:${S.phase===i?p.color:'none'};cursor:pointer;color:${S.phase===i?'#fff':p.color};font-size:11px;font-weight:700">${i+1}</button>`).join("")}</div></div></div>
-  ${recSess?`<div class="card" style="border-left:4px solid ${recSess.color};cursor:pointer" onclick="goSess('${rec.id}')"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--ok);font-weight:600;display:flex;align-items:center;gap:6px">${SVG.bulb}<span>Recommandé aujourd'hui</span></div><div style="font-size:16px;font-weight:900;color:${recSess.color};margin-top:4px">${recSess.name}</div><div style="font-size:13px;color:var(--mt);margin-top:2px">${rec.days>0?`Dernier il y a ${rec.days}j`:'Jamais fait'} — WOD: ${pickWOD(rec.id)?.name||'—'}</div></div>`:``}
+  ${recSess?(()=>{const recWod=pickWOD(rec.id);return`<div class="card" style="border-left:4px solid ${recSess.color};cursor:pointer" onclick="goSess('${rec.id}')"><div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--ok);font-weight:600;display:flex;align-items:center;gap:6px">${SVG.bulb}<span>Recommandé aujourd'hui</span></div><div style="font-size:16px;font-weight:900;color:${recSess.color};margin-top:4px">${recSess.name}</div><div style="font-size:13px;color:var(--mt);margin-top:2px">${rec.days>0?`Dernier il y a ${rec.days}j`:'Jamais fait'} — WOD: ${recWod?.name||'—'}</div>${recWod?.desc?`<div style="font-size:12px;color:var(--mt);font-style:italic;margin-top:4px;line-height:1.4">${esc(recWod.desc)}</div>`:""}</div>`;})():``}
   <h2 class="sec-title">Programme PPL</h2>
   <div class="home-row-3up">${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const daysAgo=last?Math.floor((Date.now()-new Date(last.date))/864e5):null;const metaText=daysAgo===null?"Jamais":daysAgo===0?"Aujourd'hui":daysAgo===1?"Hier":`il y a ${daysAgo}j`;return`<button type="button" class="home-tile" style="border-top-color:${s.color}" onclick="goSess('${s.id}')" aria-label="Lancer ${s.name}"><div class="tile-name" style="color:${s.color}">${s.name}</div><div class="tile-meta">${metaText}</div></button>`;}).join("")}</div>
   <h2 class="sec-title">Wellness</h2>
@@ -701,16 +714,29 @@ function rCustomBuilderCard(){
         <div style="font-size:12px;color:var(--t2);margin-bottom:10px;line-height:1.5">
           Ajoute un WOD à la fin de ta séance. ${(S.custom && typeof S.custom.wodIdx==="number" && WODS.custom[S.custom.wodIdx])?`<b style="color:#8B5CF6">${esc(WODS.custom[S.custom.wodIdx].name)}</b> sélectionné. <button type="button" onclick="setCustomWod(null)" style="background:none;border:none;color:var(--mt);text-decoration:underline;cursor:pointer;font-family:inherit;font-size:12px;padding:0">retirer</button>`:"Aucun WOD pour le moment."}
         </div>
-        ${(()=>{const cats={};WODS.custom.forEach((w,i)=>{const c=w.cat||"Autre";(cats[c]=cats[c]||[]).push({w,idx:i});});return Object.entries(cats).map(([cat,list])=>`
-          <details style="margin-bottom:6px;border:1px solid var(--bd);border-radius:10px;overflow:hidden">
-            <summary style="padding:10px 12px;font-size:13px;font-weight:700;cursor:pointer;background:var(--cd2);color:var(--tx);list-style:none;min-height:44px;display:flex;align-items:center">${cat} <span style="margin-left:auto;color:var(--mt);font-weight:500;font-size:12px">${list.length} WOD${list.length>1?'s':''}</span></summary>
-            <div style="padding:8px">${list.map(({w,idx})=>`
-              <button type="button" class="custom-wod-card${(S.custom&&S.custom.wodIdx===idx)?' active':''}" onclick="setCustomWod(${idx})" aria-pressed="${(S.custom&&S.custom.wodIdx===idx)?'true':'false'}">
-                <div class="wod-type-tag">${w.type}${w.duration?` · ${w.duration} min`:''}</div>
-                <div class="wod-card-name">${esc(w.name)}</div>
-                <div class="wod-card-desc">${esc(w.desc)}</div>
-              </button>`).join("")}</div>
-          </details>`).join("");})()}
+        <div class="wod-filter-row" role="tablist" aria-label="Filtrer par durée">
+          ${[['all','Tous'],['express','≤8 min'],['standard','10-12 min'],['long','≥15 min']].map(([k,lbl])=>`<button type="button" class="wod-filter${_wodFilter===k?' active':''}" role="tab" aria-selected="${_wodFilter===k?'true':'false'}" onclick="setWodFilter('${k}')">${lbl}</button>`).join("")}
+        </div>
+        ${(()=>{
+          const cats={};
+          WODS.custom.forEach((w,i)=>{
+            if(!matchWodFilter(w, _wodFilter)) return;
+            const c=w.cat||"Autre";
+            (cats[c]=cats[c]||[]).push({w,idx:i});
+          });
+          const entries=Object.entries(cats);
+          if(!entries.length) return `<div style="font-size:13px;color:var(--mt);text-align:center;padding:18px;background:var(--cd2);border-radius:10px">Aucun WOD ne correspond à ce filtre.</div>`;
+          return entries.map(([cat,list])=>`
+            <details style="margin-bottom:6px;border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+              <summary style="padding:10px 12px;font-size:13px;font-weight:700;cursor:pointer;background:var(--cd2);color:var(--tx);list-style:none;min-height:44px;display:flex;align-items:center">${cat} <span style="margin-left:auto;color:var(--mt);font-weight:500;font-size:12px">${list.length} WOD${list.length>1?'s':''}</span></summary>
+              <div style="padding:8px">${list.map(({w,idx})=>`
+                <button type="button" class="custom-wod-card${(S.custom&&S.custom.wodIdx===idx)?' active':''}" onclick="setCustomWod(${idx})" aria-pressed="${(S.custom&&S.custom.wodIdx===idx)?'true':'false'}">
+                  <div class="wod-type-tag">${w.type}${w.duration?` · ${w.duration} min`:''}</div>
+                  <div class="wod-card-name">${esc(w.name)}</div>
+                  <div class="wod-card-desc">${esc(w.desc)}</div>
+                </button>`).join("")}</div>
+            </details>`).join("");
+        })()}
       </div>`:""}
     ${sel.length>0?`<button class="btn" style="background:#8B5CF6;border-color:#8B5CF6;margin-top:12px" onclick="goSess('custom')">🚀 Lancer ${esc((S.custom&&S.custom.name)||"CUSTOM")}</button>`:""}
   </div>`;
