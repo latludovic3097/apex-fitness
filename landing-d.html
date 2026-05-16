@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<title>APEX Fitness — L'app musculation construite autour de ton L5-S1</title>
+<meta name="description" content="Programme PPL adapté hernie discale L5-S1, protocole APRE auto-progression, McGill Big 3 par défaut. Conçu avec les sources scientifiques que ton kiné cite. Gratuit, sans pub, fonctionne offline.">
+<meta name="theme-color" content="#E63946">
+<meta property="og:title" content="APEX Fitness — Construite autour de ton L5-S1">
+<meta property="og:description" content="Ta hernie n'a pas tué ton envie de lever. On a construit l'app autour de ça.">
+<meta property="og:image" content="https://apexfit-da753.web.app/icon-512.png">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:url" content="https://apexfit-da753.web.app/landing-d.html">
+<link rel="canonical" href="https://apexfit-da753.web.app/landing-d.html">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<!-- Cabinet Grotesk : variable, free, hors reflex-reject list -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,900&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --red:#E63946;
+  --red-deep:#9A2D38;
+  --red-ink:#5F1A20;
+  --cream:#F5F0E8;
+  --cream-soft:#FAF6EF;
+  --ink:#1A1614;
+  --ink-soft:#3D362F;
+  --rule:#C4BAB1;
+  --rule-soft:rgba(196,186,177,.4);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Cabinet Grotesk', -apple-system, 'Segoe UI', sans-serif;
+  font-weight:500;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+a{color:inherit;text-decoration:none}
+
+/* ─── LAYOUT GRID ───────────────────────────────────────────── */
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+@media(max-width:720px){.wrap{padding:0 20px}}
+
+/* ─── CHAPTER LABELS (sparing, not on every section) ────────── */
+.chapter{
+  display:inline-flex;align-items:baseline;gap:14px;
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;
+  font-feature-settings:"tnum" 1;
+}
+.chapter .num{font-weight:900}
+.chapter .rule{display:inline-block;width:48px;height:1px;background:currentColor;opacity:.4}
+
+/* ─── BUTTONS ───────────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:18px 28px;
+  background:var(--ink);color:var(--cream);
+  border:none;border-radius:0;
+  font-family:inherit;font-size:15px;font-weight:700;
+  letter-spacing:.5px;
+  cursor:pointer;text-decoration:none;
+  transition:transform .18s cubic-bezier(.5,0,.1,1), background .18s;
+  position:relative;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:var(--red-deep)}
+.btn-cream{background:var(--cream);color:var(--ink)}
+.btn-cream:hover{background:#fff}
+.btn-arrow::after{content:"→";font-weight:900;transition:transform .18s}
+.btn-arrow:hover::after{transform:translateX(4px)}
+
+/* ─── HEADER ────────────────────────────────────────────────── */
+.site-header{
+  position:absolute;top:0;left:0;right:0;z-index:50;
+  padding:24px 0;
+}
+.site-header.invert{color:#fff}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between}
+.brand-mark{
+  font-weight:900;font-size:22px;letter-spacing:6px;
+  color:inherit;
+}
+.brand-mark sup{
+  font-size:9px;letter-spacing:1px;margin-left:6px;
+  font-weight:700;opacity:.7;vertical-align:5px;
+}
+.header-cta{
+  font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:10px 16px;border:1.5px solid currentColor;
+  transition:background .15s,color .15s;
+}
+.header-cta:hover{background:currentColor;color:var(--red)}
+
+/* ─── HERO : DRENCHED RED ───────────────────────────────────── */
+.hero{
+  background:var(--red);
+  color:#fff;
+  padding:140px 0 100px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 80% 30%, rgba(154,45,56,.45), transparent 70%),
+    radial-gradient(ellipse 60% 60% at 20% 90%, rgba(95,26,32,.3), transparent 60%);
+  pointer-events:none;
+}
+.hero .wrap{position:relative;z-index:1}
+.hero-grid{
+  display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:center;
+}
+@media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:30px}}
+
+.hero-chapter{margin-bottom:30px;color:rgba(255,255,255,.7)}
+
+.hero h1{
+  font-weight:900;
+  font-size:clamp(40px, 6vw, 78px);
+  line-height:.96;
+  letter-spacing:-2px;
+  margin-bottom:28px;
+  max-width:14ch;
+}
+.hero h1 .em{color:#FFF4E8;display:block}
+.hero h1 .it{font-style:italic;font-weight:900;}
+
+.hero-sub{
+  font-size:clamp(15px, 1.4vw, 18px);
+  line-height:1.6;
+  max-width:46ch;
+  color:rgba(255,255,255,.92);
+  margin-bottom:36px;
+  font-weight:500;
+}
+.hero-sub b{color:#FFF4E8;font-weight:700}
+
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.hero-meta{
+  margin-top:34px;display:flex;gap:24px;flex-wrap:wrap;
+  font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:700;
+  color:rgba(255,255,255,.7);
+}
+.hero-meta span{display:inline-flex;align-items:center;gap:6px}
+.hero-meta .dot{width:6px;height:6px;background:currentColor;border-radius:50%}
+
+/* Spine illustration on right */
+.hero-spine{
+  position:relative;
+  display:flex;justify-content:center;align-items:center;
+  min-height:480px;
+}
+@media(max-width:920px){.hero-spine{min-height:300px;margin-top:20px}}
+.spine-svg{
+  width:100%;max-width:320px;height:auto;
+  opacity:.9;
+  filter:drop-shadow(0 30px 80px rgba(0,0,0,.4));
+}
+.spine-svg .spine-line{stroke:#FFF4E8;stroke-width:1.5;fill:none;stroke-linecap:round}
+.spine-svg .vertebra{stroke:#FFF4E8;stroke-width:1.5;fill:transparent}
+.spine-svg .l5-highlight{stroke:#fff;stroke-width:3;fill:rgba(255,244,232,.2);}
+.spine-svg .label-text{font-size:10px;font-weight:700;letter-spacing:2px;fill:rgba(255,255,255,.85);text-transform:uppercase;font-family:'Cabinet Grotesk',sans-serif}
+.spine-svg .label-line{stroke:rgba(255,255,255,.5);stroke-width:1;fill:none;stroke-dasharray:3 3}
+
+/* ─── SECTION : ANCHOR STAT ─────────────────────────────────── */
+.section{padding:120px 0;position:relative}
+@media(max-width:720px){.section{padding:80px 0}}
+
+.section-anchor{background:var(--cream)}
+.anchor-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;
+}
+@media(max-width:920px){.anchor-grid{grid-template-columns:1fr}}
+
+.anchor-stat{
+  font-size:clamp(72px, 14vw, 180px);
+  font-weight:900;
+  line-height:.9;
+  letter-spacing:-6px;
+  color:var(--red);
+  font-feature-settings:"tnum" 1;
+}
+.anchor-stat .unit{
+  font-size:.4em;color:var(--ink);letter-spacing:-1px;
+  display:inline-block;margin-left:6px;
+}
+.anchor-label{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  font-weight:700;color:var(--ink-soft);
+  margin-top:12px;
+}
+
+.anchor-copy{padding-top:30px}
+.anchor-copy h2{
+  font-size:clamp(28px,3.6vw,44px);
+  font-weight:900;line-height:1.1;letter-spacing:-1px;
+  margin-bottom:22px;
+}
+.anchor-copy p{
+  font-size:17px;line-height:1.6;color:var(--ink-soft);
+  margin-bottom:18px;
+}
+.anchor-copy .source{
+  font-size:12px;letter-spacing:.5px;color:var(--ink-soft);
+  font-family:ui-monospace,'Cascadia Mono','SF Mono',monospace;
+  opacity:.7;margin-top:24px;
+}
+.anchor-copy .source b{color:var(--red-deep)}
+
+/* ─── SECTION : PRATFALL (near-black) ───────────────────────── */
+.section-pratfall{background:var(--ink);color:var(--cream)}
+.section-pratfall .chapter{color:rgba(245,240,232,.6)}
+.pratfall-block{max-width:920px}
+.pratfall-block h2{
+  font-size:clamp(36px,5vw,72px);
+  font-weight:900;line-height:1.0;letter-spacing:-2px;
+  margin:30px 0 28px;
+}
+.pratfall-block h2 .crossed{
+  position:relative;display:inline-block;
+}
+.pratfall-block h2 .crossed::after{
+  content:"";position:absolute;left:-4px;right:-4px;top:53%;height:6px;
+  background:var(--red);transform:rotate(-2deg);
+  transform-origin:left center;
+}
+.pratfall-block h2 em{font-style:italic;color:var(--red);font-weight:900}
+.pratfall-block p{
+  font-size:18px;line-height:1.6;color:rgba(245,240,232,.85);
+  max-width:60ch;
+}
+.pratfall-cta{margin-top:36px}
+
+/* ─── SECTION : DIFFERENTIATORS (bento) ─────────────────────── */
+.section-methods{background:var(--cream-soft)}
+.methods-head{margin-bottom:60px;display:grid;grid-template-columns:1fr 1.2fr;gap:50px;align-items:end}
+@media(max-width:920px){.methods-head{grid-template-columns:1fr;gap:20px}}
+.methods-head h2{
+  font-size:clamp(36px,5vw,64px);
+  font-weight:900;line-height:1.0;letter-spacing:-2px;
+}
+.methods-head p{
+  font-size:17px;line-height:1.55;color:var(--ink-soft);
+  max-width:48ch;
+}
+
+.methods-grid{
+  display:grid;grid-template-columns:repeat(3, 1fr);gap:0;
+  border-top:1.5px solid var(--ink);
+  border-bottom:1.5px solid var(--ink);
+}
+@media(max-width:720px){.methods-grid{grid-template-columns:1fr}}
+
+.method{
+  padding:40px 28px 36px;
+  border-right:1.5px solid var(--ink);
+  position:relative;
+  background:transparent;
+}
+.method:last-child{border-right:none}
+@media(max-width:720px){
+  .method{border-right:none;border-bottom:1.5px solid var(--ink)}
+  .method:last-child{border-bottom:none}
+}
+.method-num{
+  font-size:11px;font-weight:900;letter-spacing:2px;
+  color:var(--red);margin-bottom:24px;
+}
+.method-icon{
+  width:48px;height:48px;margin-bottom:22px;color:var(--ink);
+}
+.method-icon svg{width:100%;height:100%;stroke-width:1.5;stroke:currentColor;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.method h3{
+  font-size:24px;font-weight:900;line-height:1.1;letter-spacing:-.5px;
+  margin-bottom:14px;
+}
+.method p{
+  font-size:15px;line-height:1.5;color:var(--ink-soft);
+  margin-bottom:18px;
+}
+.method .citation{
+  font-family:ui-monospace,'Cascadia Mono','SF Mono',monospace;
+  font-size:11px;color:var(--red-deep);letter-spacing:.3px;
+  border-left:2px solid var(--red);padding:6px 0 6px 12px;
+  display:block;
+}
+
+/* ─── SECTION : HOW IT WORKS ────────────────────────────────── */
+.section-how{background:var(--cream)}
+.how-head{
+  display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:end;margin-bottom:60px;
+}
+@media(max-width:920px){.how-head{grid-template-columns:1fr;gap:20px}}
+.how-head h2{
+  font-size:clamp(36px,5vw,64px);font-weight:900;
+  line-height:1.0;letter-spacing:-2px;
+}
+.how-head p{font-size:17px;color:var(--ink-soft);line-height:1.55;max-width:46ch}
+
+.steps{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:30px;
+}
+@media(max-width:720px){.steps{grid-template-columns:1fr}}
+.step{position:relative}
+.step-num{
+  font-size:clamp(80px,10vw,140px);font-weight:900;
+  line-height:1;letter-spacing:-6px;
+  color:var(--red);
+  margin-bottom:0;
+  font-feature-settings:"tnum" 1;
+}
+.step h3{
+  font-size:22px;font-weight:900;line-height:1.1;
+  margin:14px 0 12px;letter-spacing:-.3px;
+}
+.step p{font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.step p em{font-style:italic;color:var(--ink)}
+
+/* ─── SECTION : SOURCES (academic-style) ────────────────────── */
+.section-sources{background:var(--cream-soft);padding-top:90px;padding-bottom:90px}
+.sources-head{margin-bottom:36px}
+.sources-head h2{
+  font-size:clamp(30px,4vw,48px);font-weight:900;
+  line-height:1.05;letter-spacing:-1px;
+}
+.sources-list{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:0;
+  border-top:1px solid var(--rule);
+  font-family:ui-monospace,'Cascadia Mono','SF Mono',monospace;
+}
+@media(max-width:720px){.sources-list{grid-template-columns:1fr}}
+.source-item{
+  padding:18px 24px 18px 0;
+  border-bottom:1px solid var(--rule);
+  font-size:13px;line-height:1.55;color:var(--ink-soft);
+}
+.source-item b{color:var(--red-deep);font-weight:700;font-family:'Cabinet Grotesk',sans-serif}
+.source-item:nth-child(even){padding-left:24px;padding-right:0}
+@media(max-width:720px){
+  .source-item{padding:18px 0!important;border-right:none}
+}
+
+/* ─── SECTION : FINAL CTA (drenched red bookend) ────────────── */
+.section-cta{
+  background:var(--red);color:#fff;
+  padding:140px 0;text-align:left;
+  position:relative;overflow:hidden;
+}
+.section-cta::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 70% at 70% 50%, rgba(95,26,32,.4), transparent 70%);
+}
+.section-cta .wrap{position:relative;z-index:1}
+.cta-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:center}
+@media(max-width:920px){.cta-grid{grid-template-columns:1fr}}
+.cta-block h2{
+  font-size:clamp(36px,5.5vw,72px);font-weight:900;
+  line-height:1.0;letter-spacing:-2px;margin-bottom:24px;max-width:14ch;
+}
+.cta-block h2 em{font-style:italic;color:#FFF4E8;font-weight:900}
+.cta-block p{
+  font-size:17px;line-height:1.6;color:rgba(255,255,255,.92);
+  max-width:46ch;margin-bottom:32px;
+}
+.cta-stats{display:flex;flex-direction:column;gap:24px;border-left:2px solid rgba(255,255,255,.4);padding-left:30px}
+.cta-stat .v{font-size:42px;font-weight:900;line-height:1;letter-spacing:-1px;font-feature-settings:"tnum" 1}
+.cta-stat .l{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.75);margin-top:6px}
+
+/* ─── FOOTER ────────────────────────────────────────────────── */
+footer{
+  background:var(--ink);color:var(--cream);
+  padding:50px 0 40px;
+  font-size:13px;
+}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;align-items:center}
+.foot-meta{color:rgba(245,240,232,.5);font-family:ui-monospace,'Cascadia Mono','SF Mono',monospace;font-size:11px;letter-spacing:.5px}
+footer a{color:rgba(245,240,232,.7);text-decoration:none;transition:color .15s}
+footer a:hover{color:var(--red)}
+footer nav{display:flex;gap:24px;flex-wrap:wrap}
+
+/* ─── REVEAL ANIMATIONS (reduced-motion + no-JS safe) ────────
+   Default = visible. JS will add .js-anim to <html> when ready,
+   then briefly hide reveals before IntersectionObserver fires.
+   Si JS down, IntersectionObserver indispo, ou screenshot tool :
+   tout reste visible par défaut. */
+@media (prefers-reduced-motion: no-preference){
+  html.js-anim .reveal{
+    opacity:0;transform:translateY(20px);
+    transition:opacity .8s cubic-bezier(.2,.6,.2,1), transform .8s cubic-bezier(.2,.6,.2,1);
+  }
+  html.js-anim .reveal.in{opacity:1;transform:translateY(0)}
+}
+
+/* ─── PRINT (just in case someone prints the manifesto) ─────── */
+@media print{
+  body{background:white;color:black}
+  .hero,.section-pratfall,.section-cta{background:white;color:black}
+  .btn{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header invert">
+  <div class="wrap">
+    <a href="#" class="brand-mark">APEX<sup>FIT</sup></a>
+    <a href="https://apexfit-da753.web.app" class="header-cta">Lancer l'app →</a>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION HERO : DRENCHED RED · L'OUVERTURE DU MANIFESTO
+     ═══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-chapter chapter">
+          <span class="num">01</span><span class="rule"></span><span>Le constat</span>
+        </div>
+        <h1>
+          <span>Ta hernie</span>
+          <span>n'a pas tué</span>
+          <span class="em it">ton envie de lever.</span>
+        </h1>
+        <p class="hero-sub">
+          On a construit l'app musculation autour de ça. Programme PPL adapté <b>L5-S1</b>, protocole APRE auto-progression, McGill Big 3 par défaut. Conçu avec les sources scientifiques que ton kiné cite. <b>Gratuit, sans pub, fonctionne offline.</b>
+        </p>
+        <div class="hero-ctas">
+          <a href="https://apexfit-da753.web.app" class="btn btn-cream btn-arrow">Lancer ma première séance</a>
+        </div>
+        <div class="hero-meta">
+          <span><span class="dot"></span>30 sec · sans email</span>
+          <span><span class="dot"></span>100 % local</span>
+          <span><span class="dot"></span>Open source</span>
+        </div>
+      </div>
+
+      <div class="hero-spine" aria-hidden="true">
+        <svg class="spine-svg" viewBox="0 0 280 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma de la colonne lombaire avec L5-S1 en évidence">
+          <!-- Vertèbres L1-L4 (4 trapèzes empilés) -->
+          <g class="vertebra">
+            <path d="M90 30 L190 30 L185 70 L95 70 Z"/>
+            <text class="label-text" x="220" y="55">L1</text>
+            <line class="label-line" x1="190" y1="50" x2="215" y2="50"/>
+          </g>
+          <g class="vertebra">
+            <path d="M88 80 L192 80 L186 122 L94 122 Z"/>
+            <text class="label-text" x="220" y="105">L2</text>
+            <line class="label-line" x1="192" y1="100" x2="215" y2="100"/>
+          </g>
+          <g class="vertebra">
+            <path d="M85 132 L195 132 L188 175 L92 175 Z"/>
+            <text class="label-text" x="220" y="158">L3</text>
+            <line class="label-line" x1="195" y1="152" x2="215" y2="152"/>
+          </g>
+          <g class="vertebra">
+            <path d="M82 185 L198 185 L189 230 L91 230 Z"/>
+            <text class="label-text" x="220" y="212">L4</text>
+            <line class="label-line" x1="198" y1="207" x2="215" y2="207"/>
+          </g>
+          <!-- L5 HIGHLIGHTED -->
+          <g class="l5-highlight">
+            <path d="M78 240 L202 240 L190 290 L90 290 Z"/>
+          </g>
+          <text class="label-text" x="220" y="268" fill="#fff" font-weight="900">L5</text>
+          <line class="label-line" x1="202" y1="262" x2="215" y2="262" stroke="#fff"/>
+          <!-- Cleft L5-S1 (the troubled disc) -->
+          <g class="l5-highlight">
+            <path d="M85 297 L195 297 L195 308 L85 308 Z" fill="rgba(255,255,255,.35)" stroke="#fff" stroke-width="1.5"/>
+          </g>
+          <text class="label-text" x="38" y="306" text-anchor="end" fill="#fff" font-weight="900">DISC</text>
+          <line class="label-line" x1="42" y1="302" x2="83" y2="302" stroke="#fff"/>
+          <!-- Sacrum S1 (triangle) -->
+          <g class="vertebra">
+            <path d="M82 315 L198 315 L155 430 L125 430 Z"/>
+            <text class="label-text" x="220" y="350">S1</text>
+            <line class="label-line" x1="198" y1="345" x2="215" y2="345"/>
+          </g>
+          <!-- Spinal cord line down the middle -->
+          <path class="spine-line" d="M140 25 Q138 200 140 290 Q142 360 140 430" stroke-dasharray="0"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION ANCHOR STAT : LA MASSE INVISIBLE
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section section-anchor">
+  <div class="wrap">
+    <div class="anchor-grid">
+      <div>
+        <div class="chapter" style="color:var(--ink-soft);margin-bottom:30px">
+          <span class="num">02</span><span class="rule"></span><span>L'échelle</span>
+        </div>
+        <div class="anchor-stat reveal" id="anchorStat">
+          <span data-target="46">0</span><span style="color:var(--ink-soft);font-weight:700">–</span><span data-target="106">0</span><span class="unit">M</span>
+        </div>
+        <div class="anchor-label">lifters mondiaux avec mal de dos chronique</div>
+      </div>
+
+      <div class="anchor-copy">
+        <h2>Tu n'es pas une exception. Tu fais partie d'une majorité silencieuse.</h2>
+        <p>
+          Entre <b>23 % et 53 %</b> des pratiquants en musculation rapportent une douleur lombaire chronique. <b>84 %</b> de la population aura au moins un épisode lombaire dans sa vie. Et <b>59 %</b> des lifters expérimentés développent une blessure chronique au dos.
+        </p>
+        <p>
+          Aucune des grandes apps musculation (Strong, Hevy, MyFitnessPal, Nike) n'intègre ces chiffres dans leur design. APEX le fait, parce que c'est notre point de départ.
+        </p>
+        <div class="source">
+          <b>SOURCES.</b> Hoy 2012 · Training Room NOLA 2023 · PubMed 2023 (Narrative Review on Chronic LBP in Weight Lifters)
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION PRATFALL : L'AUTO-RESTRICTION QUI BUILD LA TRUST
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section section-pratfall">
+  <div class="wrap">
+    <div class="chapter">
+      <span class="num">03</span><span class="rule"></span><span>Le filtre</span>
+    </div>
+    <div class="pratfall-block">
+      <h2>
+        <span class="crossed">Pas pour tous les lifters.</span><br>
+        Pour ceux <em>dont la colonne dit non.</em>
+      </h2>
+      <p>
+        Si t'as un dos en béton et un programme qui marche, t'as pas besoin de nous. Va sur Strong, Hevy, ou n'importe quel tracker générique. Mais si t'as déjà arrêté ton entraînement parce que ton dos a craqué, si tu fais des substitutions à la volée parce que les Romanian Deadlifts t'envoient des décharges, si tu as peur d'aggraver à chaque séance : on est faits pour ça.
+      </p>
+      <div class="pratfall-cta">
+        <a href="https://apexfit-da753.web.app" class="btn btn-red btn-arrow">Voir si ça matche pour toi</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION METHODS : 3 DIFFÉRENCIATEURS AVEC CITATIONS
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section section-methods">
+  <div class="wrap">
+    <div class="methods-head reveal">
+      <h2>Ce qui change<br>vraiment.</h2>
+      <p>
+        Trois choix de conception qui distinguent APEX de n'importe quel tracker générique. Chacun adossé à une source peer-reviewed, pas à du marketing.
+      </p>
+    </div>
+    <div class="methods-grid">
+      <div class="method reveal">
+        <div class="method-num">M / 01</div>
+        <div class="method-icon">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="13"/>
+            <path d="M8 16 L14 22 L24 10"/>
+          </svg>
+        </div>
+        <h3>L5-S1 safe<br>par défaut.</h3>
+        <p>
+          Romanian DL avec alerte "dos neutre", Back Squat avec rappel ceinture, OHP avec gainage strict. Substitutions auto sur Bent-over Row, Conventional DL, Burpees classiques.
+        </p>
+        <span class="citation">McGill 2016 · Ultimate Back Fitness and Performance · Backfitpro Inc.</span>
+      </div>
+      <div class="method reveal">
+        <div class="method-num">M / 02</div>
+        <div class="method-icon">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M4 26 L10 18 L16 22 L22 12 L28 16"/>
+            <circle cx="10" cy="18" r="2"/>
+            <circle cx="16" cy="22" r="2"/>
+            <circle cx="22" cy="12" r="2"/>
+          </svg>
+        </div>
+        <h3>Auto-progression<br>classée #1 mondial.</h3>
+        <p>
+          Après chaque set AMRAP, APEX regarde combien de reps tu as fait. 8 reps ? + 2,5 kg la prochaine fois. 4 reps ? - 5 kg. Tu ne devines plus ta charge.
+        </p>
+        <span class="citation">Huang et al. 2025 · Shanghai Univ. of Sport · SUCRA 93 % (squat, bench)</span>
+      </div>
+      <div class="method reveal">
+        <div class="method-num">M / 03</div>
+        <div class="method-icon">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="6" y="6" width="20" height="20" rx="2"/>
+            <path d="M11 13 L11 22 M16 11 L16 22 M21 16 L21 22"/>
+          </svg>
+        </div>
+        <h3>Données locales,<br>jamais vendues.</h3>
+        <p>
+          100 % local par défaut. Sync optionnel via Firebase si tu veux. Zéro pub, zéro tracker, zéro abonnement caché. Code open source sur GitHub. La promesse tient parce qu'elle est vérifiable.
+        </p>
+        <span class="citation">github.com/latludovic3097/apex-fitness · MIT License</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION HOW : 3 STEPS NO JARGON
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section section-how">
+  <div class="wrap">
+    <div class="how-head reveal">
+      <h2>Comment ça marche,<br>sans le jargon.</h2>
+      <p>
+        Pas besoin de comprendre APRE, RIR ou SUCRA. Tu fais tes séries, l'app fait le reste. La science est dedans, pas dans l'UI.
+      </p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h3>Tu lances une séance.</h3>
+        <p>Push, Pull ou Legs. L'app charge ton programme adapté <em>L5-S1 safe par défaut</em>. Échauffement McGill Big 3 inclus.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h3>Tu saisis tes sets.</h3>
+        <p>Poids et reps. C'est tout. Tout est sauvé en temps réel, même si tu changes d'onglet. Le timer ne dérive pas.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h3>L'app ajuste pour la prochaine.</h3>
+        <p>Suggestion de charge basée sur ton dernier set AMRAP. Code couleur clair : <em>rouge baisse, vert maintiens, bleu monte</em>. Zéro devinette.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION SOURCES : ACADEMIC-STYLE CITATION LIST
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section section-sources">
+  <div class="wrap">
+    <div class="sources-head">
+      <div class="chapter" style="color:var(--ink-soft);margin-bottom:20px">
+        <span class="num">06</span><span class="rule"></span><span>Bibliographie</span>
+      </div>
+      <h2>Si tu ne nous crois pas,<br>crois-les eux.</h2>
+    </div>
+    <div class="sources-list">
+      <div class="source-item">
+        <b>HUANG et al. 2025.</b> Méta-analyse réseau APRE vs VBT vs RPE vs PBRT. Shanghai University of Sport. <em>APRE classé #1 (SUCRA 93 % squat, bench).</em>
+      </div>
+      <div class="source-item">
+        <b>MCGILL S. 2016.</b> Ultimate Back Fitness and Performance. Backfitpro Inc. <em>Protocole "Big 3" validé pour la stabilité lombaire.</em>
+      </div>
+      <div class="source-item">
+        <b>MIFFLIN MD, ST JEOR ST. 1990.</b> A new predictive equation for resting energy expenditure. Am J Clin Nutr. <em>Formule utilisée par APEX pour BMR / TDEE.</em>
+      </div>
+      <div class="source-item">
+        <b>MANN et al. 2010.</b> J Strength Cond Res. 23 D1 footballers. <em>APRE &gt; périodisation linéaire sur 1RM bench &amp; squat.</em>
+      </div>
+      <div class="source-item">
+        <b>DISTASIO 2014.</b> Southern Illinois University. <em>Validation Epley pour 1RM squat estimé : ± 2,7 kg à 3RM.</em>
+      </div>
+      <div class="source-item">
+        <b>SPORTS MED OPEN 2024.</b> 246 athlètes. <em>Pratiques de deload : 6,4 j tous les 5,6 semaines en moyenne.</em>
+      </div>
+      <div class="source-item">
+        <b>LARSEN 2021.</b> Systematic Review. <em>RIR-RPE supérieur au % fixe (PBRT) pour gains de force.</em>
+      </div>
+      <div class="source-item">
+        <b>HOY et al. 2012.</b> Annals of Rheumatic Diseases. <em>Prévalence lombalgie : 84 % au moins un épisode dans la vie.</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION FINAL CTA : DRENCHED RED BOOKEND
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section-cta">
+  <div class="wrap">
+    <div class="cta-grid">
+      <div class="cta-block">
+        <div class="chapter" style="color:rgba(255,255,255,.7);margin-bottom:24px">
+          <span class="num">07</span><span class="rule"></span><span>L'action</span>
+        </div>
+        <h2>Ton prochain set<br><em>n'attend que toi.</em></h2>
+        <p>
+          Tu peux fermer cet onglet et continuer à faire des substitutions à la main. Ou tu peux lancer ta première séance dans 30 secondes, sans email, sans rien à installer. L'app vit sur ton navigateur. Elle s'installe en PWA si tu veux.
+        </p>
+        <a href="https://apexfit-da753.web.app" class="btn btn-cream btn-arrow">Lancer ma première séance</a>
+      </div>
+      <div class="cta-stats">
+        <div class="cta-stat">
+          <div class="v">100 %</div>
+          <div class="l">local par défaut</div>
+        </div>
+        <div class="cta-stat">
+          <div class="v">0 €</div>
+          <div class="l">aucun abonnement</div>
+        </div>
+        <div class="cta-stat">
+          <div class="v">~ 120 kb</div>
+          <div class="l">l'app entière, offline</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="brand-mark">APEX<sup>FIT</sup></div>
+      <div class="foot-meta" style="margin-top:8px">VERSION 8.23 · MIT LICENSE · OPEN SOURCE</div>
+    </div>
+    <nav>
+      <a href="https://apexfit-da753.web.app">Lancer l'app</a>
+      <a href="privacy.html">Confidentialité</a>
+      <a href="terms.html">Conditions</a>
+      <a href="https://github.com/latludovic3097/apex-fitness">GitHub</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+// ─── Counter animation on the anchor stat ──────────────────────
+(function(){
+  const root = document.getElementById('anchorStat');
+  if(!root) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const els = root.querySelectorAll('[data-target]');
+  if(reduced){
+    els.forEach(el => el.textContent = el.dataset.target);
+    return;
+  }
+  let played = false;
+  const play = () => {
+    if(played) return; played = true;
+    els.forEach(el => {
+      const target = parseInt(el.dataset.target, 10);
+      const dur = 1400, t0 = performance.now();
+      const step = (now) => {
+        const p = Math.min(1, (now - t0)/dur);
+        // ease-out-quart
+        const e = 1 - Math.pow(1 - p, 4);
+        el.textContent = Math.round(target * e);
+        if(p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) play(); });
+  }, { threshold: 0.4 });
+  io.observe(root);
+})();
+
+// ─── Reveal on scroll ──────────────────────────────────────────
+(function(){
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced || typeof IntersectionObserver === 'undefined'){
+    // pas d'anim : tout visible par défaut (CSS .reveal sans .js-anim)
+    return;
+  }
+  // active l'état initial caché APRÈS le first paint, pour que les
+  // crawlers, screenshots, et JS-off voient le contenu sans hack.
+  document.documentElement.classList.add('js-anim');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  // Safety net : si une cible n'a jamais déclenché (offscreen long, screenshot tool, etc.)
+  // on les force visible après 4 s pour ne JAMAIS laisser de section invisible.
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.in)').forEach(el => el.classList.add('in'));
+  }, 4000);
+})();
+</script>
+
+</body>
+</html>
