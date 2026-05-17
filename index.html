@@ -161,11 +161,31 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
 .week-card .week-intro b{color:var(--tx);font-weight:700}
 .week-card .week-source{font-family:ui-monospace,'Cascadia Mono','SF Mono',monospace;font-size:11px;color:var(--mt);letter-spacing:.2px;margin-bottom:12px;display:block}
 .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.day-tile{background:var(--cd2);border:1px solid var(--bd);border-radius:8px;padding:9px 2px;text-align:center;display:flex;flex-direction:column;gap:4px;min-height:62px;justify-content:center;font-family:inherit}
-.day-tile.today{background:var(--cd);border:1.5px solid var(--ac);box-shadow:0 0 0 3px var(--ac10)}
-.day-tile .day-name{font-size:10px;font-weight:700;color:var(--mt);letter-spacing:.5px;text-transform:uppercase}
-.day-tile.today .day-name{color:var(--ac);font-weight:900}
-.day-tile .day-sess{font-size:12px;font-weight:800;letter-spacing:.3px;line-height:1.1}
+/* Base tile (works for both button and div) */
+.day-tile{background:var(--cd2);border:1px solid var(--bd);border-radius:8px;padding:9px 2px;text-align:center;display:flex;flex-direction:column;gap:4px;min-height:62px;justify-content:center;font-family:inherit;color:var(--tx);transition:transform .12s ease-out,background .15s;-webkit-tap-highlight-color:transparent}
+/* Buttons (clickable PPL/Core tiles) */
+button.day-tile{cursor:pointer;border-width:1px}
+button.day-tile:hover{background:var(--cd);transform:translateY(-1px)}
+button.day-tile:active{transform:scale(.96)}
+button.day-tile:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+/* Status : today (jour courant, suggestion à lancer) */
+.day-tile-today{background:var(--cd);border:1.5px solid var(--ac);box-shadow:0 0 0 3px var(--ac10)}
+.day-tile-today .day-name{color:var(--ac);font-weight:900}
+/* Status : today_rest (aujourd'hui mais c'est repos) */
+.day-tile-today_rest{background:var(--cd);border:1.5px solid var(--mt);box-shadow:0 0 0 3px rgba(108,108,112,.08)}
+.day-tile-today_rest .day-name{color:var(--mt);font-weight:900}
+/* Status : done (séance déjà loggée cette semaine) */
+.day-tile-done{background:var(--cd);border:1px solid var(--ok);opacity:1}
+.day-tile-done .day-name{color:var(--ok);font-weight:800}
+.day-tile-done .day-sess{opacity:.85}
+.day-check{display:inline-block;color:var(--ok);font-weight:900;margin-right:1px}
+/* Status : future (à venir, projeté) */
+.day-tile-future{background:var(--cd);border:1px dashed var(--bd)}
+.day-tile-future .day-sess{opacity:.85}
+/* Status : past_rest (passé non fait) + future_rest (repos à venir) */
+.day-tile-past_rest,.day-tile-future_rest{background:transparent;border:1px solid var(--bd);opacity:.55}
+.day-name{font-size:10px;font-weight:700;color:var(--mt);letter-spacing:.5px;text-transform:uppercase}
+.day-sess{font-size:12px;font-weight:800;letter-spacing:.3px;line-height:1.1}
 .day-sess-push{color:var(--ac)}
 .day-sess-pull{color:#457B9D}
 .day-sess-legs{color:var(--ok)}
@@ -223,15 +243,15 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
      `defer` sur tous les classics : téléchargement parallèle, exécution séquentielle après HTML parsé.
      → débloque le rendu initial (FCP) sans changer l'ordre d'exécution.
      sync.js est un module ES (defer auto) → s'exécute après les classics, dispatche apex:sync-ready. -->
-<script src="core.js?v=8.27" defer></script>
-<script src="data.js?v=8.27" defer></script>
-<script src="anatomy.js?v=8.27" defer></script>
-<script src="pathologies.js?v=8.27" defer></script>
-<script src="achievements.js?v=8.27" defer></script>
-<script src="state.js?v=8.27" defer></script>
-<script src="ui.js?v=8.27" defer></script>
-<script src="firebase-config.js?v=8.27" defer></script>
-<script type="module" src="sync.js?v=8.27"></script>
+<script src="core.js?v=8.28" defer></script>
+<script src="data.js?v=8.28" defer></script>
+<script src="anatomy.js?v=8.28" defer></script>
+<script src="pathologies.js?v=8.28" defer></script>
+<script src="achievements.js?v=8.28" defer></script>
+<script src="state.js?v=8.28" defer></script>
+<script src="ui.js?v=8.28" defer></script>
+<script src="firebase-config.js?v=8.28" defer></script>
+<script type="module" src="sync.js?v=8.28"></script>
 
 <!-- Service Worker : auto-update + toast -->
 <script>

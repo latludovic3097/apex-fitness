@@ -382,6 +382,67 @@ function getFatigue(){
   return{score,label:"Volume faible — tu peux pousser",color:"#457B9D"};
 }
 
+// ─── Planning hebdo adaptatif (v8.28) ─────────────────────────────────────
+// Calcule l'état des 7 jours de la semaine courante en fonction de S.hist.
+// Pour chaque jour : status ∈ {done, today, future, past_rest, today_rest, future_rest}
+// + sess (push|pull|legs|core|rest) + date.
+// Logique : on regarde ce qui a été FAIT cette semaine, on projette le RESTE
+// de IDEAL_CYCLE (push, core, pull, rest, legs, rest, rest) depuis aujourd'hui.
+function computeWeekPlan(){
+  const now = new Date();
+  const todayDow = now.getDay();             // 0 = dimanche
+  const todayIdx = todayDow === 0 ? 6 : todayDow - 1;  // 0 = lundi
+  const monday = new Date(now);
+  monday.setHours(0, 0, 0, 0);
+  monday.setDate(now.getDate() - todayIdx);
+  const TRACKED = ["push", "pull", "legs", "core"];
+  // Squelette 7 jours
+  const days = [];
+  for(let i = 0; i < 7; i++){
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    days.push({date: d, dow: i, sess: null, status: "pending"});
+  }
+  // Remplit les jours faits (depuis S.hist cette semaine)
+  S.hist.forEach(h => {
+    if(!TRACKED.includes(h.sessionId)) return;
+    const hd = new Date(h.date);
+    if(hd < monday) return;
+    const idx = Math.floor((hd.getTime() - monday.getTime()) / 864e5);
+    if(idx < 0 || idx > 6) return;
+    if(!days[idx].sess){ days[idx].sess = h.sessionId; days[idx].status = "done"; }
+  });
+  // Past sans rien : past_rest (raté / repos passif)
+  for(let i = 0; i < todayIdx; i++){
+    if(days[i].status === "pending"){ days[i].sess = "rest"; days[i].status = "past_rest"; }
+  }
+  // Calcule ce qu'il reste à faire en IDEAL_CYCLE
+  const doneThisWeek = days.filter(d => d.status === "done").map(d => d.sess);
+  const remaining = IDEAL_CYCLE.filter(s => s === "rest" || !doneThisWeek.includes(s));
+  // Trim rests par la fin si on a trop d'items pour les jours restants
+  const daysLeft = 7 - todayIdx;
+  while(remaining.length > daysLeft){
+    const lastRest = remaining.lastIndexOf("rest");
+    if(lastRest === -1) break;
+    remaining.splice(lastRest, 1);
+  }
+  // Si encore trop (cas extrême : tous PPL+Core restants mais 1 seul jour) : on coupe
+  if(remaining.length > daysLeft) remaining.length = daysLeft;
+  // Projette today + future
+  for(let i = 0; i < daysLeft; i++){
+    const idx = todayIdx + i;
+    if(days[idx].status === "done") continue;
+    const sess = i < remaining.length ? remaining[i] : "rest";
+    days[idx].sess = sess;
+    if(idx === todayIdx){
+      days[idx].status = sess === "rest" ? "today_rest" : "today";
+    } else {
+      days[idx].status = sess === "rest" ? "future_rest" : "future";
+    }
+  }
+  return days;
+}
+
 // Recommande la session la moins récemment faite (rest day intelligence)
 function getRecommendation(){
   const sessIds=["push","pull","legs"];

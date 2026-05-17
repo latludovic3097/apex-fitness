@@ -303,30 +303,29 @@ const PROG = {sessions:[
 }
 ]};
 
-// ─── PLANNING HEBDOMADAIRE IDÉAL : 4 séances/semaine (PPL + Core) ───
-// Révisé après synthèse de la littérature 2019-2022 (vs version v8.26 qui proposait
-// 6 séances). Schoenfeld et al. 2019 (J Sports Sci, "How many times per week should
-// a muscle be trained?") + Grgic et al. 2022 montrent que 1-2× par muscle/sem donne
-// les MÊMES gains d'hypertrophie qu'à fréquence supérieure SI le volume total est
-// équivalent. Pour la majorité des lifters intermédiaires/avancés, 3 séances PPL
-// avec qualité de récupération battent 6 séances entassées.
+// ─── PLANNING HEBDOMADAIRE : ADAPTATIF (v8.28) ───
+// Auparavant statique (v8.27), désormais calculé dynamiquement par computeWeekPlan()
+// dans state.js à partir de S.hist.
 //
-// Le mardi Core (McGill Big 3 + Pallof Press + Carries) sert d'active recovery :
-// low fatigue, anti-flexion lombaire, n'interfère ni avec Push (J-1) ni avec Pull (J+1).
-// Validé McGill 2016 (Big 3 peut être fait 3-4×/sem).
+// Séquence idéale 4 séances/semaine (Push, Pull, Legs, Core) avec rests intercalés :
+// fondée sur Schoenfeld 2019, Grgic 2022, McGill 2016, Krzysztofik 2019.
+// Si l'utilisateur fait Push mardi au lieu de lundi, le planning shift en conséquence
+// (Core mercredi, Pull jeudi, rest vendredi, Legs samedi).
 //
-// Récupération : 48 h entre Push (Lun) → Pull (Mer), 48 h Pull (Mer) → Legs (Ven),
-// puis 60 h de repos complet jusqu'au Lun suivant. Krzysztofik et al. 2019 :
-// récup hebdomadaire critique pour éviter overtraining.
-const WEEKLY_PLAN = [
-  {short:"Lun", sess:"Push",  cls:"push"},
-  {short:"Mar", sess:"Core",  cls:"core"},
-  {short:"Mer", sess:"Pull",  cls:"pull"},
-  {short:"Jeu", sess:"Repos", cls:"rest"},
-  {short:"Ven", sess:"Legs",  cls:"legs"},
-  {short:"Sam", sess:"Repos", cls:"rest"},
-  {short:"Dim", sess:"Repos", cls:"rest"}
-];
+// IDEAL_CYCLE : ordre canonique appliqué depuis aujourd'hui en fonction de
+// ce qui reste à faire cette semaine. Le mardi Core sert d'active recovery
+// entre Push (lun) et Pull (mer) : low fatigue, anti-flexion lombaire.
+const IDEAL_CYCLE = ["push", "core", "pull", "rest", "legs", "rest", "rest"];
+
+// Mapping affichage (couleurs, labels) pour la grille
+const PLAN_LABELS = {
+  push:  {label:"Push",  cls:"push"},
+  pull:  {label:"Pull",  cls:"pull"},
+  legs:  {label:"Legs",  cls:"legs"},
+  core:  {label:"Core",  cls:"core"},
+  rest:  {label:"Repos", cls:"rest"}
+};
+const DAY_SHORTS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 
 // ─── CORE HEAVY 12 SEMAINES (L5-S1 safe, McGill-validated) ───
 // Pallof Press: anti-rotation | Suitcase Carry: anti-flexion latérale (QL+obliques)

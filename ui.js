@@ -290,10 +290,31 @@ function rHome(){
   <div class="home-row-3up">${PROG.sessions.map(s=>{const last=S.hist.find(h=>h.sessionId===s.id);const daysAgo=last?Math.floor((Date.now()-new Date(last.date))/864e5):null;const metaText=daysAgo===null?"Jamais":daysAgo===0?"Aujourd'hui":daysAgo===1?"Hier":`il y a ${daysAgo}j`;return`<button type="button" class="home-tile" style="border-top-color:${s.color}" onclick="goSess('${s.id}')" aria-label="Lancer ${s.name}"><div class="tile-name" style="color:${s.color}">${s.name}</div><div class="tile-meta">${metaText}</div></button>`;}).join("")}</div>
   <h2 class="sec-title">Planning idéal de la semaine</h2>
   <div class="card week-card">
-    <div class="week-intro">Idéal scientifique : <b>4 séances/semaine</b> (Push, Pull, Legs, Core), <b>48 h</b> entre séances PPL. Pour la majorité des lifters intermédiaires/avancés, plus de fréquence ne donne pas plus de gains (Schoenfeld 2019). <b>C'est une suggestion, pas une obligation.</b></div>
+    <div class="week-intro">Idéal scientifique : <b>4 séances/semaine</b> (Push, Pull, Legs, Core), <b>48 h</b> entre séances PPL. Le planning <b>s'adapte</b> : si tu fais Push mardi (au lieu de lundi), Core glisse mercredi, Pull jeudi, etc. <b>Click une tile pour lancer la séance.</b></div>
     <div class="week-source">Schoenfeld 2019 · Grgic 2022 · McGill 2016 · Krzysztofik 2019</div>
-    <div class="week-grid" role="list" aria-label="Planning idéal de la semaine">${(()=>{const dow=new Date().getDay();const todayIdx=dow===0?6:dow-1;return WEEKLY_PLAN.map((p,i)=>`<div class="day-tile${i===todayIdx?' today':''}" role="listitem"${i===todayIdx?' aria-current="date"':''}><div class="day-name">${p.short}</div><div class="day-sess day-sess-${p.cls}">${p.sess}</div></div>`).join("");})()}</div>
-    <div class="week-foot">Le <b>mardi Core</b> (McGill Big 3 + Pallof Press) sert d'<b>active recovery</b> entre Push et Pull : low fatigue, anti-flexion lombaire, ne charge pas la colonne. Si tu manques de temps, tu peux supprimer Core et garder PPL en 3 séances classiques. Les jours de repos peuvent accueillir un cardio léger (Z2 polarisé Seiler).</div>
+    <div class="week-grid" role="list" aria-label="Planning hebdo adaptatif">${(()=>{
+      const plan = computeWeekPlan();
+      const onclickFor = s => {
+        if(s === "push" || s === "pull" || s === "legs") return `goSess('${s}')`;
+        if(s === "core") return `goCore()`;
+        return "";
+      };
+      return plan.map((d, i) => {
+        const lbl = PLAN_LABELS[d.sess] || PLAN_LABELS.rest;
+        const short = DAY_SHORTS[i];
+        const isClickable = ["today","future","done"].includes(d.status) && d.sess !== "rest";
+        const tag = isClickable ? "button" : "div";
+        const tabAttr = isClickable ? ` type="button"` : "";
+        const onclickAttr = isClickable ? ` onclick="${onclickFor(d.sess)}"` : "";
+        const ariaPress = d.status === "today" ? ` aria-current="date"` : "";
+        const ariaLabel = isClickable ? ` aria-label="${d.status === 'done' ? 'Refaire' : 'Lancer'} ${lbl.label} (${short})"` : ` aria-label="${short} ${lbl.label}"`;
+        const sessHtml = d.status === "done"
+          ? `<div class="day-sess day-sess-${lbl.cls}"><span class="day-check">✓</span> ${lbl.label}</div>`
+          : `<div class="day-sess day-sess-${lbl.cls}">${lbl.label}</div>`;
+        return `<${tag} class="day-tile day-tile-${d.status}"${tabAttr}${onclickAttr}${ariaPress}${ariaLabel}><div class="day-name">${short}</div>${sessHtml}</${tag}>`;
+      }).join("");
+    })()}</div>
+    <div class="week-foot"><b>Comment ça marche</b> : ✓ = déjà fait cette semaine. La case du jour est encadrée en rouge. <b>Click sur Push, Pull, Legs ou Core</b> pour lancer la séance. Le mardi Core (McGill Big 3 + Pallof) sert d'<b>active recovery</b> : low fatigue, anti-flexion lombaire. Les jours de repos peuvent accueillir un cardio léger (Z2).</div>
   </div>
   <h2 class="sec-title">Wellness</h2>
   <div class="card sess-card sess-card-well" onclick="goCardio()"><div class="sess-inner"><div><div class="sess-name">CARDIO</div><div class="sess-meta">Course · Nage · Vélo — durée, pente, vitesse, distance, résistance</div>${(()=>{const lastC=S.hist.find(h=>h.sessionId==='cardio');return lastC?`<div class="sess-meta">Dernier : ${new Date(lastC.date).toLocaleDateString("fr-FR")} — ${lastC.cardio?.mode==='run'?'Course':lastC.cardio?.mode==='swim'?'Nage':'Vélo'}</div>`:"";})()}</div><div class="sess-icon">→</div></div></div>
