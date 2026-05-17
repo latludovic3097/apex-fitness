@@ -39,7 +39,11 @@ let S = {
   // P1 #8 : pathologies actives — par défaut L5-S1 (mode historique de l'app)
   health: {pathologies:["l5"]},
   // P1 #9 : programme custom — IDs d'exercices favoris choisis par l'utilisateur (depuis PROG)
-  custom: {name:"CUSTOM", exerciseIds:[]}
+  custom: {name:"CUSTOM", exerciseIds:[]},
+  // v8.29 : objectif déclaré au onboarding ("force" | "muscle" | "lean" | "rehab")
+  // Pilote les adaptations UI (cardio recommendation pour "lean", focus L5 pour "rehab")
+  // tout en laissant S.phase libre de changer indépendamment.
+  goal: "muscle"
 };
 
 function loadS(){
@@ -53,6 +57,7 @@ function loadS(){
       if(d.nut)S.nut={...S.nut,...d.nut};
       if(d.health)S.health={...S.health,...d.health};
       if(d.custom)S.custom={...S.custom,...d.custom};
+      if(d.goal)S.goal=d.goal;
     }
     const a=localStorage.getItem(SK+"_a");
     if(a){
@@ -69,7 +74,7 @@ function loadS(){
 let _quotaWarned = false;
 function saveS(){
   try{
-    localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut,health:S.health,custom:S.custom}));
+    localStorage.setItem(SK,JSON.stringify({history:S.hist,phase:S.phase,cardio:S.cardio,core:S.core,nut:S.nut,health:S.health,custom:S.custom,goal:S.goal}));
     _quotaWarned = false; // reset si on a réussi
   }catch(e){
     if(!_quotaWarned && (e.name === "QuotaExceededError" || /quota/i.test(e.message||""))){
@@ -134,7 +139,8 @@ function scheduleCloudSync(){
         cardio: S.cardio,
         core: S.core,
         nut: S.nut,
-        health: S.health
+        health: S.health,
+        goal: S.goal
       });
       _syncStatus = "synced";
     }catch(e){
@@ -162,6 +168,7 @@ async function pullAndMergeFromCloud(){
       if(cloud.health) S.health = {...S.health, ...cloud.health};
       if(cloud.core) S.core = {...S.core, ...cloud.core};
       if(cloud.nut) S.nut = {...S.nut, ...cloud.nut};
+      if(cloud.goal) S.goal = cloud.goal;
     }
     saveS(); // déclenche un push remerge (cloud reçoit la fusion)
     _syncStatus = "synced";

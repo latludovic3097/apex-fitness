@@ -729,6 +729,7 @@ function rHist(){
 
 function rSett(){
   return`<div class="hdr"><h1 class="page-title">Réglages</h1></div>
+  ${rGoalCard()}
   <div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Périodisation</div>${PHASES.map((p,i)=>`<div onclick="setPhase(${i})" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;margin-bottom:6px;cursor:pointer;border:2px solid ${S.phase===i?p.color:'var(--bd)'};background:${S.phase===i?p.color+'15':'none'}"><div style="width:12px;height:12px;border-radius:50%;background:${p.color}"></div><div><div style="font-size:13px;font-weight:700;color:${p.color}">${p.name}</div><div style="font-size:13px;color:var(--t2)">${p.desc} — ${p.numSets}×${p.reps} — repos ${p.rest}s</div></div></div>`).join("")}</div>
   ${rCustomBuilderCard()}
   ${rPathologiesCard()}
@@ -822,6 +823,43 @@ function toggleCustomExercise(id){
   saveS();
   // Pas besoin de R() ici — le checkbox change visuellement de lui-même
   // Mais on doit actualiser le compteur du <summary>
+  R();
+}
+
+// ─── v8.29 : MON OBJECTIF CARD (single-select, modifie aussi S.phase) ───
+function rGoalCard(){
+  const current = S.goal || "muscle";
+  const goals = [
+    {k:"force",  name:"Prendre de la force",    emoji:"💪", color:"#E63946", phase:0,
+     desc:"Charges lourdes 4-6 reps, repos 180s. APRE auto-progression."},
+    {k:"muscle", name:"Gagner du muscle",       emoji:"🔥", color:"#457B9D", phase:1,
+     desc:"Volume modéré 8-12 reps, repos 90s. Hypertrophie classique."},
+    {k:"lean",   name:"M'affiner / définition", emoji:"🌿", color:"#2A9D8F", phase:1,
+     desc:"Hypertrophie + cardio Z2 + macros déficit. Retention force, perte gras."},
+    {k:"rehab",  name:"Reprise post-blessure",  emoji:"🦴", color:"#F4A261", phase:2,
+     desc:"Deload 15-20 reps, repos 60s. Focus forme + ROM. Mode L5-S1 safe renforcé."}
+  ];
+  const items = goals.map(g => {
+    const on = current === g.k;
+    return `<button onclick="setGoal('${g.k}', ${g.phase})" style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:11px;border:2px solid ${on?g.color:'var(--bd)'};background:${on?g.color+'15':'var(--cd)'};cursor:pointer;font-family:inherit;text-align:left;width:100%;margin-bottom:6px;transition:all .12s">
+      <span style="font-size:22px;flex-shrink:0">${g.emoji}</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:800;color:${on?g.color:'var(--tx)'};margin-bottom:2px">${g.name}</div>
+        <div style="font-size:12px;color:var(--t2);line-height:1.4">${g.desc}</div>
+      </div>
+      <span style="font-size:18px;color:${on?g.color:'var(--mt)'};font-weight:900;flex-shrink:0">${on?'✓':''}</span>
+    </button>`;
+  }).join("");
+  return `<div class="card">
+    <div style="font-size:14px;font-weight:700;margin-bottom:6px">🎯 Mon objectif</div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:12px;line-height:1.5">Détermine la programmation par défaut. Changer ici met aussi à jour la <b>Périodisation</b> ci-dessous.</div>
+    ${items}
+  </div>`;
+}
+function setGoal(key, phaseIdx){
+  S.goal = key;
+  S.phase = phaseIdx;
+  saveS();
   R();
 }
 
@@ -1094,12 +1132,20 @@ function doImpFile(el){const f=el.files&&el.files[0];if(!f)return;const rd=new F
 
 // ─── INIT ───
 loadS();
-// ─── P0 #5 : ONBOARDING WIZARD (3 écrans après le disclaimer) ───
+// ─── P0 #5 : ONBOARDING WIZARD (4 écrans après le disclaimer, v8.29) ───
 let _onbStep = 0;
-let _onbProfile = { sex: "M", height: 178, weight: 75, age: 30, goal: 0 };
+let _onbProfile = { sex: "M", height: 178, weight: 75, age: 30, goal: 1, pathologies: [] };
+
+// 4 objectifs accessibles + mapping vers la programmation interne
+// Goal 0 (Force)       → Phase 0 (Force, 4-6 reps, repos 180s)
+// Goal 1 (Muscle)      → Phase 1 (Hypertrophie, 8-12 reps, repos 90s) — DEFAULT
+// Goal 2 (M'affiner)   → Phase 1 (Hypertrophie) + recommandation cardio Z2
+// Goal 3 (Reprise)     → Phase 2 (Deload, 15-20 reps, repos 60s) + focus prudence
+const GOAL_TO_PHASE = [0, 1, 1, 2];
+const GOAL_KEYS = ["force", "muscle", "lean", "rehab"];
 
 function rOnboarding(){
-  const steps = [rOnbStep1, rOnbStep2, rOnbStep3];
+  const steps = [rOnbStep1, rOnbStep2, rOnbStep3, rOnbStep4];
   const stepFn = steps[_onbStep] || steps[0];
   const progress = ((_onbStep + 1) / steps.length) * 100;
   return `<div style="padding:24px 20px;max-width:480px;margin:0 auto">
@@ -1140,41 +1186,92 @@ function rOnbStep1(){
 }
 function rOnbStep2(){
   const p = _onbProfile;
+  // 4 goals : Force, Muscle, M'affiner (recomp), Reprise (rehab post-blessure)
+  // Labels orientés-utilisateur (pas du jargon technique). Sources scientifiques
+  // mentionnées en small print.
   const goals = [
-    { id: 0, name: "Force", emoji: "💪", color: "#E63946", desc: "Charges lourdes, 4-6 reps, repos long. Ta priorité = la barre qui monte." },
-    { id: 1, name: "Hypertrophie", emoji: "🔥", color: "#457B9D", desc: "Volume modéré, 8-12 reps. Construire du muscle visible." },
-    { id: 2, name: "Deload / Maintien", emoji: "🌿", color: "#2A9D8F", desc: "Récupération active, 15-20 reps légers. À utiliser entre 2 cycles." }
+    { id:0, name:"Prendre de la force", emoji:"💪", color:"#E63946",
+      desc:"Charges lourdes, 4-6 reps, repos 180s. APRE auto-progression #1 mondial. Ta priorité = la barre qui monte." },
+    { id:1, name:"Gagner du muscle", emoji:"🔥", color:"#457B9D",
+      desc:"Volume modéré, 8-12 reps, repos 90s. Pour construire du muscle visible (hypertrophie classique)." },
+    { id:2, name:"M'affiner / définition", emoji:"🌿", color:"#2A9D8F",
+      desc:"Volume musculaire 8-12 reps + cardio Z2 polarisé Seiler + macros déficit. Retention force, perte de gras." },
+    { id:3, name:"Reprise post-blessure", emoji:"🦴", color:"#F4A261",
+      desc:"Phase Deload : 15-20 reps légers, repos 60s, focus forme et amplitude. Mode L5-S1 safe renforcé." }
   ];
   return `<div class="card" style="padding:22px">
     <div style="font-size:22px;font-weight:900;margin-bottom:6px">🎯 Quel est ton objectif ?</div>
-    <div style="font-size:14px;color:var(--t2);margin-bottom:20px;line-height:1.6">Ton choix détermine les charges et les répétitions suggérées. Tu peux changer à tout moment dans Réglages.</div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:20px;line-height:1.6">Détermine la programmation de tes séances. Tu peux changer à tout moment dans Réglages.</div>
     ${goals.map(g => `
-      <div onclick="onbSet('goal',${g.id})" style="background:${p.goal===g.id?g.color+'18':'var(--cd2)'};border:2px solid ${p.goal===g.id?g.color:'var(--bd)'};border-radius:13px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .12s">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><span style="font-size:28px">${g.emoji}</span><span style="font-size:18px;font-weight:900;color:${g.color}">${g.name}</span></div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.5">${g.desc}</div>
+      <div onclick="onbSet('goal',${g.id})" style="background:${p.goal===g.id?g.color+'18':'var(--cd2)'};border:2px solid ${p.goal===g.id?g.color:'var(--bd)'};border-radius:13px;padding:14px;margin-bottom:8px;cursor:pointer;transition:all .12s">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px"><span style="font-size:24px">${g.emoji}</span><span style="font-size:16px;font-weight:900;color:${g.color}">${g.name}</span></div>
+        <div style="font-size:12px;color:var(--t2);line-height:1.4">${g.desc}</div>
       </div>
     `).join("")}
-    <div style="display:flex;gap:10px;margin-top:18px">
+    <div style="display:flex;gap:10px;margin-top:14px">
       <button class="btn2" onclick="onbBack()" style="flex:1">← Retour</button>
       <button class="btn" onclick="onbNext()" style="flex:2">Continuer →</button>
     </div>
   </div>`;
 }
+
+// NOUVELLE étape v8.29 : sélection multi-pathologies (mirror rPathologiesCard)
 function rOnbStep3(){
-  // Calcule la session recommandée (utilise getRecommendation si possible, sinon push par défaut)
+  const sel = _onbProfile.pathologies;
+  const items = Object.entries(PATHOLOGIES).map(([k, pa]) => {
+    const on = sel.includes(k);
+    return `<button onclick="onbTogglePath('${k}')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:11px;border:2px solid ${on?pa.color:'var(--bd)'};background:${on?pa.color+'15':'var(--cd)'};cursor:pointer;font-family:inherit;text-align:left;width:100%;margin-bottom:6px;transition:all .12s">
+      <span style="font-size:22px">${pa.icon}</span>
+      <span style="flex:1;font-size:14px;font-weight:700;color:${on?pa.color:'var(--tx)'}">${pa.label}</span>
+      <span style="font-size:18px;color:${on?pa.color:'var(--mt)'};font-weight:900">${on?'✓':''}</span>
+    </button>`;
+  }).join("");
+  return `<div class="card" style="padding:22px">
+    <div style="font-size:22px;font-weight:900;margin-bottom:6px">🏥 Tes zones sensibles ?</div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:14px;line-height:1.5">L'app affichera des <b>alertes contextuelles</b> et proposera des <b>substitutions automatiques</b> pour les exercices à risque. <b>Tu peux en sélectionner plusieurs, ou aucune si tu n'as rien.</b></div>
+    ${items}
+    ${sel.length===0?'<div style="font-size:12px;color:var(--mt);text-align:center;padding:10px;font-style:italic">Aucune zone sensible — pas d\'alerte pendant les séances.</div>':''}
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn2" onclick="onbBack()" style="flex:1">← Retour</button>
+      <button class="btn" onclick="onbNext()" style="flex:2">Continuer →</button>
+    </div>
+  </div>`;
+}
+function rOnbStep4(){
+  // Calcule la session recommandée
   const recId = typeof getRecommendation === "function" ? getRecommendation().id : "push";
   const recSess = PROG.sessions.find(s => s.id === recId);
-  const goals = ["Force", "Hypertrophie", "Deload"];
-  const ph = PHASES[_onbProfile.goal];
+  // 4 goal labels mapping vers les 3 phases
+  const goalLabels = ["Prendre de la force", "Gagner du muscle", "M'affiner / définition", "Reprise post-blessure"];
+  const goalColors = ["#E63946", "#457B9D", "#2A9D8F", "#F4A261"];
+  const phaseIdx = GOAL_TO_PHASE[_onbProfile.goal];
+  const ph = PHASES[phaseIdx];
+  // Pathologies sélectionnées
+  const sel = _onbProfile.pathologies;
+  const pathoLabel = sel.length === 0
+    ? '<span style="color:var(--mt);font-style:italic">Aucune</span>'
+    : sel.map(k => PATHOLOGIES[k]?.short || k).join(', ');
+  // Cardio bonus pour "M'affiner"
+  const cardioTip = _onbProfile.goal === 2
+    ? '<div style="background:var(--ok10);border-left:3px solid var(--ok);padding:10px 12px;margin:12px 0 0;border-radius:8px;font-size:12px;color:var(--t2);line-height:1.5"><b style="color:var(--ok)">+ Cardio Z2 recommandé.</b> Ajoute 2-3 séances cardio basse intensité par semaine pour optimiser la perte de gras sans perdre du muscle (Seiler 2010).</div>'
+    : '';
+  // Rappel prudence pour "Reprise"
+  const rehabTip = _onbProfile.goal === 3
+    ? '<div style="background:var(--wa10);border-left:3px solid var(--wa);padding:10px 12px;margin:12px 0 0;border-radius:8px;font-size:12px;color:var(--t2);line-height:1.5"><b style="color:#B97534">⚠ Reprise = prudence.</b> Écoute ton corps. Arrête si douleur. Tu pourras passer en phase Force ou Hypertrophie quand tu te sentiras prêt.</div>'
+    : '';
   return `<div class="card" style="padding:22px">
     <div style="font-size:22px;font-weight:900;margin-bottom:6px">🚀 Tu es prêt !</div>
-    <div style="font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.6">Ton profil est configuré. Voici un récap :</div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:18px;line-height:1.6">Ton profil est configuré. Voici un récap :</div>
     <div style="background:var(--cd2);border-radius:12px;padding:16px;margin-bottom:16px;font-size:14px;color:var(--tx);line-height:2">
       <b>Profil :</b> ${_onbProfile.sex==='M'?'♂':'♀'} ${_onbProfile.height} cm, ${_onbProfile.weight} kg, ${_onbProfile.age} ans<br>
-      <b>Objectif :</b> <span style="color:${ph.color};font-weight:800">${goals[_onbProfile.goal]}</span> — ${ph.numSets}×${ph.reps}, repos ${ph.rest}s<br>
-      <b>Programme :</b> PPL (Push / Pull / Legs) en 3 séances/sem
+      <b>Objectif :</b> <span style="color:${goalColors[_onbProfile.goal]};font-weight:800">${goalLabels[_onbProfile.goal]}</span><br>
+      <b>Programmation :</b> ${ph.name} — ${ph.numSets}×${ph.reps}, repos ${ph.rest}s<br>
+      <b>Zones sensibles :</b> ${pathoLabel}<br>
+      <b>Programme :</b> Push / Pull / Legs / Core en 4 séances/sem
     </div>
-    ${recSess?`<div class="card sess-card" style="border-left-color:${recSess.color};margin:0 0 14px 0;background:${recSess.color}11">
+    ${cardioTip}
+    ${rehabTip}
+    ${recSess?`<div class="card sess-card" style="border-left-color:${recSess.color};margin:14px 0 14px 0;background:${recSess.color}11">
       <div class="sess-inner"><div><div class="sess-meta" style="color:var(--ok);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:0">💡 Recommandé pour démarrer</div><div class="sess-name" style="color:${recSess.color};margin-top:4px">${recSess.name}</div><div class="sess-meta">${recSess.compounds.length + recSess.pools.length} exercices · ~45 min</div></div></div>
     </div>`:""}
     <button class="btn" onclick="onbFinish(true,'${recId}')">🏋️ Lancer ${recSess?recSess.name:""} maintenant</button>
@@ -1185,13 +1282,23 @@ function onbSet(k,v){ _onbProfile[k] = v; R(); }
 function onbNext(){ _onbStep++; R(); }
 function onbBack(){ _onbStep = Math.max(0, _onbStep - 1); R(); }
 function onbSkip(){ onbFinish(false); }
+function onbTogglePath(key){
+  const i = _onbProfile.pathologies.indexOf(key);
+  if(i >= 0) _onbProfile.pathologies.splice(i, 1);
+  else _onbProfile.pathologies.push(key);
+  R();
+}
 function onbFinish(launchSession, sessId){
   // Applique le profil au state
   S.nut.sex = _onbProfile.sex;
   S.nut.height = _onbProfile.height;
   S.nut.weight = _onbProfile.weight;
   S.nut.age = _onbProfile.age;
-  S.phase = _onbProfile.goal;
+  // v8.29 : mappe goal → phase + sauvegarde l'objectif utilisateur ET les pathologies
+  S.phase = GOAL_TO_PHASE[_onbProfile.goal];
+  S.goal = GOAL_KEYS[_onbProfile.goal] || "muscle";
+  if(!S.health) S.health = {};
+  S.health.pathologies = _onbProfile.pathologies.slice();
   localStorage.setItem("apex_onboarded", "1");
   saveS();
   if(launchSession && sessId){ goSess(sessId); }
