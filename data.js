@@ -303,18 +303,28 @@ const PROG = {sessions:[
 }
 ]};
 
-// ─── PLANNING HEBDOMADAIRE IDÉAL (suggestion, pas obligation) ───
-// Basé sur Schoenfeld et al. 2016 (Sports Med, meta-analyse fréquence vs hypertrophie :
-// 2× par muscle/sem ≥ 1× par muscle/sem) + Helms ER 2014 (J Int Soc Sports Nutr,
-// recommandations natural BB) + Lasevicius et al. 2018 (récup 48-72 h par groupe).
-// Le user est libre d'ignorer, d'adapter, ou de réduire à 3 séances/semaine.
+// ─── PLANNING HEBDOMADAIRE IDÉAL : 4 séances/semaine (PPL + Core) ───
+// Révisé après synthèse de la littérature 2019-2022 (vs version v8.26 qui proposait
+// 6 séances). Schoenfeld et al. 2019 (J Sports Sci, "How many times per week should
+// a muscle be trained?") + Grgic et al. 2022 montrent que 1-2× par muscle/sem donne
+// les MÊMES gains d'hypertrophie qu'à fréquence supérieure SI le volume total est
+// équivalent. Pour la majorité des lifters intermédiaires/avancés, 3 séances PPL
+// avec qualité de récupération battent 6 séances entassées.
+//
+// Le mardi Core (McGill Big 3 + Pallof Press + Carries) sert d'active recovery :
+// low fatigue, anti-flexion lombaire, n'interfère ni avec Push (J-1) ni avec Pull (J+1).
+// Validé McGill 2016 (Big 3 peut être fait 3-4×/sem).
+//
+// Récupération : 48 h entre Push (Lun) → Pull (Mer), 48 h Pull (Mer) → Legs (Ven),
+// puis 60 h de repos complet jusqu'au Lun suivant. Krzysztofik et al. 2019 :
+// récup hebdomadaire critique pour éviter overtraining.
 const WEEKLY_PLAN = [
   {short:"Lun", sess:"Push",  cls:"push"},
-  {short:"Mar", sess:"Pull",  cls:"pull"},
-  {short:"Mer", sess:"Legs",  cls:"legs"},
-  {short:"Jeu", sess:"Push",  cls:"push"},
-  {short:"Ven", sess:"Pull",  cls:"pull"},
-  {short:"Sam", sess:"Legs",  cls:"legs"},
+  {short:"Mar", sess:"Core",  cls:"core"},
+  {short:"Mer", sess:"Pull",  cls:"pull"},
+  {short:"Jeu", sess:"Repos", cls:"rest"},
+  {short:"Ven", sess:"Legs",  cls:"legs"},
+  {short:"Sam", sess:"Repos", cls:"rest"},
   {short:"Dim", sess:"Repos", cls:"rest"}
 ];
 

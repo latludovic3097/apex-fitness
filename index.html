@@ -169,6 +169,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
 .day-sess-push{color:var(--ac)}
 .day-sess-pull{color:#457B9D}
 .day-sess-legs{color:var(--ok)}
+.day-sess-core{color:#8B5CF6}
 .day-sess-rest{color:var(--mt);font-weight:600}
 .week-foot{font-size:12px;color:var(--mt);line-height:1.5;padding:10px 0 0;margin-top:10px;border-top:1px solid var(--bd)}
 .week-foot b{color:var(--t2);font-weight:600}
@@ -222,15 +223,15 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--ac);outline-offset:
      `defer` sur tous les classics : téléchargement parallèle, exécution séquentielle après HTML parsé.
      → débloque le rendu initial (FCP) sans changer l'ordre d'exécution.
      sync.js est un module ES (defer auto) → s'exécute après les classics, dispatche apex:sync-ready. -->
-<script src="core.js?v=8.26" defer></script>
-<script src="data.js?v=8.26" defer></script>
-<script src="anatomy.js?v=8.26" defer></script>
-<script src="pathologies.js?v=8.26" defer></script>
-<script src="achievements.js?v=8.26" defer></script>
-<script src="state.js?v=8.26" defer></script>
-<script src="ui.js?v=8.26" defer></script>
-<script src="firebase-config.js?v=8.26" defer></script>
-<script type="module" src="sync.js?v=8.26"></script>
+<script src="core.js?v=8.27" defer></script>
+<script src="data.js?v=8.27" defer></script>
+<script src="anatomy.js?v=8.27" defer></script>
+<script src="pathologies.js?v=8.27" defer></script>
+<script src="achievements.js?v=8.27" defer></script>
+<script src="state.js?v=8.27" defer></script>
+<script src="ui.js?v=8.27" defer></script>
+<script src="firebase-config.js?v=8.27" defer></script>
+<script type="module" src="sync.js?v=8.27"></script>
 
 <!-- Service Worker : auto-update + toast -->
 <script>
