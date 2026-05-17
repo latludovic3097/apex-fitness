@@ -303,6 +303,21 @@ const PROG = {sessions:[
 }
 ]};
 
+// ─── PLANNING HEBDOMADAIRE IDÉAL (suggestion, pas obligation) ───
+// Basé sur Schoenfeld et al. 2016 (Sports Med, meta-analyse fréquence vs hypertrophie :
+// 2× par muscle/sem ≥ 1× par muscle/sem) + Helms ER 2014 (J Int Soc Sports Nutr,
+// recommandations natural BB) + Lasevicius et al. 2018 (récup 48-72 h par groupe).
+// Le user est libre d'ignorer, d'adapter, ou de réduire à 3 séances/semaine.
+const WEEKLY_PLAN = [
+  {short:"Lun", sess:"Push",  cls:"push"},
+  {short:"Mar", sess:"Pull",  cls:"pull"},
+  {short:"Mer", sess:"Legs",  cls:"legs"},
+  {short:"Jeu", sess:"Push",  cls:"push"},
+  {short:"Ven", sess:"Pull",  cls:"pull"},
+  {short:"Sam", sess:"Legs",  cls:"legs"},
+  {short:"Dim", sess:"Repos", cls:"rest"}
+];
+
 // ─── CORE HEAVY 12 SEMAINES (L5-S1 safe, McGill-validated) ───
 // Pallof Press: anti-rotation | Suitcase Carry: anti-flexion latérale (QL+obliques)
 // Sources : McGill 2010, Behm 2010, Escamilla 2010 — pas de flexion lombaire chargée
