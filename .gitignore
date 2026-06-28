@@ -3,3 +3,8 @@
 firebase-debug.log
 .DS_Store
 node_modules/
+
+# Vite / build (migration React)
+dist/
+*.tsbuildinfo
+.vite/

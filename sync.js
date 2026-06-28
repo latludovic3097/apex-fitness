@@ -21,6 +21,7 @@ const isPlaceholder =
   String(cfg.projectId || "").includes("your-project");
 
 let app, auth, db, currentUser = null;
+let analytics = null;
 const authListeners = new Set();
 
 if (!isPlaceholder) {
@@ -46,10 +47,39 @@ if (!isPlaceholder) {
         console.warn("[apex-sync] redirect result:", e.code);
       }
     });
+
+    // v8.36 : Firebase Analytics (DAU/MAU, rétention, events custom)
+    // Init asynchrone — si measurementId est absent ou si le browser bloque les cookies tiers,
+    // analytics reste null et apexAnalytics.log() devient un noop. Aucune erreur visible.
+    if (cfg.measurementId && typeof cfg.measurementId === "string" && cfg.measurementId.startsWith("G-")) {
+      import("https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js")
+        .then(({ getAnalytics, isSupported }) => isSupported().then(ok => {
+          if (ok) {
+            analytics = getAnalytics(app);
+            document.dispatchEvent(new CustomEvent("apex:analytics-ready"));
+          }
+        }))
+        .catch(e => console.warn("[apex-sync] analytics init failed:", e));
+    }
   } catch (e) {
     console.warn("[apex-sync] init failed:", e);
   }
 }
+
+// Wrapper analytics : safe-to-call partout, noop si analytics pas initialisé
+const _logEventRef = { fn: null };
+if (!isPlaceholder && cfg.measurementId && cfg.measurementId.startsWith("G-")) {
+  import("https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js")
+    .then(mod => { _logEventRef.fn = mod.logEvent; })
+    .catch(() => {});
+}
+window.apexAnalytics = {
+  isEnabled: () => !!analytics,
+  log(name, params) {
+    if (!analytics || !_logEventRef.fn) return;
+    try { _logEventRef.fn(analytics, name, params || {}); } catch (e) { console.warn("[apex-analytics]", e); }
+  }
+};
 
 window.apexSync = {
   isConfigured: () => !isPlaceholder && !!app,

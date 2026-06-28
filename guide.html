@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guide utilisateur — FITStark</title>
+<meta name="description" content="Guide complet pour comprendre et tirer le meilleur de l'app FITStark : installation, onboarding, séances, progression APRE, nutrition.">
+<link rel="manifest" href="manifest.json">
+<link rel="canonical" href="https://apexfit-da753.web.app/guide.html">
+<link rel="icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f5f5f7;--cd:#ffffff;--cd2:#f0f0f3;--bd:#e5e5ea;
+  --tx:#1c1c1e;--t2:#48484a;--mt:#6c6c70;
+  --ac:#E63946;--ok:#2A9D8F;--info:#457B9D;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06),0 1px 1px rgba(0,0,0,.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.04);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+/* Top nav minimale */
+.topnav{background:var(--cd);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(10px)}
+.topnav-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;max-width:760px;margin:0 auto}
+.topnav .logo{font-size:18px;font-weight:900;letter-spacing:1.5px;color:var(--tx);text-decoration:none}
+.topnav .logo span{color:var(--ac)}
+.topnav .nav-cta{background:var(--ac);color:#fff;padding:8px 14px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;letter-spacing:.5px}
+/* Hero */
+.hero{padding:60px 20px 36px;text-align:center;background:linear-gradient(180deg,var(--cd) 0%,var(--bg) 100%)}
+.hero-eyebrow{font-size:12px;font-weight:800;letter-spacing:4px;color:var(--ac);text-transform:uppercase;margin-bottom:12px}
+.hero h1{font-size:46px;font-weight:900;letter-spacing:-1.5px;line-height:1.05;color:var(--tx);margin-bottom:14px}
+.hero p{font-size:17px;color:var(--mt);max-width:520px;margin:0 auto;line-height:1.5}
+/* TOC */
+.toc-card{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:24px 22px;margin:24px 0 32px;box-shadow:var(--shadow-sm)}
+.toc-card h2{font-size:13px;font-weight:800;color:var(--mt);text-transform:uppercase;letter-spacing:3px;margin-bottom:14px}
+.toc-list{list-style:none;padding:0;display:grid;gap:8px}
+.toc-list a{display:flex;align-items:center;gap:12px;padding:10px 12px;color:var(--tx);text-decoration:none;border-radius:10px;font-size:14px;font-weight:500;transition:background .15s}
+.toc-list a:hover{background:var(--cd2)}
+.toc-list .toc-num{font-family:monospace;font-weight:800;color:var(--mt);font-size:13px;min-width:24px}
+/* Content (markdown rendered) */
+.content{padding:8px 0 60px}
+.content h1{font-size:40px;font-weight:900;letter-spacing:-1.2px;color:var(--tx);margin:48px 0 18px;line-height:1.1;border-bottom:3px solid var(--ac);padding-bottom:12px}
+.content h2{font-size:30px;font-weight:900;letter-spacing:-.7px;color:var(--tx);margin:44px 0 14px;line-height:1.15;display:flex;align-items:center;gap:14px;scroll-margin-top:80px}
+.content h2::before{content:'';display:inline-block;width:6px;height:32px;background:var(--ac);border-radius:3px;flex-shrink:0}
+.content h3{font-size:21px;font-weight:800;color:var(--info);margin:30px 0 10px;line-height:1.2;scroll-margin-top:80px}
+.content h4{font-size:16px;font-weight:800;color:var(--t2);margin:20px 0 8px;text-transform:uppercase;letter-spacing:1.5px}
+.content p{font-size:16px;color:var(--t2);margin:0 0 14px;line-height:1.65}
+.content ul,.content ol{margin:0 0 18px 26px;color:var(--t2)}
+.content li{font-size:16px;margin:0 0 7px;line-height:1.55}
+.content strong{color:var(--tx);font-weight:700}
+.content em{color:var(--mt);font-style:italic}
+.content a{color:var(--ac);text-decoration:underline;text-decoration-color:rgba(230,57,70,.4);text-underline-offset:3px;font-weight:500}
+.content a:hover{text-decoration-color:var(--ac)}
+.content code{background:var(--cd2);padding:2px 7px;border-radius:5px;font-size:13px;font-family:'JetBrains Mono','SF Mono',Monaco,monospace;color:var(--ac);border:1px solid var(--bd)}
+.content pre{background:var(--cd);border:1px solid var(--bd);border-radius:12px;padding:18px 22px;overflow-x:auto;margin:18px 0;box-shadow:var(--shadow-sm)}
+.content pre code{background:none;border:none;padding:0;color:var(--tx);font-size:14px}
+.content blockquote{border-left:4px solid var(--info);background:var(--cd);padding:14px 18px;margin:18px 0;border-radius:0 12px 12px 0;color:var(--t2);font-style:italic}
+.content img{max-width:100%;height:auto;border-radius:14px;border:1px solid var(--bd);box-shadow:var(--shadow-md);margin:18px 0;display:block}
+.content hr{border:none;border-top:1px solid var(--bd);margin:36px 0}
+.content table{width:100%;border-collapse:collapse;margin:18px 0;background:var(--cd);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.content th,.content td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--bd);font-size:14px}
+.content th{background:var(--cd2);font-weight:800;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;font-size:12px}
+.content tr:last-child td{border-bottom:none}
+/* Footer */
+.footer{background:var(--cd);border-top:1px solid var(--bd);padding:40px 20px;text-align:center;margin-top:60px}
+.footer-cta{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.footer-cta a{background:var(--ac);color:#fff;padding:14px 24px;border-radius:12px;font-size:14px;font-weight:800;text-decoration:none;letter-spacing:.5px;box-shadow:var(--shadow-sm)}
+.footer-cta a.alt{background:var(--cd2);color:var(--tx);border:1px solid var(--bd)}
+.footer-meta{font-size:12px;color:var(--mt);line-height:1.6}
+.footer-meta a{color:var(--info);text-decoration:none}
+/* Loading state */
+.loading{padding:80px 20px;text-align:center;color:var(--mt)}
+.loading .spinner{display:inline-block;width:34px;height:34px;border:3px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:spin 0.85s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Mobile */
+@media (max-width:640px){
+  .hero{padding:40px 16px 24px}
+  .hero h1{font-size:32px;letter-spacing:-.8px}
+  .hero p{font-size:15px}
+  .content h1{font-size:30px;margin:36px 0 14px}
+  .content h2{font-size:24px;margin:32px 0 12px}
+  .content h2::before{height:24px}
+  .content h3{font-size:18px;margin:24px 0 8px}
+  .content p,.content li{font-size:15px}
+  .wrap{padding:0 16px}
+  .toc-card{padding:18px}
+}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="/" class="logo">FIT<span>Stark</span></a>
+    <a href="/" class="nav-cta">Ouvrir l'app →</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-eyebrow">Guide utilisateur</div>
+  <h1>Comprendre FITStark<br>en 15 minutes.</h1>
+  <p>De l'installation à la programmation avancée — chaque feature expliquée, avec captures d'écran.</p>
+</header>
+
+<div class="wrap">
+  <div class="toc-card">
+    <h2>Table des matières</h2>
+    <ol class="toc-list">
+      <li><a href="#1-quest-ce-que-fitstark"><span class="toc-num">01</span>Qu'est-ce que FITStark ?</a></li>
+      <li><a href="#2-installation"><span class="toc-num">02</span>Installation</a></li>
+      <li><a href="#3-premire-configuration"><span class="toc-num">03</span>Première configuration</a></li>
+      <li><a href="#4-lcran-daccueil"><span class="toc-num">04</span>L'écran d'accueil</a></li>
+      <li><a href="#5-faire-ta-premire-sance"><span class="toc-num">05</span>Faire ta première séance</a></li>
+      <li><a href="#6-le-programme-personnalis"><span class="toc-num">06</span>Le programme personnalisé</a></li>
+      <li><a href="#7-suivre-tes-progrs"><span class="toc-num">07</span>Suivre tes progrès</a></li>
+      <li><a href="#8-cardio-et-core"><span class="toc-num">08</span>Cardio et Core</a></li>
+      <li><a href="#9-nutrition"><span class="toc-num">09</span>Nutrition</a></li>
+      <li><a href="#10-rglages-avancs"><span class="toc-num">10</span>Réglages avancés</a></li>
+      <li><a href="#11-faq-et-dpannage"><span class="toc-num">11</span>FAQ et dépannage</a></li>
+      <li><a href="#12-glossaire-scientifique"><span class="toc-num">12</span>Glossaire scientifique</a></li>
+    </ol>
+  </div>
+
+  <main id="content" class="content">
+    <div class="loading"><div class="spinner"></div><div>Chargement du guide…</div></div>
+  </main>
+</div>
+
+<footer class="footer">
+  <div class="footer-cta">
+    <a href="/">📱 Ouvrir l'app</a>
+    <a href="https://ko-fi.com/leonydas3097" class="alt" target="_blank" rel="noopener">☕ Soutenir le projet</a>
+  </div>
+  <div class="footer-meta">
+    FITStark · Open source · 100% gratuit · Sans pub<br>
+    <a href="https://github.com/leonydas/apex-fitness" target="_blank" rel="noopener">GitHub</a> ·
+    <a href="/">apexfit-da753.web.app</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+<script>
+(async function(){
+  try {
+    const res = await fetch('guide.md', { cache: 'no-cache' });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    let md = await res.text();
+    // Cleanup : retire les directives Pandoc \newpage
+    md = md.replace(/\\newpage/g, '');
+    // Configure marked
+    marked.use({
+      gfm: true, breaks: false,
+      renderer: {
+        // Custom id slugs alignés sur la TOC
+        heading(text, level, raw) {
+          const slug = raw.toLowerCase()
+            .normalize('NFD').replace(/[̀-ͯ]/g, '')
+            .replace(/[^a-z0-9\s-]/g, '').trim()
+            .replace(/\s+/g, '-');
+          return `<h${level} id="${slug}">${text}</h${level}>`;
+        }
+      }
+    });
+    let html = marked.parse(md);
+    // Rewrite image paths : assets/screenshots/*.png → guide-assets/*.png
+    html = html.replace(/assets\/screenshots\//g, 'guide-assets/');
+    document.getElementById('content').innerHTML = html;
+    // Si l'URL contient un hash, re-scroll après render
+    if(location.hash){
+      requestAnimationFrame(() => {
+        const el = document.getElementById(location.hash.slice(1));
+        if(el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
+      });
+    }
+  } catch(e) {
+    document.getElementById('content').innerHTML = '<div class="loading"><b>Erreur de chargement</b><br><small>' + (e.message||'') + '</small></div>';
+  }
+})();
+</script>
+</body>
+</html>
