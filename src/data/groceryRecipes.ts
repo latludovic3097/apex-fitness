@@ -971,4 +971,338 @@ export const GROCERY_RECIPES: Record<string, RecipeIdea[]> = {
       standalone: false,
     },
   ],
+
+  // ─── Protéines (ajouts coach/nutritionniste) ───
+  turkey_breast: [
+    {
+      title: "Dinde sautée au paprika",
+      meal: "dinner",
+      steps: ["Couper la dinde en lanières, saisir 5 min à feu vif avec du paprika.", "Servir avec des légumes vapeur de saison."],
+      seasoning: "paprika, légumes vapeur au choix",
+    },
+    {
+      title: "Salade dinde-quinoa",
+      meal: "lunch",
+      steps: ["Émincer la dinde cuite et refroidie.", "Mélanger avec le quinoa cuit et le concombre en dés, assaisonner."],
+      extras: ["quinoa", "cucumber"],
+      seasoning: "vinaigrette légère",
+    },
+    {
+      title: "Wrap dinde-crudités",
+      meal: "snack",
+      steps: ["Effilocher la dinde froide.", "Garnir une tortilla de dinde, crudités et yaourt grec, rouler serré."],
+      extras: ["greek_yogurt"],
+      seasoning: "crudités, tortilla",
+    },
+  ],
+  white_fish: [
+    {
+      title: "Cabillaud vapeur citron-herbes",
+      meal: "dinner",
+      steps: ["Cuire le cabillaud à la vapeur 8-10 min.", "Arroser de citron pressé et d'herbes avant de servir."],
+      extras: ["lemon"],
+      seasoning: "herbes de Provence",
+    },
+    {
+      title: "Cabillaud poêlé sur lit de légumes",
+      meal: "dinner",
+      steps: ["Faire revenir courgette et tomate 5 min à la poêle.", "Poser le cabillaud dessus, couvrir et cuire 6-7 min à feu doux."],
+      extras: ["zucchini", "tomato"],
+    },
+    {
+      title: "Brandade légère",
+      meal: "lunch",
+      steps: ["Émietter le cabillaud cuit avec la pomme de terre écrasée.", "Lier avec un filet d'huile d'olive, réchauffer doucement."],
+      extras: ["potato", "olive_oil"],
+    },
+  ],
+  shrimp: [
+    {
+      title: "Crevettes sautées à l'ail",
+      meal: "dinner",
+      steps: ["Faire chauffer une poêle vive, ajouter l'ail écrasé.", "Saisir les crevettes 2-3 min par face, arroser de citron en fin de cuisson."],
+      extras: ["garlic", "lemon"],
+    },
+    {
+      title: "Salade crevettes-avocat",
+      meal: "lunch",
+      steps: ["Décortiquer les crevettes cuites et refroidies.", "Mélanger avec l'avocat en cubes et la tomate, assaisonner."],
+      extras: ["avocado", "tomato"],
+      seasoning: "vinaigrette légère",
+    },
+    {
+      title: "Wok de crevettes aux légumes",
+      meal: "dinner",
+      steps: ["Faire revenir poivron et courgette 3-4 min à feu vif.", "Ajouter les crevettes, sauter encore 2-3 min."],
+      extras: ["bell_pepper", "zucchini"],
+      seasoning: "sauce soja",
+    },
+  ],
+  chickpeas: [
+    {
+      title: "Houmous maison",
+      meal: "snack",
+      steps: ["Mixer les pois chiches avec citron, ail et huile d'olive jusqu'à texture lisse.", "Rectifier l'assaisonnement et réserver au frais."],
+      extras: ["lemon", "garlic", "olive_oil"],
+    },
+    {
+      title: "Salade de pois chiches",
+      meal: "lunch",
+      steps: ["Mélanger les pois chiches avec tomate et concombre en dés.", "Assaisonner et parsemer de persil."],
+      extras: ["tomato", "cucumber"],
+      seasoning: "persil",
+    },
+    {
+      title: "Curry de pois chiches",
+      meal: "dinner",
+      steps: ["Faire revenir l'oignon émincé 3-4 min.", "Ajouter les pois chiches et les épices, mijoter 10 min avec un peu de lait de coco."],
+      extras: ["onion"],
+      seasoning: "épices curry, lait de coco",
+    },
+  ],
+  ham: [
+    {
+      title: "Sandwich jambon-crudités",
+      meal: "lunch",
+      steps: ["Garnir le pain complet de jambon et de tomate.", "Ajouter des crudités au choix."],
+      extras: ["bread_wheat", "tomato"],
+    },
+    {
+      title: "Œufs-jambon",
+      meal: "breakfast",
+      steps: ["Faire revenir le jambon coupé en dés 2 min à la poêle.", "Ajouter les œufs battus, cuire 3-4 min en remuant."],
+      extras: ["eggs"],
+    },
+    {
+      title: "Roulés jambon-fromage",
+      meal: "snack",
+      steps: ["Étaler une tranche de fromage sur le jambon.", "Rouler serré et couper en tronçons."],
+      extras: ["cheese"],
+    },
+  ],
+
+  // ─── Glucides (ajouts coach/nutritionniste) ───
+  potato: [
+    {
+      title: "Patates rôties au four",
+      meal: "dinner",
+      steps: ["Couper les pommes de terre en quartiers, enrober d'huile d'olive.", "Rôtir 30-35 min à 200°C en retournant à mi-cuisson."],
+      extras: ["olive_oil"],
+      seasoning: "herbes de Provence",
+    },
+    {
+      title: "Purée maison",
+      meal: "dinner",
+      steps: ["Cuire les pommes de terre à l'eau 20 min puis égoutter.", "Écraser à la fourchette en ajoutant le lait chaud."],
+      extras: ["milk"],
+    },
+    {
+      title: "Salade de pommes de terre",
+      meal: "lunch",
+      steps: ["Cuire les pommes de terre en robe des champs, couper en rondelles.", "Mélanger avec l'oignon émincé et la vinaigrette."],
+      extras: ["onion"],
+      seasoning: "vinaigrette légère",
+    },
+  ],
+  couscous: [
+    {
+      title: "Couscous aux légumes",
+      meal: "dinner",
+      steps: ["Faire revenir courgette, carotte et oignon 5 min.", "Couvrir de bouillon, mijoter 15 min puis servir sur la semoule gonflée."],
+      extras: ["zucchini", "carrot", "onion"],
+      seasoning: "épices ras-el-hanout",
+    },
+    {
+      title: "Taboulé de semoule",
+      meal: "lunch",
+      steps: ["Gonfler la semoule à l'eau chaude, égrainer à la fourchette.", "Mélanger avec tomate en dés, citron pressé, persil et menthe."],
+      extras: ["tomato", "lemon"],
+      seasoning: "persil, menthe",
+    },
+    {
+      title: "Couscous au poulet",
+      meal: "dinner",
+      steps: ["Faire dorer le poulet en morceaux 6-7 min.", "Servir sur la semoule gonflée avec le jus de cuisson."],
+      extras: ["chicken_breast"],
+    },
+  ],
+  buckwheat: [
+    {
+      title: "Galettes de sarrasin",
+      meal: "breakfast",
+      steps: ["Mélanger la farine de sarrasin avec de l'eau jusqu'à pâte lisse, laisser reposer 30 min.", "Cuire à la poêle 2-3 min par face."],
+      seasoning: "garniture salée au choix",
+    },
+    {
+      title: "Sarrasin sauté aux légumes",
+      meal: "lunch",
+      steps: ["Cuire le sarrasin à l'eau 15 min.", "Faire sauter champignon et poivron 4-5 min, mélanger avec le sarrasin égoutté."],
+      extras: ["mushroom", "bell_pepper"],
+    },
+    {
+      title: "Porridge de sarrasin",
+      meal: "breakfast",
+      steps: ["Cuire le sarrasin concassé dans le lait 10 min à feu doux en remuant.", "Servir saupoudré de cannelle."],
+      extras: ["milk"],
+      seasoning: "cannelle",
+    },
+  ],
+
+  // ─── Lipides (ajouts coach/nutritionniste) ───
+  walnuts: [
+    {
+      title: "Porridge avoine-noix",
+      meal: "breakfast",
+      steps: ["Cuire les flocons d'avoine dans le lait 5 min.", "Parsemer de noix concassées avant de servir."],
+      extras: ["oats", "milk"],
+      standalone: false,
+    },
+    {
+      title: "Salade épinards-noix-fromage",
+      meal: "lunch",
+      steps: ["Mélanger les épinards frais avec le fromage émietté.", "Ajouter les noix concassées juste avant de servir."],
+      extras: ["spinach", "cheese"],
+    },
+    {
+      title: "En-cas noix nature",
+      meal: "snack",
+      steps: ["Peser une portion de noix dans une petite coupelle.", "Manger lentement, sans autre préparation."],
+      standalone: false,
+    },
+  ],
+  chia_seeds: [
+    {
+      title: "Pudding chia",
+      meal: "breakfast",
+      steps: ["Mélanger les graines de chia avec le lait, laisser gonfler au frigo au moins 3h (ou toute la nuit).", "Servir tel quel ou avec un filet de miel."],
+      extras: ["milk"],
+      seasoning: "vanille, miel au choix",
+    },
+    {
+      title: "Yaourt chia-myrtilles",
+      meal: "snack",
+      steps: ["Mélanger le yaourt grec avec les graines de chia.", "Laisser reposer 10 min, ajouter les myrtilles."],
+      extras: ["greek_yogurt", "blueberry"],
+    },
+    {
+      title: "Overnight oats au chia",
+      meal: "breakfast",
+      steps: ["Mélanger flocons d'avoine, lait et graines de chia dans un bocal.", "Laisser au frigo toute la nuit, manger froid le matin."],
+      extras: ["oats", "milk"],
+      standalone: false,
+    },
+  ],
+
+  // ─── Légumes (ajouts coach/nutritionniste) ───
+  cucumber: [
+    {
+      title: "Salade concombre-yaourt",
+      meal: "lunch",
+      steps: ["Couper le concombre en rondelles fines, saler légèrement et égoutter 10 min.", "Mélanger avec le yaourt grec et l'ail écrasé."],
+      extras: ["greek_yogurt", "garlic"],
+      seasoning: "menthe ou aneth",
+    },
+    {
+      title: "Bâtonnets concombre-houmous",
+      meal: "snack",
+      steps: ["Couper le concombre en bâtonnets.", "Tremper dans le houmous."],
+      seasoning: "houmous",
+      standalone: false,
+    },
+    {
+      title: "Tzatziki maison",
+      meal: "dinner",
+      steps: ["Râper le concombre, presser pour enlever l'eau.", "Mélanger avec le yaourt grec, l'ail écrasé et l'aneth."],
+      extras: ["greek_yogurt", "garlic"],
+      seasoning: "aneth",
+      standalone: false,
+    },
+  ],
+  green_beans: [
+    {
+      title: "Haricots verts vapeur ail",
+      meal: "dinner",
+      steps: ["Cuire les haricots verts à la vapeur 8-10 min.", "Faire sauter rapidement avec l'ail écrasé et un filet d'huile d'olive."],
+      extras: ["garlic", "olive_oil"],
+    },
+    {
+      title: "Salade haricots verts-tomate",
+      meal: "lunch",
+      steps: ["Cuire les haricots verts à l'eau bouillante 8 min, refroidir à l'eau froide.", "Mélanger avec la tomate en quartiers et la vinaigrette."],
+      extras: ["tomato"],
+      seasoning: "vinaigrette légère",
+    },
+    {
+      title: "Poêlée haricots verts-amandes",
+      meal: "dinner",
+      steps: ["Faire sauter les haricots verts cuits 3-4 min à feu vif.", "Ajouter les amandes effilées en fin de cuisson."],
+      extras: ["almonds"],
+    },
+  ],
+  beet: [
+    {
+      title: "Betteraves rôties au four",
+      meal: "dinner",
+      steps: ["Couper les betteraves en quartiers, enrober d'huile d'olive.", "Rôtir 35-40 min à 200°C."],
+      extras: ["olive_oil"],
+    },
+    {
+      title: "Salade betterave-fromage",
+      meal: "lunch",
+      steps: ["Couper la betterave cuite en dés.", "Mélanger avec le fromage émietté et des noix au choix."],
+      extras: ["cheese"],
+      seasoning: "noix au choix",
+    },
+    {
+      title: "Houmous de betterave",
+      meal: "snack",
+      steps: ["Mixer la betterave cuite avec les pois chiches et le citron pressé.", "Rectifier l'assaisonnement."],
+      extras: ["chickpeas", "lemon"],
+    },
+  ],
+
+  // ─── Fruits (ajouts coach/nutritionniste) ───
+  kiwi: [
+    {
+      title: "Salade de fruits kiwi-orange",
+      meal: "breakfast",
+      steps: ["Couper le kiwi et l'orange en morceaux.", "Mélanger dans un bol et servir frais."],
+      extras: ["orange"],
+      standalone: false,
+    },
+    {
+      title: "Kiwi nature",
+      meal: "snack",
+      steps: ["Couper le kiwi en deux.", "Manger à la cuillère."],
+      seasoning: "à croquer tel quel",
+      standalone: false,
+    },
+    {
+      title: "Bowl yaourt-kiwi",
+      meal: "breakfast",
+      steps: ["Couper le kiwi en rondelles.", "Disposer sur le yaourt grec."],
+      extras: ["greek_yogurt"],
+    },
+  ],
+  mango: [
+    {
+      title: "Smoothie mangue-banane",
+      meal: "breakfast",
+      steps: ["Mixer la mangue et la banane avec le lait jusqu'à texture lisse.", "Servir immédiatement bien frais."],
+      extras: ["banana", "milk"],
+    },
+    {
+      title: "Salade mangue-avocat",
+      meal: "lunch",
+      steps: ["Couper la mangue et l'avocat en dés.", "Mélanger délicatement avec un filet de citron."],
+      extras: ["avocado", "lemon"],
+    },
+    {
+      title: "Mangue nature en dés",
+      meal: "snack",
+      steps: ["Couper la mangue en dés.", "Servir telle quelle."],
+      seasoning: "à volonté",
+      standalone: false,
+    },
+  ],
 }

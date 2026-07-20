@@ -31,6 +31,11 @@ export const GROCERY_CATALOG: GroceryCatalogItem[] = [
   { id: "cottage_cheese", name: "Fromage blanc 0%", category: "protein", unit: "g", macroPer100g: 8 },
   { id: "greek_yogurt", name: "Yaourt grec", category: "protein", unit: "g", macroPer100g: 10 },
   { id: "whey", name: "Whey (poudre)", category: "protein", unit: "g", macroPer100g: 80 },
+  { id: "turkey_breast", name: "Blanc de dinde", category: "protein", unit: "g", macroPer100g: 24 },
+  { id: "white_fish", name: "Cabillaud (poisson blanc)", category: "protein", unit: "g", macroPer100g: 18 },
+  { id: "shrimp", name: "Crevettes", category: "protein", unit: "g", macroPer100g: 20 },
+  { id: "chickpeas", name: "Pois chiches cuits", category: "protein", unit: "g", macroPer100g: 8 },
+  { id: "ham", name: "Jambon blanc", category: "protein", unit: "g", macroPer100g: 20 },
 
   // ─── Glucides (g glucides / 100g) ───
   { id: "rice", name: "Riz basmati", category: "carbs", unit: "g", macroPer100g: 78 },
@@ -39,12 +44,17 @@ export const GROCERY_CATALOG: GroceryCatalogItem[] = [
   { id: "bread_wheat", name: "Pain complet", category: "carbs", unit: "g", macroPer100g: 45 },
   { id: "sweet_potato", name: "Patate douce", category: "carbs", unit: "g", macroPer100g: 20 },
   { id: "quinoa", name: "Quinoa", category: "carbs", unit: "g", macroPer100g: 64 },
+  { id: "potato", name: "Pomme de terre", category: "carbs", unit: "g", macroPer100g: 17 },
+  { id: "couscous", name: "Semoule de couscous", category: "carbs", unit: "g", macroPer100g: 72 },
+  { id: "buckwheat", name: "Sarrasin (kasha)", category: "carbs", unit: "g", macroPer100g: 70 },
 
   // ─── Lipides (g lipides / 100g) ───
   { id: "olive_oil", name: "Huile d'olive", category: "fat", unit: "mL", macroPer100g: 100 },
   { id: "almonds", name: "Amandes", category: "fat", unit: "g", macroPer100g: 50 },
   { id: "peanut_butter", name: "Beurre de cacahuète", category: "fat", unit: "g", macroPer100g: 50 },
   { id: "avocado", name: "Avocat", category: "fat", unit: "g", macroPer100g: 15 },
+  { id: "walnuts", name: "Noix", category: "fat", unit: "g", macroPer100g: 65 },
+  { id: "chia_seeds", name: "Graines de chia", category: "fat", unit: "g", macroPer100g: 31 },
 
   // ─── Légumes (saison hémisphère nord) ───
   { id: "tomato", name: "Tomate", category: "veg", unit: "g", qtyPerDay: 120, seasonMonths: [6, 7, 8, 9] },
@@ -59,6 +69,9 @@ export const GROCERY_CATALOG: GroceryCatalogItem[] = [
   { id: "pumpkin", name: "Potiron", category: "veg", unit: "g", qtyPerDay: 130, seasonMonths: [9, 10, 11, 12] },
   { id: "mushroom", name: "Champignon de Paris", category: "veg", unit: "g", qtyPerDay: 100 },
   { id: "bell_pepper", name: "Poivron", category: "veg", unit: "g", qtyPerDay: 100, seasonMonths: [6, 7, 8, 9] },
+  { id: "cucumber", name: "Concombre", category: "veg", unit: "g", qtyPerDay: 100, seasonMonths: [6, 7, 8, 9] },
+  { id: "green_beans", name: "Haricots verts", category: "veg", unit: "g", qtyPerDay: 120, seasonMonths: [6, 7, 8, 9] },
+  { id: "beet", name: "Betterave", category: "veg", unit: "g", qtyPerDay: 100, seasonMonths: [9, 10, 11, 12, 1, 2] },
 
   // ─── Fruits (saison hémisphère nord) ───
   { id: "apple", name: "Pomme", category: "fruit", unit: "pièce", qtyPerDay: 1, seasonMonths: [8, 9, 10, 11, 12, 1, 2, 3] },
@@ -70,6 +83,8 @@ export const GROCERY_CATALOG: GroceryCatalogItem[] = [
   { id: "grape", name: "Raisin", category: "fruit", unit: "g", qtyPerDay: 150, seasonMonths: [8, 9, 10] },
   { id: "clementine", name: "Clémentine", category: "fruit", unit: "pièce", qtyPerDay: 2, seasonMonths: [11, 12, 1] },
   { id: "pear", name: "Poire", category: "fruit", unit: "pièce", qtyPerDay: 1, seasonMonths: [9, 10, 11, 12, 1] },
+  { id: "kiwi", name: "Kiwi", category: "fruit", unit: "pièce", qtyPerDay: 1, seasonMonths: [11, 12, 1, 2, 3, 4] },
+  { id: "mango", name: "Mangue", category: "fruit", unit: "pièce", qtyPerDay: 1 },
 
   // ─── Laitier ───
   { id: "milk", name: "Lait", category: "dairy", unit: "mL", qtyPerDay: 200 },

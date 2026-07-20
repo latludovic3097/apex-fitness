@@ -1,7 +1,9 @@
-import { TriangleAlert, Youtube, BookOpen } from "lucide-react"
+import { useState } from "react"
+import { TriangleAlert, Youtube, BookOpen, Repeat } from "lucide-react"
 import { useStore } from "@/store/useStore"
 import { getSuggestion, get1RM } from "@/lib/engine"
-import { I, MN, MC } from "@/data/fitstark-data"
+import { I, MN, MC, MACHINES, getAlternativeExercises } from "@/data/fitstark-data"
+import { useI18n } from "@/i18n/I18nProvider"
 import { RestTimer } from "./RestTimer"
 import { cn } from "@/lib/utils"
 import type { Exercise } from "@/store/types"
@@ -25,12 +27,43 @@ export function ExerciseCard({ ex, position, total }: { ex: Exercise; position: 
   const log = logMap[ex.id!] || {}
   const logSet = useStore((s) => s.logSet)
   const setRIR = useStore((s) => s.setRIR)
+  const swapExercise = useStore((s) => s.swapExercise)
+  const sess = useStore((s) => s.sess)
+  const customProgram = useStore((s) => s.customProgram)
+  const { lang } = useI18n()
+
+  const [swapOpen, setSwapOpen] = useState(false)
 
   const suggestion = getSuggestion(S, ex.name)
   const pr = get1RM(S, ex.name)
   const muscleColor = MC[ex.muscle] || "var(--ac)"
   const rir = log.rir as number | undefined
   const l5Active = S.health.pathologies.includes("l5")
+
+  const ALL_MACHINE_IDS = (MACHINES as { id: string }[]).map((m) => m.id)
+  const availableMachines = customProgram?.machines?.length ? customProgram.machines : ALL_MACHINE_IDS
+  const currentIds = (sess?.exercises || []).map((e: any) => e.id).filter(Boolean)
+  const alternatives = getAlternativeExercises(ex.id || "", availableMachines, customProgram?.objective || "", currentIds, 6, ex.muscle)
+
+  function handleSwap(alt: any) {
+    const replacement = {
+      id: alt.id,
+      name: alt.name.en || alt.name.fr,
+      muscle: alt.muscle,
+      sets: ex.sets,
+      reps: ex.reps,
+      rest: ex.rest,
+      type: alt.type,
+      imgs: alt.imgs || null,
+      yt: alt.yt || null,
+      notes: "",
+      logType: alt.logType || "weight",
+      _substitutedFrom: ex.name,
+      _substitutedFor: "équipement",
+    }
+    swapExercise(ex.id!, replacement as never)
+    setSwapOpen(false)
+  }
 
   return (
     <div className="mx-4 mb-3 rounded-2xl border border-border bg-card p-[18px] shadow-[var(--shadow-sm)]">
@@ -94,6 +127,44 @@ export function ExerciseCard({ ex, position, total }: { ex: Exercise; position: 
       {ex._substitutedFrom && (
         <div className="mt-2.5 rounded-xl bg-[var(--ok10)] px-3 py-2 text-xs font-semibold text-[var(--ok)]">
           ⚡ Adapté ({ex._substitutedFor}) — remplace « {ex._substitutedFrom} »
+        </div>
+      )}
+
+      {/* Changer d'exercice (équipement indisponible) */}
+      <button
+        onClick={() => setSwapOpen((o) => !o)}
+        className="mt-2.5 flex w-full items-center gap-1.5 rounded-xl border border-border bg-secondary px-3 py-2.5 text-xs font-bold text-foreground"
+      >
+        <Repeat className="size-4 shrink-0" /> Équipement pris ? Changer d'exercice
+      </button>
+
+      {swapOpen && (
+        <div className="mt-2 flex flex-col gap-1.5">
+          {alternatives.length === 0 && (
+            <div className="rounded-xl px-3 py-2 text-xs font-medium text-muted-foreground">
+              Aucune alternative disponible pour ce muscle avec ton matériel.
+            </div>
+          )}
+          {alternatives.map((alt: any) => (
+            <button
+              key={alt.id}
+              onClick={() => handleSwap(alt)}
+              className="flex w-full items-center gap-2.5 rounded-xl border border-border bg-card px-3 py-2.5 text-left"
+            >
+              {alt.imgs?.[0] && (
+                <img
+                  src={imgUrl(alt.imgs[0])}
+                  alt=""
+                  className="size-10 shrink-0 rounded-lg border border-border object-cover"
+                  loading="lazy"
+                />
+              )}
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-bold text-foreground">{alt.name[lang] || alt.name.fr}</div>
+                <div className="truncate text-[11px] font-medium text-muted-foreground">{alt.type}</div>
+              </div>
+            </button>
+          ))}
         </div>
       )}
 

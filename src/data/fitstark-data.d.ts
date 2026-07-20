@@ -86,5 +86,6 @@ export function getAlternativeExercises(
   objId: string,
   currentSessionExIds: string[],
   limit?: number,
+  muscleHint?: string,
 ): any[]
 export function getExerciseMachines(exId: string): any[]

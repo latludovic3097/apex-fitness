@@ -106,7 +106,7 @@ export function SessionScreen() {
       )}
 
       {current?.kind === "ex" && exercises[current.idx] && (
-        <ExerciseCard ex={exercises[current.idx]} position={current.idx + 1} total={exercises.length} />
+        <ExerciseCard key={exercises[current.idx].id ?? exercises[current.idx].name} ex={exercises[current.idx]} position={current.idx + 1} total={exercises.length} />
       )}
 
       {current?.kind === "wod" && wod && <WodCard wod={wod} />}
